@@ -1,0 +1,757 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.EulerTourForest.EulerTourTree &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.EulerTourForest.EulerTourTree</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.EulerTourForest.EulerTourTree</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.collections</span> <span class="k">as</span> <span class="nn">mcol</span>
+<span class="kn">import</span> <span class="nn">msgpack</span><span class="o">,</span><span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">straph.EulerTourForest.Chained_Treap</span> <span class="k">import</span> <span class="n">CTreapNode</span>
+
+
+<div class="viewcode-block" id="euler_tour_from_edge_list"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.euler_tour_from_edge_list">[docs]</a><span class="k">def</span> <span class="nf">euler_tour_from_edge_list</span><span class="p">(</span><span class="n">edge_list</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compute the euler tour of a graph ( with edges, including self loops, instead of nodes).</span>
+
+<span class="sd">     https://en.wikipedia.org/wiki/Euler_tour_technique</span>
+<span class="sd">    :param edge_list: An edge list.</span>
+<span class="sd">    :return: A list containing the euler tour.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">edge_list</span><span class="p">:</span>  <span class="c1"># Create edge list (2*m links)</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span>
+        <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">a_l</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">tour</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_node</span> <span class="o">=</span> <span class="n">edge_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_node</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">a_l</span><span class="p">[</span><span class="n">current_node</span><span class="p">]:</span>
+            <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_node</span><span class="p">)</span>
+            <span class="n">current_node</span> <span class="o">=</span> <span class="n">a_l</span><span class="p">[</span><span class="n">current_node</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tour</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_node</span><span class="p">)</span>
+            <span class="n">current_node</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="n">edge_tour</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tour</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">tour</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="n">edge_tour</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+        <span class="n">edge_tour</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">tour</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">edge_tour</span></div>
+
+<div class="viewcode-block" id="construct_euler_tour_tree"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.construct_euler_tour_tree">[docs]</a><span class="k">def</span> <span class="nf">construct_euler_tour_tree</span><span class="p">(</span><span class="n">edge_list</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Construct an Euler Tour Tree from an edge list</span>
+<span class="sd">    :param edge_list: An edge list</span>
+<span class="sd">    :return: An euler tour tree</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">euler_tour</span> <span class="o">=</span> <span class="n">euler_tour_from_edge_list</span><span class="p">(</span><span class="n">edge_list</span><span class="p">)</span>
+    <span class="n">ETT</span> <span class="o">=</span> <span class="n">EulerTourTree</span><span class="p">()</span>
+    <span class="n">tree_edge_2_node</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">euler_tour</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">ETT</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">inlast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">in</span> <span class="n">tree_edge_2_node</span><span class="p">:</span>
+            <span class="n">tree_edge_2_node</span><span class="p">[(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tree_edge_2_node</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ETT</span><span class="p">,</span><span class="n">tree_edge_2_node</span></div>
+
+
+<div class="viewcode-block" id="EulerTourTree"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree">[docs]</a><span class="k">class</span> <span class="nc">EulerTourTree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    https://en.wikipedia.org/wiki/Euler_tour_technique</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">begin_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">end_time</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">        :param root:</span>
+<span class="sd">        :param first:</span>
+<span class="sd">        :param last:</span>
+<span class="sd">        :param weight:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span>  <span class="c1"># Sum of non tree edges adjacents to edge in tree # TODO: see self.replace()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_time</span> <span class="o">=</span> <span class="n">begin_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">end_time</span>
+
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">suc</span>
+        <span class="k">while</span> <span class="n">current</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">current</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">suc</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Only use to write data, only need data of root and recursively</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">EulerTourTree</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">),</span><span class="n">begin_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_time</span><span class="p">,</span><span class="n">end_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rep</span> <span class="o">=</span> <span class="s2">&quot;Euler Tour : &quot;</span><span class="o">+</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_euler_tour</span><span class="p">())</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">rep</span> <span class="o">+=</span> <span class="s2">&quot;Priority Order :&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_data_in_priority_order</span><span class="p">())</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">rep</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rep</span>
+
+
+<div class="viewcode-block" id="EulerTourTree.get_data_in_priority_order"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_data_in_priority_order">[docs]</a>    <span class="k">def</span> <span class="nf">get_data_in_priority_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_data_in_priority_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">L</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_data_in_priority_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_data_in_priority_order</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_data_in_priority_order</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EulerTourTree.get_internal_structure"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_internal_structure">[docs]</a>    <span class="k">def</span> <span class="nf">get_internal_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_structure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_internal_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">E</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_parent</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_parent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return (x_pos,y_pos==depth)</span>
+<span class="sd">        :param node:</span>
+<span class="sd">        :param depth:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">N</span><span class="p">:</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">E</span><span class="p">:</span>
+            <span class="n">E</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">N</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">x_parent</span><span class="p">,</span> <span class="n">y_parent</span><span class="p">),</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="n">node</span><span class="o">.</span><span class="n">size</span><span class="p">)))</span>  <span class="c1"># ,node.priority))) # priority</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y_parent</span><span class="p">:</span>
+                <span class="n">y_pos</span> <span class="o">=</span> <span class="n">y_parent</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">/</span> <span class="n">y_pos</span>
+                <span class="k">if</span> <span class="n">offset</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">-</span> <span class="n">offset</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">+</span> <span class="n">offset</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x_pos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+                <span class="n">y_pos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="n">E</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">x_parent</span><span class="p">,</span> <span class="n">y_parent</span><span class="p">),</span> <span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_structure</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">,</span> <span class="n">x_parent</span><span class="o">=</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_parent</span><span class="o">=</span><span class="n">y_pos</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y_parent</span><span class="p">:</span>
+                <span class="n">y_pos</span> <span class="o">=</span> <span class="n">y_parent</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">/</span> <span class="n">y_pos</span>
+                <span class="k">if</span> <span class="n">offset</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">+</span> <span class="n">offset</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x_parent</span> <span class="o">-</span> <span class="n">offset</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x_pos</span> <span class="o">=</span> <span class="mi">10</span>
+                <span class="n">y_pos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">E</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">x_parent</span><span class="p">,</span> <span class="n">y_parent</span><span class="p">),</span> <span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_structure</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">,</span> <span class="n">x_parent</span><span class="o">=</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_parent</span><span class="o">=</span><span class="n">y_pos</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="n">E</span>
+
+
+<div class="viewcode-block" id="EulerTourTree.get_euler_tour"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_euler_tour">[docs]</a>    <span class="k">def</span> <span class="nf">get_euler_tour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the induced euler tour representation of the Tree</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span>
+        <span class="n">euler_tour</span> <span class="o">=</span> <span class="p">[</span><span class="n">first</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="n">suc</span>
+        <span class="n">cnt</span> <span class="o">=</span><span class="mi">0</span>
+        <span class="k">while</span> <span class="n">current</span> <span class="o">!=</span> <span class="n">first</span><span class="p">:</span>
+            <span class="n">euler_tour</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">suc</span>
+            <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">euler_tour</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.check_heap_invariant"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.check_heap_invariant">[docs]</a>    <span class="k">def</span> <span class="nf">check_heap_invariant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Check the heap invariant of the Treap</span>
+<span class="sd">        :return: True if invariant respected, false otherwise</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_heap_invariant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_heap_invariant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;=</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">priority</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_heap_invariant</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;=</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">priority</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_heap_invariant</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="EulerTourTree.plot"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_internal_structure</span><span class="p">()</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="n">y_min</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">x_min</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">x_max</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>         <span class="c1"># Nodes are ordered as in a DFS traversal of the tree</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># Data + Size</span>
+            <span class="n">x_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_max</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">x_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">y_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">,</span>
+                    <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">,</span> <span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round,pad=1&#39;</span><span class="p">))</span>
+
+        <span class="c1"># Set limit</span>
+        <span class="n">edge_collections</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">edge_collections</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y_min</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x_min</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_balance_down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance_down</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">right_rotation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance_down</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">left_rotation</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+<div class="viewcode-block" id="EulerTourTree.balance_down"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.balance_down">[docs]</a>    <span class="k">def</span> <span class="nf">balance_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Balance the Treap to respect the Heap invariant, from root to leaves (full browsing)</span>
+<span class="sd">        :Status: OK</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_balance_down</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.insert"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inlast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">priority</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">CTreapNode</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">elif</span> <span class="n">inlast</span><span class="p">:</span>  <span class="c1"># It means that this node is the new last</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">)</span>
+        <span class="c1"># # UPDATE SIZE OF PARENTS</span>
+        <span class="c1"># p = node.parent</span>
+        <span class="c1"># while p:</span>
+        <span class="c1">#     p.update_size()</span>
+        <span class="c1">#     p = p.parent</span>
+        <span class="k">return</span> <span class="n">node</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        (TODO) different balance : just from the children to the root</span>
+<span class="sd">        Insert a node in the Treap after *where* (a node of the CTreap).</span>
+<span class="sd">        Idea : If *where* doesn&#39;t have any right children, given the fact that the current node</span>
+<span class="sd">        come after *where*, we can add it directly, it respects the order.</span>
+<span class="sd">        Otherwise the idea is to put it just before the node that come after *where*</span>
+<span class="sd">        so as the left children of the successor of *where*.</span>
+<span class="sd">        :param key:</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :param priority:</span>
+<span class="sd">        :param suc:</span>
+<span class="sd">        :param pred:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">where</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">CTreapNode</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">suc</span><span class="o">=</span><span class="n">where</span><span class="o">.</span><span class="n">suc</span><span class="p">)</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="k">if</span> <span class="n">where</span><span class="o">.</span><span class="n">suc</span><span class="p">:</span>
+                <span class="n">where</span><span class="o">.</span><span class="n">suc</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="n">where</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="k">if</span> <span class="n">priority</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">priority</span><span class="o">=</span><span class="n">priority</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">balance_down</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="n">suc</span> <span class="o">=</span> <span class="n">where</span><span class="o">.</span><span class="n">suc</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">CTreapNode</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">suc</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">where</span><span class="p">,</span> <span class="n">suc</span><span class="o">=</span><span class="n">suc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">suc</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Noeud left a dejà un voisin, bizarre&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="n">suc</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">suc</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">where</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="n">priority</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">priority</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">balance_down</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+<div class="viewcode-block" id="EulerTourTree.find_root"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_root">[docs]</a>    <span class="k">def</span> <span class="nf">find_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Find the root of the current node</span>
+<span class="sd">        :param node:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">while</span> <span class="n">current</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">return</span> <span class="n">current</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.find_first"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_first">[docs]</a>    <span class="k">def</span> <span class="nf">find_first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">while</span> <span class="n">current</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">left</span>
+        <span class="k">return</span> <span class="n">current</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.find_last"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_last">[docs]</a>    <span class="k">def</span> <span class="nf">find_last</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+        <span class="k">while</span> <span class="n">current</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">right</span>
+        <span class="k">return</span> <span class="n">current</span></div>
+
+
+
+<div class="viewcode-block" id="EulerTourTree.remove"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remove the node</span>
+<span class="sd">        :param node: Node to remove</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">suc</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">pred</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">suc</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">suc</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">pred</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">pred</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">pred</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">suc</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="p">:</span>
+            <span class="c1"># print(&quot;Our node is a root&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">left</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+            <span class="c1"># print(&quot;Our node is a Left child&quot;)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="c1"># # UPDATE SIZE OF PARENTS</span>
+            <span class="c1"># p = node.parent</span>
+            <span class="c1"># while p:</span>
+            <span class="c1">#     p.update_size()</span>
+            <span class="c1">#     p = p.parent</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># print(&quot;Our node is a right child&quot;)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+            <span class="c1"># # UPDATE SIZE OF PARENTS</span>
+            <span class="c1"># p = node.parent</span>
+            <span class="c1"># while p:</span>
+            <span class="c1">#     p.update_size()</span>
+            <span class="c1">#     p = p.parent</span>
+
+
+
+    <span class="k">def</span> <span class="nf">_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+                <span class="c1"># print(&quot;Right rotation&quot;)</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">right_rotation</span><span class="p">()</span>    <span class="c1"># Rotation already deals with filiation</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(&quot;Left rotation&quot;)</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">left_rotation</span><span class="p">()</span>     <span class="c1"># Rotation already deals with filiation</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">node</span>
+
+<div class="viewcode-block" id="EulerTourTree.split"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Split the Euler Tour Tree according to the split in its Euler Tour.</span>
+<span class="sd">        [first,...,where,after_where,...,last]</span>
+<span class="sd">        -&gt;</span>
+<span class="sd">        [first,...,where] [after_where,...last]</span>
+
+<span class="sd">        Note : The left subtree contains at least the node *where* whereas the right subtree can be empty.</span>
+<span class="sd">        :param where: The split is effectuated just after *where*</span>
+<span class="sd">        :return: Left subtree and Right subtree</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># print(&quot; Split on :&quot;, where.data)</span>
+        <span class="n">after_where</span> <span class="o">=</span> <span class="n">where</span><span class="o">.</span><span class="n">suc</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">where</span><span class="p">,</span><span class="n">priority</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">T_left</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">left</span>
+        <span class="n">T_right</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">right</span>
+
+        <span class="n">T_left</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">T_left</span> <span class="o">=</span> <span class="n">EulerTourTree</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">T_left</span><span class="p">)</span>
+        <span class="n">T_left</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
+        <span class="n">first</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">where</span>
+        <span class="n">T_left</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">where</span>
+        <span class="n">where</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">first</span>
+
+        <span class="k">if</span> <span class="n">T_right</span><span class="p">:</span>
+            <span class="n">T_right</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">T_right</span> <span class="o">=</span> <span class="n">EulerTourTree</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">T_right</span><span class="p">)</span>
+            <span class="n">T_right</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">after_where</span>
+            <span class="n">after_where</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">last</span>
+            <span class="n">T_right</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
+            <span class="n">last</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">after_where</span>
+
+        <span class="k">return</span> <span class="n">T_left</span><span class="p">,</span> <span class="n">T_right</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.releaf"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.releaf">[docs]</a>    <span class="k">def</span> <span class="nf">releaf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">):</span>
+        <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">union_treap</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">E</span></div>
+
+<div class="viewcode-block" id="EulerTourTree.cut"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.EulerTourTree.cut">[docs]</a>    <span class="k">def</span> <span class="nf">cut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remove and edge from the Euler Tour Tree.</span>
+<span class="sd">        [first,...,node_0,after_node_0,....,node_1,after_node_1,...,last]</span>
+<span class="sd">        -&gt;</span>
+<span class="sd">        [first,...,before_node_0,node_0] [after_node_0,...,node_1,last]</span>
+<span class="sd">        -&gt;</span>
+<span class="sd">        [first,...,before_node_0] [after_node_0,...,before_node_1] [after_node_1,...,last]</span>
+<span class="sd">        -&gt;</span>
+<span class="sd">        [first,...,before_node_0,after_node_1,...,last] [after_node_0,before_node_1]</span>
+
+<span class="sd">        :param e: an edge</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># print(&quot;  Nodes :&quot;, [i.data for i in nodes])</span>
+        <span class="c1"># Remove the first occurence of the link :</span>
+        <span class="n">J</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># print(&quot; J :\n&quot;, J)</span>
+        <span class="c1"># print(&quot; K :\n&quot;, K)</span>
+        <span class="c1"># if J.first != nodes[0]:</span>
+        <span class="n">J</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     # It means that it only remain nodes[0] in J</span>
+        <span class="c1">#     J = None</span>
+        <span class="c1"># print(&quot;\n Remove first occurence : &quot;, nodes[0].data)</span>
+        <span class="c1"># print(&quot; J :\n&quot;, J)</span>
+        <span class="c1"># print(&quot; K :\n&quot;, K)</span>
+
+        <span class="c1"># J.plot(&quot; Left after removal of &quot; + repr(nodes[0].data))</span>
+        <span class="c1"># K.plot(&quot; Right after removal of &quot; + repr(nodes[0].data))</span>
+
+        <span class="c1">#  Remove the second occurence of the link</span>
+        <span class="k">if</span> <span class="n">K</span> <span class="ow">and</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find_root</span><span class="p">()</span> <span class="o">==</span> <span class="n">K</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="c1"># nodes[1] is in K</span>
+            <span class="n">K</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># print(&quot; K :\n&quot;, K)</span>
+            <span class="c1"># print(&quot; L :\n&quot;, L)</span>
+            <span class="c1"># if K.first != nodes[1]:</span>
+            <span class="n">K</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># else:</span>
+                <span class="c1"># It means that it only remain nodes[1] in K</span>
+                <span class="c1"># K =None</span>
+            <span class="c1"># print(&quot;\n Remove second occurence : &quot;, nodes[1].data)</span>
+            <span class="c1"># print(&quot; K :\n&quot;, K)</span>
+            <span class="c1"># print(&quot; L :\n&quot;, L)</span>
+            <span class="c1"># K.plot(&quot; Left after removal of &quot; + repr(nodes[1].data))</span>
+            <span class="n">E1</span> <span class="o">=</span> <span class="n">K</span>
+            <span class="n">E2</span> <span class="o">=</span> <span class="n">union_treap</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># nodes[1] is in J</span>
+            <span class="n">J</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># print(&quot; J :\n&quot;, J)</span>
+            <span class="c1"># print(&quot; L :\n&quot;, L)</span>
+            <span class="c1"># if J.first != nodes[1]:</span>
+            <span class="n">J</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># J.plot(&quot; Left after removal of &quot; + repr(nodes[1].data))</span>
+            <span class="c1"># else:</span>
+                <span class="c1"># It means that it only remain nodes[1] in J</span>
+                <span class="c1"># J = None</span>
+            <span class="c1"># print(&quot;\n Remove second occurence : &quot;, nodes[1].data)</span>
+            <span class="c1"># print(&quot; J :\n&quot;, J)</span>
+            <span class="c1"># print(&quot; L :\n&quot;, L)</span>
+
+            <span class="n">E1</span> <span class="o">=</span> <span class="n">union_treap</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+            <span class="n">E2</span> <span class="o">=</span> <span class="n">L</span>
+
+        <span class="c1"># print(&quot;  E1 after cut : \n&quot;, E1)</span>
+        <span class="c1"># E1.plot(&quot;E1 after cut &quot; + repr(nodes[0].data))</span>
+        <span class="c1">#</span>
+        <span class="c1"># print(&quot;  E2 : \n&quot;, E2)</span>
+        <span class="c1"># E2.plot(&quot;E2 after cut &quot; + repr(nodes[1].data))</span>
+        <span class="k">return</span> <span class="n">E1</span><span class="p">,</span> <span class="n">E2</span></div></div>
+
+
+<div class="viewcode-block" id="union_treap"><a class="viewcode-back" href="../../../straph.EulerTourForest.html#straph.EulerTourForest.EulerTourTree.union_treap">[docs]</a><span class="k">def</span> <span class="nf">union_treap</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">T2</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">T2</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">T1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">T1</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">T1</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">T2</span>
+
+    <span class="n">first</span> <span class="o">=</span> <span class="n">T1</span><span class="o">.</span><span class="n">first</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="n">T2</span><span class="o">.</span><span class="n">last</span>
+    <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span> <span class="o">=</span> <span class="n">T1</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">T2</span><span class="o">.</span><span class="n">root</span>
+    <span class="c1"># We get the right most leaf of T1</span>
+    <span class="n">rl</span> <span class="o">=</span> <span class="n">T1</span>
+    <span class="k">while</span> <span class="n">rl</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+        <span class="n">rl</span> <span class="o">=</span> <span class="n">rl</span><span class="o">.</span><span class="n">right</span>
+
+    <span class="c1"># We get the left most leaf of T2</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="n">T2</span>
+    <span class="k">while</span> <span class="n">ll</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="n">ll</span> <span class="o">=</span> <span class="n">ll</span><span class="o">.</span><span class="n">left</span>
+
+    <span class="c1"># We concat the induced euler tour</span>
+    <span class="c1"># Maximum of first tree with minimum of second tree</span>
+    <span class="n">rl</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">ll</span>
+    <span class="n">ll</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">rl</span>
+    <span class="n">new_root</span> <span class="o">=</span> <span class="n">_union_treap</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">)</span>
+    <span class="n">new_root</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="n">EulerTourTree</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">new_root</span><span class="p">)</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">pred</span> <span class="o">=</span> <span class="n">last</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">suc</span> <span class="o">=</span> <span class="n">first</span>
+    <span class="k">return</span> <span class="n">T</span></div>
+
+
+<span class="k">def</span> <span class="nf">_union_treap</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">T1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">T2</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">T2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">T1</span>
+    <span class="k">elif</span> <span class="n">T1</span><span class="o">.</span><span class="n">priority</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+        <span class="n">T1</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">_union_treap</span><span class="p">(</span><span class="n">T1</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">T2</span><span class="p">)</span>
+        <span class="n">T1</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">T1</span>
+        <span class="c1"># T1.update_size()</span>
+        <span class="k">return</span> <span class="n">T1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">T2</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">_union_treap</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="n">T2</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">T2</span>
+        <span class="c1"># T2.update_size()</span>
+        <span class="k">return</span> <span class="n">T2</span>
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

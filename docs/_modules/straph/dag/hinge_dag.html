@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.dag.hinge_dag &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.dag.hinge_dag</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.dag.hinge_dag</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">msgpack</span><span class="o">,</span><span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.collections</span> <span class="k">as</span> <span class="nn">mcol</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatch</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="k">import</span> <span class="n">Parallel</span><span class="p">,</span><span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
+<span class="kn">import</span> <span class="nn">path</span> <span class="k">as</span> <span class="nn">pt</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">stream</span> <span class="k">as</span> <span class="n">sg</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">components</span> <span class="k">as</span> <span class="n">scc</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">from</span> <span class="nn">straph.utils</span> <span class="k">import</span> <span class="n">profile_shit</span>
+
+
+
+
+<span class="c1"># MUST BE BUILT ON TOP OF CONDENSATION GRAPH</span>
+
+<span class="c1"># Pourrait on l&#39;obtenir lors de compute_links of condensation graph ????</span>
+<span class="c1"># Quelles méthodes à implémenter dessus ??</span>
+<span class="c1">#   - Shortest Path</span>
+<span class="c1">#   - Fastest Shortest Path</span>
+
+<span class="c1"># Format de stockage (à priori c&#39;est un gros graphe) :</span>
+<span class="c1">#   - Matrice d&#39;adjacence sparse pondérée ??</span>
+<span class="c1">#   - Edge list + weight ?</span>
+<span class="c1">#   - Juste les liens et calculer les poids (ie les SCC shortest path) au coup par coup quand c&#39;est utile ?</span>
+<span class="c1">#   - Puisque l&#39;on va manipuler les voisins : liste d&#39;adjacence dans une file de priorité indéxée par les poids ? (#perf)</span>
+
+
+
+<div class="viewcode-block" id="hinge_dag"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag">[docs]</a><span class="k">class</span> <span class="nc">hinge_dag</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">h_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">h_links</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        A basic constructor for the hinge graph</span>
+<span class="sd">        :param id:</span>
+<span class="sd">        :param times:</span>
+<span class="sd">        :param h_nodes:</span>
+<span class="sd">        :param h_links:</span>
+<span class="sd">        :param weights:</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="n">times</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">h_nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span> <span class="o">=</span> <span class="n">h_nodes</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">h_links</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h_links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h_links</span> <span class="o">=</span> <span class="n">h_links</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+
+
+<div class="viewcode-block" id="hinge_dag.add_node"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="hinge_dag.add_nodes"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.add_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">add_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">l</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span> <span class="o">+=</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="hinge_dag.add_link"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.add_link">[docs]</a>    <span class="k">def</span> <span class="nf">add_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">e</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="hinge_dag.add_links"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.add_links">[docs]</a>    <span class="k">def</span> <span class="nf">add_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">l</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_links</span> <span class="o">+=</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="hinge_dag.store"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.store">[docs]</a>    <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;wb+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">h_links</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="hinge_dag.compute_weights"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.compute_weights">[docs]</a>    <span class="k">def</span> <span class="nf">compute_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="hinge_dag.plot_custom"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.hinge_dag.plot_custom">[docs]</a>    <span class="k">def</span> <span class="nf">plot_custom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h_links</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+            <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">])</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">])</span>
+            <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">])</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">])</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BEGIN PLOT, POSITIONS CALCULATED&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                       <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#339966&quot;</span><span class="p">,</span>
+                       <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                       <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+                       <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; DRAWING NODES : DONE&quot;</span><span class="p">)</span>
+            <span class="n">edge_collections</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h_links</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">edge_collections</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; DRAWING EDGES : DONE&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="n">min_y</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_y</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">min_x</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_x</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+
+<div class="viewcode-block" id="construct_hinge_graph"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.construct_hinge_graph">[docs]</a><span class="k">def</span> <span class="nf">construct_hinge_graph</span><span class="p">(</span><span class="n">path_scc_scf</span><span class="p">,</span> <span class="n">storage_path_hinge_dag</span><span class="p">):</span>
+    <span class="n">t_begin</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">id_wcc_old</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dict_begin_times_to_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">dict_end_times_to_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">scc_2_offset</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1">##############</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">#############</span>
+    <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">(</span><span class="n">use_bin_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">scc_to_in_hinge_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">scc_to_out_hinge_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_scc_scf</span> <span class="o">+</span> <span class="s1">&#39;scc.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_path_hinge_dag</span> <span class="o">+</span> <span class="s1">&#39;hinge_dag_with_links.scf&#39;</span><span class="p">,</span>
+                                                             <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">U</span><span class="p">:</span>  <span class="c1"># SCC components are ordered by their end time</span>
+            <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">id_wcc_old</span><span class="p">:</span>  <span class="c1"># INIT</span>
+                <span class="n">id_wcc_old</span> <span class="o">=</span> <span class="n">id_wcc</span>
+            <span class="k">if</span> <span class="n">id_wcc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">id_scc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">id_scc</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;id wcc :&quot;</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="s2">&quot;id scc :&quot;</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scc :&quot;</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="s2">&quot; t :&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_begin</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">id_wcc</span> <span class="o">!=</span> <span class="n">id_wcc_old</span><span class="p">:</span>
+                <span class="c1"># When we change of wcc we reset data structure</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="n">hinge_dag</span><span class="p">()</span>
+                <span class="c1"># For each time_end_find a time_begin (if it exists) then compute the intersection of nodes</span>
+                <span class="c1"># print(&quot;end times :&quot;,dict_end_times_to_scc)</span>
+                <span class="c1"># print(&quot;begin times :&quot;,dict_begin_times_to_scc)</span>
+                <span class="k">for</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_end_times_to_scc</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_begin_times_to_scc</span><span class="p">:</span>
+                        <span class="c1"># CATCH hinge nodes in scc for dict_end_times_to_cnodes[te] and dict_begin_times_to_cnodes[te]</span>
+                        <span class="n">list_current_scc</span> <span class="o">=</span> <span class="n">dict_end_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]</span> <span class="o">+</span> <span class="n">dict_begin_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]</span>
+                        <span class="n">dict_id_set_nodes</span> <span class="o">=</span> <span class="n">load_set_nodes_from_msgpack</span><span class="p">(</span><span class="n">path_scc_scf</span><span class="p">,</span> <span class="n">list_current_scc</span><span class="p">,</span>
+                                                                        <span class="n">scc_2_offset</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">id_scc_parent</span> <span class="ow">in</span> <span class="n">dict_end_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>
+                            <span class="k">for</span> <span class="n">id_scc_child</span> <span class="ow">in</span> <span class="n">dict_begin_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>  <span class="c1"># Double for loop in order to match pairwise</span>
+                                <span class="n">parent_nodes</span> <span class="o">=</span> <span class="n">dict_id_set_nodes</span><span class="p">[</span><span class="n">id_scc_parent</span><span class="p">]</span>
+                                <span class="n">child_nodes</span> <span class="o">=</span> <span class="n">dict_id_set_nodes</span><span class="p">[</span><span class="n">id_scc_child</span><span class="p">]</span>
+                                <span class="n">I</span> <span class="o">=</span> <span class="n">child_nodes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">parent_nodes</span><span class="p">)</span>
+                                <span class="n">hinge_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">te</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">I</span><span class="p">]</span>
+                                <span class="n">scc_to_in_hinge_nodes</span><span class="p">[</span><span class="n">id_scc_child</span><span class="p">]</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">hinge_nodes</span><span class="p">)</span>
+                                <span class="n">scc_to_out_hinge_nodes</span><span class="p">[</span><span class="n">id_scc_parent</span><span class="p">]</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">hinge_nodes</span><span class="p">)</span>  <span class="c1"># Each scc is related to its hinge nodes</span>
+                                <span class="n">S</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">hinge_nodes</span><span class="p">)</span>    <span class="c1"># Add Hinge Nodes</span>
+                <span class="c1"># Compute Hinge LINKS:</span>
+                <span class="k">for</span> <span class="n">id_scc</span> <span class="ow">in</span> <span class="n">scc_to_in_hinge_nodes</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">in_h_nodes</span> <span class="ow">in</span> <span class="n">scc_to_in_hinge_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">out_h_nodes</span> <span class="ow">in</span> <span class="n">scc_to_out_hinge_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">in_h_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">out_h_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                                <span class="n">S</span><span class="o">.</span><span class="n">add_link</span><span class="p">((</span><span class="n">in_h_nodes</span><span class="p">,</span><span class="n">out_h_nodes</span><span class="p">))</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">id_wcc_old</span>
+                <span class="c1"># Compute Weights (lol)</span>
+
+                <span class="c1"># print(&quot;ID WCC :&quot;,S.id)</span>
+                <span class="c1"># print(&quot;Hinge nodes :&quot;,S.h_nodes)</span>
+                <span class="c1"># print(&quot;Hinge Links :&quot;,S.h_links)</span>
+                <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">((</span><span class="n">S</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">h_links</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">weights</span><span class="p">)))</span>  <span class="c1"># Store the dag.</span>
+                <span class="c1"># S.plot_custom()</span>
+                <span class="c1"># plt.show()</span>
+                <span class="c1"># print(&quot;STORE S :&quot;, id_wcc_old)</span>
+                <span class="n">id_wcc_old</span> <span class="o">=</span> <span class="n">id_wcc</span>
+                <span class="n">dict_begin_times_to_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">dict_end_times_to_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">scc_to_in_hinge_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+                <span class="n">scc_to_out_hinge_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+
+                <span class="n">scc_2_offset</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="n">scc_2_offset</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span>
+            <span class="n">dict_begin_times_to_scc</span><span class="p">[</span><span class="n">t0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_scc</span><span class="p">)</span>
+            <span class="n">dict_end_times_to_scc</span><span class="p">[</span><span class="n">t1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_scc</span><span class="p">)</span>
+
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LAST ITERATION :&quot;</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">)</span>
+        <span class="c1"># For each time_end_find a time_begin (if it exists) then compute the intersection of ndoes</span>
+        <span class="k">for</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_end_times_to_scc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_begin_times_to_scc</span><span class="p">:</span>
+                <span class="c1"># CATCH nodes in scc for dict_end_times_to_cnodes[te] and dict_begin_times_to_cnodes[te]</span>
+                <span class="n">list_current_scc</span> <span class="o">=</span> <span class="n">dict_end_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]</span> <span class="o">+</span> <span class="n">dict_begin_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]</span>
+                <span class="n">dict_id_set_nodes</span> <span class="o">=</span> <span class="n">load_set_nodes_from_msgpack</span><span class="p">(</span><span class="n">path_scc_scf</span><span class="p">,</span> <span class="n">list_current_scc</span><span class="p">,</span> <span class="n">scc_2_offset</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">id_scc_parent</span> <span class="ow">in</span> <span class="n">dict_end_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">id_scc_child</span> <span class="ow">in</span> <span class="n">dict_begin_times_to_scc</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>  <span class="c1"># Double for loop in order to match pairwise</span>
+                        <span class="n">parent_nodes</span> <span class="o">=</span> <span class="n">dict_id_set_nodes</span><span class="p">[</span><span class="n">id_scc_parent</span><span class="p">]</span>
+                        <span class="n">child_nodes</span> <span class="o">=</span> <span class="n">dict_id_set_nodes</span><span class="p">[</span><span class="n">id_scc_child</span><span class="p">]</span>
+                        <span class="n">I</span> <span class="o">=</span> <span class="n">child_nodes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">parent_nodes</span><span class="p">)</span>
+                        <span class="n">hinge_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">te</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">I</span><span class="p">]</span>
+                        <span class="n">scc_to_in_hinge_nodes</span><span class="p">[</span><span class="n">id_scc_child</span><span class="p">]</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">hinge_nodes</span><span class="p">)</span>
+                        <span class="n">scc_to_out_hinge_nodes</span><span class="p">[</span><span class="n">id_scc_parent</span><span class="p">]</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span>
+                            <span class="n">hinge_nodes</span><span class="p">)</span>  <span class="c1"># Each scc is related to its hinge nodes</span>
+                        <span class="n">S</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">hinge_nodes</span><span class="p">)</span>  <span class="c1"># Add Hinge Nodes</span>
+        <span class="c1"># Compute Hinge LINKS:</span>
+        <span class="k">for</span> <span class="n">id_scc</span> <span class="ow">in</span> <span class="n">scc_to_in_hinge_nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">in_h_nodes</span> <span class="ow">in</span> <span class="n">scc_to_in_hinge_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">out_h_nodes</span> <span class="ow">in</span> <span class="n">scc_to_out_hinge_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">in_h_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">out_h_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">S</span><span class="o">.</span><span class="n">add_link</span><span class="p">((</span><span class="n">in_h_nodes</span><span class="p">,</span> <span class="n">out_h_nodes</span><span class="p">))</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">id_wcc</span>
+        <span class="c1"># Compute Weights (lol)</span>
+        <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">((</span><span class="n">S</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">h_nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">h_links</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">weights</span><span class="p">)))</span>  <span class="c1"># Store the dag.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STORE S :&quot;</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">)</span>
+        <span class="c1">##############</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span></div>
+        <span class="c1">##############</span>
+
+
+<div class="viewcode-block" id="load_set_nodes_from_msgpack"><a class="viewcode-back" href="../../../straph.dag.html#straph.dag.hinge_dag.load_set_nodes_from_msgpack">[docs]</a><span class="k">def</span> <span class="nf">load_set_nodes_from_msgpack</span><span class="p">(</span><span class="n">storage_scc</span><span class="p">,</span> <span class="n">list_current_scc</span><span class="p">,</span> <span class="n">scc_2_offset</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get nodes inside each considered scc using an offset to fast random access (via peek())</span>
+<span class="sd">    :param storage_scc: Storage of SCC (msgpack format (scf ?))</span>
+<span class="sd">    :param list_current_scc: List of scc id&#39;s</span>
+<span class="sd">    :param scc_2_offset: dictionary id_scc &lt;-&gt; offset (in the msgpack file)</span>
+<span class="sd">    :return: A dictionary id_scc &lt;-&gt; nodes (inside the scc)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dict_id_2_set_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">list_current_scc</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_scc</span> <span class="o">+</span> <span class="s2">&quot;scc.scf&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">id_scc</span> <span class="ow">in</span> <span class="n">list_current_scc</span><span class="p">:</span>
+            <span class="n">ipt</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">scc_2_offset</span><span class="p">[</span><span class="n">id_scc</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="n">ipt</span><span class="p">)</span><span class="o">.</span><span class="n">unpack</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">dict_id_2_set_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">dict_id_2_set_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dict_id_2_set_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="n">dict_id_2_set_nodes</span><span class="p">[</span><span class="n">id_scc</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dict_id_2_set_nodes</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/2018/04/&quot;</span>  <span class="c1"># LIP6</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;20180418&quot;</span>
+    <span class="c1">#</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/&quot;</span> <span class="o">+</span> <span class="s2">&quot;Socio_Patterns/Workplace/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span><span class="s2">&quot;Workplace&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/&quot;</span> <span class="o">+</span> <span class="s2">&quot;Socio_Patterns/High_School_2013/&quot;</span>
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/&quot;</span>
+    <span class="c1"># __file__ = &quot;generated&quot;</span>
+    <span class="c1"># __file__ =&quot;example&quot;</span>
+    <span class="c1"># __file__ = &quot;High_School_2013&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/&quot;</span> <span class="o">+</span> <span class="s2">&quot;Socio_Patterns/High_School_2013/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;High_School_2013&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Crawdad/Rollernet/&quot;</span>
+    <span class="c1"># __file__ = &quot;rollernet&quot;</span>
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Crawdad/Infocom/&quot;</span>
+    <span class="c1"># __file__ = &quot;infocom&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_otc/&quot;</span>
+    <span class="c1"># __file__ = &quot;bitcoin_otc&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_alpha/&quot;</span>
+    <span class="c1"># __file__ = &quot;bitcoin_alpha&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/CollegeMsg/&quot;</span>
+    <span class="c1"># __file__ = &quot;CollegeMsg&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Enron/&quot;</span>
+    <span class="c1"># __file__ = &quot;enron&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/parse_net/11September/&quot;</span>
+    <span class="c1"># __file__ = &quot;Days&quot;</span>
+
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/askubuntu/&quot;  # LIP6</span>
+    <span class="c1"># __file__ = &quot;askubuntu&quot; # Open With Crawdad</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/DBLP/&quot;  # LIP6</span>
+    <span class="c1"># __file__ = &quot;dblp&quot; # Open With Crawdad</span>
+
+    <span class="n">storage_path_scc</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_scc_storage/&quot;</span>
+    <span class="n">storage_path_hinge_dag</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_hinge_dag_storage/&quot;</span>
+    <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">storage_path_hinge_dag</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1">##########################</span>
+    <span class="c1">#  COMPUTE SCC DAG LINKS #</span>
+    <span class="c1">##########################</span>
+    <span class="n">profile_shit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="s2">&quot;construct_hinge_graph(storage_path_scc,storage_path_hinge_dag)&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.analysis.anomalies_analysis &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.analysis.anomalies_analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.analysis.anomalies_analysis</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">glob</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span><span class="nn">time</span><span class="o">,</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">msgpack</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="c1">#########################################################################################</span>
+<span class="c1">#       THE FOLLOWING FUNCTIONS ARE DESIGNED FOR THE ANALYSIS OF THE MAWILAB DATASET    #</span>
+<span class="c1">#########################################################################################</span>
+
+
+<div class="viewcode-block" id="parse_xml"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.parse_xml">[docs]</a><span class="k">def</span> <span class="nf">parse_xml</span><span class="p">(</span><span class="n">path_xml</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Parse XML containing anomalies of MAWILAB Dataset</span>
+<span class="sd">    :param path_xml:</span>
+<span class="sd">    :param type: Type of anomaly (optional)</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path_xml</span><span class="p">)</span>
+    <span class="n">anomalies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;anomaly&quot;</span><span class="p">:</span>
+            <span class="n">anom</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">type</span> <span class="ow">and</span> <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^\d\W]+&#39;</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># anom[&#39;type_detect&#39;]=</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">child</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;from&quot;</span><span class="p">:</span>
+                    <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">]</span>
+                    <span class="n">begin</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;to&quot;</span><span class="p">:</span>
+                    <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">]</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">]</span>
+                    <span class="c1"># print(&quot;length &quot;+anom[&#39;type&#39;]+&quot; :&quot;, float(end)-float(begin))</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;filter&quot;</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">attrib</span><span class="p">]</span>
+            <span class="n">anomalies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">anom</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">anomalies</span></div>
+
+
+<div class="viewcode-block" id="plot_period"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.plot_period">[docs]</a><span class="k">def</span> <span class="nf">plot_period</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plot anomalies in the MAWILAB Dataset</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param type: Type of anomaly (optional)</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">900</span><span class="p">:</span>  <span class="c1"># and len(i[&#39;info&#39;]) &gt;= 2:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;period :&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot; begin :&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&quot; end :&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">((</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#7a1f5c&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="replace_ip_with_id"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.replace_ip_with_id">[docs]</a><span class="k">def</span> <span class="nf">replace_ip_with_id</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">path_dict</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    For replacing IP in anomalies by their ID</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param path_dict:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_dict</span> <span class="o">+</span> <span class="s2">&quot;_dict_ip_2_nodes_label.mspk&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">ip_2_nodes_label</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">anom</span> <span class="ow">in</span> <span class="n">anomalies</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anom</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">i</span><span class="p">[</span><span class="s1">&#39;src_ip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip_2_nodes_label</span><span class="p">[</span><span class="nb">bytes</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;src_ip&#39;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">i</span><span class="p">[</span><span class="s1">&#39;dst_ip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ip_2_nodes_label</span><span class="p">[</span><span class="nb">bytes</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;dst_ip&#39;</span><span class="p">],</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">return</span> <span class="n">anomalies</span></div>
+
+
+<div class="viewcode-block" id="preprocess_anomalies_nodes"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.preprocess_anomalies_nodes">[docs]</a><span class="k">def</span> <span class="nf">preprocess_anomalies_nodes</span><span class="p">(</span><span class="n">anomalies</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Preprocess nodes anomalies</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]))</span>
+                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">dict_anomalies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">900</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;src_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s1">&#39;dst_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">dict_anomalies</span><span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;src_ip&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;dst_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s1">&#39;src_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">dict_anomalies</span><span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;dst_ip&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Anomalous nodes : &quot;</span><span class="p">,</span> <span class="n">dict_anomalies</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dict_anomalies</span></div>
+
+
+<div class="viewcode-block" id="preprocess_anomalies_links"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.preprocess_anomalies_links">[docs]</a><span class="k">def</span> <span class="nf">preprocess_anomalies_links</span><span class="p">(</span><span class="n">anomalies</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Preprocess links anomalies</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]))</span>
+                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">dict_anomalies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anomalies</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;begin&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="n">t_min</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">900</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s1">&#39;src_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span> <span class="ow">and</span> <span class="s1">&#39;dst_ip&#39;</span> <span class="ow">in</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">src</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">&#39;src_ip&#39;</span><span class="p">]</span>
+                <span class="n">dst</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s1">&#39;dst_ip&#39;</span><span class="p">]</span>
+                <span class="n">dict_anomalies</span><span class="p">[(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="n">dict_anomalies</span><span class="p">[(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Anomalous Links : &quot;</span><span class="p">,</span> <span class="n">dict_anomalies</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dict_anomalies</span></div>
+
+
+
+<span class="c1">######################################################</span>
+<span class="c1">#       Anomalies in WCC                             #</span>
+<span class="c1">######################################################</span>
+
+<div class="viewcode-block" id="anomalies_in_wcc"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.anomalies_in_wcc">[docs]</a><span class="k">def</span> <span class="nf">anomalies_in_wcc</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">path_wcc</span><span class="p">,</span> <span class="n">storage_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return WCC containing anomalies</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param path_wcc:</span>
+<span class="sd">    :param storage_path:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">anomalous_nodes</span> <span class="o">=</span> <span class="n">preprocess_anomalies_nodes</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="n">anomalous_links</span> <span class="o">=</span> <span class="n">preprocess_anomalies_links</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="n">wcc_with_anomalies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_wcc</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="n">id_wcc</span> <span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">link_presence</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">nodes_anomalies_in_wcc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">links_anomalies_in_wcc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">j</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">j</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                    <span class="n">link_presence</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_wcc</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_wcc</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_wcc</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_wcc</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">anomalous_links</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_links</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">links_anomalies_in_wcc</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">links_anomalies_in_wcc</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_anomalies_in_wcc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_anomalies_in_wcc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current WCC :&quot;</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes anomalies :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_anomalies_in_wcc</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb links anomalies :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_anomalies_in_wcc</span><span class="p">))</span>
+                <span class="n">wcc_with_anomalies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">id_wcc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">storage_path</span><span class="p">:</span>
+        <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_path</span> <span class="o">+</span> <span class="s2">&quot;anomalies_in_wcc.mspk&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">msgpack</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">wcc_with_anomalies</span><span class="p">),</span> <span class="n">output</span><span class="p">)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">return</span> <span class="n">wcc_with_anomalies</span></div>
+
+
+<span class="c1">######################################################</span>
+<span class="c1">#       Anomalies in SCC                             #</span>
+<span class="c1">######################################################</span>
+
+
+<div class="viewcode-block" id="anomalies_in_scc"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.anomalies_in_scc">[docs]</a><span class="k">def</span> <span class="nf">anomalies_in_scc</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">path_scc</span><span class="p">,</span> <span class="n">storage_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return SCC containing anomalies</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param path_scc:</span>
+<span class="sd">    :param storage_path:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">anomalous_nodes</span> <span class="o">=</span> <span class="n">preprocess_anomalies_nodes</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="n">anomalous_links</span> <span class="o">=</span> <span class="n">preprocess_anomalies_links</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="n">scc_with_anomalies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">t_begin</span> <span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_scc</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="n">id_wcc</span><span class="p">,</span><span class="n">id_scc</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">id_wcc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">id_scc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">id_scc</span> <span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;id wcc :&quot;</span><span class="p">,</span><span class="n">id_wcc</span><span class="p">,</span><span class="s2">&quot;id scc :&quot;</span><span class="p">,</span><span class="n">id_scc</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;times :&quot;</span><span class="p">,</span><span class="n">times</span><span class="p">,</span><span class="s2">&quot;size scc :&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="s2">&quot; t :&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_begin</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">link_presence</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">nodes_anomalies_in_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">links_anomalies_in_scc</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">j</span>
+                    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">times</span>
+                    <span class="n">link_presence</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">j</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="n">link_presence</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_scc</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_scc</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_scc</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">nodes_anomalies_in_scc</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">anomalous_links</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_links</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">links_anomalies_in_scc</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">links_anomalies_in_scc</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_anomalies_in_scc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_anomalies_in_scc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current SCC :&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">id_wcc</span><span class="p">,</span><span class="n">id_scc</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes anomalies :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_anomalies_in_scc</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb links anomalies :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">links_anomalies_in_scc</span><span class="p">))</span>
+                <span class="n">scc_with_anomalies</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">id_wcc</span><span class="p">,</span><span class="n">id_scc</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">storage_path</span><span class="p">:</span>
+        <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">storage_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_path</span> <span class="o">+</span> <span class="s2">&quot;anomalies_in_scc.mspk&quot;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+            <span class="n">msgpack</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">scc_with_anomalies</span><span class="p">),</span> <span class="n">output</span><span class="p">)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">return</span> <span class="n">scc_with_anomalies</span></div>
+
+
+
+
+<span class="c1">######################################################</span>
+<span class="c1">#       Anomalies in Kcliques                        #</span>
+<span class="c1">######################################################</span>
+
+
+<div class="viewcode-block" id="anomalies_in_kcliques"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.anomalies_in_kcliques">[docs]</a><span class="k">def</span> <span class="nf">anomalies_in_kcliques</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">storage_kcliques</span><span class="p">):</span>
+    <span class="c1"># TODO : ADADT FOR KCLIQUES</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return kcliques containing anomalies and kcliques considered as normal.</span>
+<span class="sd">    (For a comparison/discriminating purpose)</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param storage_kcliques:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">anomalous_nodes</span> <span class="o">=</span> <span class="n">preprocess_anomalies_nodes</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb anomalous nodes :&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">anomalous_nodes</span><span class="p">))</span>
+    <span class="n">kcliques_with_anomalies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">kcliques_without_anomalies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcliques</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="n">ipt</span><span class="p">,</span><span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; k : &quot;</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">u</span> <span class="o">=</span> <span class="n">j</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">kcliques_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">t0</span> <span class="ow">and</span> <span class="n">t1</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">kcliques_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kcliques_without_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kcliques_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current K : &quot;</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes anomalies : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kcliques_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes without anomalies : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">kcliques_without_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+<span class="c1">#     if storage_path:</span>
+<span class="c1">#         pathlib.Path(storage_path).mkdir(parents=True, exist_ok=True)</span>
+<span class="c1">#         with open(storage_path + &quot;anomalies_in_scc.mspk&quot;, &#39;wb&#39;) as output:</span>
+<span class="c1">#             msgpack.dump(list(scc_with_anomalies), output)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">return</span> <span class="n">kcliques_with_anomalies</span><span class="p">,</span><span class="n">kcliques_without_anomalies</span></div>
+
+
+<span class="c1">######################################################</span>
+<span class="c1">#       Anomalies in Kcores                          #</span>
+<span class="c1">######################################################</span>
+
+<div class="viewcode-block" id="anomalies_in_kcores"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.anomalies_in_kcores">[docs]</a><span class="k">def</span> <span class="nf">anomalies_in_kcores</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">):</span>
+    <span class="c1">#TODO</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return kcores containing anomalies and kcores considered as &#39;normal&#39;.</span>
+<span class="sd">    (For a comparison/discriminating purpose)</span>
+<span class="sd">    :param anomalies:</span>
+<span class="sd">    :param storage_kcores:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">anomalous_nodes</span> <span class="o">=</span> <span class="n">preprocess_anomalies_nodes</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb anomalous nodes :&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">anomalous_nodes</span><span class="p">))</span>
+    <span class="n">kcores_with_anomalies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">kcores_without_anomalies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcores</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="n">ipt</span><span class="p">,</span><span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; k : &quot;</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">u</span> <span class="o">=</span> <span class="n">j</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">anomalous_nodes</span><span class="p">:</span>
+                    <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">anomalous_nodes</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">kcores_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">t0</span> <span class="ow">and</span> <span class="n">t1</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                        <span class="n">kcores_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kcores_without_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kcores_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current K : &quot;</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes anomalies : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kcores_with_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb nodes without anomalies : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">kcores_without_anomalies</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+<span class="c1">#     if storage_path:</span>
+<span class="c1">#         pathlib.Path(storage_path).mkdir(parents=True, exist_ok=True)</span>
+<span class="c1">#         with open(storage_path + &quot;anomalies_in_scc.mspk&quot;, &#39;wb&#39;) as output:</span>
+<span class="c1">#             msgpack.dump(list(scc_with_anomalies), output)</span>
+    <span class="c1">######################</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+    <span class="c1">######################</span>
+    <span class="k">return</span> <span class="n">kcores_with_anomalies</span><span class="p">,</span><span class="n">kcores_without_anomalies</span></div>
+
+
+
+<div class="viewcode-block" id="plot_lines_kcores"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.plot_lines_kcores">[docs]</a><span class="k">def</span> <span class="nf">plot_lines_kcores</span><span class="p">(</span><span class="n">node_core_info</span><span class="p">):</span>
+    <span class="n">seg</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">node_core_info</span><span class="p">:</span>
+        <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">u</span>
+        <span class="n">seg</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">t0</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">seg</span></div>
+
+
+<div class="viewcode-block" id="plot_kcores"><a class="viewcode-back" href="../../../straph.analysis.html#straph.analysis.anomalies_analysis.plot_kcores">[docs]</a><span class="k">def</span> <span class="nf">plot_kcores</span><span class="p">(</span><span class="n">kcores_with_anomalies</span><span class="p">,</span> <span class="n">kcores_without_anomalies</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">):</span>
+    <span class="c1">#TODO: Keep useful code</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kcores_with_anomalies</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kcores_without_anomalies</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">t_min</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">t_max</span> <span class="o">=</span> <span class="mi">900</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T min :&quot;</span><span class="p">,</span> <span class="n">t_min</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T max :&quot;</span><span class="p">,</span> <span class="n">t_max</span><span class="p">)</span>
+
+    <span class="n">dict_color_anom</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;#ffcc00&quot;</span><span class="p">,</span>  <span class="c1"># Yellow</span>
+                       <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;#e68a00&quot;</span><span class="p">,</span>  <span class="c1"># Orange</span>
+                       <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;#cc0000&quot;</span><span class="p">}</span>  <span class="c1"># Rouge</span>
+    <span class="n">dict_color_normal</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;#8080ff&quot;</span><span class="p">,</span>  <span class="c1"># Light blue</span>
+                         <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;#0033cc&quot;</span><span class="p">,</span>  <span class="c1"># Medium blue</span>
+                         <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;#004466&quot;</span><span class="p">}</span>  <span class="c1"># Strong blue</span>
+    <span class="n">colors_anom</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">segs_anom</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">colors_normal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">segs_normal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kcores_with_anomalies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">seg</span> <span class="o">=</span> <span class="n">plot_lines_kcores</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">segs_anom</span> <span class="o">+=</span> <span class="n">seg</span>
+            <span class="n">colors_anom</span> <span class="o">+=</span> <span class="p">[</span><span class="n">dict_color_anom</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kcores_without_anomalies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">seg</span> <span class="o">=</span> <span class="n">plot_lines_kcores</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">segs_normal</span> <span class="o">+=</span> <span class="n">seg</span>
+            <span class="n">colors_normal</span> <span class="o">+=</span> <span class="p">[</span><span class="n">dict_color_normal</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;len colors normal : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_normal</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;len segs normal : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">segs_normal</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;len colors anomalous : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_anom</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;len segs anomalous : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">segs_anom</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Segs calculated&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">line_coll</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">segs_normal</span><span class="p">),</span>
+                                                      <span class="n">colors</span><span class="o">=</span><span class="n">colors_normal</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)])</span>
+    <span class="n">line_coll</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">line_coll</span><span class="p">)</span>
+
+    <span class="n">line_coll</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">segs_anom</span><span class="p">),</span>
+                                                      <span class="n">colors</span><span class="o">=</span><span class="n">colors_anom</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">line_coll</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">line_coll</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Collections created and added&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">t_min</span><span class="p">,</span> <span class="n">t_max</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">legend</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Nodes&quot;</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s1">&#39;Ubuntu&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#666699&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s1">&#39;Ubuntu&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+        <span class="n">list_legend</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">current_color</span> <span class="ow">in</span> <span class="n">dict_color_anom</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">list_legend</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">current_color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-Cores Anomalous&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">current_color</span> <span class="ow">in</span> <span class="n">dict_color_normal</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">list_legend</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">current_color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-Cores&quot;</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">list_legend</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s1">&#39;Ubuntu&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">saving_path</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nb">format</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">2400</span><span class="p">)</span></div>
+
+
+
+<span class="c1">###############################################</span>
+<span class="c1">#       GENERAL ANOMALIES ANALYSIS            #</span>
+<span class="c1">###############################################</span>
+<span class="c1"># TODO : Regroup functions, anomalies_in_+&quot;*&quot;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># notice = parse_xml(&quot;/home/leo/Dev/data/2017/20170121_notice.xml&quot;)</span>
+    <span class="c1"># print(&quot;nb notices :&quot;,len(notice))</span>
+    <span class="c1"># for i in range(len(notice)):</span>
+    <span class="c1">#     print(&quot;notice &quot;+str(i)+&quot; :&quot;,notice[i])</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/2018/04/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;20180418&quot;</span>
+
+    <span class="n">wcc_storage_path</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_wcc_storage/wcc.scf&quot;</span>
+    <span class="n">scc_storage_path</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_scc_storage/scc.scf&quot;</span>
+    <span class="n">kcores_storage_path</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_kcores_storage/kcores.scf&quot;</span>
+    <span class="n">preprocess_data_path</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="s2">&quot;preprocess_data/&quot;</span>
+
+    <span class="n">anomalies</span> <span class="o">=</span> <span class="n">parse_xml</span><span class="p">(</span><span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_anomalous_suspicious.xml&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;anomalous&#39;</span><span class="p">)</span>
+    <span class="n">anomalies</span> <span class="o">=</span> <span class="n">replace_ip_with_id</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nb anomalies :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">anomalies</span><span class="p">))</span>
+    <span class="c1"># plot_period(anomalies,type=&#39;anomalous&#39;)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">anomalies</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;anomalie &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; :&quot;</span><span class="p">,</span> <span class="n">anomalies</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+
+    <span class="c1"># wcc_with_anomalies = anomalies_in_wcc(anomalies, wcc_storage_path,preprocess_data_path)</span>
+    <span class="n">scc_with_anomalies</span> <span class="o">=</span> <span class="n">anomalies_in_scc</span><span class="p">(</span><span class="n">anomalies</span><span class="p">,</span> <span class="n">scc_storage_path</span><span class="p">,</span> <span class="n">preprocess_data_path</span><span class="p">)</span>
+    <span class="c1"># kcores_with_anomalies = anomalies_in_kcores(anomalies,kcores_storage_path) #TODO</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

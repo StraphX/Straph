@@ -1,0 +1,2271 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph package &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.Framework_analysis_pcap">straph.Framework_analysis_pcap module</a></li>
+<li><a class="reference internal" href="#module-straph.Framework_time_analysis_pcap">straph.Framework_time_analysis_pcap module</a></li>
+<li><a class="reference internal" href="#module-straph.Framework_tx_analysis">straph.Framework_tx_analysis module</a></li>
+<li><a class="reference internal" href="#module-straph.betweenness">straph.betweenness module</a></li>
+<li><a class="reference internal" href="#module-straph.dataset_performance_algorithms">straph.dataset_performance_algorithms module</a></li>
+<li><a class="reference internal" href="#module-straph.pcap_to_csv">straph.pcap_to_csv module</a></li>
+<li><a class="reference internal" href="#module-straph.scc_tmp">straph.scc_tmp module</a></li>
+<li><a class="reference internal" href="#module-straph.stream">straph.stream module</a></li>
+<li><a class="reference internal" href="#module-straph.teeest">straph.teeest module</a></li>
+<li><a class="reference internal" href="#module-straph.tx_to_csv">straph.tx_to_csv module</a></li>
+<li><a class="reference internal" href="#module-straph">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-package">
+<h1>straph package<a class="headerlink" href="#straph-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="straph.EulerTourForest.html">straph.EulerTourForest package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.EulerTourForest.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.EulerTourForest.html#module-straph.EulerTourForest.Chained_Treap">straph.EulerTourForest.Chained_Treap module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.EulerTourForest.html#module-straph.EulerTourForest.EulerTourForest">straph.EulerTourForest.EulerTourForest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.EulerTourForest.html#module-straph.EulerTourForest.EulerTourTree">straph.EulerTourForest.EulerTourTree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.EulerTourForest.html#module-straph.EulerTourForest">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.ML_algorithms.html">straph.ML_algorithms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.ML_algorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.ML_algorithms.html#module-straph.ML_algorithms.HBOS">straph.ML_algorithms.HBOS module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.ML_algorithms.html#module-straph.ML_algorithms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.analysis.html">straph.analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.anomalies_analysis">straph.analysis.anomalies_analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.non_aggregated_analysis">straph.analysis.non_aggregated_analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.stats_components_kcores">straph.analysis.stats_components_kcores module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.stream_comparaison">straph.analysis.stream_comparaison module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.stream_properties_analysis">straph.analysis.stream_properties_analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis.visualisation_stream_graph_properties">straph.analysis.visualisation_stream_graph_properties module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.analysis.html#module-straph.analysis">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.components.html">straph.components package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#module-straph.components.UnionFindSCC">straph.components.UnionFindSCC module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#module-straph.components.component">straph.components.component module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#module-straph.components.strongly_connected_component">straph.components.strongly_connected_component module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#module-straph.components.weakly_connected_component">straph.components.weakly_connected_component module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.components.html#module-straph.components">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.dag.html">straph.dag package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.dag.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.dag.html#module-straph.dag.condensation_dag">straph.dag.condensation_dag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.dag.html#module-straph.dag.hinge_dag">straph.dag.hinge_dag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.dag.html#module-straph.dag.scc_stream">straph.dag.scc_stream module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.dag.html#module-straph.dag">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.generator.html">straph.generator package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.generator.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.generator.html#module-straph.generator.SG_Generator">straph.generator.SG_Generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.generator.html#module-straph.generator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.interval_tree.html">straph.interval_tree package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.interval_tree.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.interval_tree.html#module-straph.interval_tree.interval_tree">straph.interval_tree.interval_tree module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.interval_tree.html#module-straph.interval_tree.stream_time">straph.interval_tree.stream_time module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.interval_tree.html#module-straph.interval_tree">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.parser.html">straph.parser package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.parser.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.parser.html#module-straph.parser.parser">straph.parser.parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.parser.html#module-straph.parser">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.paths.html">straph.paths package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#module-straph.paths.extended_paths">straph.paths.extended_paths module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#module-straph.paths.path_object">straph.paths.path_object module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#module-straph.paths.paths">straph.paths.paths module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#module-straph.paths.paths_wu">straph.paths.paths_wu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.paths.html#module-straph.paths">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.streaming_algorithms.html">straph.streaming_algorithms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms.fastest_path_algorithm">straph.streaming_algorithms.fastest_path_algorithm module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms.kcores_streaming">straph.streaming_algorithms.kcores_streaming module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms.scc_streaming">straph.streaming_algorithms.scc_streaming module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms.shortest_path_streaming">straph.streaming_algorithms.shortest_path_streaming module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms.wcc_streaming">straph.streaming_algorithms.wcc_streaming module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.streaming_algorithms.html#module-straph.streaming_algorithms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.utils.html">straph.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.utils.html#module-straph.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="straph.wrack.html">straph.wrack package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#module-straph.wrack.dijkstra_stream">straph.wrack.dijkstra_stream module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#module-straph.wrack.nodes">straph.wrack.nodes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#module-straph.wrack.scc_old">straph.wrack.scc_old module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#module-straph.wrack.temporal_path">straph.wrack.temporal_path module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="straph.wrack.html#module-straph.wrack">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.Framework_analysis_pcap">
+<span id="straph-framework-analysis-pcap-module"></span><h2>straph.Framework_analysis_pcap module<a class="headerlink" href="#module-straph.Framework_analysis_pcap" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.compute_weight">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>T</em>, <em>np</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#compute_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.compute_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.expected_node_degrees">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">expected_node_degrees</code><span class="sig-paren">(</span><em>nodes</em>, <em>node_presence</em>, <em>expected_degrees=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#expected_node_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.expected_node_degrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.extract_counter_nodes_links">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">extract_counter_nodes_links</code><span class="sig-paren">(</span><em>file_input</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#extract_counter_nodes_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.extract_counter_nodes_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.extract_csv">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">extract_csv</code><span class="sig-paren">(</span><em>path_pcap</em>, <em>protocol</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#extract_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.extract_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.extract_nodes_and_links_and_write_stats">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">extract_nodes_and_links_and_write_stats</code><span class="sig-paren">(</span><em>file_input</em>, <em>time_begin</em>, <em>time_break</em>, <em>time_step</em>, <em>time_bins</em>, <em>protocol=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#extract_nodes_and_links_and_write_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.extract_nodes_and_links_and_write_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.extract_stream_graph_and_push_stats">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">extract_stream_graph_and_push_stats</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>time_begin</em>, <em>time_break</em>, <em>time_step</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#extract_stream_graph_and_push_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.extract_stream_graph_and_push_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.get_time_by_slice">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">get_time_by_slice</code><span class="sig-paren">(</span><em>file_input</em>, <em>limit_interact</em>, <em>time_begin=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#get_time_by_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.get_time_by_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.links_to_json">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">links_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>wbcc</em>, <em>SCC_stream</em>, <em>Kcores</em>, <em>part_nb</em>, <em>dict_label_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#links_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.links_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.maj_propagation_struct">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">maj_propagation_struct</code><span class="sig-paren">(</span><em>end_time</em>, <em>id</em>, <em>current_time</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#maj_propagation_struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.maj_propagation_struct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.maj_struct">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">maj_struct</code><span class="sig-paren">(</span><em>current_time</em>, <em>id</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#maj_struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.maj_struct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.maj_struct_with_propagation">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">maj_struct_with_propagation</code><span class="sig-paren">(</span><em>end_time</em>, <em>id</em>, <em>current_time</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#maj_struct_with_propagation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.maj_struct_with_propagation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.nodes_to_json">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">nodes_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>degrees</em>, <em>wbcc</em>, <em>SCC_stream</em>, <em>Kcores</em>, <em>part_nb</em>, <em>dict_label_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#nodes_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.nodes_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.push_links_properties">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">push_links_properties</code><span class="sig-paren">(</span><em>S</em>, <em>S_id</em>, <em>counter_pck</em>, <em>session</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#push_links_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.push_links_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.push_nodes_properties">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">push_nodes_properties</code><span class="sig-paren">(</span><em>S</em>, <em>S_id</em>, <em>counter_pck</em>, <em>session</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#push_nodes_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.push_nodes_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.push_stream_graph_properties">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">push_stream_graph_properties</code><span class="sig-paren">(</span><em>S</em>, <em>session</em>, <em>S_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#push_stream_graph_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.push_stream_graph_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.sg_to_json">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">sg_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>part_nb</em>, <em>store_scc=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#sg_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.sg_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.stream_graph_from_csv_to_json">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">stream_graph_from_csv_to_json</code><span class="sig-paren">(</span><em>file_input</em>, <em>path_output</em>, <em>time_bins</em>, <em>time_begin=0</em>, <em>limit_interact=100000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#stream_graph_from_csv_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.stream_graph_from_csv_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.sum_presence">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">sum_presence</code><span class="sig-paren">(</span><em>np</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#sum_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.sum_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.update_links_properties">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">update_links_properties</code><span class="sig-paren">(</span><em>S</em>, <em>S_id</em>, <em>counter_pck</em>, <em>nodes_id</em>, <em>session</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#update_links_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.update_links_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.update_nodes_properties">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">update_nodes_properties</code><span class="sig-paren">(</span><em>S</em>, <em>S_id</em>, <em>counter_pck</em>, <em>nodes_id</em>, <em>session</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#update_nodes_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.update_nodes_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.write_links_stats">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">write_links_stats</code><span class="sig-paren">(</span><em>file_output</em>, <em>counter_pckt</em>, <em>counter_bytes</em>, <em>counter_weight</em>, <em>dict_protocol</em>, <em>mean_time_between_intervals</em>, <em>std_time_between_intervals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#write_links_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.write_links_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.write_nodes_stats">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">write_nodes_stats</code><span class="sig-paren">(</span><em>file_output</em>, <em>counter_pckt</em>, <em>counter_degrees</em>, <em>counter_weight</em>, <em>counter_expected_degrees</em>, <em>counter_bytes</em>, <em>dict_protocol</em>, <em>mean_time_between_intervals</em>, <em>std_time_between_intervals</em>, <em>nb_neighborhood</em>, <em>mean_degree_neighborhood</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#write_nodes_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.write_nodes_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_analysis_pcap.write_stats_from_stream">
+<code class="descclassname">straph.Framework_analysis_pcap.</code><code class="descname">write_stats_from_stream</code><span class="sig-paren">(</span><em>writer</em>, <em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_analysis_pcap.html#write_stats_from_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_analysis_pcap.write_stats_from_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.Framework_time_analysis_pcap">
+<span id="straph-framework-time-analysis-pcap-module"></span><h2>straph.Framework_time_analysis_pcap module<a class="headerlink" href="#module-straph.Framework_time_analysis_pcap" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.compute_weight">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">compute_weight</code><span class="sig-paren">(</span><em>T</em>, <em>np</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#compute_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.compute_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.expected_node_degrees">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">expected_node_degrees</code><span class="sig-paren">(</span><em>d</em>, <em>nodes</em>, <em>node_presence</em>, <em>expected_degrees=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#expected_node_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.expected_node_degrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.extract_counter_nodes_links">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">extract_counter_nodes_links</code><span class="sig-paren">(</span><em>file_input</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#extract_counter_nodes_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.extract_counter_nodes_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.extract_csv">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">extract_csv</code><span class="sig-paren">(</span><em>path_pcap</em>, <em>protocol=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#extract_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.extract_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.extract_nodes_and_links_and_write_stats">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">extract_nodes_and_links_and_write_stats</code><span class="sig-paren">(</span><em>file_input</em>, <em>file_output</em>, <em>time_begin</em>, <em>time_break</em>, <em>time_step</em>, <em>time_bins</em>, <em>protocol=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#extract_nodes_and_links_and_write_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.extract_nodes_and_links_and_write_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.plot_distrib_degrees">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">plot_distrib_degrees</code><span class="sig-paren">(</span><em>path_degrees</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#plot_distrib_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.plot_distrib_degrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.plot_distrib_pck">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">plot_distrib_pck</code><span class="sig-paren">(</span><em>path_nodes_pck</em>, <em>path_links_pck</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#plot_distrib_pck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.plot_distrib_pck" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.plot_period">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">plot_period</code><span class="sig-paren">(</span><em>anomalies</em>, <em>ax</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#plot_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.plot_period" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.plot_with_anomalies">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">plot_with_anomalies</code><span class="sig-paren">(</span><em>df</em>, <em>anomalies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#plot_with_anomalies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.plot_with_anomalies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.post_process_data">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">post_process_data</code><span class="sig-paren">(</span><em>file_input</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#post_process_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.post_process_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.script_pickle_links_to_csv">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">script_pickle_links_to_csv</code><span class="sig-paren">(</span><em>path_links</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#script_pickle_links_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.script_pickle_links_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.script_pickle_nodes_to_csv">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">script_pickle_nodes_to_csv</code><span class="sig-paren">(</span><em>path_degrees</em>, <em>path_nodes</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#script_pickle_nodes_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.script_pickle_nodes_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.sum_presence">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">sum_presence</code><span class="sig-paren">(</span><em>np</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#sum_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.sum_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.write_links_stats">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">write_links_stats</code><span class="sig-paren">(</span><em>file_output</em>, <em>counter_pckt</em>, <em>counter_bytes</em>, <em>counter_weight</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#write_links_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.write_links_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.write_nodes_stats">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">write_nodes_stats</code><span class="sig-paren">(</span><em>file_output</em>, <em>S</em>, <em>l</em>, <em>protocol=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#write_nodes_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.write_nodes_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_time_analysis_pcap.write_stats_from_stream">
+<code class="descclassname">straph.Framework_time_analysis_pcap.</code><code class="descname">write_stats_from_stream</code><span class="sig-paren">(</span><em>writer</em>, <em>S</em>, <em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_time_analysis_pcap.html#write_stats_from_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_time_analysis_pcap.write_stats_from_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.Framework_tx_analysis">
+<span id="straph-framework-tx-analysis-module"></span><h2>straph.Framework_tx_analysis module<a class="headerlink" href="#module-straph.Framework_tx_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.get_time_by_slice">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">get_time_by_slice</code><span class="sig-paren">(</span><em>file_input</em>, <em>limit_interact</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#get_time_by_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.get_time_by_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.links_to_json">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">links_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>wbcc</em>, <em>SCC_stream</em>, <em>Kcores</em>, <em>part_nb</em>, <em>dict_label_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#links_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.links_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.maj_propagation_struct">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">maj_propagation_struct</code><span class="sig-paren">(</span><em>end_time</em>, <em>id</em>, <em>current_time</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#maj_propagation_struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.maj_propagation_struct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.maj_struct">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">maj_struct</code><span class="sig-paren">(</span><em>current_time</em>, <em>id</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#maj_struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.maj_struct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.maj_struct_with_propagation">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">maj_struct_with_propagation</code><span class="sig-paren">(</span><em>end_time</em>, <em>id</em>, <em>current_time</em>, <em>element</em>, <em>time_struct</em>, <em>struct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#maj_struct_with_propagation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.maj_struct_with_propagation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.nodes_to_json">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">nodes_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>degrees</em>, <em>wbcc</em>, <em>SCC_stream</em>, <em>Kcores</em>, <em>part_nb</em>, <em>dict_label_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#nodes_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.nodes_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.sg_to_json">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">sg_to_json</code><span class="sig-paren">(</span><em>S</em>, <em>path_output</em>, <em>part_nb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#sg_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.sg_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.Framework_tx_analysis.stream_graph_from_csv_to_json">
+<code class="descclassname">straph.Framework_tx_analysis.</code><code class="descname">stream_graph_from_csv_to_json</code><span class="sig-paren">(</span><em>file_input</em>, <em>path_output</em>, <em>time_bins</em>, <em>limit_interact=100000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/Framework_tx_analysis.html#stream_graph_from_csv_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.Framework_tx_analysis.stream_graph_from_csv_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.betweenness">
+<span id="straph-betweenness-module"></span><h2>straph.betweenness module<a class="headerlink" href="#module-straph.betweenness" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.betweenness.Betweenness">
+<code class="descclassname">straph.betweenness.</code><code class="descname">Betweenness</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#Betweenness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.Betweenness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.Contribution">
+<code class="descclassname">straph.betweenness.</code><code class="descname">Contribution</code><span class="sig-paren">(</span><em>u</em>, <em>w</em>, <em>e</em>, <em>LL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#Contribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.Contribution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.Latency_lists">
+<code class="descclassname">straph.betweenness.</code><code class="descname">Latency_lists</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#Latency_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.Latency_lists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.NextList">
+<code class="descclassname">straph.betweenness.</code><code class="descname">NextList</code><span class="sig-paren">(</span><em>u</em>, <em>w</em>, <em>b</em>, <em>e</em>, <em>LL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#NextList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.NextList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.NextListOldNoDist">
+<code class="descclassname">straph.betweenness.</code><code class="descname">NextListOldNoDist</code><span class="sig-paren">(</span><em>u</em>, <em>w</em>, <em>b</em>, <em>e</em>, <em>LL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#NextListOldNoDist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.NextListOldNoDist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.PrevList">
+<code class="descclassname">straph.betweenness.</code><code class="descname">PrevList</code><span class="sig-paren">(</span><em>u</em>, <em>w</em>, <em>b</em>, <em>e</em>, <em>LL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#PrevList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.PrevList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.PrevListOldNoDist">
+<code class="descclassname">straph.betweenness.</code><code class="descname">PrevListOldNoDist</code><span class="sig-paren">(</span><em>u</em>, <em>w</em>, <em>b</em>, <em>e</em>, <em>LL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#PrevListOldNoDist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.PrevListOldNoDist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.Propagate">
+<code class="descclassname">straph.betweenness.</code><code class="descname">Propagate</code><span class="sig-paren">(</span><em>N</em>, <em>t</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#Propagate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.Propagate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.VSP">
+<code class="descclassname">straph.betweenness.</code><code class="descname">VSP</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#VSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.VSP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.VSP_aux_interval">
+<code class="descclassname">straph.betweenness.</code><code class="descname">VSP_aux_interval</code><span class="sig-paren">(</span><em>dist</em>, <em>dim</em>, <em>t</em>, <em>t_plus</em>, <em>amount</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#VSP_aux_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.VSP_aux_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.VSP_aux_singleton">
+<code class="descclassname">straph.betweenness.</code><code class="descname">VSP_aux_singleton</code><span class="sig-paren">(</span><em>dist</em>, <em>dim</em>, <em>t</em>, <em>amount</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#VSP_aux_singleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.VSP_aux_singleton" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.VSP_tv">
+<code class="descclassname">straph.betweenness.</code><code class="descname">VSP_tv</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em>, <em>e3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#VSP_tv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.VSP_tv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.dist_and_dim">
+<code class="descclassname">straph.betweenness.</code><code class="descname">dist_and_dim</code><span class="sig-paren">(</span><em>tup</em>, <em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#dist_and_dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.dist_and_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.distances_CM_ss">
+<code class="descclassname">straph.betweenness.</code><code class="descname">distances_CM_ss</code><span class="sig-paren">(</span><em>LS</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#distances_CM_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.distances_CM_ss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.divvol">
+<code class="descclassname">straph.betweenness.</code><code class="descname">divvol</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#divvol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.divvol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.empty_priority">
+<code class="descclassname">straph.betweenness.</code><code class="descname">empty_priority</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#empty_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.empty_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.get_graph_neighborhood">
+<code class="descclassname">straph.betweenness.</code><code class="descname">get_graph_neighborhood</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#get_graph_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.get_graph_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.get_graph_neighborhood_minus">
+<code class="descclassname">straph.betweenness.</code><code class="descname">get_graph_neighborhood_minus</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#get_graph_neighborhood_minus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.get_graph_neighborhood_minus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.graph_dist">
+<code class="descclassname">straph.betweenness.</code><code class="descname">graph_dist</code><span class="sig-paren">(</span><em>N</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#graph_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.graph_dist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.graph_dist_sigma">
+<code class="descclassname">straph.betweenness.</code><code class="descname">graph_dist_sigma</code><span class="sig-paren">(</span><em>N</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#graph_dist_sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.graph_dist_sigma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.graph_is_reachable">
+<code class="descclassname">straph.betweenness.</code><code class="descname">graph_is_reachable</code><span class="sig-paren">(</span><em>N</em>, <em>w</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#graph_is_reachable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.graph_is_reachable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.graph_non_trivial_connected_components">
+<code class="descclassname">straph.betweenness.</code><code class="descname">graph_non_trivial_connected_components</code><span class="sig-paren">(</span><em>N</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#graph_non_trivial_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.graph_non_trivial_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.is_empty_priority">
+<code class="descclassname">straph.betweenness.</code><code class="descname">is_empty_priority</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#is_empty_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.is_empty_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.is_sorted">
+<code class="descclassname">straph.betweenness.</code><code class="descname">is_sorted</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#is_sorted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.is_sorted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.latencies_CM_ss">
+<code class="descclassname">straph.betweenness.</code><code class="descname">latencies_CM_ss</code><span class="sig-paren">(</span><em>LS</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#latencies_CM_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.latencies_CM_ss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.load_link_stream">
+<code class="descclassname">straph.betweenness.</code><code class="descname">load_link_stream</code><span class="sig-paren">(</span><em>path</em>, <em>label_to_node=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#load_link_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.load_link_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.minusvol">
+<code class="descclassname">straph.betweenness.</code><code class="descname">minusvol</code><span class="sig-paren">(</span><em>v</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#minusvol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.minusvol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.only_dist">
+<code class="descclassname">straph.betweenness.</code><code class="descname">only_dist</code><span class="sig-paren">(</span><em>tup</em>, <em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#only_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.only_dist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.plusvol">
+<code class="descclassname">straph.betweenness.</code><code class="descname">plusvol</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#plusvol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.plusvol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.pop_priority">
+<code class="descclassname">straph.betweenness.</code><code class="descname">pop_priority</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#pop_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.pop_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.pop_priority_dist">
+<code class="descclassname">straph.betweenness.</code><code class="descname">pop_priority_dist</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#pop_priority_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.pop_priority_dist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.push_priority">
+<code class="descclassname">straph.betweenness.</code><code class="descname">push_priority</code><span class="sig-paren">(</span><em>s</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#push_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.push_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.betweenness.timesvol">
+<code class="descclassname">straph.betweenness.</code><code class="descname">timesvol</code><span class="sig-paren">(</span><em>e1</em>, <em>e2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/betweenness.html#timesvol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.betweenness.timesvol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.dataset_performance_algorithms">
+<span id="straph-dataset-performance-algorithms-module"></span><h2>straph.dataset_performance_algorithms module<a class="headerlink" href="#module-straph.dataset_performance_algorithms" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.dag_description">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">dag_description</code><span class="sig-paren">(</span><em>dataset_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#dag_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.dag_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.dataset_description">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">dataset_description</code><span class="sig-paren">(</span><em>dataset_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#dataset_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.dataset_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.get_source_nodes">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">get_source_nodes</code><span class="sig-paren">(</span><em>S</em>, <em>high_degree_nodes</em>, <em>random_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#get_source_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.get_source_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.load_dataset">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">load_dataset</code><span class="sig-paren">(</span><em>dataset_path</em>, <em>dataset_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#load_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.load_dataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.paths_performances">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">paths_performances</code><span class="sig-paren">(</span><em>dataset_directory</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em>, <em>timeout=5000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#paths_performances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.paths_performances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.dataset_performance_algorithms.preprocess_datasets">
+<code class="descclassname">straph.dataset_performance_algorithms.</code><code class="descname">preprocess_datasets</code><span class="sig-paren">(</span><em>dataset_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/dataset_performance_algorithms.html#preprocess_datasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.dataset_performance_algorithms.preprocess_datasets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.pcap_to_csv">
+<span id="straph-pcap-to-csv-module"></span><h2>straph.pcap_to_csv module<a class="headerlink" href="#module-straph.pcap_to_csv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.pcap_to_csv.csv_to_sgf">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">csv_to_sgf</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>time_bins</em>, <em>threshold_collect=5000000</em>, <em>directed_links=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#csv_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.csv_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a csv file into a Stream Graph File (Links only).
+Streaming File ordered by time of arrival
+:param file_input:
+:param destination:
+:param time_bins:
+:param threshold_collect:
+:param directed_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.pcap_to_csv.inet_to_str">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">inet_to_str</code><span class="sig-paren">(</span><em>inet</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#inet_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.inet_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert inet object to a string</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>inet (inet struct): inet network address</dd>
+<dt>Returns:</dt>
+<dd>str: Printable/readable IP address</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.pcap_to_csv.order_sgf">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">order_sgf</code><span class="sig-paren">(</span><em>path_input</em>, <em>path_output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#order_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.order_sgf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.pcap_to_csv.pcap_to_csv">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">pcap_to_csv</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>path_dict</em>, <em>protocol=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#pcap_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.pcap_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a pcap file to a csv
+:param file_input:
+:param destination:
+:param path_dict:
+:param protocol:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.pcap_to_csv.pcap_to_sgf">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">pcap_to_sgf</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>time_bins</em>, <em>path_dict</em>, <em>protocol=None</em>, <em>threshold_collect=5000000</em>, <em>with_dict=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#pcap_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.pcap_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a pcap file to a Stream Graph File
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.pcap_to_csv.write_links_to_sgf">
+<code class="descclassname">straph.pcap_to_csv.</code><code class="descname">write_links_to_sgf</code><span class="sig-paren">(</span><em>destination</em>, <em>packer</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/pcap_to_csv.html#write_links_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.pcap_to_csv.write_links_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.scc_tmp">
+<span id="straph-scc-tmp-module"></span><h2>straph.scc_tmp module<a class="headerlink" href="#module-straph.scc_tmp" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.scc_tmp.close_component">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">close_component</code><span class="sig-paren">(</span><em>comp</em>, <em>t0</em>, <em>final_components</em>, <em>cnt_scc_id</em>, <em>scc_dag</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#close_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.close_component" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.create_scc">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">create_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#create_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.create_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Strongly Connected Component from the link <em>l</em>
+:param l:
+:param node_2_status:
+:param tmp_components:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.double_departure">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">double_departure</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#double_departure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.double_departure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.merge_scc">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">merge_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#merge_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.merge_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.single_departure">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">single_departure</code><span class="sig-paren">(</span><em>node_to_remove</em>, <em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#single_departure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.single_departure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.split_procedure">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">split_procedure</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#split_procedure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.split_procedure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.strongly_connected_components">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">strongly_connected_components</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#strongly_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.strongly_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.scc_tmp.update_scc">
+<code class="descclassname">straph.scc_tmp.</code><code class="descname">update_scc</code><span class="sig-paren">(</span><em>node_to_update</em>, <em>node_to_add</em>, <em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/scc_tmp.html#update_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.scc_tmp.update_scc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node_to_update</strong> – </li>
+<li><strong>node_to_add</strong> – </li>
+<li><strong>l</strong> – </li>
+<li><strong>node_2_status</strong> – </li>
+<li><strong>tmp_components</strong> – </li>
+<li><strong>scc_dag</strong> – </li>
+<li><strong>cnt_scc_id</strong> – </li>
+<li><strong>write_to_msgpack</strong> – </li>
+<li><strong>id_wcc</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.stream">
+<span id="straph-stream-module"></span><h2>straph.stream module<a class="headerlink" href="#module-straph.stream" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.stream.adjacency_list_to_json">
+<code class="descclassname">straph.stream.</code><code class="descname">adjacency_list_to_json</code><span class="sig-paren">(</span><em>a_l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#adjacency_list_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.adjacency_list_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.algo_kcores_batagelj">
+<code class="descclassname">straph.stream.</code><code class="descname">algo_kcores_batagelj</code><span class="sig-paren">(</span><em>a_l</em>, <em>degrees</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#algo_kcores_batagelj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.algo_kcores_batagelj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cores of a static graph from its adjacency list and nodes degrees</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>[1] An O(m) Algorithm for Cores Decomposition of Networks
+Vladimir Batagelj and Matjaz Zaversnik, 2003.
+<a class="reference external" href="http://arxiv.org/abs/cs.DS/0310049">http://arxiv.org/abs/cs.DS/0310049</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.condensation_dag_from_wcc">
+<code class="descclassname">straph.stream.</code><code class="descname">condensation_dag_from_wcc</code><span class="sig-paren">(</span><em>list_WCC</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#condensation_dag_from_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.condensation_dag_from_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the corresponding condensation DAG from a list of Weakly Connected Components (Stream Graphs Objects)
+:param list_WCC:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.discretize_time_interval">
+<code class="descclassname">straph.stream.</code><code class="descname">discretize_time_interval</code><span class="sig-paren">(</span><em>t</em>, <em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#discretize_time_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.discretize_time_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discretize a continous interval according to the bins parameter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t</strong> – The interval to discretize</li>
+<li><strong>bins</strong> – The bins used to discretize (gap between each value)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The discretized interval</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.dump_stream_graph">
+<code class="descclassname">straph.stream.</code><code class="descname">dump_stream_graph</code><span class="sig-paren">(</span><em>S</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#dump_stream_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.dump_stream_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.get_bounds_for_evenly_spaced_intervals">
+<code class="descclassname">straph.stream.</code><code class="descname">get_bounds_for_evenly_spaced_intervals</code><span class="sig-paren">(</span><em>t</em>, <em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#get_bounds_for_evenly_spaced_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.get_bounds_for_evenly_spaced_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bounds for one or multiple evenly spaced discrete intervals</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t</strong> – The interval to get bounds for</li>
+<li><strong>bins</strong> – The bins used to discretize the intervals</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Bounds of each intervals</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.get_index_node_to_id_wcc">
+<code class="descclassname">straph.stream.</code><code class="descname">get_index_node_to_id_wcc</code><span class="sig-paren">(</span><em>list_WCC</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#get_index_node_to_id_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.get_index_node_to_id_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>For source node paths
+:param list_WCC:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.get_index_segmented_node_to_id_wcc">
+<code class="descclassname">straph.stream.</code><code class="descname">get_index_segmented_node_to_id_wcc</code><span class="sig-paren">(</span><em>list_WCC</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#get_index_segmented_node_to_id_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.get_index_segmented_node_to_id_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>for temporal source node paths
+:param list_WCC:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.load_stream_graph">
+<code class="descclassname">straph.stream.</code><code class="descname">load_stream_graph</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#load_stream_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.load_stream_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.performance_test_path_functions">
+<code class="descclassname">straph.stream.</code><code class="descname">performance_test_path_functions</code><span class="sig-paren">(</span><em>S</em>, <em>path_type</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#performance_test_path_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.performance_test_path_functions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.postprocess_kcliques_into_clusters">
+<code class="descclassname">straph.stream.</code><code class="descname">postprocess_kcliques_into_clusters</code><span class="sig-paren">(</span><em>Kcliques</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#postprocess_kcliques_into_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.postprocess_kcliques_into_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>We only keep the biggest ‘K’ for each segmented temporal nodes
+:param Kcliques:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.read_stream_graph">
+<code class="descclassname">straph.stream.</code><code class="descname">read_stream_graph</code><span class="sig-paren">(</span><em>path_links</em>, <em>path_nodes=False</em>, <em>node_label=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#read_stream_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.read_stream_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>tb : time of arrival (b: begin)
+te : time of departure (e: end)
+Input format :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>node file:</dt>
+<dd>id_node1 tb_0 te_0 tb_1 te_1 … tb_n1 te_n1
+id_node2 tb_0 te_0 …
+…</dd>
+<dt>link file:</dt>
+<dd>id_node1 id_node2 tb_0 te_0 tb_1 te_1 … tb_l1 te_l1
+id_node3 id_node4 tb_0 te_0 tb_1 te_1 … tb_l2 te_l2
+…</dd>
+</dl>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path_links</strong> – path to store nodes and their time of presence</li>
+<li><strong>path_nodes</strong> – path to store links and their time of presence</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.read_stream_graph_from_json">
+<code class="descclassname">straph.stream.</code><code class="descname">read_stream_graph_from_json</code><span class="sig-paren">(</span><em>path_nodes</em>, <em>path_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#read_stream_graph_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.read_stream_graph_from_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.read_stream_graph_from_sgf">
+<code class="descclassname">straph.stream.</code><code class="descname">read_stream_graph_from_sgf</code><span class="sig-paren">(</span><em>input</em>, <em>node_label=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#read_stream_graph_from_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.read_stream_graph_from_sgf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="straph.stream.stream_graph">
+<em class="property">class </em><code class="descclassname">straph.stream.</code><code class="descname">stream_graph</code><span class="sig-paren">(</span><em>id=None</em>, <em>times=None</em>, <em>nodes=None</em>, <em>node_to_label=None</em>, <em>node_to_id=None</em>, <em>node_presence=None</em>, <em>links=None</em>, <em>link_presence=None</em>, <em>bins=None</em>, <em>card_E=None</em>, <em>card_W=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="straph.stream.stream_graph.DFS_iterative">
+<code class="descname">DFS_iterative</code><span class="sig-paren">(</span><em>v</em>, <em>Neighborhood</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.DFS_iterative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.DFS_iterative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a Depth First search from the node <em>v</em>
+:param v: Source node for the DFS
+:param Neighborhood: Neighborhood of the Stream Graph : (t0,t1,u) -&gt; [(t0,t1,v),….]
+:return: The weakly connected component of <em>v</em> along with visited nodes (other nodes in the wcc)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.algo_kcores_v1">
+<code class="descname">algo_kcores_v1</code><span class="sig-paren">(</span><em>components=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.algo_kcores_v1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.algo_kcores_v1" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.all_cliques">
+<code class="descname">all_cliques</code><span class="sig-paren">(</span><em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.all_cliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.all_cliques" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all the cliques of the Stream Graph
+:param k:
+:param condensation_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.augmented_ordered_links">
+<code class="descname">augmented_ordered_links</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.augmented_ordered_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.augmented_ordered_links" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.average_clustering">
+<code class="descname">average_clustering</code><span class="sig-paren">(</span><em>cc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.average_clustering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.average_clustering" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The avaerage clustering coefficient of a stream graph</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.average_degree">
+<code class="descname">average_degree</code><span class="sig-paren">(</span><em>d=None</em>, <em>nb_nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.average_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.average_degree" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the average degree of a stream graph</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.check_integrity">
+<code class="descname">check_integrity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.check_integrity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.check_integrity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check node presence and link presence for overlapping time windows
+Check that a link presence include both node presence
+:return: True if the structure is coherent</p>
+<blockquote>
+<div>An error with the problematic link/node</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.check_link_presence">
+<code class="descname">check_link_presence</code><span class="sig-paren">(</span><em>L</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.check_link_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.check_link_presence" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>L</strong> – A link</li>
+<li><strong>t</strong> – An instant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the link is present False otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.check_node_presence">
+<code class="descname">check_node_presence</code><span class="sig-paren">(</span><em>A</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.check_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.check_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>A</strong> – A node</li>
+<li><strong>t</strong> – An instant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the node is present False otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.clustering_coefficient">
+<code class="descname">clustering_coefficient</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.clustering_coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.clustering_coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary with for each node his clustering coefficient</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.condensation_dag">
+<code class="descname">condensation_dag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.condensation_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.condensation_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.continous_to_discrete">
+<code class="descname">continous_to_discrete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.continous_to_discrete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.continous_to_discrete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discretize the intervals in node_presence and links 
+:return: Nothing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.core_number">
+<code class="descname">core_number</code><span class="sig-paren">(</span><em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.core_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.core_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the core number of each temporal node
+:param condensation_dag: Condensation DAG (optional)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.count_arrival_departure_degree">
+<code class="descname">count_arrival_departure_degree</code><span class="sig-paren">(</span><em>N</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.count_arrival_departure_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.count_arrival_departure_degree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.coverage">
+<code class="descname">coverage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.coverage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.coverage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.degrees">
+<code class="descname">degrees</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.degrees" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary with to each nodes their degree</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.degrees_partition">
+<code class="descname">degrees_partition</code><span class="sig-paren">(</span><em>interaction_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.degrees_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.degrees_partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.degrees_with_presence">
+<code class="descname">degrees_with_presence</code><span class="sig-paren">(</span><em>N=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.degrees_with_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.degrees_with_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.density">
+<code class="descname">density</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.density"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.density" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the density of the stream graph (aka the probability</td>
+</tr>
+</tbody>
+</table>
+<p>if we randomly chose two nodes that they are linked together)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO : Add multiple information
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.discrete_to_continuous">
+<code class="descname">discrete_to_continuous</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.discrete_to_continuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.discrete_to_continuous" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform discrete intervals in node_presence and links into continous intervals
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.distance_and_duration_FSP_pw">
+<code class="descname">distance_and_duration_FSP_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.distance_and_duration_FSP_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.distance_and_duration_FSP_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (distances,durations) of FSP in form of two dict</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.distances_and_durations">
+<code class="descname">distances_and_durations</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.distances_and_durations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.distances_and_durations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (distances, durations) of FSP in form of two dict
+:param source:Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.distances_pw">
+<code class="descname">distances_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.distances_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.distances_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the distances to every other (reachable) node in the Stream Graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.distances">
+<code class="descname">distances</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.distances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the distances to every other (reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.draw_induced_plot">
+<code class="descname">draw_induced_plot</code><span class="sig-paren">(</span><em>repeat=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.draw_induced_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.draw_induced_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw and present an animation of the stream graph from the induced graphs
+we can save this animation
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.expected_node_degrees">
+<code class="descname">expected_node_degrees</code><span class="sig-paren">(</span><em>d=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.expected_node_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.expected_node_degrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.expected_stream_graph_degree">
+<code class="descname">expected_stream_graph_degree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.expected_stream_graph_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.expected_stream_graph_degree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.extend_on_link_presence">
+<code class="descname">extend_on_link_presence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.extend_on_link_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.extend_on_link_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.extend_on_node_presence">
+<code class="descname">extend_on_node_presence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.extend_on_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.extend_on_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_links">
+<code class="descname">filter_by_links</code><span class="sig-paren">(</span><em>links_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream induced by links in <em>links_list</em> and nodes implicated in these links.
+:param links_list: list of links to filter by
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_links_id">
+<code class="descname">filter_by_links_id</code><span class="sig-paren">(</span><em>links_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_links_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_links_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream induced by links in <em>links_list</em> and nodes implicated in these links.
+:param links_list: list of links to filter by
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_links_label">
+<code class="descname">filter_by_links_label</code><span class="sig-paren">(</span><em>links_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_links_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_links_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream induced by links in <em>links_list</em> and nodes implicated in these links.
+:param links_list: list of links to filter by
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_node_id">
+<code class="descname">filter_by_node_id</code><span class="sig-paren">(</span><em>nodes_target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_node_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_node_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream graph induced by nodes in <em>nodes_target</em>.
+Different from induced stream graph (that include nodes in links containing a node in nodes_list)
+:param nodes_target:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_node_label">
+<code class="descname">filter_by_node_label</code><span class="sig-paren">(</span><em>nodes_target</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_node_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_node_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream graph induced by nodes in <em>nodes_target</em>.
+:param nodes_target:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_nodes">
+<code class="descname">filter_by_nodes</code><span class="sig-paren">(</span><em>nodes_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream graph induced by nodes in <em>nodes_target</em>.
+If an extremity of a link is in <em>nodes_list</em> we add the other node. TODO
+Different from induced stream graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes_list</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.filter_by_time_window">
+<code class="descname">filter_by_time_window</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.filter_by_time_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.filter_by_time_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream induced by T = [a,b].
+:param a:
+:param b:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.find_node">
+<code class="descname">find_node</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.find_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.find_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_according_node_from_link_and_node_presence">
+<code class="descname">get_according_node_from_link_and_node_presence</code><span class="sig-paren">(</span><em>l</em>, <em>lt0</em>, <em>lt1</em>, <em>dict_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_according_node_from_link_and_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_according_node_from_link_and_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>l</strong> – </li>
+<li><strong>lt0</strong> – </li>
+<li><strong>lt1</strong> – </li>
+<li><strong>dict_nodes</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_according_node_presence_from_link">
+<code class="descname">get_according_node_presence_from_link</code><span class="sig-paren">(</span><em>l</em>, <em>t0</em>, <em>t1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_according_node_presence_from_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_according_node_presence_from_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get both extremities (which are maximal temporal nodes) of the link.
+:param l:
+:param t0: Beginning of the link
+:param t1: Ending of the link
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_interaction_segmented_nodes">
+<code class="descname">get_interaction_segmented_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_interaction_segmented_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_interaction_segmented_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_interaction_times">
+<code class="descname">get_interaction_times</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_interaction_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_interaction_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>O(M)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_isolated_nodes">
+<code class="descname">get_isolated_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_isolated_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_isolated_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get isolated temporal nodes (node with temporal degree == 0)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_links_bounds_per_nodes">
+<code class="descname">get_links_bounds_per_nodes</code><span class="sig-paren">(</span><em>interaction_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_links_bounds_per_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_links_bounds_per_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_links_components">
+<code class="descname">get_links_components</code><span class="sig-paren">(</span><em>components</em>, <em>bounds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_links_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_links_components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_links_from_scc">
+<code class="descname">get_links_from_scc</code><span class="sig-paren">(</span><em>components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_links_from_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_links_from_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_neighborhood_from_node_partition">
+<code class="descname">get_neighborhood_from_node_partition</code><span class="sig-paren">(</span><em>node_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_neighborhood_from_node_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_neighborhood_from_node_partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_neighborhood_from_nodes">
+<code class="descname">get_neighborhood_from_nodes</code><span class="sig-paren">(</span><em>dict_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_neighborhood_from_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_neighborhood_from_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dict_nodes</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_neighborhood_from_ordered_nodes">
+<code class="descname">get_neighborhood_from_ordered_nodes</code><span class="sig-paren">(</span><em>split_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_neighborhood_from_ordered_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_neighborhood_from_ordered_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_neighborhood_time_t">
+<code class="descname">get_neighborhood_time_t</code><span class="sig-paren">(</span><em>A</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_neighborhood_time_t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_neighborhood_time_t" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>A</strong> – A node</li>
+<li><strong>t</strong> – An instant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a dictionary : the node &lt;-&gt; his neighbors at time t</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_node_presence_according_to_node_partition_from_link">
+<code class="descname">get_node_presence_according_to_node_partition_from_link</code><span class="sig-paren">(</span><em>l</em>, <em>lt0</em>, <em>lt1</em>, <em>node_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_node_presence_according_to_node_partition_from_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_node_presence_according_to_node_partition_from_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_node_presence_from_interval">
+<code class="descname">get_node_presence_from_interval</code><span class="sig-paren">(</span><em>n</em>, <em>b</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_node_presence_from_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_node_presence_from_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the maximal temporal node corresponding to (b,e,n)
+:param n: node
+:param b: beginning of the interval (time)
+:param e: ending of the interval (time)
+:return: Maximal temporal node presence corresponding to (b,e,n) : (t0,t1)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_ordered_augmented_neighborhood_from_node_partition">
+<code class="descname">get_ordered_augmented_neighborhood_from_node_partition</code><span class="sig-paren">(</span><em>node_partition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_ordered_augmented_neighborhood_from_node_partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_ordered_augmented_neighborhood_from_node_partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_sum_intersection">
+<code class="descname">get_sum_intersection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_sum_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_sum_intersection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.get_sum_union">
+<code class="descname">get_sum_union</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.get_sum_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.get_sum_union" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.aggregated_graph">
+<code class="descname">aggregated_graph</code><span class="sig-paren">(</span><em>plot=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.aggregated_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.aggregated_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the complete induced graph
+:param plot: True : If we want to plot the complete induced graph 
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.instant_graph">
+<code class="descname">instant_graph</code><span class="sig-paren">(</span><em>t</em>, <em>by_nodes_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.instant_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.instant_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an adjacency list corresponding to the induced graph 
+from the stream graph at a specified time 
+:param t: The time 
+:return: An adjacency list (networkx compatible)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.induced_line_stream">
+<code class="descname">induced_line_stream</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.induced_line_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.induced_line_stream" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The induced line stream (which is a stream graph too) corresponding to the stream graph</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.induced_substream_by_nodes">
+<code class="descname">induced_substream_by_nodes</code><span class="sig-paren">(</span><em>nodes_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.induced_substream_by_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.induced_substream_by_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sub stream induced by <em>nodes_list</em>.
+Include only links with both extremities in <em>nodes_list</em>
+Different from filter by nodes
+:param nodes_list:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_clique">
+<code class="descname">k_clique</code><span class="sig-paren">(</span><em>k</em>, <em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_clique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_clique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the <em>k</em>-cliques of the Stream Graph
+:param k:
+:param condensation_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_core">
+<code class="descname">k_core</code><span class="sig-paren">(</span><em>k</em>, <em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_core" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the <em>k</em>-core cluster of the Stream Graph.
+:param k: <em>k</em>-core
+:param condensation_dag: condensation_dag: Condensation DAG (optional)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_cores_from_scc">
+<code class="descname">k_cores_from_scc</code><span class="sig-paren">(</span><em>sc_components=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_cores_from_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_cores_from_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_cores_old">
+<code class="descname">k_cores_old</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_cores_old"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_cores_old" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_cores_partitionning">
+<code class="descname">k_cores_partitionning</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_cores_partitionning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_cores_partitionning" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.k_cores_v3">
+<code class="descname">k_cores_v3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.k_cores_v3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.k_cores_v3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.latencies_pw">
+<code class="descname">latencies_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.latencies_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.latencies_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the latencies to every other (reachable) node in the Stream Graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.latencies">
+<code class="descname">latencies</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.latencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.latencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the latencies to every other (reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.latency_and_length_SFP_pw">
+<code class="descname">latency_and_length_SFP_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.latency_and_length_SFP_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.latency_and_length_SFP_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (latencies,lengths) of FSP in form of two dict</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.latencies_and_lengths">
+<code class="descname">latencies_and_lengths</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.latencies_and_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.latencies_and_lengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (latencies, lengths) of SFP in form of two dict
+:param source: Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_components">
+<code class="descname">link_components</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_densities">
+<code class="descname">link_densities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_densities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_densities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_duration">
+<code class="descname">link_duration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_duration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_duration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_position_by_arrival">
+<code class="descname">link_position_by_arrival</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_position_by_arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_position_by_arrival" title="Permalink to this definition">¶</a></dt>
+<dd><p>sort links by their arrival
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_position_by_duration">
+<code class="descname">link_position_by_duration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_position_by_duration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_position_by_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>sort links by their duration
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_presence_to_json">
+<code class="descname">link_presence_to_json</code><span class="sig-paren">(</span><em>link_to_position=None</em>, <em>sort_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_presence_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_presence_to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the tool stream-graph-visualisation.
+:return: link presence in JSON</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_weight_at_t">
+<code class="descname">link_weight_at_t</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_weight_at_t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_weight_at_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.link_weight_on_I">
+<code class="descname">link_weight_on_I</code><span class="sig-paren">(</span><em>I</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.link_weight_on_I"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.link_weight_on_I" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.max_clique_number">
+<code class="descname">max_clique_number</code><span class="sig-paren">(</span><em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.max_clique_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.max_clique_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size of the maximal clique for each node (in the form of temporal windows : a cluster)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.mean_degree_neighborhood">
+<code class="descname">mean_degree_neighborhood</code><span class="sig-paren">(</span><em>degrees=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.mean_degree_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.mean_degree_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.nb_links">
+<code class="descname">nb_links</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.nb_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.nb_links" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the number of links according to their presence in the stream graph</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.nb_neighbors">
+<code class="descname">nb_neighbors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.nb_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.nb_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.nb_nodes">
+<code class="descname">nb_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.nb_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.nb_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number nodes according to their presence in the stream graph</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood">
+<code class="descname">neighborhood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the neighborhood of each node globally in the form of a dictionary</td>
+</tr>
+</tbody>
+</table>
+<p>each node –&gt; their neighbors with the associated interval of time (of the link)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood_and_degrees_from_links">
+<code class="descname">neighborhood_and_degrees_from_links</code><span class="sig-paren">(</span><em>links</em>, <em>link_presence</em>, <em>scc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood_and_degrees_from_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood_and_degrees_from_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood_and_degrees_from_links_v3">
+<code class="descname">neighborhood_and_degrees_from_links_v3</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood_and_degrees_from_links_v3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood_and_degrees_from_links_v3" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t0</strong> – </li>
+<li><strong>t1</strong> – </li>
+<li><strong>links</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood_from_node">
+<code class="descname">neighborhood_from_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood_from_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood_from_node" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the neighborhood of a specific node in the form of a dictionary</td>
+</tr>
+</tbody>
+</table>
+<p>node &lt;-&gt; their neighbor with the associated interval of time</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood_node_2_link_presence">
+<code class="descname">neighborhood_node_2_link_presence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood_node_2_link_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood_node_2_link_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.neighborhood_with_node_presence">
+<code class="descname">neighborhood_with_node_presence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.neighborhood_with_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.neighborhood_with_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the neighborhood of each node globally in the form of a dictionary</td>
+</tr>
+</tbody>
+</table>
+<p>each node –&gt; their neighbors with their presences</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_activity_to_json">
+<code class="descname">node_activity_to_json</code><span class="sig-paren">(</span><em>node_to_position=None</em>, <em>sort_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_activity_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_activity_to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the tool stream-graph-visualisation.
+:return: node activity in JSON</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_densities">
+<code class="descname">node_densities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_densities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_densities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_duration">
+<code class="descname">node_duration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_duration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_duration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_position_by_arrival">
+<code class="descname">node_position_by_arrival</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_position_by_arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_position_by_arrival" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort nodes by their first time of arrival
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_position_by_increasing_degree">
+<code class="descname">node_position_by_increasing_degree</code><span class="sig-paren">(</span><em>degrees_partition=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_position_by_increasing_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_position_by_increasing_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort nodes by their degree ; TODO : see S.nodes_degrees()
+:param degrees_partition:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_position_by_peak_degree_arrival">
+<code class="descname">node_position_by_peak_degree_arrival</code><span class="sig-paren">(</span><em>degrees_partition=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_position_by_peak_degree_arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_position_by_peak_degree_arrival" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort nodes increasingly by their maximal value of degree arrival time
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_weight_at_t">
+<code class="descname">node_weight_at_t</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_weight_at_t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_weight_at_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.node_weight_on_I">
+<code class="descname">node_weight_on_I</code><span class="sig-paren">(</span><em>I</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.node_weight_on_I"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.node_weight_on_I" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.nodes_degree">
+<code class="descname">nodes_degree</code><span class="sig-paren">(</span><em>interaction_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.nodes_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.nodes_degree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.nodes_partition_on_degrees">
+<code class="descname">nodes_partition_on_degrees</code><span class="sig-paren">(</span><em>interaction_times=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.nodes_partition_on_degrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.nodes_partition_on_degrees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.number_of_link_per_node">
+<code class="descname">number_of_link_per_node</code><span class="sig-paren">(</span><em>dataframe=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.number_of_link_per_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.number_of_link_per_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.number_of_pair_per_link">
+<code class="descname">number_of_pair_per_link</code><span class="sig-paren">(</span><em>dataframe=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.number_of_pair_per_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.number_of_pair_per_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.number_of_weakly_connected_component">
+<code class="descname">number_of_weakly_connected_component</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.number_of_weakly_connected_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.number_of_weakly_connected_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of weakly connected components in the stream graph.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.ordered_links">
+<code class="descname">ordered_links</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.ordered_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.ordered_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>animated=False</em>, <em>clusters=None</em>, <em>links=True</em>, <em>title=None</em>, <em>link_pimping=False</em>, <em>repeat=False</em>, <em>saving_path=None</em>, <em>format='pdf'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display in an elegant way a small stream graph
+We can also specify a path to save the animated of ploted stream graph
+:param animated: If we want an animation with cursor which move according to the time
+:return: A matplotlib plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.plot_3d_stream">
+<code class="descname">plot_3d_stream</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.plot_3d_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.plot_3d_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.plot_dict_clusters">
+<code class="descname">plot_dict_clusters</code><span class="sig-paren">(</span><em>dict_clusters</em>, <em>title=None</em>, <em>links=True</em>, <em>saving_path=None</em>, <em>label_nodes_by_letters=False</em>, <em>format='pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.plot_dict_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.plot_dict_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display in an elegant way a small stream graph
+We can also specify a path to save the animated of ploted stream graph
+:param animated: If we want an animation with cursor which move according to the time
+:return: A matplotlib plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.plot_link_weight">
+<code class="descname">plot_link_weight</code><span class="sig-paren">(</span><em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.plot_link_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.plot_link_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.plot_node_weight">
+<code class="descname">plot_node_weight</code><span class="sig-paren">(</span><em>bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.plot_node_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.plot_node_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.remove_link">
+<code class="descname">remove_link</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.remove_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.remove_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the (link,time_presence) from the Stream Graph
+:param l: 
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.remove_node">
+<code class="descname">remove_node</code><span class="sig-paren">(</span><em>n</em>, <em>time_presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.remove_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the (node,time_presence) from the Stream Graph
+:param n: 
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.save_plot">
+<code class="descname">save_plot</code><span class="sig-paren">(</span><em>path</em>, <em>format='pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.save_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.save_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.segmented_neighborhood">
+<code class="descname">segmented_neighborhood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.segmented_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.segmented_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>On veut des segments de noeuds comme clefs ainsi que dans les voisins (b,e,v) : [(t0,t1,(nt0,nt1,u))] :)
+:param links:
+:param node_presence:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.set_card_E">
+<code class="descname">set_card_E</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.set_card_E"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.set_card_E" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.set_card_W">
+<code class="descname">set_card_W</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.set_card_W"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.set_card_W" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.split_nodes">
+<code class="descname">split_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.split_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.split_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Must REMOVE ISOLATED NODE BEFORE (maybe)
+Divide nodes into minimum partition to characterize k_cores
+:return: Nodes partition</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.stable_dag">
+<code class="descname">stable_dag</code><span class="sig-paren">(</span><em>condensation_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.stable_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.stable_dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not very efficient (i think)
+# TODO : Comparer kcores parallel sur Satble Dag et Kcores parallel sur Condensation DAG
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.stream_graph_degree">
+<code class="descname">stream_graph_degree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.stream_graph_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.stream_graph_degree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.strongly_connected_components">
+<code class="descname">strongly_connected_components</code><span class="sig-paren">(</span><em>scc_format='cluster'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.strongly_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.strongly_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the strongly connected components of the Stream Graph
+:param format: “cluster” to obtain SCC under the form of [(t0,t1,u),…]</p>
+<blockquote>
+<div>“scc_object” to obtain SCC under the form of objects of class “strongly_connected_components”</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.substream">
+<code class="descname">substream</code><span class="sig-paren">(</span><em>cluster</em>, <em>id=None</em>, <em>return_new_node_label=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.substream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.substream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the substream corresponding to the cluster:
+A Stream Graph containing the nodes of the cluster along with the segmented links that exist between them.
+:param cluster: A sequence of temporal nodes: [(t0,t1,u),…,(t0,t1,v)]
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.sum_degree_neighborhood">
+<code class="descname">sum_degree_neighborhood</code><span class="sig-paren">(</span><em>degrees=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.sum_degree_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.sum_degree_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.times_to_reach_pw">
+<code class="descname">times_to_reach_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.times_to_reach_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.times_to_reach_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the time to reach to every other (reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node(t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.times_to_reach">
+<code class="descname">times_to_reach</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.times_to_reach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.times_to_reach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the time to reach to every other (reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node(t_0,t_1,u)
+:param enumerate : enumerate all FoP paths
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.transform_links_label_to_int">
+<code class="descname">transform_links_label_to_int</code><span class="sig-paren">(</span><em>index=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.transform_links_label_to_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.transform_links_label_to_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.ttr_and_distance_SFOP_pw">
+<code class="descname">ttr_and_distance_SFOP_pw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.ttr_and_distance_SFOP_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.ttr_and_distance_SFOP_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the time to reach and the lengths of the shortest foremost path to every other
+(reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.times_to_reach_and_lengths">
+<code class="descname">times_to_reach_and_lengths</code><span class="sig-paren">(</span><em>source</em>, <em>enumerate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.times_to_reach_and_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.times_to_reach_and_lengths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the time to reach and the lengths of the shortest foremost path to every other
+(reachable) node in the Stream Graph
+:param source: Can be a source node or a temporal source node (t_0,t_1,u)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.uniformity">
+<code class="descname">uniformity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.uniformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.uniformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.union_of_nodes">
+<code class="descname">union_of_nodes</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.union_of_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.union_of_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.wcc_as_substreams">
+<code class="descname">wcc_as_substreams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.wcc_as_substreams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.wcc_as_substreams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the weakly connected components of the stream graph
+in the form of substreams (stream graph induced by the component/cluster)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.weakly_bounded_connected_components">
+<code class="descname">weakly_bounded_connected_components</code><span class="sig-paren">(</span><em>Neighborhood=None</em>, <em>refactor=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.weakly_bounded_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.weakly_bounded_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>At leat O(2M)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.weakly_connected_components">
+<code class="descname">weakly_connected_components</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.weakly_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.weakly_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the weakly connected components of the Stream Graph.
+Time Complexity in $O(M)$.
+:return: Weakly Connected Components of the Stream Graph (a cluster : [(t0,t1,u),…,(t0,t1,v)]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.weakly_connected_components_union_find">
+<code class="descname">weakly_connected_components_union_find</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.weakly_connected_components_union_find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.weakly_connected_components_union_find" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.write_to_csv">
+<code class="descname">write_to_csv</code><span class="sig-paren">(</span><em>output_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.write_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.write_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the stream graph to CSV format(node1;node2;start_time;duration).
+:param output_name:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.write_to_json">
+<code class="descname">write_to_json</code><span class="sig-paren">(</span><em>output_name</em>, <em>index_pos=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.write_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.write_to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to a JSON format. For the tool stream-graph-visualisation.
+:param output_name: Name prefix of json files. Will be stored under “output_name_node_activity.json”</p>
+<blockquote>
+<div>and “output_name_link_presence.json”</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.write_to_lsf">
+<code class="descname">write_to_lsf</code><span class="sig-paren">(</span><em>output_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.write_to_lsf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.write_to_lsf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.write_to_sg">
+<code class="descname">write_to_sg</code><span class="sig-paren">(</span><em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.write_to_sg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.write_to_sg" title="Permalink to this definition">¶</a></dt>
+<dd><p>tb : time of arrival (b: begin)
+te : time of departure (e: end)
+Output format :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>node file:</dt>
+<dd>id_node1 tb_0 te_0 tb_1 te_1 … tb_n1 te_n1
+id_node2 tb_0 te_0 …
+…</dd>
+<dt>link file:</dt>
+<dd>id_node1 id_node2 tb_0 te_0 tb_1 te_1 … tb_l1 te_l1
+id_node3 id_node4 tb_0 te_0 tb_1 te_1 … tb_l2 te_l2
+…</dd>
+</dl>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path_links</strong> – path to store nodes and their time of presence</li>
+<li><strong>path_nodes</strong> – path to store links and their time of presence</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.stream.stream_graph.write_to_sgf">
+<code class="descname">write_to_sgf</code><span class="sig-paren">(</span><em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#stream_graph.write_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.stream_graph.write_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>tb : time of arrival (b: begin)
+te : time of departure (e: end)
+Output format :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>link file:</dt>
+<dd>1 (id_node1,id_node2) tb_0 te_0
+-1 (id_node3,id_node4) te_0
+…</dd>
+</dl>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>output_file</strong> – path to store links and their time of presence</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.sum_presence">
+<code class="descclassname">straph.stream.</code><code class="descname">sum_presence</code><span class="sig-paren">(</span><em>np</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#sum_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.sum_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.test_all_fastest_paths_dag">
+<code class="descclassname">straph.stream.</code><code class="descname">test_all_fastest_paths_dag</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#test_all_fastest_paths_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.test_all_fastest_paths_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.tmp_paths_para_test">
+<code class="descclassname">straph.stream.</code><code class="descname">tmp_paths_para_test</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#tmp_paths_para_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.tmp_paths_para_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.tmp_paths_test">
+<code class="descclassname">straph.stream.</code><code class="descname">tmp_paths_test</code><span class="sig-paren">(</span><em>S</em>, <em>LS=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#tmp_paths_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.tmp_paths_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.stream.write_adjacency_list_to_json">
+<code class="descclassname">straph.stream.</code><code class="descname">write_adjacency_list_to_json</code><span class="sig-paren">(</span><em>a_l</em>, <em>path_json</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/stream.html#write_adjacency_list_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.stream.write_adjacency_list_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.teeest">
+<span id="straph-teeest-module"></span><h2>straph.teeest module<a class="headerlink" href="#module-straph.teeest" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.tx_to_csv">
+<span id="straph-tx-to-csv-module"></span><h2>straph.tx_to_csv module<a class="headerlink" href="#module-straph.tx_to_csv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.tx_to_csv.tx_json_to_csv">
+<code class="descclassname">straph.tx_to_csv.</code><code class="descname">tx_json_to_csv</code><span class="sig-paren">(</span><em>directory_tx</em>, <em>directory_output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/tx_to_csv.html#tx_json_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.tx_to_csv.tx_json_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

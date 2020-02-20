@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.wrack.scc_old &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.wrack.scc_old</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.wrack.scc_old</h1><div class="highlight"><pre>
+<span></span><span class="c1">########################################################</span>
+<span class="c1">#           SCC from WBC + CDAG                        #</span>
+<span class="c1">########################################################</span>
+
+
+<div class="viewcode-block" id="compute_scc_stream"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.compute_scc_stream">[docs]</a><span class="k">def</span> <span class="nf">compute_scc_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_bounds_per_nodes</span><span class="p">()</span>
+    <span class="n">w_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weakly_bounded_connected_components</span><span class="p">()</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">l_link_presence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_components</span><span class="p">(</span><span class="n">w_components</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Link according to WBC Components : Done !&quot;</span><span class="p">)</span>
+    <span class="n">max_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+        <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">max_id</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">saving_path</span><span class="p">))[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="s1">&#39;r+&#39;</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">scc_from_wbc</span><span class="p">)(</span><span class="n">link_presence</span><span class="p">,</span> <span class="n">max_id</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">saving_path</span><span class="p">)</span>
+                                           <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">link_presence</span> <span class="ow">in</span>
+                                           <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l_link_presence</span><span class="p">)),</span> <span class="n">l_link_presence</span><span class="p">))</span>
+    <span class="n">scc_dag</span> <span class="o">=</span> <span class="n">cdag</span><span class="o">.</span><span class="n">merge_scc_dags</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">scc_dag</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span>
+    <span class="c1"># Add isolated nodes to the stream</span>
+    <span class="n">isolated_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_isolated_nodes</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nb Isolated nodes :&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">isolated_nodes</span><span class="p">))</span>
+    <span class="n">isolated_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">comp</span><span class="o">.</span><span class="n">connected_component</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+                                               <span class="n">nodes</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
+                                               <span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">isolated_nodes</span><span class="p">]</span>
+    <span class="n">scc_dag</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">(</span><span class="n">isolated_nodes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scc_dag</span></div>
+
+
+<div class="viewcode-block" id="scc_from_wbc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.scc_from_wbc">[docs]</a><span class="k">def</span> <span class="nf">scc_from_wbc</span><span class="p">(</span><span class="n">link_presence</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># code each link, 1 for a beginning, -1 for an ending</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scc_stream</span> <span class="o">=</span> <span class="n">cdag</span><span class="o">.</span><span class="n">scc_dag</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lp</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">lp</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>  <span class="c1"># Little trick overhere (popopo)</span>
+            <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">t1</span><span class="p">))</span>
+    <span class="c1"># del link_presence   # No more needed</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">code</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">l</span>
+    <span class="n">code</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">l</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="n">code</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])]</span>
+    <span class="n">links</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">links</span><span class="p">))</span>
+    <span class="n">presents_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># Nodes active at current time.</span>
+    <span class="n">local_components</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of current strongly connected components (object)</span>
+    <span class="n">dict_node_2_component</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># dictionary associating a node to the local current component</span>
+    <span class="n">nodes_departure_times</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># Time of departure for each nodes</span>
+    <span class="n">cnt_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">links</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">links</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="c1"># logger.debug(&quot;Arrival :&quot; + str(l))</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Create Component&quot;)</span>
+                <span class="n">create_cc</span><span class="p">(</span><span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                          <span class="n">presents_nodes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Add a node :&quot; + str(v))</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">link_update_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                        <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                        <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Add a node :&quot; + str(u))</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">link_update_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                        <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                        <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                <span class="c1"># logger.debug(&quot;Merge two components&quot;)</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">merge_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                  <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                  <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Update node&#39;s departure times&quot;)</span>
+                <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+                <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+                <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                <span class="c1"># logger.debug(&quot;Node &quot; + str(u) + &quot; departure :&quot; + str(nodes_departure_times[u]))</span>
+                <span class="c1"># logger.debug(&quot;Node &quot; + str(v) + &quot; departure :&quot; + str(nodes_departure_times[v]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># logger.debug(&quot;Departure :&quot; + str(l))</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># logger.debug(&quot;Node &quot; + str(u) + &quot; departure :&quot; + str(nodes_departure_times[u]))</span>
+            <span class="c1"># logger.debug(&quot;Node &quot; + str(v) + &quot; departure :&quot; + str(nodes_departure_times[v]))</span>
+            <span class="k">if</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">remove_link_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                        <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                        <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">remove_link_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                        <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                        <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Splitting Procedure&quot;)</span>
+                <span class="c1"># In this procedure we can use the BFS to compute any kind of distance, which can be of use further on.</span>
+                <span class="n">cnt_id</span> <span class="o">=</span> <span class="n">split_procedure_cc</span><span class="p">(</span><span class="n">scc_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span>
+                                            <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span>
+                                            <span class="n">counter_id</span><span class="o">=</span><span class="n">cnt_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+        <span class="c1"># logger.debug(&quot;Current components :&quot;)</span>
+        <span class="c1"># for cc in local_components:</span>
+        <span class="c1">#     logger.debug(&quot;\t Times : &quot;+str(cc.times)+&quot; Nodes : &quot;+str(cc.nodes)+&quot; Links : &quot;+str(cc.links))</span>
+        <span class="c1"># logger.debug(&quot;&quot;)</span>
+    <span class="k">return</span> <span class="n">scc_stream</span></div>
+
+
+<div class="viewcode-block" id="split_procedure_cc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.split_procedure_cc">[docs]</a><span class="k">def</span> <span class="nf">split_procedure_cc</span><span class="p">(</span><span class="n">SCC_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">counter_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="c1">#######################</span>
+    <span class="c1"># Splitting procedure #</span>
+    <span class="c1">#######################</span>
+    <span class="k">if</span> <span class="n">R</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp</span><span class="p">)</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+            <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+                <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+                <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+            <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+        <span class="k">for</span> <span class="n">C</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">C</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+            <span class="n">C</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># set new begin time</span>
+            <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">counter_id</span></div>
+
+
+<div class="viewcode-block" id="remove_link_cc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.remove_link_cc">[docs]</a><span class="k">def</span> <span class="nf">remove_link_cc</span><span class="p">(</span><span class="n">SCC_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                   <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">counter_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1">#  By default we suppose that u is leaving.</span>
+    <span class="c1"># Remove the link, close the component</span>
+    <span class="k">if</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+        <span class="c1"># ADD a test for double departure, if a node is already gone, remove the other one.</span>
+        <span class="c1"># Close component, get rid of these motherfucking nodes</span>
+        <span class="c1"># logger.debug(&quot;\t !Double Departure : &quot; + str(l[0]))</span>
+        <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>  <span class="c1"># If there is less than 2 nodes clear the component</span>
+            <span class="k">if</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp</span><span class="p">)</span>
+                <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+                <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+                    <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+                    <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+                <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+            <span class="n">loc_comp</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Else double departure means a split</span>
+            <span class="c1"># logger.debug(&quot;\t !!Split!! : &quot; + str(l[0]))</span>
+            <span class="n">split_procedure_cc</span><span class="p">(</span><span class="n">SCC_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span>
+                               <span class="n">saving_path</span><span class="o">=</span><span class="n">saving_path</span><span class="p">,</span> <span class="n">counter_id</span><span class="o">=</span><span class="n">counter_id</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="n">id_wbc</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># logger.debug(&quot;Simple departure :&quot; + str(u))</span>
+        <span class="n">nckeep</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">nckeep</span><span class="p">]</span>
+        <span class="c1"># if loc_comp.times : # ???????????????????? To deal with simultaneous &quot;things&quot;</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp</span><span class="p">)</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+            <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+                <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+                <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+            <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+        <span class="n">loc_comp</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>  <span class="c1"># Remove node</span>
+        <span class="n">loc_comp</span><span class="o">.</span><span class="n">remove_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>  <span class="c1"># Remove Link</span>
+        <span class="n">loc_comp</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># Set begin time</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">counter_id</span></div>
+
+
+<div class="viewcode-block" id="merge_cc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.merge_cc">[docs]</a><span class="k">def</span> <span class="nf">merge_cc</span><span class="p">(</span><span class="n">SCC_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">counter_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ncu</span><span class="p">,</span> <span class="n">ncv</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">loc_comp1</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">loc_comp1</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp1</span><span class="p">)</span>
+        <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+        <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+            <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+        <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp2</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncv</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">loc_comp2</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp2</span><span class="p">)</span>
+        <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+        <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+            <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+        <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">loc_comp2</span><span class="p">)</span>  <span class="c1"># Actualize the 1st component and merge with 2nd one</span>
+    <span class="n">loc_comp1</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>
+    <span class="n">loc_comp1</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>  <span class="c1"># Add the current link</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">loc_comp2</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncu</span>  <span class="c1"># Actualize referencement before deletion of 2nd comp</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+    <span class="n">loc_comp2</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Clear second component</span>
+    <span class="k">return</span> <span class="n">counter_id</span></div>
+
+
+<div class="viewcode-block" id="link_update_cc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.link_update_cc">[docs]</a><span class="k">def</span> <span class="nf">link_update_cc</span><span class="p">(</span><span class="n">SCC_stream</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                   <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">saving_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">counter_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_wbc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">loc_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cop_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">loc_comp</span><span class="p">)</span>
+        <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+        <span class="k">if</span> <span class="n">saving_path</span><span class="p">:</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">id_wbc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter_id</span><span class="p">))</span>
+            <span class="n">counter_id</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">cop_comp</span><span class="o">.</span><span class="n">dump_link_presence</span><span class="p">(</span><span class="n">saving_path</span><span class="p">)</span>
+        <span class="n">SCC_stream</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">cop_comp</span><span class="p">)</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Input a new begining time</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">loc_comp</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>  <span class="c1"># Actualize the component (will add the node and the link)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncu</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">counter_id</span></div>
+
+
+<div class="viewcode-block" id="create_cc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.create_cc">[docs]</a><span class="k">def</span> <span class="nf">create_cc</span><span class="p">(</span><span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+              <span class="n">presents_nodes</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">connected_component</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t0</span><span class="p">],</span>
+                                                <span class="n">nodes</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]),</span>
+                                                <span class="n">links</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
+                                                <span class="n">link_presence</span><span class="o">=</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">{</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]})))</span></div>
+
+
+<span class="c1">#######################################################</span>
+<span class="c1">#           SCC with propagation</span>
+<span class="c1">########################################################</span>
+
+<div class="viewcode-block" id="propagation"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.propagation">[docs]</a><span class="k">def</span> <span class="nf">propagation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refactor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reverse_time</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># Start from a connected component</span>
+    <span class="c1">#  Step 1: Sort links in their order of appearance.</span>
+    <span class="c1"># Step 2: Grow each strongly connected component from the previous one, and keep track of minimum departure time.</span>
+    <span class="c1"># stop if one of the following is true :</span>
+    <span class="c1">#   C1 : A link appears containing a node from the current component and another</span>
+    <span class="c1">#   which does not belongs to the component. (entry test) &lt;- Cosntruct new scc with the new node</span>
+    <span class="c1">#   We only consider actived component, not sure whereas the C2 is mandatory.</span>
+    <span class="c1">#   C2 : A new link begin at a time superior to the minimum of departure times. (exit time).</span>
+    <span class="c1">#   &lt;- Construct a component from the new link.</span>
+    <span class="c1"># Stop the algorithm when the last link is analyzed.</span>
+
+    <span class="c1"># Reverse time, pour lancer l&#39;algo sur le stream graph inversé temporellement !</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_bounds_per_nodes</span><span class="p">()</span>
+    <span class="n">Neighborhood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighborhood_from_node_partition</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">w_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weakly_bounded_connected_components</span><span class="p">(</span><span class="n">Neighborhood</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">l_link_presence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_components</span><span class="p">(</span><span class="n">w_components</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="n">s_components</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Composante : Une liste de noeud, un temps de départ (fixe), un temps d&#39;arrêt (provisoire).</span>
+    <span class="k">for</span> <span class="n">wcc</span><span class="p">,</span> <span class="n">link_presence</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">w_components</span><span class="p">,</span> <span class="n">l_link_presence</span><span class="p">):</span>
+        <span class="c1"># sort links (inverse order, using pop on list)</span>
+        <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+            <span class="n">link_presence</span> <span class="o">=</span> <span class="p">[((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t0</span><span class="p">))</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span> <span class="ow">in</span>
+                             <span class="nb">zip</span><span class="p">(</span><span class="n">lp</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">lp</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])]</span>
+            <span class="n">link_presence</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">link_presence</span> <span class="o">=</span> <span class="p">[((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span> <span class="ow">in</span>
+                             <span class="nb">zip</span><span class="p">(</span><span class="n">lp</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">lp</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])]</span>
+            <span class="n">link_presence</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">presents_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># Nodes active at current time.</span>
+        <span class="n">local_components</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of current strongly connected components</span>
+        <span class="n">dict_node_2_component</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># dictionary associating a node to the local current component</span>
+        <span class="n">nodes_departure_times</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># Time of departure for each nodes</span>
+
+        <span class="k">while</span> <span class="n">link_presence</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">current_time</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Temps courant, arrivé du noeud.</span>
+            <span class="c1"># logger.debug(&quot;current link :&quot; + str((u, v)) + &quot;time :&quot; + str((t0, t1)))</span>
+            <span class="c1"># 0. Nouveau temps :</span>
+            <span class="c1">#   Terminer puis actualiser les composantes ayant un noeud qui se casse, (temps de départ &lt; current_time),</span>
+            <span class="c1">#    Terminer dans l&#39;ordre croissant des départs</span>
+            <span class="k">if</span> <span class="n">nodes_departure_times</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">leaving_test</span><span class="p">(</span><span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                  <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span>
+                                  <span class="n">reverse_time</span><span class="o">=</span><span class="n">reverse_time</span><span class="p">)</span>  <span class="c1"># while nodes_departure_times and nodes_departure_times.top() &lt; current_time:</span>
+            <span class="c1">#  Nouveau lien qui arrive !</span>
+            <span class="c1"># Possibilités :</span>
+            <span class="c1"># 1. On a vu aucun des deux noeuds  : -&gt; nouvelle composante</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">create_component</span><span class="p">(</span><span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                      <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="c1"># 2. On a vu un des deux noeuds mais pas l&#39;autre :</span>
+            <span class="c1"># -&gt; terminer puis actualiser la composante correspondante</span>
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_component</span><span class="p">(</span><span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span>
+                                      <span class="n">loc_comp</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span>
+                                      <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">reverse_time</span><span class="o">=</span><span class="n">reverse_time</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_component</span><span class="p">(</span><span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span>
+                                      <span class="n">loc_comp</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span>
+                                      <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">reverse_time</span><span class="o">=</span><span class="n">reverse_time</span><span class="p">)</span>
+
+            <span class="c1"># 3. On a vu les deux noeuds, 2 possibilités :</span>
+            <span class="c1">#   3.1 Les deux noeuds sont dans la même composantes &lt;- actualiser les temps de départ</span>
+            <span class="k">elif</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+
+            <span class="c1">#   3.2 Les deux noeuds sont dans des composantes différentes :</span>
+            <span class="c1">#  &lt;- terminer les deux composantes puis les fusionner</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">merge_and_update_components</span><span class="p">(</span><span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                                 <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+                                                 <span class="n">reverse_time</span><span class="o">=</span><span class="n">reverse_time</span><span class="p">)</span>
+
+        <span class="c1"># 4. deal with the reamining disappearation times</span>
+        <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d_time</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+                                    <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">d_time</span><span class="p">:</span>
+                    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+                    <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+                <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d_time</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+                <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">d_time</span><span class="p">:</span>
+                    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+                    <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+                <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+    <span class="c1"># REFORMAT</span>
+    <span class="k">if</span> <span class="n">refactor</span> <span class="ow">and</span> <span class="n">reverse_time</span><span class="p">:</span>
+        <span class="n">s_components</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">n</span><span class="p">,</span> <span class="n">scc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">scc</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">s_components</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">refactor</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">reverse_time</span><span class="p">:</span>
+        <span class="n">s_components</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">n</span><span class="p">,</span> <span class="n">scc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scc</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">s_components</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">s_components</span></div>
+
+<div class="viewcode-block" id="leaving_test"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.leaving_test">[docs]</a><span class="k">def</span> <span class="nf">leaving_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span>
+                 <span class="n">s_components</span><span class="p">,</span> <span class="n">reverse_time</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+        <span class="n">disp_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="n">current_time</span><span class="p">]</span>
+        <span class="n">disp_times</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disp_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">nodes_departure_times</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">current_time</span><span class="p">]</span>
+        <span class="n">disp_times</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d_time</span> <span class="ow">in</span> <span class="n">disp_times</span><span class="p">:</span>
+        <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">d_time</span><span class="p">:</span>
+            <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+            <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_time</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="merge_and_update_components"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.merge_and_update_components">[docs]</a><span class="k">def</span> <span class="nf">merge_and_update_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                <span class="n">s_components</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">reverse_time</span><span class="p">):</span>
+    <span class="n">loc_comp1</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_time</span>  <span class="c1"># Put an end time to 1st scc</span>
+    <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp1</span><span class="p">])</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp2</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span>
+    <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_time</span>  <span class="c1"># Put an end time to 2nd scc</span>
+    <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp2</span><span class="p">])</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|=</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Actualize the 1st component and merge with 2nd one</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_time</span>  <span class="c1"># Input a new begining time</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>  <span class="c1"># Actualize referencement</span>
+    <span class="c1"># del local_components[dict_node_2_component[v]]      # Del 2nd component</span>
+    <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="create_component"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.create_component">[docs]</a><span class="k">def</span> <span class="nf">create_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span>
+                     <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">set</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]),</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="update_component"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.update_component">[docs]</a><span class="k">def</span> <span class="nf">update_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">loc_comp</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span>
+                     <span class="n">s_components</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">reverse_time</span><span class="p">):</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_time</span>  <span class="c1"># Put an end time to the scc</span>
+    <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>  <span class="c1"># add to the list</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># Actualize the component</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_time</span>  <span class="c1"># Input a new begining time</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="k">if</span> <span class="n">reverse_time</span><span class="p">:</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span></div>
+
+
+
+
+<span class="c1"># def write_scc_to_parquet(scc,id_wcc,pqwriter = None):</span>
+<span class="c1">#</span>
+<span class="c1">#     if not scc.links:</span>
+<span class="c1">#         print(&quot;Empty SCC do not store !&quot;)</span>
+<span class="c1">#         return</span>
+<span class="c1">#     links_to_sort = [[t0,t1,u,v] for t0,t1,u,v in scc.links]</span>
+<span class="c1">#     links = sorted(links_to_sort, key=lambda x: x[2])   # Sort the link</span>
+<span class="c1">#</span>
+<span class="c1">#     id_arr = pa.array([[id_wcc,scc.id]])</span>
+<span class="c1">#     times_arr = pa.array([scc.times])</span>
+<span class="c1">#     links_arr = pa.array([links])</span>
+<span class="c1">#     # scc_table = pa.Table.from_arrays([id_arr, times_arr, links_arr], names=[&#39;id&#39;, &#39;times&#39;, &#39;links&#39;])</span>
+<span class="c1">#</span>
+<span class="c1">#     # D = pd.DataFrame({&#39;id&#39;:[[id_wcc,scc.id]],</span>
+<span class="c1">#     #                   &#39;times&#39;:[scc.times],</span>
+<span class="c1">#     #                   &#39;links&#39;:[links]})</span>
+<span class="c1">#     # scc_table = pa.Table.from_pandas(D,preserve_index=False)</span>
+<span class="c1">#     # pqwriter.write_table(scc_table)</span>
+<span class="c1">#</span>
+<span class="c1">#     scc_batch = pa.RecordBatch.from_arrays([id_arr, times_arr, links_arr], names=[&#39;id&#39;, &#39;times&#39;, &#39;links&#39;])</span>
+<span class="c1">#     pqwriter.write_batch(scc_batch)</span>
+
+
+
+<div class="viewcode-block" id="scc_v2"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.scc_v2">[docs]</a><span class="k">def</span> <span class="nf">scc_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refactor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scc_with_links</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_bounds_per_nodes</span><span class="p">()</span>
+    <span class="n">Neighborhood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighborhood_from_node_partition</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">w_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weakly_bounded_connected_components</span><span class="p">(</span><span class="n">Neighborhood</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">l_link_presence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_links_components</span><span class="p">(</span><span class="n">w_components</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="n">s_components</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Composante : Une liste de noeud, un temps de départ (fixe), un temps d&#39;arrêt (provisoire)</span>
+    <span class="c1"># , une liste de liens</span>
+    <span class="k">for</span> <span class="n">wcc</span><span class="p">,</span> <span class="n">link_presence</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">w_components</span><span class="p">,</span> <span class="n">l_link_presence</span><span class="p">):</span>
+        <span class="c1"># code each link, 1 for a beginning, -1 for an ending</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lp</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lp</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">lp</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span>  <span class="c1"># Little trick overhere</span>
+                <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">t1</span><span class="p">))</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">code</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">l</span>
+        <span class="n">code</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">l</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="n">code</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="n">links</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">links</span><span class="p">))</span>
+
+        <span class="n">presents_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># Nodes active at current time.</span>
+        <span class="n">local_components</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of current strongly connected components</span>
+        <span class="n">dict_node_2_component</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># dictionary associating a node to the local current component</span>
+        <span class="n">nodes_departure_times</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>  <span class="c1"># Time of departure for each nodes</span>
+        <span class="n">l_components_links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">links</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">links</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="c1"># logger.debug(&quot;Arrival :&quot;+str(l))</span>
+                <span class="c1">#  En cas d&#39;arrivée, 4 sous cas :</span>
+                <span class="c1"># 1. Creation</span>
+                <span class="c1"># 2. Add a node</span>
+                <span class="c1"># 3. Merge</span>
+                <span class="c1"># 4. Update times</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                    <span class="c1"># logger.debug(&quot;Create Component&quot;)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">create_component_v2</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                             <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                    <span class="c1"># logger.debug(&quot;Add a node :&quot;+str(v))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_node_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                      <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">presents_nodes</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">presents_nodes</span><span class="p">:</span>
+                    <span class="c1"># logger.debug(&quot;Add a node :&quot;+str(u))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_node_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                      <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                    <span class="c1"># logger.debug(&quot;Merge two components&quot;)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">merge_and_update_components_v2</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                                                        <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># logger.debug(&quot;Update node&#39;s departure times&quot;)</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+                    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+                    <span class="c1"># logger.debug(&quot;Node &quot; + str(u) + &quot; departure :&quot; + str(nodes_departure_times[u]))</span>
+                    <span class="c1"># logger.debug(&quot;Node &quot; + str(v) + &quot; departure :&quot; + str(nodes_departure_times[v]))</span>
+                    <span class="n">l_components_links</span><span class="p">[</span><span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># logger.debug(&quot;Departure :&quot;+str(l))</span>
+                <span class="c1"># En cas de départ, 2 sous cas:</span>
+                <span class="c1"># 1. simple départ d&#39;un des noeuds (check set des départs)</span>
+                <span class="c1"># 2. Split de la composante, lancer une BFS sur une des extrémités,</span>
+                <span class="c1"># 2.1 Si l&#39;autre extrémité est dans la résultante component, do nothing.</span>
+                <span class="c1"># 2.2 sinon conserver le résultat et lancer une autre BFS sur l&#39;autre extrémité &lt;- 2 composantes.</span>
+                <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># logger.debug(&quot;Node &quot;+str(u)+&quot; departure :&quot; + str(nodes_departure_times[u]))</span>
+                <span class="c1"># logger.debug(&quot;Node &quot;+str(v)+&quot; departure :&quot; + str(nodes_departure_times[v]))</span>
+                <span class="c1">#######################</span>
+                <span class="c1"># BAIL : BLACK MAGIC  #</span>
+                <span class="c1">#######################</span>
+                <span class="k">if</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_node_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                         <span class="n">presents_nodes</span><span class="p">,</span>
+                                         <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remove_node_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                         <span class="n">presents_nodes</span><span class="p">,</span>
+                                         <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># logger.debug(&quot;Splitting Procedure&quot;)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">splitting_procedure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span>
+                                             <span class="n">l_components_links</span><span class="p">)</span>
+        <span class="c1">#     logger.debug(&quot;current loc comp :&quot; + str(local_components))</span>
+        <span class="c1">#     logger.debug(&quot;current comp links :&quot; + str(l_components_links))</span>
+        <span class="c1">#     logger.debug(&quot;current SCC :&quot; + str(s_components))</span>
+        <span class="c1">#     logger.debug(&quot;\n&quot;)</span>
+        <span class="c1"># logger.debug(&quot;#####################################&quot;)</span>
+    <span class="k">if</span> <span class="n">refactor</span><span class="p">:</span>
+        <span class="n">s_components</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">n</span><span class="p">,</span> <span class="n">scc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scc</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">s_components</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">scc_with_links</span><span class="p">:</span>
+        <span class="c1"># PIMP DAT SHIT</span>
+        <span class="k">return</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s_components</span></div>
+
+
+<div class="viewcode-block" id="create_component_v2"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.create_component_v2">[docs]</a><span class="k">def</span> <span class="nf">create_component_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span>
+                        <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">set</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]),</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">])</span>
+    <span class="n">l_components_links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span></div>
+
+
+<div class="viewcode-block" id="add_node_scc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.add_node_scc">[docs]</a><span class="k">def</span> <span class="nf">add_node_scc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node2add</span><span class="p">,</span> <span class="n">node_already_present</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                 <span class="n">nodes_departure_times</span><span class="p">,</span>
+                 <span class="n">presents_nodes</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ncpresent</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node_already_present</span><span class="p">]</span>
+    <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncpresent</span><span class="p">]</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Put an end time to the scc</span>
+    <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+        <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>  <span class="c1"># add to the list</span>
+    <span class="n">presents_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node2add</span><span class="p">)</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node2add</span><span class="p">)</span>  <span class="c1"># Actualize the component</span>
+    <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Input a new begining time</span>
+    <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node2add</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncpresent</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">node2add</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">node_already_present</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">node_already_present</span><span class="p">])</span>
+    <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncpresent</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="merge_and_update_components_v2"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.merge_and_update_components_v2">[docs]</a><span class="k">def</span> <span class="nf">merge_and_update_components_v2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">,</span>
+                                   <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ncu</span><span class="p">,</span> <span class="n">ncv</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">loc_comp1</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Put an end time to 1st scc</span>
+    <span class="k">if</span> <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+        <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp1</span><span class="p">])</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp2</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncv</span><span class="p">]</span>
+    <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Put an end time to 2nd scc</span>
+    <span class="k">if</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+        <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp2</span><span class="p">])</span>  <span class="c1"># Add it to the list</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|=</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Actualize the 1st component and merge with 2nd one</span>
+    <span class="n">loc_comp1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># Input a new begining time</span>
+    <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span> <span class="o">|=</span> <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncv</span><span class="p">]</span>  <span class="c1"># Merge links</span>
+    <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Add current link</span>
+    <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncv</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Clear useless links in 2nd comp</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">loc_comp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncu</span>  <span class="c1"># Actualize referencement before deletion of 2nd comp</span>
+    <span class="n">loc_comp2</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Clear now useless 2nd component</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+    <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">u</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="remove_node_scc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.remove_node_scc">[docs]</a><span class="k">def</span> <span class="nf">remove_node_scc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node2remove</span><span class="p">,</span> <span class="n">node2keep</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span>
+                    <span class="n">nodes_departure_times</span><span class="p">,</span> <span class="n">presents_nodes</span><span class="p">,</span>
+                    <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="c1"># Remove the link, close the component</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">nodes_departure_times</span><span class="p">[</span><span class="n">node2keep</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>
+        <span class="c1"># ADD a test for double departure, if a node is already gone, remove the other one.</span>
+        <span class="c1"># Close component, get rid of these motherfucking nodes</span>
+        <span class="c1"># logger.debug(&quot;\t !Double Departure : &quot; + str(l[0]))</span>
+        <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node2keep</span><span class="p">]</span>
+        <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+            <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2keep</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2remove</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2keep</span><span class="p">)</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2remove</span><span class="p">)</span>
+        <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># logger.debug(&quot;\t !!Special Split!! : &quot; + str(l[0]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">special_split</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># logger.debug(&quot;Simple departure :&quot; + str(node2remove))</span>
+        <span class="n">nckeep</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node2keep</span><span class="p">]</span>
+        <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">nckeep</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+            <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2remove</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+        <span class="n">l_components_links</span><span class="p">[</span><span class="n">nckeep</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">presents_nodes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node2remove</span><span class="p">)</span></div>
+
+    <span class="c1"># BEGIN BFS</span>
+
+
+<div class="viewcode-block" id="BFS_scc"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.BFS_scc">[docs]</a><span class="k">def</span> <span class="nf">BFS_scc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edgelist</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">special_split</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># CUSTOM BFS</span>
+    <span class="c1"># In a component which is being splitted, the output can</span>
+    <span class="c1"># only be 1 or 2 components.</span>
+    <span class="c1"># If at any moment u and v find themselves in the same component &lt;- stop</span>
+    <span class="n">comp_bfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">link_comp_bfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">present_nodes_bfs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">dict_node_2_component_bfs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">edgelist</span><span class="p">:</span>
+        <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">l</span>
+        <span class="c1"># logger.debug(&quot;\t current link : &quot;+str(l))</span>
+        <span class="k">if</span> <span class="n">n1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span> <span class="ow">and</span> <span class="n">n2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span><span class="p">:</span>
+            <span class="c1"># logger.debug(&quot;\t Create comp&quot;)</span>
+            <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_bfs</span><span class="p">)</span>
+            <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_bfs</span><span class="p">)</span>
+            <span class="n">comp_bfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">]))</span>
+            <span class="n">link_comp_bfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">l</span><span class="p">]))</span>
+            <span class="n">present_nodes_bfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+            <span class="n">present_nodes_bfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">n1</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span> <span class="ow">and</span> <span class="n">n2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span><span class="p">:</span>
+            <span class="c1"># logger.debug(&quot;\t ADD &quot;+str(n2)+&quot; in &quot;+str(n1)+&quot; component&quot;)</span>
+            <span class="n">nc1</span> <span class="o">=</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">]</span>
+            <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc1</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc1</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n2</span><span class="p">]</span> <span class="o">=</span> <span class="n">nc1</span>
+            <span class="n">present_nodes_bfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">n1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span> <span class="ow">and</span> <span class="n">n2</span> <span class="ow">in</span> <span class="n">present_nodes_bfs</span><span class="p">:</span>
+            <span class="c1"># logger.debug(&quot;\t ADD &quot;+str(n1)+&quot; in &quot;+str(n2)+&quot; component&quot;)</span>
+            <span class="n">nc2</span> <span class="o">=</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n2</span><span class="p">]</span>
+            <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nc2</span>
+            <span class="n">present_nodes_bfs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n2</span><span class="p">]:</span>
+            <span class="c1"># logger.debug(&quot;\t Merge &quot;+str(n2)+&quot; component into &quot;+str(n1)+&quot; component&quot;)</span>
+            <span class="n">nc1</span><span class="p">,</span> <span class="n">nc2</span> <span class="o">=</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">],</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n2</span><span class="p">]</span>
+            <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc1</span><span class="p">]</span> <span class="o">|=</span> <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc1</span><span class="p">]</span> <span class="o">|=</span> <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc1</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]:</span>
+                <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">nc1</span>
+            <span class="n">comp_bfs</span><span class="p">[</span><span class="n">nc2</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">n1</span><span class="p">]]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="c1"># Test if we can stop the bfs_with_path</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">dict_node_2_component_bfs</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_node_2_component_bfs</span> <span class="ow">and</span> \
+                <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="c1"># logger.debug(&quot;\t Test succesfull : &quot; + str(u) + &quot;is with &quot; + str(v))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1"># logger.debug(&quot;\t comp bfs_with_path : &quot; + str(comp_bfs))</span>
+    <span class="c1"># logger.debug(&quot;\t link bfs_with_path : &quot; + str(link_comp_bfs))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">special_split</span><span class="p">:</span>
+        <span class="n">ncu</span><span class="p">,</span> <span class="n">ncv</span> <span class="o">=</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">dict_node_2_component_bfs</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">comp_bfs</span><span class="p">[</span><span class="n">ncu</span><span class="p">],</span> <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">ncu</span><span class="p">],</span> <span class="n">comp_bfs</span><span class="p">[</span><span class="n">ncv</span><span class="p">],</span> <span class="n">link_comp_bfs</span><span class="p">[</span><span class="n">ncv</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">comp_bfs</span><span class="p">,</span> <span class="n">link_comp_bfs</span></div>
+
+
+<div class="viewcode-block" id="splitting_procedure"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.splitting_procedure">[docs]</a><span class="k">def</span> <span class="nf">splitting_procedure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">s_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="c1"># In this procedure we can use the BFS to compute any kind of distance, which can be of use further on.</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">loc_links</span> <span class="o">=</span> <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">loc_links</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BFS_scc</span><span class="p">(</span><span class="n">loc_links</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">set1</span><span class="p">,</span> <span class="n">link1</span><span class="p">,</span> <span class="n">set2</span><span class="p">,</span> <span class="n">link2</span> <span class="o">=</span> <span class="n">R</span>  <span class="c1"># There is a test to make sure, u is in set1 and thus v in set2</span>
+        <span class="c1"># logger.debug(&quot;Split indeed&quot;)</span>
+        <span class="c1"># Close previous comp</span>
+        <span class="k">if</span> <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+            <span class="n">s_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">loc_comp</span><span class="p">])</span>
+        <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span> <span class="o">=</span> <span class="n">link1</span>
+        <span class="c1"># Replace the current component by the first member of the split</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">set1</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+        <span class="n">loc_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+        <span class="c1"># Create a New Component and actualize index</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">set2</span><span class="p">:</span>
+            <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+        <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">set2</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t1</span><span class="p">])</span>
+        <span class="n">l_components_links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link2</span><span class="p">)</span></div>
+    <span class="c1"># else:</span>
+    <span class="c1">#     logger.debug(&quot;No split effectued&quot;)</span>
+
+
+<div class="viewcode-block" id="special_split"><a class="viewcode-back" href="../../../straph.wrack.html#straph.wrack.scc_old.special_split">[docs]</a><span class="k">def</span> <span class="nf">special_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">dict_node_2_component</span><span class="p">,</span> <span class="n">local_components</span><span class="p">,</span> <span class="n">l_components_links</span><span class="p">):</span>
+    <span class="c1"># In this procedure we can use the BFS to compute any kind of distance, which can be of use further on.</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ncu</span> <span class="o">=</span> <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">loc_comp</span> <span class="o">=</span> <span class="n">local_components</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">loc_links</span> <span class="o">=</span> <span class="n">l_components_links</span><span class="p">[</span><span class="n">ncu</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BFS_scc</span><span class="p">(</span><span class="n">loc_links</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">special_split</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">l_set</span><span class="p">,</span> <span class="n">l_links</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l_set</span><span class="p">,</span> <span class="n">l_links</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+                <span class="n">dict_node_2_component</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_components</span><span class="p">)</span>
+            <span class="n">local_components</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t1</span><span class="p">])</span>
+            <span class="n">l_components_links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">loc_comp</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">loc_links</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

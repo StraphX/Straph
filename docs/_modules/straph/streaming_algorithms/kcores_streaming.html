@@ -1,0 +1,613 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.streaming_algorithms.kcores_streaming &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.streaming_algorithms.kcores_streaming</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.streaming_algorithms.kcores_streaming</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">msgpack</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="k">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">from</span> <span class="nn">straph.utils</span> <span class="k">import</span> <span class="n">profile_shit</span>
+
+
+<div class="viewcode-block" id="algo_kcores_batagelj"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.algo_kcores_batagelj">[docs]</a><span class="k">def</span> <span class="nf">algo_kcores_batagelj</span><span class="p">(</span><span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">core_ordering</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compute k_cores of a static graph from its adjacency list and nodes degrees</span>
+<span class="sd">    :return: the core number of each node in the graph</span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    [1] An O(m) Algorithm for Cores Decomposition of Networks</span>
+<span class="sd">    Vladimir Batagelj and Matjaz Zaversnik, 2003.</span>
+<span class="sd">    http://arxiv.org/abs/cs.DS/0310049</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">core_ordering</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">bin</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sorted_nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">degrees</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+    <span class="n">curr_degree</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_nodes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">degrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">curr_degree</span><span class="p">:</span>
+            <span class="nb">bin</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">degrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-</span> <span class="n">curr_degree</span><span class="p">))</span>
+            <span class="n">curr_degree</span> <span class="o">=</span> <span class="n">degrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="n">node_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">pos</span> <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_nodes</span><span class="p">)}</span>
+    <span class="n">cores</span> <span class="o">=</span> <span class="n">degrees</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sorted_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">a_l</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">cores</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cores</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                <span class="n">a_l</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">node_pos</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+                <span class="n">bin_start</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">[</span><span class="n">cores</span><span class="p">[</span><span class="n">w</span><span class="p">]]</span>
+                <span class="n">node_pos</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_start</span>
+                <span class="n">node_pos</span><span class="p">[</span><span class="n">sorted_nodes</span><span class="p">[</span><span class="n">bin_start</span><span class="p">]]</span> <span class="o">=</span> <span class="n">pos</span>
+                <span class="n">sorted_nodes</span><span class="p">[</span><span class="n">bin_start</span><span class="p">],</span> <span class="n">sorted_nodes</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_nodes</span><span class="p">[</span><span class="n">pos</span><span class="p">],</span> <span class="n">sorted_nodes</span><span class="p">[</span><span class="n">bin_start</span><span class="p">]</span>
+                <span class="nb">bin</span><span class="p">[</span><span class="n">cores</span><span class="p">[</span><span class="n">w</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">cores</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">core_ordering</span><span class="p">:</span>
+            <span class="n">ordering</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ordering</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">core_ordering</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cores</span><span class="p">,</span> <span class="n">ordering</span>
+    <span class="k">return</span> <span class="n">cores</span></div>
+
+
+<div class="viewcode-block" id="KC_list"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.KC_list">[docs]</a><span class="k">def</span> <span class="nf">KC_list</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">a_l</span><span class="p">,</span> <span class="n">node_label</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[],</span> <span class="n">R</span><span class="o">=</span><span class="p">[],</span> <span class="n">DEBUG</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compute k_cliques of a static graph from its core odering dag.</span>
+<span class="sd">    :param k: The parameter k, number of nodes in the considered cliques</span>
+<span class="sd">    :param a_l: Adjacency list of the core ordering dag</span>
+<span class="sd">    :param node_label: label of each node</span>
+<span class="sd">    :param C: List of current cliques</span>
+<span class="sd">    :param R: List of completed cliques</span>
+<span class="sd">    :param DEBUG:</span>
+<span class="sd">    :return: The k_cliques of the graph.</span>
+<span class="sd">    References</span>
+<span class="sd">    ---------</span>
+<span class="sd">    [2] Listing k-cliques in Sparse Real-World Graphs</span>
+<span class="sd">    Maximilien Danisch, et al., 2018</span>
+<span class="sd">    https://dl.acm.org/citation.cfm?id=3186125</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">node_label</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                <span class="c1"># print(&quot; u : &quot;, u)</span>
+                <span class="c1"># print(&quot; current C :&quot;, C)</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node_label</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">node_label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                            <span class="c1"># print(&quot;\t v : &quot;,v)</span>
+                            <span class="n">final_C</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+                            <span class="c1"># print(&quot;\t final C:&quot;,final_C)</span>
+                            <span class="n">R</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">final_C</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">node_label</span><span class="p">:</span>
+            <span class="c1"># INDUCED NODES</span>
+            <span class="n">new_node_label</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                <span class="c1"># if DEBUG:</span>
+                <span class="c1">#     print(&quot; u :&quot;, u)</span>
+                <span class="c1">#     print(&quot; node label :&quot;, node_label)</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                    <span class="c1"># if DEBUG:</span>
+                    <span class="c1">#     print(&quot;\t v :&quot;,v)</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node_label</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">node_label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                            <span class="n">new_node_label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="c1"># if DEBUG:</span>
+                <span class="c1">#     print(&quot;\t new node label :&quot;,new_node_label)</span>
+                <span class="c1"># RECURSION</span>
+                <span class="n">new_C</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                <span class="c1"># if DEBUG:</span>
+                <span class="c1">#     print(&quot;\t new C :&quot;,new_C)</span>
+                <span class="k">if</span> <span class="n">new_node_label</span><span class="p">:</span>
+                    <span class="n">KC_list</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_l</span><span class="p">,</span> <span class="n">new_node_label</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">new_C</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">DEBUG</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="neighborhood_and_degrees_from_links"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.neighborhood_and_degrees_from_links">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_and_degrees_from_links</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">links</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">    :param t0:</span>
+<span class="sd">    :param t1:</span>
+<span class="sd">    :param links:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">a_l</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_l</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">a_l</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span></div>
+
+
+<div class="viewcode-block" id="para_core"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.para_core">[docs]</a><span class="k">def</span> <span class="nf">para_core</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">interact_times</span><span class="p">,</span> <span class="n">inter_links</span><span class="p">,</span> <span class="n">time_2_pos</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">interact_times</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">interact_times</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">current_links</span> <span class="o">=</span> <span class="n">inter_links</span><span class="p">[</span><span class="n">time_2_pos</span><span class="p">[</span><span class="n">t0</span><span class="p">]]</span>
+    <span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span> <span class="o">=</span> <span class="n">neighborhood_and_degrees_from_links</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">current_links</span><span class="p">)</span>
+    <span class="n">cores</span> <span class="o">=</span> <span class="n">algo_kcores_batagelj</span><span class="p">(</span><span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span><span class="p">)</span>  <span class="c1"># Algo Batelgej</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cores</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">cores</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+<div class="viewcode-block" id="para_core_clique"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.para_core_clique">[docs]</a><span class="k">def</span> <span class="nf">para_core_clique</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">interact_times</span><span class="p">,</span> <span class="n">inter_links</span><span class="p">,</span> <span class="n">time_2_pos</span><span class="p">,</span> <span class="n">DEBUG</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># K-Cores</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">interact_times</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">interact_times</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">current_links</span> <span class="o">=</span> <span class="n">inter_links</span><span class="p">[</span><span class="n">time_2_pos</span><span class="p">[</span><span class="n">t0</span><span class="p">]]</span>
+    <span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span> <span class="o">=</span> <span class="n">neighborhood_and_degrees_from_links</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">current_links</span><span class="p">)</span>
+    <span class="n">cores</span><span class="p">,</span> <span class="n">core_ordering</span> <span class="o">=</span> <span class="n">algo_kcores_batagelj</span><span class="p">(</span><span class="n">a_l</span><span class="p">,</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">core_ordering</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Algo Batelgej</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cores</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">cores</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="n">max_core_number</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">cores</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">cliques</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">a_l</span> <span class="o">=</span> <span class="n">get_graph_from_ordering</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">current_links</span><span class="p">,</span> <span class="n">core_ordering</span><span class="p">)</span>
+    <span class="k">while</span>  <span class="n">K</span> <span class="o">&lt;=</span> <span class="n">max_core_number</span> <span class="o">+</span><span class="mi">1</span> <span class="p">:</span>
+        <span class="n">node_label</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">K</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">})</span>
+        <span class="n">cliques</span><span class="p">[</span><span class="n">K</span><span class="p">]</span> <span class="o">=</span> <span class="n">KC_list</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">a_l</span><span class="p">,</span> <span class="n">node_label</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="p">[],</span> <span class="n">DEBUG</span><span class="o">=</span><span class="n">DEBUG</span><span class="p">)</span>
+        <span class="n">K</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="c1"># if max_core_number + 1 &gt;=3:</span>
+    <span class="c1">#     K = 3</span>
+    <span class="c1">#     a_l = get_graph_from_ordering(t0, t1, current_links, core_ordering)</span>
+    <span class="c1">#     node_label = defaultdict(int, {n: K for n in degrees})</span>
+    <span class="c1">#     cliques[K] = KC_list(K, a_l, node_label, R=[], DEBUG=DEBUG)</span>
+    <span class="c1">#     # print(K,&quot; CLIQUES :&quot;,cliques[K])</span>
+    <span class="c1">#     if max_core_number + 1 &gt;= 4:</span>
+    <span class="c1">#         K = 4</span>
+    <span class="c1">#         node_label = defaultdict(int, {n: K for n in degrees})</span>
+    <span class="c1">#         cliques[K] = KC_list(K, a_l, node_label, R=[], DEBUG=DEBUG)</span>
+    <span class="c1">#         # print(K,&quot; CLIQUES :&quot;,cliques[K])</span>
+    <span class="c1">#         if max_core_number + 1 &gt;= 5:</span>
+    <span class="c1">#             K = 5</span>
+    <span class="c1">#             node_label = defaultdict(int, {n: K for n in degrees})</span>
+    <span class="c1">#             cliques[K] = KC_list(K, a_l, node_label, R=[], DEBUG=DEBUG)</span>
+    <span class="c1">#             # print(K,&quot; CLIQUES :&quot;,cliques[K])</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">cliques</span></div>
+
+
+<div class="viewcode-block" id="get_kcores"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.get_kcores">[docs]</a><span class="k">def</span> <span class="nf">get_kcores</span><span class="p">(</span><span class="n">scc</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">,</span> <span class="n">storage_kcliques</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span> <span class="o">=</span> <span class="n">scc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">scc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">id_wcc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">id_scc</span> <span class="o">%</span> <span class="mi">100000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">id_scc</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;id wcc :&quot;</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="s2">&quot;id scc :&quot;</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scc :&quot;</span><span class="p">,</span> <span class="n">scc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">scc</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">scc</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">storage_kcliques</span><span class="p">:</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">link_presence</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">scc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">scc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">times</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">link_presence</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">j</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">link_presence</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">storage_kcliques</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_presence</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span>
+        <span class="c1">#L[1] = [(times, u), (times, v)]</span>
+        <span class="c1">#C[2] = L[1]</span>
+        <span class="c1"># store_kcores(L, id_wcc, id_scc, storage_kcores)</span>
+        <span class="c1"># store_kcliques(C, id_wcc, id_scc, storage_kcliques)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_presence</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span>
+        <span class="c1">#L[1] = [(times, u), (times, v)]</span>
+        <span class="c1"># store_kcores(L, id_wcc, id_scc, storage_kcores)</span>
+    <span class="n">interact_times</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]))</span>
+
+    <span class="n">time_2_pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">interact_times</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">interact_times</span><span class="p">)))}</span>
+    <span class="n">inter_links</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">interact_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">link_presence</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">lp0</span><span class="p">,</span> <span class="n">lp1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">link_presence</span><span class="p">[</span><span class="n">l</span><span class="p">][::</span><span class="mi">2</span><span class="p">],</span> <span class="n">link_presence</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_2_pos</span><span class="p">[</span><span class="n">lp0</span><span class="p">],</span> <span class="n">time_2_pos</span><span class="p">[</span><span class="n">lp1</span><span class="p">]):</span>
+                <span class="n">inter_links</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">storage_kcliques</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">para_core_clique</span><span class="p">)(</span><span class="n">i</span><span class="p">,</span> <span class="n">interact_times</span><span class="p">,</span> <span class="n">inter_links</span><span class="p">,</span> <span class="n">time_2_pos</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">interact_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span>
+        <span class="n">store_kcores</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">)</span>
+        <span class="n">store_kcliques</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">storage_kcliques</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">para_core</span><span class="p">)(</span><span class="n">i</span><span class="p">,</span> <span class="n">interact_times</span><span class="p">,</span> <span class="n">inter_links</span><span class="p">,</span> <span class="n">time_2_pos</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">interact_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">l</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span>
+        <span class="n">store_kcores</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="store_kcliques"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.store_kcliques">[docs]</a><span class="k">def</span> <span class="nf">store_kcliques</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">storage_kcliques</span><span class="p">):</span>
+    <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">(</span><span class="n">use_bin_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+            <span class="c1"># print(&quot;k :&quot;,k,&quot; C[k] :&quot;,C[k])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])):</span>
+                <span class="n">t0</span><span class="p">,</span><span class="n">t1</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+                <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="nb">tuple</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span>
+            <span class="n">storage_kcliques</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">(((</span><span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">),</span> <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span></div>
+
+
+<div class="viewcode-block" id="store_kcores"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.store_kcores">[docs]</a><span class="k">def</span> <span class="nf">store_kcores</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">):</span>
+    <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">(</span><span class="n">use_bin_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">storage_kcores</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">(((</span><span class="n">id_wcc</span><span class="p">,</span> <span class="n">id_scc</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span></div>
+
+
+<div class="viewcode-block" id="kcores_from_sccs"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.kcores_from_sccs">[docs]</a><span class="k">def</span> <span class="nf">kcores_from_sccs</span><span class="p">(</span><span class="n">path_scc</span><span class="p">,</span> <span class="n">storage_kcores</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">storage_kcliques</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">storage_kcores</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">storage_kcliques</span><span class="p">:</span>
+        <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">storage_kcliques</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># t_begin =time.time()</span>
+    <span class="c1">##############</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+    <span class="c1">#############</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_scc</span> <span class="o">+</span> <span class="s1">&#39;scc.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcores</span> <span class="o">+</span> <span class="s1">&#39;kcores.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_kcores</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">storage_kcliques</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcliques</span> <span class="o">+</span> <span class="s1">&#39;kcliques.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_kcliques</span><span class="p">:</span>
+                <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="s1">&#39;r+&#39;</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">get_kcores</span><span class="p">)(</span><span class="n">scc</span><span class="p">,</span> <span class="n">output_kcores</span><span class="p">,</span> <span class="n">output_kcliques</span><span class="p">)</span>
+                                                        <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="s1">&#39;r+&#39;</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">get_kcores</span><span class="p">)(</span><span class="n">scc</span><span class="p">,</span> <span class="n">output_kcores</span><span class="p">)</span>
+                                                    <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">)</span>
+    <span class="c1">##############</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span></div>
+    <span class="c1">#############</span>
+
+
+<div class="viewcode-block" id="get_graph_from_ordering"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.get_graph_from_ordering">[docs]</a><span class="k">def</span> <span class="nf">get_graph_from_ordering</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">ordering</span><span class="p">):</span>
+    <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ordering</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ordering</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+            <span class="n">a_l</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ordering</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ordering</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="n">a_l</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a_l</span></div>
+
+
+<div class="viewcode-block" id="refactoring_kcores"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.refactoring_kcores">[docs]</a><span class="k">def</span> <span class="nf">refactoring_kcores</span><span class="p">(</span><span class="n">storage_kcores</span><span class="p">,</span> <span class="n">refactor_storage</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    To regroup (merge) temporal nodes by their core number</span>
+<span class="sd">    :param storage_kcores: output of kcores_from_sccs</span>
+<span class="sd">    :param refactor_storage: final output of post process kcores</span>
+<span class="sd">    :return: A file with post process kcores</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcores</span> <span class="o">+</span> <span class="s1">&#39;kcores.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">refactor_storage</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">opt</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="n">ipt</span><span class="p">)</span>
+        <span class="n">node_2_status</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># core number : [first time, last time]</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="n">current_k</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">j</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">:</span>  <span class="c1"># INIT</span>
+                    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">current_k</span><span class="p">:</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]}</span>
+                <span class="k">elif</span> <span class="n">current_k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">t0</span><span class="p">:</span>  <span class="c1"># MERGE</span>
+                    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>  <span class="c1"># Extend t1</span>
+                <span class="k">elif</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>  <span class="c1"># MERGE</span>
+                    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>  <span class="c1"># EXtend t0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">current_k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">u</span><span class="p">))</span>
+                    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">current_k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">:</span>  <span class="c1"># LAST PASS</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">u</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">L</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span></div>
+
+
+<div class="viewcode-block" id="refactoring_kcliques"><a class="viewcode-back" href="../../../straph.streaming_algorithms.html#straph.streaming_algorithms.kcores_streaming.refactoring_kcliques">[docs]</a><span class="k">def</span> <span class="nf">refactoring_kcliques</span><span class="p">(</span><span class="n">storage_kcliques</span><span class="p">,</span> <span class="n">refactor_storage</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    To regroup (merge) temporal cliques</span>
+<span class="sd">    :param storage_kcliques: output of kcliques_from_sccs</span>
+<span class="sd">    :param refactor_storage: final output of post process kcliques</span>
+<span class="sd">    :return: A file with post process kcliques</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">packer</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Packer</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">storage_kcliques</span> <span class="o">+</span> <span class="s1">&#39;kcliques.scf&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">refactor_storage</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">opt</span><span class="p">:</span>
+        <span class="n">unpacker</span> <span class="o">=</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">Unpacker</span><span class="p">(</span><span class="n">ipt</span><span class="p">,</span><span class="n">use_list</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">clique_2_status</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># clique (u,v,w,...) : [first time, last time]</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">unpacker</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">clique</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">clique</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">current_clique</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">clique</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="n">current_clique</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clique_2_status</span><span class="p">:</span>
+                    <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">t0</span><span class="p">:</span>  <span class="c1"># MERGE and extend t1</span>
+                    <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+                <span class="k">elif</span> <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">:</span>  <span class="c1"># MERGE and extend t0</span>
+                    <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">t0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">current_clique</span><span class="p">]</span> <span class="o">+=</span> <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">]</span>
+                    <span class="n">clique_2_status</span><span class="p">[</span><span class="n">current_clique</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">clique</span> <span class="ow">in</span> <span class="n">clique_2_status</span><span class="p">:</span>  <span class="c1"># LAST PASS</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">clique</span><span class="p">]</span> <span class="o">+=</span> <span class="n">clique_2_status</span><span class="p">[</span><span class="n">clique</span><span class="p">]</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">v</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">C</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">packer</span><span class="o">.</span><span class="n">pack</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/2018/04/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;20180418&quot;</span>
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Socio_Patterns/Workplace/&quot;</span>
+    <span class="c1"># __file__ = &quot;Workplace&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Socio_Patterns/High_School_2012/&quot;</span>
+    <span class="c1"># __file__ = &quot;High_School_2012&quot;</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/Rollernet/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;Crawdad&quot;</span>
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Infocom/&quot;</span>
+    <span class="c1"># __file__ = &quot;infocom&quot;</span>
+
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_otc/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;bitcoin_otc&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_alpha/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;bitcoin_alpha&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/CollegeMsg/&quot;</span>
+    <span class="c1"># __file__ = &quot;CollegeMsg&quot;</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/Enron/&quot;</span>
+    <span class="c1"># __file__ = &quot;enron&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/parse_net/11September/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;Days&quot;</span>
+
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/askubuntu/&quot;</span>  <span class="c1"># LIP6</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;askubuntu&quot;</span> <span class="c1"># Open With Crawdad</span>
+
+    <span class="c1"># __directory__ = &quot;/home/leo/Dev/Data_Stream/DBLP/&quot;  # LIP6</span>
+    <span class="c1"># __file__ = &quot;dblp&quot; # Open With Crawdad</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/Socio_Patterns/High_School_2013/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;High_School_2013&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/example_paper/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span><span class="s2">&quot;example_paper&quot;</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/ITS/&quot;</span>
+    <span class="n">__filedate__</span> <span class="o">=</span> <span class="s2">&quot;Suricata&quot;</span>
+
+    <span class="n">storage_path_wcc</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_wcc_storage/&quot;</span>
+    <span class="n">storage_path_scc</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_scc_storage/&quot;</span>
+    <span class="n">storage_path_kcores</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_kcores_storage/&quot;</span>
+    <span class="n">storage_path_kcliques</span> <span class="o">=</span> <span class="n">__directory__</span> <span class="o">+</span> <span class="n">__filedate__</span> <span class="o">+</span> <span class="s2">&quot;_kcliques_storage/&quot;</span>
+    <span class="n">profile_shit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
+     <span class="s2">&quot;kcores_from_sccs(storage_path_scc, storage_path_kcores, n_jobs=1, storage_kcliques=storage_path_kcliques)&quot;</span><span class="p">)</span>
+
+    <span class="n">refactoring_kcores</span><span class="p">(</span><span class="n">storage_path_kcores</span><span class="p">,</span> <span class="n">storage_path_kcores</span> <span class="o">+</span> <span class="s1">&#39;postprocess_kcores.scf&#39;</span><span class="p">)</span>
+    <span class="n">refactoring_kcliques</span><span class="p">(</span><span class="n">storage_path_kcliques</span><span class="p">,</span> <span class="n">storage_path_kcliques</span> <span class="o">+</span> <span class="s1">&#39;postprocess_kcliques.scf&#39;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

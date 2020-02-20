@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.dataset_performance_algorithms &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.dataset_performance_algorithms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.dataset_performance_algorithms</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">time</span><span class="o">,</span><span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">stream</span> <span class="k">as</span> <span class="n">sg</span>
+<span class="kn">from</span> <span class="nn">straph.utils</span> <span class="k">import</span> <span class="n">dataframe_to_latex_landscape</span>
+<span class="kn">from</span> <span class="nn">straph.betweenness</span> <span class="k">import</span> <span class="n">latencies_CM_ss</span><span class="p">,</span><span class="n">distances_CM_ss</span><span class="p">,</span><span class="n">load_link_stream</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">components</span> <span class="k">as</span> <span class="n">comp</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">EulerTourForest</span> <span class="k">as</span> <span class="n">etf</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">straph.parser</span> <span class="k">import</span> <span class="n">parser</span><span class="p">,</span><span class="n">sort_csv</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="c1"># Take all datasets, run each algo on the corresponding Stream Graph or Link Streams</span>
+<span class="c1"># Put time to run and memory consumption in pandas Dataframe</span>
+<span class="c1"># Then output a table or plot (barplot).</span>
+
+
+<div class="viewcode-block" id="load_dataset"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.load_dataset">[docs]</a><span class="k">def</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span><span class="n">dataset_name</span><span class="p">):</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">read_stream_graph</span><span class="p">(</span><span class="n">path_nodes</span><span class="o">=</span><span class="n">dataset_path</span><span class="o">+</span><span class="n">dataset_name</span><span class="o">+</span><span class="s2">&quot;_nodes.sg&quot;</span><span class="p">,</span>
+                             <span class="n">path_links</span><span class="o">=</span><span class="n">dataset_path</span><span class="o">+</span><span class="n">dataset_name</span><span class="o">+</span><span class="s2">&quot;_links.sg&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="paths_performances"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.paths_performances">[docs]</a><span class="k">def</span> <span class="nf">paths_performances</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">,</span><span class="n">random_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">high_degree_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span><span class="n">timeout</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">):</span>
+    <span class="c1"># Properties to collect must be specified and computed manually</span>
+    <span class="n">dict_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;SCC Naive&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;SCC UF&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;SCC ETF&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;Condensation DAG&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;ttr L&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;ttr DAG&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;Latencies L&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;Latencies DAG&#39;</span><span class="p">:[],</span>
+                 <span class="c1">#&#39;Latencies Wu&#39;:[],</span>
+                 <span class="s1">&#39;Distances L&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                 <span class="c1">#&#39;Distances Wu&#39;: [],</span>
+                 <span class="s1">&#39;SFP L&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;FSP L&#39;</span><span class="p">:[]</span>
+                 <span class="p">}</span>
+    <span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.csv&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">csv_file</span><span class="o">.</span><span class="n">stem</span>
+            <span class="n">dataset_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/&quot;</span>
+            <span class="n">dataset_paths</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_path</span>
+    <span class="n">done_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">dataset_paths</span><span class="p">[</span><span class="n">ds</span><span class="p">],</span><span class="n">ds</span><span class="p">)</span>
+        <span class="c1"># new_node_presence = [[S.times[0], S.times[1]] for _ in S.nodes]</span>
+        <span class="c1"># S.node_presence = new_node_presence</span>
+        <span class="c1"># S.write_to_lsf(dataset_paths[ds] + &quot;tmp&quot;)</span>
+        <span class="c1"># if S.node_to_label:</span>
+        <span class="c1">#     label_to_node = {str(v): k for k, v in S.node_to_label.items()}</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     label_to_node = {str(v): v for v in S.nodes}</span>
+        <span class="c1">#LS = load_link_stream(dataset_paths[ds] + &quot;tmp.lsf&quot;, label_to_node=label_to_node)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dataset loaded :&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+        <span class="c1"># Pick Source Nodes</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="n">get_source_nodes</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">high_degree_nodes</span><span class="p">,</span> <span class="n">random_nodes</span><span class="p">)</span>
+        <span class="n">nb_paths_to_compute</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_nodes</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of paths to compute :&quot;</span><span class="p">,</span> <span class="n">nb_paths_to_compute</span><span class="p">)</span>
+        <span class="c1">###</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">link_presence</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">500000</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skip Dataset&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1"># Condensation DAG</span>
+        <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">dag</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">condensation_dag</span><span class="p">()</span>
+        <span class="c1"># dag.describe()</span>
+        <span class="n">chrono_dag</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">chrono</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Condensation Dag done in &quot;</span><span class="p">,</span><span class="n">chrono_dag</span><span class="p">)</span>
+
+        <span class="c1"># SCC Naive:</span>
+        <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">strongly_connected_components</span><span class="p">()</span>
+        <span class="c1"># dag.describe()</span>
+        <span class="n">chrono_scc_naive</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">chrono</span>
+
+        <span class="c1"># SCC UF:</span>
+        <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">comp</span><span class="o">.</span><span class="n">strongly_connected_components_UF</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="c1"># dag.describe()</span>
+        <span class="n">chrono_scc_uf</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">chrono</span>
+
+        <span class="c1"># SCC ETF:</span>
+        <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">etf</span><span class="o">.</span><span class="n">strongly_connected_components_ETF</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="n">chrono_scc_etf</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">chrono</span>
+
+        <span class="n">path_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Latencies L&#39;</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">latencies</span><span class="p">,</span>
+                          <span class="s1">&#39;ttr L&#39;</span><span class="p">:</span><span class="n">S</span><span class="o">.</span><span class="n">times_to_reach</span><span class="p">,</span>
+                          <span class="s1">&#39;ttr DAG&#39;</span><span class="p">:</span> <span class="n">dag</span><span class="o">.</span><span class="n">times_to_reach</span><span class="p">,</span>
+                          <span class="s1">&#39;Distances L&#39;</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">distances</span><span class="p">,</span>
+                          <span class="s1">&#39;Latencies DAG&#39;</span><span class="p">:</span> <span class="n">dag</span><span class="o">.</span><span class="n">latencies</span><span class="p">,</span>
+                          <span class="c1">#&#39;Latencies Wu&#39;: latencies_CM_ss,</span>
+                          <span class="c1">#&#39;Distances Wu&#39;: distances_CM_ss,</span>
+                          <span class="s1">&#39;SFP L&#39;</span><span class="p">:</span><span class="n">S</span><span class="o">.</span><span class="n">latencies_and_lengths</span><span class="p">,</span>
+                          <span class="s1">&#39;FSP L&#39;</span><span class="p">:</span><span class="n">S</span><span class="o">.</span><span class="n">distances_and_durations</span><span class="p">,</span>
+                          <span class="p">}</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s2">&quot;Condensation DAG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono_dag</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s2">&quot;SCC Naive&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono_scc_naive</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s2">&quot;SCC UF&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono_scc_uf</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s2">&quot;SCC ETF&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono_scc_etf</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">algo</span> <span class="ow">in</span> <span class="n">path_functions</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Begin &quot;</span><span class="p">,</span><span class="n">algo</span><span class="p">,</span><span class="s2">&quot; !&quot;</span><span class="p">)</span>
+            <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">istimeout</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">source_nodes</span><span class="p">:</span>
+                <span class="c1"># if algo == &quot;Distances Wu&quot; or algo == &quot;Latencies Wu&quot;:</span>
+                <span class="c1">#     path_functions[algo](LS,u)</span>
+                <span class="c1"># else:</span>
+                <span class="n">path_functions</span><span class="p">[</span><span class="n">algo</span><span class="p">](</span><span class="n">u</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">chrono</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Timeout&quot;</span><span class="p">)</span>
+                    <span class="n">istimeout</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+            <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">chrono</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">algo</span><span class="p">,</span><span class="s2">&quot; : Done in &quot;</span><span class="p">,</span><span class="n">chrono</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">istimeout</span><span class="p">:</span>
+                <span class="n">dict_data</span><span class="p">[</span><span class="n">algo</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dict_data</span><span class="p">[</span><span class="n">algo</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono</span><span class="p">)</span><span class="c1">#time per DS   #/nb_paths_to_compute) # Average time per path !</span>
+        <span class="n">done_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">done_datasets</span><span class="p">)</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">Index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">high_degree_nodes</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/SG_path_performances_high_degree_nodes.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdl</span><span class="p">:</span>
+                <span class="n">D</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">hdl</span><span class="p">,</span><span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">random_nodes</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/SG_path_performances_random_nodes.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdl</span><span class="p">:</span>
+                <span class="n">D</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">hdl</span><span class="p">,</span><span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/SG_path_performances_all_nodes.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdl</span><span class="p">:</span>
+                <span class="n">D</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">hdl</span><span class="p">,</span><span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">D</span></div>
+
+
+<div class="viewcode-block" id="get_source_nodes"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.get_source_nodes">[docs]</a><span class="k">def</span> <span class="nf">get_source_nodes</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">high_degree_nodes</span><span class="p">,</span> <span class="n">random_nodes</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">random_nodes</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">npres</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">npres</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">npres</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">source_nodes</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">high_degree_nodes</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">degrees_partition</span><span class="p">()</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">degree</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+                <span class="n">source_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">npres</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">npres</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">npres</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">source_nodes</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">source_nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">npres</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">npres</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">npres</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])]</span>
+    <span class="k">return</span> <span class="n">source_nodes</span></div>
+
+
+
+
+<div class="viewcode-block" id="preprocess_datasets"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.preprocess_datasets">[docs]</a><span class="k">def</span> <span class="nf">preprocess_datasets</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">):</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+            <span class="n">js_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.json&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">js_files</span><span class="p">:</span>
+                <span class="n">config_file</span> <span class="o">=</span> <span class="n">js_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">config_js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">))</span>
+                <span class="n">entry_format</span> <span class="o">=</span> <span class="n">config_js</span><span class="p">[</span><span class="s2">&quot;entry_format&quot;</span><span class="p">]</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">config_js</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;delta&quot;</span> <span class="ow">in</span> <span class="n">config_js</span><span class="p">:</span>
+                    <span class="n">delta</span> <span class="o">=</span> <span class="n">config_js</span><span class="p">[</span><span class="s2">&quot;delta&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">delta</span> <span class="o">=</span> <span class="mi">3600</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">config :&quot;</span><span class="p">,</span><span class="n">config</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;entry :&quot;</span><span class="p">,</span><span class="n">entry_format</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;delta :&quot;</span><span class="p">,</span><span class="n">delta</span><span class="p">)</span>
+                <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.csv&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">file_name</span> <span class="o">=</span> <span class="n">csv_file</span><span class="o">.</span><span class="n">stem</span>
+                <span class="n">out_path</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="n">file_name</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;csv file :&quot;</span><span class="p">,</span><span class="n">csv_file</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;out path :&quot;</span><span class="p">,</span><span class="n">out_path</span><span class="p">)</span>
+                <span class="n">sort_csv</span><span class="p">(</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">entry_format</span><span class="o">=</span><span class="n">entry_format</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">)</span>
+                <span class="n">parser</span><span class="p">(</span><span class="n">input_file</span><span class="o">=</span><span class="n">csv_file</span><span class="p">,</span> <span class="n">input_format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span>
+                       <span class="n">links_duration</span> <span class="o">=</span> <span class="n">delta</span><span class="p">,</span>
+                       <span class="n">entry_format</span><span class="o">=</span><span class="n">entry_format</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">out_path</span><span class="p">),</span>
+                       <span class="n">output_format</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sg&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dataset_description"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.dataset_description">[docs]</a><span class="k">def</span> <span class="nf">dataset_description</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">):</span>
+    <span class="c1"># Properties to collect must be specified and computed manually</span>
+    <span class="n">dict_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;m&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;N&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;M&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;|T_S|&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                 <span class="s1">&#39;d_</span><span class="si">{max}</span><span class="s1">&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;d_</span><span class="si">{mean}</span><span class="s1">&#39;</span><span class="p">:[]</span>
+                 <span class="p">}</span>
+    <span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.csv&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">csv_file</span><span class="o">.</span><span class="n">stem</span>
+            <span class="n">dataset_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/&quot;</span>
+            <span class="n">dataset_paths</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_path</span>
+    <span class="n">done_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">dataset_paths</span><span class="p">[</span><span class="n">ds</span><span class="p">],</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">new_node_presence</span> <span class="o">=</span> <span class="p">[[</span><span class="n">S</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">S</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span> <span class="o">=</span> <span class="n">new_node_presence</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset Loaded :&quot;</span><span class="p">,</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">link_presence</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">100000</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skip Dataset&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1">### general description ###</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">])</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">links</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">link_presence</span><span class="p">])</span>
+
+        <span class="c1">## SCC ###</span>
+        <span class="n">dag</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">condensation_dag</span><span class="p">()</span>
+        <span class="n">n_SCC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">)</span>
+
+        <span class="c1">## Interactions Times (snpashot) ##</span>
+        <span class="n">T_S</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">get_interaction_times</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="n">T_S</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">it</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
+        <span class="n">T_S</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">T_S</span><span class="p">)</span>
+
+        <span class="c1">## Degrees ##</span>
+        <span class="n">degrees_partition</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">degrees_partition</span><span class="p">(</span><span class="n">interaction_times</span><span class="o">=</span><span class="n">it</span><span class="p">)</span>
+        <span class="n">d_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">degrees_partition</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">d_mean</span><span class="p">,</span><span class="n">tot</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">degrees_partition</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="n">d_mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">d</span>
+                <span class="n">tot</span> <span class="o">+=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">d_mean</span> <span class="o">=</span> <span class="n">d_mean</span><span class="o">/</span><span class="n">tot</span>
+
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;|T_S|&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T_S</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;d_</span><span class="si">{mean}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d_mean</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;d_</span><span class="si">{max}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d_max</span><span class="p">)</span>
+
+        <span class="n">done_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">done_datasets</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">Index</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/description_dataset.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdl</span><span class="p">:</span>
+        <span class="n">D</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">hdl</span><span class="p">,</span><span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">D</span></div>
+
+
+<div class="viewcode-block" id="dag_description"><a class="viewcode-back" href="../../straph.html#straph.dataset_performance_algorithms.dag_description">[docs]</a><span class="k">def</span> <span class="nf">dag_description</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">):</span>
+    <span class="c1"># Properties to collect must be specified and computed manually</span>
+    <span class="n">dict_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;construction time&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;n_c&#39;</span><span class="p">:[],</span>
+                 <span class="s1">&#39;m_c&#39;</span><span class="p">:[],</span>
+                 <span class="p">}</span>
+    <span class="n">dataset_paths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">csv_file</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.csv&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">csv_file</span><span class="o">.</span><span class="n">stem</span>
+            <span class="n">dataset_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/&quot;</span>
+            <span class="n">dataset_paths</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_path</span>
+    <span class="n">done_datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dataset_paths</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">dataset_paths</span><span class="p">[</span><span class="n">ds</span><span class="p">],</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">new_node_presence</span> <span class="o">=</span> <span class="p">[[</span><span class="n">S</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">S</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span> <span class="o">=</span> <span class="n">new_node_presence</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset Loaded :&quot;</span><span class="p">,</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">link_presence</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">100000</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Skip Dataset&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1">## SCC ###</span>
+        <span class="n">chrono_dag</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">dag</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">condensation_dag</span><span class="p">()</span>
+        <span class="n">chrono_dag</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">chrono_dag</span>
+        <span class="n">n_SCC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">)</span>
+        <span class="n">m_SCC</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">c_links</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;n_c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_SCC</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;m_c&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m_SCC</span><span class="p">)</span>
+        <span class="n">dict_data</span><span class="p">[</span><span class="s1">&#39;construction time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chrono_dag</span><span class="p">)</span>
+        <span class="n">done_datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="n">Index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">done_datasets</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dict_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">Index</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/description_dag.csv&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdl</span><span class="p">:</span>
+        <span class="n">D</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">hdl</span><span class="p">,</span><span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">D</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="c1">############### Preprocess DATASETS</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/&quot;</span>
+    <span class="c1"># preprocess_datasets(__directory__)</span>
+    <span class="c1">############## A priori : DONE !!!</span>
+
+    <span class="c1"># D = paths_performances(__directory__,random_nodes=True,timeout=5000)</span>
+    <span class="c1"># exit()</span>
+    <span class="c1"># with open(&quot;/home/leo/Dev/Data_Stream/path_performances_high_degree_nodes.csv&quot;,&#39;w&#39;) as hdl:</span>
+    <span class="c1">#     D.to_csv(hdl)</span>
+    <span class="c1"># D = paths_performances(__directory__,random_nodes=True)</span>
+    <span class="c1"># with open(&quot;/home/leo/Dev/Data_Stream/path_performances_random_nodes.csv&quot;,&#39;w&#39;) as hdl:</span>
+    <span class="c1">#     D.to_csv(hdl)</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/leo/Dev/Data_Stream/SG_path_performances_high_degree_nodes.csv&quot;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">),</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># D = pd.read_csv(open(&quot;/home/leo/Dev/Data_Stream/path_performances_random_nodes.csv&quot;, &#39;r&#39;), index_col=0)</span>
+
+
+    <span class="c1"># D = dag_description(__directory__)</span>
+    <span class="n">dataframe_to_latex_landscape</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">latex_output_path</span><span class="o">=</span> <span class="n">__directory__</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">highlight_best_result</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># print(D)</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

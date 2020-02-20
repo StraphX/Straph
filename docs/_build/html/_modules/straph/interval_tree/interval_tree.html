@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.interval_tree.interval_tree &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.interval_tree.interval_tree</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.interval_tree.interval_tree</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">stream</span> <span class="k">as</span> <span class="n">sg</span>
+
+
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_mid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">elements</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_mid</span> <span class="o">=</span> <span class="n">t_mid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">elements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">intervals</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">intervals</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Node.search_"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Node.search_">[docs]</a>    <span class="k">def</span> <span class="nf">search_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">results</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;elements&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;intervals&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">&gt;=</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">i</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">t1</span><span class="p">:</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;intervals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">])</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_mid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">search_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">results</span>
+        <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_mid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">search_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">results</span></div>
+        <span class="c1"># elif t == self.t_mid:</span>
+        <span class="c1">#     return self.intervals</span>
+
+
+<div class="viewcode-block" id="Node.get_global_min"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Node.get_global_min">[docs]</a>    <span class="k">def</span> <span class="nf">get_global_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">global_min</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">global_min</span><span class="p">:</span>
+            <span class="n">global_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">global_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">global_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">(</span><span class="n">global_min</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">(</span><span class="n">global_min</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">(</span><span class="n">global_min</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">(</span><span class="n">global_min</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">global_min</span></div>
+
+
+<div class="viewcode-block" id="Node.get_global_max"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Node.get_global_max">[docs]</a>    <span class="k">def</span> <span class="nf">get_global_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">global_max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">global_max</span><span class="p">:</span>
+            <span class="n">global_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">global_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">global_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">(</span><span class="n">global_max</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">(</span><span class="n">global_max</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">(</span><span class="n">global_max</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">(</span><span class="n">global_max</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">global_max</span></div>
+
+
+<div class="viewcode-block" id="Node.search_interval_"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Node.search_interval_">[docs]</a>    <span class="k">def</span> <span class="nf">search_interval_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">results</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;elements&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;intervals&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="c1"># Case One : easy case, t_mid is in I so we add the whole node</span>
+        <span class="c1">#            to our results</span>
+        <span class="k">if</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_mid</span> <span class="o">&gt;=</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">interval</span><span class="p">,</span><span class="n">element</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">t0</span><span class="p">,</span><span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">interval</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span><span class="n">interval</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="n">intersec_b</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">intersec_e</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s1">&#39;intervals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">intersec_b</span><span class="p">,</span><span class="n">intersec_e</span><span class="p">])</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;elements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+            <span class="c1"># results[&#39;intervals&#39;]</span>
+        <span class="c1"># Case Two : there is at least one intersection between the node&#39;s</span>
+        <span class="c1">#            intervals and I</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">&lt;=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">i</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t1</span><span class="p">:</span>
+                        <span class="n">intersec_b</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">intersec_e</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;intervals&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">intersec_b</span><span class="p">,</span><span class="n">intersec_e</span><span class="p">])</span>
+                <span class="n">results</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">search_interval_</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">search_interval_</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div></div>
+        <span class="c1"># elif t == self.t_mid:</span>
+        <span class="c1">#     return self.intervals</span>
+
+
+<div class="viewcode-block" id="Interval_Tree"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Interval_Tree">[docs]</a><span class="k">class</span> <span class="nc">Interval_Tree</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Interval_Tree.add"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Interval_Tree.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">t_mid</span> <span class="o">==</span> <span class="n">parent</span><span class="o">.</span><span class="n">t_mid</span><span class="p">:</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">intervals</span><span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">t_mid</span> <span class="o">&gt;</span> <span class="n">parent</span><span class="o">.</span><span class="n">t_mid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">parent</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parent</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">t_mid</span> <span class="o">&lt;</span> <span class="n">parent</span><span class="o">.</span><span class="n">t_mid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">parent</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parent</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">node</span>
+
+<div class="viewcode-block" id="Interval_Tree.create_nodes_from_intervals"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Interval_Tree.create_nodes_from_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">create_nodes_from_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_elements</span><span class="p">,</span> <span class="n">list_int</span><span class="p">):</span>
+        <span class="n">empty</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">:</span>
+                <span class="n">empty</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">t_mid</span> <span class="o">=</span> <span class="n">find_median</span><span class="p">(</span><span class="n">list_int</span><span class="p">)</span>
+        <span class="n">elements_node</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">elements_left</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">elements_right</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">list_node_tree</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">list_left</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">list_right</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_int</span><span class="p">,</span> <span class="n">list_elements</span><span class="p">):</span>
+            <span class="n">r_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">l_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">n_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">i</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">t0</span> <span class="o">&gt;</span> <span class="n">t_mid</span><span class="p">:</span>
+                    <span class="n">r_tmp</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">t1</span> <span class="o">&lt;</span> <span class="n">t_mid</span><span class="p">:</span>
+                    <span class="n">l_tmp</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">n_tmp</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">n_tmp</span><span class="p">:</span>
+                <span class="n">elements_node</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">list_node_tree</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_tmp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">l_tmp</span><span class="p">:</span>
+                <span class="n">elements_left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">list_left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l_tmp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">r_tmp</span><span class="p">:</span>
+                <span class="n">elements_right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">list_right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r_tmp</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_node_tree</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="n">t_mid</span><span class="p">,</span> <span class="n">elements_node</span><span class="p">,</span> <span class="n">list_node_tree</span><span class="p">))</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_nodes_from_intervals</span><span class="p">(</span><span class="n">elements_left</span><span class="p">,</span> <span class="n">list_left</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_nodes_from_intervals</span><span class="p">(</span><span class="n">elements_right</span><span class="p">,</span> <span class="n">list_right</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Interval_Tree.search"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Interval_Tree.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">search_</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Interval_Tree.search_interval"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.Interval_Tree.search_interval">[docs]</a>    <span class="k">def</span> <span class="nf">search_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">search_interval_</span><span class="p">(</span><span class="n">I</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="plot_tree"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.plot_tree">[docs]</a><span class="k">def</span> <span class="nf">plot_tree</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+    <span class="c1"># print(&quot;Plot pos :&quot;,pos)</span>
+    <span class="c1"># print(&quot;T_mid :&quot;,root.t_mid)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;ok&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">t_mid</span><span class="p">),</span>
+                 <span class="n">xy</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+                 <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span>
+                 <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+        <span class="n">pos1</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plot_tree</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">pos1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="n">pos1</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">plot_tree</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">pos1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="print_interval_tree"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.print_interval_tree">[docs]</a><span class="k">def</span> <span class="nf">print_interval_tree</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">.</span><span class="n">root</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;t_mid :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="o">.</span><span class="n">t_mid</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elements :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="s2">&quot; Min :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Intervals :&quot;</span><span class="p">,</span> <span class="n">N</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">N</span><span class="o">.</span><span class="n">left</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">N</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Left child :&quot;</span><span class="p">)</span>
+        <span class="n">print_interval_tree</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">N</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Right child:&quot;</span><span class="p">)</span>
+        <span class="n">print_interval_tree</span><span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">right</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_median"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.find_median">[docs]</a><span class="k">def</span> <span class="nf">find_median</span><span class="p">(</span><span class="n">list_intervals</span><span class="p">):</span>
+    <span class="n">tot_t</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">list_intervals</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">tot_t</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tot_t</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">tot_t</span><span class="p">[</span><span class="n">l</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">tot_t</span><span class="p">[(</span><span class="n">l</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tot_t</span><span class="p">[(</span><span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="search_overlap_intervals"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.search_overlap_intervals">[docs]</a><span class="k">def</span> <span class="nf">search_overlap_intervals</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="plot_intervals"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.plot_intervals">[docs]</a><span class="k">def</span> <span class="nf">plot_intervals</span><span class="p">(</span><span class="n">list_int</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Display in an elegant way a small stream graph</span>
+<span class="sd">    We can also specify a path to save the animated of ploted stream graph</span>
+<span class="sd">    :param animated: If we want an animation with cursor which move according to the time</span>
+<span class="sd">    :return: A matplotlib plot</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">lnodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_int</span><span class="p">)</span>
+    <span class="n">c_map</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">lnodes</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">lnodes</span><span class="p">),</span> <span class="n">list_int</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">c_map</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">([</span><span class="n">p</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">xmin</span><span class="o">=</span><span class="n">t</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span>
+                   <span class="n">xmax</span><span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="n">c_map</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_tree2"><a class="viewcode-back" href="../../../straph.interval_tree.html#straph.interval_tree.interval_tree.plot_tree2">[docs]</a><span class="k">def</span> <span class="nf">plot_tree2</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+    <span class="c1"># print(&quot;Plot pos :&quot;,pos)</span>
+    <span class="c1"># print(&quot;T_mid :&quot;,root.t_mid)</span>
+    <span class="n">plot_intervals</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">intervals</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+        <span class="n">plot_tree2</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+        <span class="n">plot_tree2</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span>
+    <span class="n">list_int</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mf">31.2</span><span class="p">,</span> <span class="mf">34.8</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">10.6</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">35</span><span class="p">]]</span>
+    <span class="n">plot_intervals</span><span class="p">(</span><span class="n">list_int</span><span class="p">)</span>
+
+    <span class="n">n_inter</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_int</span><span class="p">])</span>
+    <span class="c1"># print(&quot;N intervals :&quot;,n_inter)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">Interval_Tree</span><span class="p">()</span>
+    <span class="n">W</span><span class="o">.</span><span class="n">create_nodes_from_intervals</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">list_int</span><span class="p">)</span>
+    <span class="c1"># print_interval_tree(W.root)</span>
+    <span class="c1"># plot_tree(W.root, (0, 0))</span>
+    <span class="c1"># plt.show()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Intervals at &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; :&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Get global min right :&quot;</span><span class="p">,</span> <span class="n">W</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Get global max right :&quot;</span><span class="p">,</span> <span class="n">W</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Get global min left:&quot;</span><span class="p">,</span> <span class="n">W</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_min</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Get global max left:&quot;</span><span class="p">,</span> <span class="n">W</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">get_global_max</span><span class="p">())</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="mf">18.5</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">]</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">search_interval</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Intervals in &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; :&quot;</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+    <span class="n">print_interval_tree</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

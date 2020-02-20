@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.scc_tmp &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.scc_tmp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.scc_tmp</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">time</span><span class="o">,</span><span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">straph</span> <span class="k">import</span> <span class="n">stream</span> <span class="k">as</span> <span class="n">sg</span>
+<span class="kn">from</span> <span class="nn">straph.dag</span> <span class="k">import</span> <span class="n">condensation_dag</span> <span class="k">as</span> <span class="n">cdag</span>
+<span class="kn">from</span> <span class="nn">straph.components</span> <span class="k">import</span> <span class="n">strongly_connected_component</span>
+
+
+<div class="viewcode-block" id="strongly_connected_components"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.strongly_connected_components">[docs]</a><span class="k">def</span> <span class="nf">strongly_connected_components</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">node_2_status</span> <span class="o">=</span> <span class="p">{}</span>          <span class="c1"># Dictionary associating a node to his current status : (current degree, number current comp)</span>
+    <span class="n">tmp_components</span> <span class="o">=</span> <span class="p">[]</span>       <span class="c1"># List of current strongly connected components (object)</span>
+    <span class="n">final_components</span> <span class="o">=</span> <span class="p">[]</span>       <span class="c1"># Clusters : [(t0,t1,u)]...</span>
+    <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">scc_dag</span> <span class="o">=</span> <span class="n">cdag</span><span class="o">.</span><span class="n">scc_dag</span><span class="p">()</span>    <span class="c1"># Condensation DAG</span>
+    <span class="n">id_wcc</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">links_wcc</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">ordered_links</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">links_wcc</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Encoding of the link, 1 for arrival, -1 for departure</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">:</span>
+                <span class="n">create_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">node_2_status</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">update_scc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                        <span class="n">final_components</span><span class="p">,</span>
+                                        <span class="n">scc_dag</span><span class="p">,</span>
+                                        <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                        <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span>
+                                        <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_2_status</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node_2_status</span><span class="p">:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">update_scc</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                        <span class="n">final_components</span><span class="p">,</span>
+                                        <span class="n">scc_dag</span><span class="p">,</span>
+                                        <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                        <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">,</span>
+                                        <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">merge_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                       <span class="n">final_components</span><span class="p">,</span>
+                                       <span class="n">scc_dag</span><span class="p">,</span>
+                                       <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                       <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span>
+                                       <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(&quot; UPDATE DT&quot;)</span>
+                <span class="c1"># print(&quot; COMP 1:&quot;, node_2_status[u][1], &quot; COMP 2:&quot;, node_2_status[v][1])</span>
+                <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">current_comp</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="n">current_comp</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">double_departure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                              <span class="n">final_components</span><span class="p">,</span>
+                                              <span class="n">scc_dag</span><span class="p">,</span>
+                                              <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span>
+                                              <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">single_departure</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                              <span class="n">final_components</span><span class="p">,</span>
+                                              <span class="n">scc_dag</span><span class="p">,</span>
+                                              <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span>
+                                              <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">single_departure</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                              <span class="n">final_components</span><span class="p">,</span>
+                                              <span class="n">scc_dag</span><span class="p">,</span>
+                                              <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span>
+                                              <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># In this procedure we can use the BFS to compute any kind of distance, which can be of use further on.</span>
+                <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">split_procedure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                             <span class="n">final_components</span><span class="p">,</span>
+                                             <span class="n">scc_dag</span><span class="p">,</span>
+                                             <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                             <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+    <span class="n">scc_dag</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="n">id_wcc</span><span class="p">)</span>
+    <span class="n">final_components</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">S</span><span class="o">.</span><span class="n">get_isolated_nodes</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">final_components</span></div>
+
+
+<div class="viewcode-block" id="double_departure"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.double_departure">[docs]</a><span class="k">def</span> <span class="nf">double_departure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                     <span class="n">final_components</span><span class="p">,</span>
+                     <span class="n">scc_dag</span><span class="p">,</span>
+                     <span class="n">cnt_scc_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">write_to_msgpack</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="n">n_current_comp</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># print(&quot; DOUBLE REMOVAL comp : &quot;, n_current_comp, &quot; u :&quot;, u, &quot; v :&quot;, v)</span>
+    <span class="n">current_comp</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_current_comp</span><span class="p">]</span>
+    <span class="n">current_comp</span><span class="o">.</span><span class="n">remove_link</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_comp</span><span class="o">.</span><span class="n">set_links</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># If there is less than 2 nodes left, clear the component</span>
+        <span class="k">if</span> <span class="n">current_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">current_comp</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span><span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                                  <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+
+        <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_current_comp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Else double departure means a split</span>
+        <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">split_procedure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                                     <span class="n">scc_dag</span><span class="p">,</span>
+                                     <span class="n">cnt_scc_id</span><span class="o">=</span><span class="n">cnt_scc_id</span><span class="p">,</span>
+                                     <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<div class="viewcode-block" id="split_procedure"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.split_procedure">[docs]</a><span class="k">def</span> <span class="nf">split_procedure</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                    <span class="n">final_components</span><span class="p">,</span>
+                    <span class="n">scc_dag</span><span class="p">,</span>
+                    <span class="n">cnt_scc_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="n">n_current_comp</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">current_comp</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_current_comp</span><span class="p">]</span>
+    <span class="n">current_comp</span><span class="o">.</span><span class="n">remove_link</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">current_comp</span><span class="o">.</span><span class="n">split</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="c1"># print(&quot; SPLIT COMP : &quot;, n_current_comp)</span>
+    <span class="c1">#######################</span>
+    <span class="c1"># Splitting procedure #</span>
+    <span class="c1">#######################</span>
+    <span class="k">if</span> <span class="n">R</span><span class="p">:</span>
+        <span class="c1"># print(&quot; SPLIT SUCCESFULL&quot;)</span>
+        <span class="k">if</span> <span class="n">current_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+            <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">current_comp</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span><span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span> <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+        <span class="n">u_is_present</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">v_is_present</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">C</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">C</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># set new begin time</span>
+            <span class="c1"># print(&quot;  NEW COMP : &quot;, len(tmp_components))</span>
+            <span class="n">C_nodes</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">get_nodes</span><span class="p">()</span>
+            <span class="c1"># print(&quot; C LINKS :&quot;,C.set_links)</span>
+            <span class="c1"># print(&quot; C NODES :&quot;, C_nodes)</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">C_nodes</span><span class="p">:</span>
+                <span class="n">node_2_status</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_components</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">C_nodes</span><span class="p">:</span>
+                <span class="n">u_is_present</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">C_nodes</span><span class="p">:</span>
+                <span class="n">v_is_present</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">tmp_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>  <span class="c1"># to the antecedent of news comp</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">u_is_present</span><span class="p">:</span>
+            <span class="c1"># print(&quot;Remove u :&quot;, u)</span>
+            <span class="k">del</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v_is_present</span><span class="p">:</span>
+            <span class="c1"># print(&quot;Remove v :&quot;, v)</span>
+            <span class="k">del</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_current_comp</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     print(&quot; NO SPLIT : REPLACEMENT LINK FOUND&quot;)</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<div class="viewcode-block" id="single_departure"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.single_departure">[docs]</a><span class="k">def</span> <span class="nf">single_departure</span><span class="p">(</span><span class="n">node_to_remove</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+                     <span class="n">final_components</span><span class="p">,</span>
+                     <span class="n">scc_dag</span><span class="p">,</span>
+                     <span class="n">cnt_scc_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Remove the link, close the component</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_comp_to_keep</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">node_to_remove</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># print(&quot; SINGLE REMOVAL comp : &quot;, n_comp_to_keep, &quot; REMOVE : &quot;, node_to_remove)</span>
+    <span class="n">comp_to_keep</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_comp_to_keep</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">comp_to_keep</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t1</span><span class="p">:</span>
+        <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">comp_to_keep</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span><span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+    <span class="n">comp_to_keep</span><span class="o">.</span><span class="n">remove_link</span><span class="p">((</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>  <span class="c1"># Remove Link</span>
+    <span class="n">comp_to_keep</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>  <span class="c1"># Set begin time</span>
+    <span class="k">del</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">node_to_remove</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<div class="viewcode-block" id="merge_scc"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.merge_scc">[docs]</a><span class="k">def</span> <span class="nf">merge_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+              <span class="n">final_components</span><span class="p">,</span>
+              <span class="n">scc_dag</span><span class="p">,</span>
+              <span class="n">cnt_scc_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="n">n_comp_1</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n_comp_2</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># print(&quot; MERGE n comp 1:&quot;, n_comp_1, &quot; n_comp 2:&quot;, n_comp_2)</span>
+    <span class="n">comp_1</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_comp_1</span><span class="p">]</span>
+    <span class="n">comp_2</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_comp_2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">comp_1</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">comp_1</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span><span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">comp_2</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">comp_2</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span><span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+
+    <span class="n">comp_1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comp_2</span><span class="p">)</span>
+    <span class="n">comp_1</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>  <span class="c1"># Add the current link</span>
+    <span class="n">comp_1</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">comp_2</span><span class="o">.</span><span class="n">get_nodes</span><span class="p">():</span>
+        <span class="n">node_2_status</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_comp_1</span>  <span class="c1"># Actualize referencement before deletion of 2nd comp</span>
+        <span class="n">node_2_status</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_comp_1</span>  <span class="c1"># Actualize referencement before deletion of 2nd comp</span>
+
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1"># print(&quot;  u :&quot;,u,&quot; node 2 status :&quot;,node_2_status[u])</span>
+    <span class="c1"># print(&quot;  v :&quot;,v,&quot; node 2 status :&quot;,node_2_status[v])</span>
+    <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_comp_2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<div class="viewcode-block" id="update_scc"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.update_scc">[docs]</a><span class="k">def</span> <span class="nf">update_scc</span><span class="p">(</span><span class="n">node_to_update</span><span class="p">,</span> <span class="n">node_to_add</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">,</span>
+               <span class="n">final_components</span><span class="p">,</span>
+               <span class="n">scc_dag</span><span class="p">,</span>
+               <span class="n">cnt_scc_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span>
+               <span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">    :param node_to_update:</span>
+<span class="sd">    :param node_to_add:</span>
+<span class="sd">    :param l:</span>
+<span class="sd">    :param node_2_status:</span>
+<span class="sd">    :param tmp_components:</span>
+<span class="sd">    :param scc_dag:</span>
+<span class="sd">    :param cnt_scc_id:</span>
+<span class="sd">    :param write_to_msgpack:</span>
+<span class="sd">    :param id_wcc:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n_current_comp</span> <span class="o">=</span> <span class="n">node_2_status</span><span class="p">[</span><span class="n">node_to_update</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">current_comp</span> <span class="o">=</span> <span class="n">tmp_components</span><span class="p">[</span><span class="n">n_current_comp</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">current_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t0</span><span class="p">:</span>
+        <span class="n">cnt_scc_id</span> <span class="o">=</span> <span class="n">close_component</span><span class="p">(</span><span class="n">current_comp</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">final_components</span><span class="p">,</span> <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                              <span class="n">id_wcc</span><span class="o">=</span><span class="n">id_wcc</span><span class="p">)</span>
+
+    <span class="n">current_comp</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>  <span class="c1"># Actualize the component (will add the node and the link)</span>
+    <span class="n">current_comp</span><span class="o">.</span><span class="n">set_begin_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Input a new begining time</span>
+
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">node_to_add</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_current_comp</span><span class="p">]</span>
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">node_to_update</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<div class="viewcode-block" id="create_scc"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.create_scc">[docs]</a><span class="k">def</span> <span class="nf">create_scc</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">node_2_status</span><span class="p">,</span> <span class="n">tmp_components</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a Strongly Connected Component from the link *l*</span>
+<span class="sd">    :param l:</span>
+<span class="sd">    :param node_2_status:</span>
+<span class="sd">    :param tmp_components:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="n">n_comp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_components</span><span class="p">)</span>
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_comp</span><span class="p">]</span>
+    <span class="n">node_2_status</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_comp</span><span class="p">]</span>
+    <span class="n">tmp_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strongly_connected_component</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t0</span><span class="p">],</span>
+                                                             <span class="n">set_links</span><span class="o">=</span><span class="nb">set</span><span class="p">([(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]),</span>
+                                                             <span class="n">links</span><span class="o">=</span><span class="p">[[</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]]))</span></div>
+
+
+<div class="viewcode-block" id="close_component"><a class="viewcode-back" href="../../straph.html#straph.scc_tmp.close_component">[docs]</a><span class="k">def</span> <span class="nf">close_component</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span>
+                    <span class="n">final_components</span><span class="p">,</span>
+                    <span class="n">cnt_scc_id</span><span class="p">,</span> <span class="n">scc_dag</span><span class="p">,</span>
+                    <span class="n">id_wcc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">copy_comp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">copy_comp</span><span class="o">.</span><span class="n">set_end_time</span><span class="p">(</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># Put an end time to the previous component</span>
+    <span class="n">copy_comp</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">cnt_scc_id</span>
+    <span class="c1"># final_components.append(copy_comp) FORMAT WITH SCC OBJECTS</span>
+    <span class="n">c_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">copy_comp</span><span class="o">.</span><span class="n">links</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">l</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">copy_comp</span><span class="o">.</span><span class="n">links</span><span class="p">])</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">[(</span><span class="n">copy_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">copy_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c_nodes</span><span class="p">]</span>
+    <span class="n">final_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="c1"># scc_dag.add_node(cnt_scc_id)  # TODO: update condensation DAG</span>
+    <span class="n">cnt_scc_id</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cnt_scc_id</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/Data_Stream/&quot;</span>
+    <span class="vm">__file__</span> <span class="o">=</span> <span class="s2">&quot;sg_generated&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">read_stream_graph</span><span class="p">(</span><span class="n">path_nodes</span><span class="o">=</span><span class="n">__directory__</span> <span class="o">+</span> <span class="vm">__file__</span> <span class="o">+</span> <span class="s2">&quot;_nodes.sg&quot;</span><span class="p">,</span>
+                             <span class="n">path_links</span><span class="o">=</span><span class="n">__directory__</span> <span class="o">+</span> <span class="vm">__file__</span> <span class="o">+</span> <span class="s2">&quot;_links.sg&quot;</span><span class="p">)</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="c1"># wcc = S.weakly_connected_components()</span>
+
+    <span class="n">scc</span> <span class="o">=</span> <span class="n">strongly_connected_components</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">scc</span><span class="p">:</span>
+        <span class="n">Sub</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">substream</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SCC :&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="c1"># Sub.plot()</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">clusters</span><span class="o">=</span><span class="n">scc</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

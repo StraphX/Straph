@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.betweenness &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.betweenness</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.betweenness</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">queue</span><span class="o">,</span><span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="c1"># GRAPH FUNCTIONS</span>
+
+<div class="viewcode-block" id="graph_dist"><a class="viewcode-back" href="../../straph.html#straph.betweenness.graph_dist">[docs]</a><span class="k">def</span> <span class="nf">graph_dist</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+<div class="viewcode-block" id="graph_is_reachable"><a class="viewcode-back" href="../../straph.html#straph.betweenness.graph_is_reachable">[docs]</a><span class="k">def</span> <span class="nf">graph_is_reachable</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">N</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">w</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="graph_non_trivial_connected_components"><a class="viewcode-back" href="../../straph.html#straph.betweenness.graph_non_trivial_connected_components">[docs]</a><span class="k">def</span> <span class="nf">graph_non_trivial_connected_components</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+            <span class="n">component</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">component</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+            <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="k">assert</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                        <span class="n">component</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                        <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                        <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="graph_dist_sigma"><a class="viewcode-back" href="../../straph.html#straph.betweenness.graph_dist_sigma">[docs]</a><span class="k">def</span> <span class="nf">graph_dist_sigma</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">s</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_sorted"><a class="viewcode-back" href="../../straph.html#straph.betweenness.is_sorted">[docs]</a><span class="k">def</span> <span class="nf">is_sorted</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<span class="c1"># functions to get neighborhoods</span>
+
+<span class="n">all_N</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_N</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="get_graph_neighborhood"><a class="viewcode-back" href="../../straph.html#straph.betweenness.get_graph_neighborhood">[docs]</a><span class="k">def</span> <span class="nf">get_graph_neighborhood</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_N</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_N</span><span class="p">:</span>
+        <span class="n">nb_all_N</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_N</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">E</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">N</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_N</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="k">return</span> <span class="n">N</span></div>
+
+
+<span class="n">all_N_minus</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_N_minus</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="get_graph_neighborhood_minus"><a class="viewcode-back" href="../../straph.html#straph.betweenness.get_graph_neighborhood_minus">[docs]</a><span class="k">def</span> <span class="nf">get_graph_neighborhood_minus</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_N_minus</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_N_minus</span><span class="p">:</span>
+        <span class="n">nb_all_N_minus</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_N_minus</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">E</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+            <span class="n">N</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+        <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_N_minus</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="k">return</span> <span class="n">N</span></div>
+
+
+<span class="c1"># distance and dimension functions</span>
+
+<span class="c1"># priority queue functions</span>
+<div class="viewcode-block" id="empty_priority"><a class="viewcode-back" href="../../straph.html#straph.betweenness.empty_priority">[docs]</a><span class="k">def</span> <span class="nf">empty_priority</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="is_empty_priority"><a class="viewcode-back" href="../../straph.html#straph.betweenness.is_empty_priority">[docs]</a><span class="k">def</span> <span class="nf">is_empty_priority</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="push_priority"><a class="viewcode-back" href="../../straph.html#straph.betweenness.push_priority">[docs]</a><span class="k">def</span> <span class="nf">push_priority</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pop_priority"><a class="viewcode-back" href="../../straph.html#straph.betweenness.pop_priority">[docs]</a><span class="k">def</span> <span class="nf">pop_priority</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_dim</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">r_dist</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="n">r_dist</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_dim</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dist</span> <span class="o">==</span> <span class="n">r_dist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="n">r_dim</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_dim</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_dim</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">,</span> <span class="n">r_dim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pop_priority_dist"><a class="viewcode-back" href="../../straph.html#straph.betweenness.pop_priority_dist">[docs]</a><span class="k">def</span> <span class="nf">pop_priority_dist</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">r_dist</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="n">r_dist</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r_v</span><span class="p">,</span> <span class="n">r_dist</span><span class="p">)</span></div>
+
+
+<span class="n">all_DD</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_DD</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="dist_and_dim"><a class="viewcode-back" href="../../straph.html#straph.betweenness.dist_and_dim">[docs]</a><span class="k">def</span> <span class="nf">dist_and_dim</span><span class="p">(</span><span class="n">tup</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">tup</span>
+    <span class="k">global</span> <span class="n">nb_all_DD</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_DD</span><span class="p">:</span>
+        <span class="n">nb_all_DD</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">s</span><span class="p">])</span>
+    <span class="p">(</span><span class="n">Dist</span><span class="p">,</span> <span class="n">Dim</span><span class="p">)</span> <span class="o">=</span> <span class="p">({},</span> <span class="p">{})</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">graph_dist</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">Dist</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)],</span> <span class="n">Dim</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)])</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+            <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Dist</span><span class="p">,</span> <span class="n">Dim</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Dist</span><span class="p">,</span> <span class="n">Dim</span><span class="p">)</span>
+    <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eventtimes</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span>
+    <span class="n">t_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">t_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span><span class="p">]</span>
+        <span class="n">t_plus</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood_minus</span><span class="p">(</span><span class="n">t_plus</span><span class="p">)</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">empty_priority</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">Dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="n">Dim</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">)]))</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span> <span class="o">=</span> <span class="n">pop_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)],</span> <span class="n">Dim</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)])</span> <span class="o">=</span> <span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">t_plus</span><span class="p">)</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">empty_priority</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="n">Dim</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">w</span><span class="p">)]))</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span> <span class="o">=</span> <span class="n">pop_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)],</span> <span class="n">Dim</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)])</span> <span class="o">=</span> <span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+                <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Dist</span><span class="p">,</span> <span class="n">Dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Dist</span><span class="p">,</span> <span class="n">Dim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="only_dist"><a class="viewcode-back" href="../../straph.html#straph.betweenness.only_dist">[docs]</a><span class="k">def</span> <span class="nf">only_dist</span><span class="p">(</span><span class="n">tup</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="o">=</span> <span class="n">tup</span>
+    <span class="k">global</span> <span class="n">nb_all_DD</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_DD</span><span class="p">:</span>
+        <span class="n">nb_all_DD</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">s</span><span class="p">])</span>
+    <span class="n">Dist</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">graph_dist</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+        <span class="n">Dist</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+            <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Dist</span>
+        <span class="k">return</span> <span class="n">Dist</span>
+    <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eventtimes</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span>
+    <span class="n">t_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">t_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span><span class="p">]</span>
+        <span class="n">t_plus</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood_minus</span><span class="p">(</span><span class="n">t_plus</span><span class="p">)</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">empty_priority</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">Dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">)]))</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span> <span class="o">=</span> <span class="n">pop_priority_dist</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)])</span> <span class="o">=</span> <span class="n">dist</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">t_plus</span><span class="p">)</span>
+        <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">empty_priority</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">w</span><span class="p">)]))</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">is_empty_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span> <span class="o">=</span> <span class="n">pop_priority_dist</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                <span class="n">R</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">Dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">v</span><span class="p">)])</span> <span class="o">=</span> <span class="n">dist</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">marked</span><span class="p">:</span>
+                            <span class="n">push_priority</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dist</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">marked</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_DD</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Dist</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Dist</span><span class="p">)</span></div>
+
+<span class="c1"># VSP functions</span>
+
+<span class="c1"># volume operations</span>
+<div class="viewcode-block" id="plusvol"><a class="viewcode-back" href="../../straph.html#straph.betweenness.plusvol">[docs]</a><span class="k">def</span> <span class="nf">plusvol</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">q_</span><span class="p">,</span> <span class="n">d_</span><span class="p">)</span> <span class="o">=</span> <span class="n">e2</span>
+    <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="n">e1</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">d_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">q</span> <span class="o">+</span> <span class="n">q_</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">d_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">q_</span><span class="p">,</span> <span class="n">d_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="minusvol"><a class="viewcode-back" href="../../straph.html#straph.betweenness.minusvol">[docs]</a><span class="k">def</span> <span class="nf">minusvol</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">plusvol</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="divvol"><a class="viewcode-back" href="../../straph.html#straph.betweenness.divvol">[docs]</a><span class="k">def</span> <span class="nf">divvol</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="n">e1</span>
+    <span class="p">(</span><span class="n">q_</span><span class="p">,</span> <span class="n">d_</span><span class="p">)</span> <span class="o">=</span> <span class="n">e2</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">d_</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">q_</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">d_</span>
+    <span class="k">return</span> <span class="mf">0.</span></div>
+
+
+<div class="viewcode-block" id="timesvol"><a class="viewcode-back" href="../../straph.html#straph.betweenness.timesvol">[docs]</a><span class="k">def</span> <span class="nf">timesvol</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="n">e1</span>
+    <span class="p">(</span><span class="n">q_</span><span class="p">,</span> <span class="n">d_</span><span class="p">)</span> <span class="o">=</span> <span class="n">e2</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">q_</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="n">d_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VSP_aux_singleton"><a class="viewcode-back" href="../../straph.html#straph.betweenness.VSP_aux_singleton">[docs]</a><span class="k">def</span> <span class="nf">VSP_aux_singleton</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="n">x_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">V</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">:</span>
+            <span class="n">x_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)],</span> <span class="n">x</span><span class="p">))</span>
+    <span class="n">x_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">d_x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">x_list</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">d_x</span> <span class="o">==</span> <span class="n">dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">N</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">N</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)],</span> <span class="n">dim</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)])</span> <span class="o">==</span> <span class="p">(</span><span class="n">dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">amount</span><span class="p">:</span>
+                        <span class="n">amount</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.</span>
+                    <span class="n">amount</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="VSP_aux_interval"><a class="viewcode-back" href="../../straph.html#straph.betweenness.VSP_aux_interval">[docs]</a><span class="k">def</span> <span class="nf">VSP_aux_interval</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_plus</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood_minus</span><span class="p">(</span><span class="n">t_plus</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">V</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">dist_x</span><span class="p">,</span> <span class="n">sigma_x</span><span class="p">)</span> <span class="o">=</span> <span class="n">graph_dist_sigma</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dist_x</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dist_x</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">dist_x</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist</span> <span class="ow">and</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)],</span> <span class="n">dim</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)])</span> <span class="o">==</span> <span class="p">(</span><span class="n">dist</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">dim</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span> <span class="o">+</span> <span class="n">d</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">amount</span><span class="p">:</span>
+                        <span class="n">amount</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.</span>
+                    <span class="n">amount</span><span class="p">[(</span><span class="n">t_plus</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)]</span> <span class="o">*</span> <span class="n">sigma_x</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="n">d</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
+
+
+<span class="n">all_VSP</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_VSP</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="VSP"><a class="viewcode-back" href="../../straph.html#straph.betweenness.VSP">[docs]</a><span class="k">def</span> <span class="nf">VSP</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">=</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span>
+    <span class="k">global</span> <span class="n">nb_all_VSP</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span> <span class="ow">in</span> <span class="n">all_VSP</span><span class="p">:</span>
+        <span class="n">nb_all_VSP</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_VSP</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">))]</span>
+    <span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">amount</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">VSP_aux_singleton</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+            <span class="n">all_VSP</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">))]</span> <span class="o">=</span> <span class="p">(</span><span class="n">amount</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">amount</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eventtimes</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span><span class="p">]</span>
+        <span class="n">t_plus</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="n">t_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">t_plus</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">VSP_aux_interval</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_plus</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+        <span class="n">VSP_aux_singleton</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">t_plus</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="n">amount</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+            <span class="n">all_VSP</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">))]</span> <span class="o">=</span> <span class="p">(</span><span class="n">amount</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="n">dim</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">amount</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)],</span> <span class="n">dim</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_VSP</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">))]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span></div>
+
+
+<span class="n">all_VSP_tv</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_VSP_tv</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="VSP_tv"><a class="viewcode-back" href="../../straph.html#straph.betweenness.VSP_tv">[docs]</a><span class="k">def</span> <span class="nf">VSP_tv</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span>
+    <span class="k">global</span> <span class="n">nb_all_VSP_tv</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="ow">in</span> <span class="n">all_VSP_tv</span><span class="p">:</span>
+        <span class="n">nb_all_VSP_tv</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_VSP_tv</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span>
+    <span class="p">(</span><span class="n">dist_iu</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">dist_tv</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">j</span><span class="p">)</span>
+    <span class="c1"># three lines hack to get dist_iu[(t,v)]</span>
+    <span class="p">(</span><span class="n">dist_iut</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist_iut</span><span class="p">:</span>
+        <span class="n">dist_iu</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dist_iut</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist_iu</span> <span class="ow">and</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist_iu</span> <span class="ow">and</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="n">dist_tv</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dist_iu</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">==</span> <span class="n">dist_iu</span><span class="p">[(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span> <span class="o">+</span> <span class="n">dist_tv</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)]:</span>
+            <span class="n">resu</span> <span class="o">=</span> <span class="n">timesvol</span><span class="p">(</span><span class="n">VSP</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)),</span> <span class="n">VSP</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+                <span class="n">all_VSP_tv</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="o">=</span> <span class="n">resu</span>
+            <span class="k">return</span> <span class="n">resu</span>
+    <span class="c1"># return timesvol(VSP((i,u),(t,v)),VSP((t,v),(j,w)))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_VSP_tv</span><span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Propagate"><a class="viewcode-back" href="../../straph.html#straph.betweenness.Propagate">[docs]</a><span class="k">def</span> <span class="nf">Propagate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">graph_non_trivial_connected_components</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">C</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+        <span class="n">b_prime</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">P</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">b_second</span><span class="p">,</span> <span class="n">e_second</span><span class="p">,</span> <span class="n">l_second</span><span class="p">)</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">b_second</span> <span class="o">&gt;</span> <span class="n">b_prime</span><span class="p">:</span>
+                    <span class="n">b_prime</span> <span class="o">=</span> <span class="n">b_second</span>
+                    <span class="n">X</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">v</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">b_second</span> <span class="o">==</span> <span class="n">b_prime</span><span class="p">:</span>
+                    <span class="n">X</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+                    <span class="n">P</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">-</span> <span class="n">b_prime</span><span class="p">))</span></div>
+
+<span class="n">all_LL</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_LL</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="Latency_lists"><a class="viewcode-back" href="../../straph.html#straph.betweenness.Latency_lists">[docs]</a><span class="k">def</span> <span class="nf">Latency_lists</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+    <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">global</span> <span class="n">nb_all_LL</span>
+    <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">all_LL</span><span class="p">:</span>
+        <span class="n">nb_all_LL</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_LL</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">LL</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># for v in V:</span>
+    <span class="c1">#     P[v] = []</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eventtimes</span><span class="p">:</span>
+        <span class="n">P</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">Propagate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+    <span class="n">LL</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">V</span> <span class="o">-</span> <span class="p">{</span><span class="n">u</span><span class="p">}:</span>
+        <span class="n">LL</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">P</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">b_prime</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">LL</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                    <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">LL</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">b_prime</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">N</span> <span class="o">=</span> <span class="n">get_graph_neighborhood_minus</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">graph_is_reachable</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+                        <span class="n">e_prime</span> <span class="o">=</span> <span class="n">b</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">LL</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b_prime</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">LL</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_LL</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">LL</span>
+    <span class="k">return</span> <span class="n">LL</span></div>
+
+
+<span class="n">all_PL</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_PL</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="PrevListOldNoDist"><a class="viewcode-back" href="../../straph.html#straph.betweenness.PrevListOldNoDist">[docs]</a><span class="k">def</span> <span class="nf">PrevListOldNoDist</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_PL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_PL</span><span class="p">:</span>
+        <span class="n">nb_all_PL</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_PL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span>
+    <span class="n">PL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="n">l_prime</span><span class="p">)</span> <span class="o">=</span> <span class="n">LL</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">b_prime</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="ow">or</span> <span class="n">l_prime</span> <span class="o">!=</span> <span class="n">e_prime</span> <span class="o">-</span> <span class="n">b_prime</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+                <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+                <span class="n">vol</span> <span class="o">=</span> <span class="n">plusvol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">VSP</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">alpha</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_PL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="n">PL</span>
+    <span class="k">return</span> <span class="n">PL</span></div>
+
+
+<div class="viewcode-block" id="PrevList"><a class="viewcode-back" href="../../straph.html#straph.betweenness.PrevList">[docs]</a><span class="k">def</span> <span class="nf">PrevList</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_PL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_PL</span><span class="p">:</span>
+        <span class="n">nb_all_PL</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_PL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span>
+    <span class="n">PL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="n">l_prime</span><span class="p">)</span> <span class="o">=</span> <span class="n">LL</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">b_prime</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="ow">or</span> <span class="n">l_prime</span> <span class="o">!=</span> <span class="n">e_prime</span> <span class="o">-</span> <span class="n">b_prime</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">d_prime</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">e_prime</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">d_prime</span><span class="p">[(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">)]:</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">d_prime</span><span class="p">[(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">==</span> <span class="n">d</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">)]:</span>
+                    <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+                    <span class="n">vol</span> <span class="o">=</span> <span class="n">plusvol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">VSP</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">PL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">alpha</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_PL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="n">PL</span>
+    <span class="k">return</span> <span class="n">PL</span></div>
+
+
+<span class="n">all_NL</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_NL</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="NextListOldNoDist"><a class="viewcode-back" href="../../straph.html#straph.betweenness.NextListOldNoDist">[docs]</a><span class="k">def</span> <span class="nf">NextListOldNoDist</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_NL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_NL</span><span class="p">:</span>
+        <span class="n">nb_all_NL</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_NL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span>
+    <span class="n">NL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="n">l_prime</span><span class="p">)</span> <span class="o">=</span> <span class="n">LL</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">b_prime</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="ow">or</span> <span class="n">l_prime</span> <span class="o">!=</span> <span class="n">e_prime</span> <span class="o">-</span> <span class="n">b_prime</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+                <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+                <span class="n">vol</span> <span class="o">=</span> <span class="n">plusvol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">VSP</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">omega</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_NL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="n">NL</span>
+    <span class="k">return</span> <span class="n">NL</span></div>
+
+
+<div class="viewcode-block" id="NextList"><a class="viewcode-back" href="../../straph.html#straph.betweenness.NextList">[docs]</a><span class="k">def</span> <span class="nf">NextList</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">nb_all_NL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="n">all_NL</span><span class="p">:</span>
+        <span class="n">nb_all_NL</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_NL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="k">assert</span> <span class="n">is_sorted</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span>
+    <span class="n">NL</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">e_prime</span><span class="p">,</span> <span class="n">l_prime</span><span class="p">)</span> <span class="o">=</span> <span class="n">LL</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">b_prime</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="ow">or</span> <span class="n">l_prime</span> <span class="o">!=</span> <span class="n">e_prime</span> <span class="o">-</span> <span class="n">b_prime</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">d_prime</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dist_and_dim</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">e_prime</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">d_prime</span><span class="p">[(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">)]:</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">d_prime</span><span class="p">[(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">==</span> <span class="n">d</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">)]:</span>
+                    <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+                    <span class="c1"># TODO : Checker VSP pour adaptation SFP.</span>
+                    <span class="n">vol</span> <span class="o">=</span> <span class="n">plusvol</span><span class="p">(</span><span class="n">vol</span><span class="p">,</span> <span class="n">VSP</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">w</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LL</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">l_prime</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">e_prime</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">NL</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">omega</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_NL</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">)]</span> <span class="o">=</span> <span class="n">NL</span>
+    <span class="k">return</span> <span class="n">NL</span></div>
+
+
+<span class="n">all_Contributions</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nb_all_Contributions</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="Contribution"><a class="viewcode-back" href="../../straph.html#straph.betweenness.Contribution">[docs]</a><span class="k">def</span> <span class="nf">Contribution</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="k">global</span> <span class="n">nb_all_Contributions</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="ow">in</span> <span class="n">all_Contributions</span><span class="p">:</span>
+        <span class="n">nb_all_Contributions</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">all_Contributions</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span>
+    <span class="n">vol_v</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">latency</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># for assert</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">LL</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+                    <span class="n">all_Contributions</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="o">=</span> <span class="mf">0.</span>
+                <span class="k">return</span> <span class="mf">0.</span>
+            <span class="n">vol_v</span> <span class="o">=</span> <span class="n">VSP_tv</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">vol_v</span> <span class="o">!=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">break</span>
+    <span class="k">if</span> <span class="n">vol_v</span> <span class="o">==</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+            <span class="n">all_Contributions</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="k">return</span> <span class="mf">0.</span>
+    <span class="n">vol_be</span> <span class="o">=</span> <span class="n">VSP</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span>
+    <span class="n">Prev</span> <span class="o">=</span> <span class="n">PrevList</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">)</span>
+    <span class="n">Next</span> <span class="o">=</span> <span class="n">NextList</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">LL</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">b_l</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">b_l_minus</span><span class="p">,</span> <span class="n">vol_l</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Prev</span><span class="p">:</span>
+        <span class="n">e_r</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">e_r_plus</span><span class="p">,</span> <span class="n">vol_r</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Next</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="p">(</span><span class="n">b_l</span> <span class="o">-</span> <span class="n">b_l_minus</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">e_r_plus</span> <span class="o">-</span> <span class="n">e_r</span><span class="p">)</span> <span class="o">*</span> <span class="n">divvol</span><span class="p">(</span><span class="n">vol_v</span><span class="p">,</span> <span class="n">plusvol</span><span class="p">(</span><span class="n">plusvol</span><span class="p">(</span><span class="n">vol_l</span><span class="p">,</span> <span class="n">vol_r</span><span class="p">),</span> <span class="n">vol_be</span><span class="p">))</span>
+            <span class="n">e_r</span> <span class="o">=</span> <span class="n">e_r_plus</span>
+        <span class="n">b_l</span> <span class="o">=</span> <span class="n">b_l_minus</span>
+    <span class="k">if</span> <span class="n">Caching</span><span class="p">:</span>
+        <span class="n">all_Contributions</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="Betweenness"><a class="viewcode-back" href="../../straph.html#straph.betweenness.Betweenness">[docs]</a><span class="k">def</span> <span class="nf">Betweenness</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">V</span><span class="p">:</span>
+        <span class="n">LL</span> <span class="o">=</span> <span class="n">Latency_lists</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">V</span><span class="p">:</span>
+            <span class="n">B</span> <span class="o">+=</span> <span class="n">Contribution</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">LL</span><span class="p">[</span><span class="n">w</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">B</span></div>
+
+
+<div class="viewcode-block" id="load_link_stream"><a class="viewcode-back" href="../../straph.html#straph.betweenness.load_link_stream">[docs]</a><span class="k">def</span> <span class="nf">load_link_stream</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">label_to_node</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nodes_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label_to_id</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_to_id</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ipt</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;omega&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">omega</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+                <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u_label</span><span class="p">,</span> <span class="n">v_label</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="c1">#</span>
+                <span class="k">if</span> <span class="n">label_to_node</span><span class="p">:</span>
+                    <span class="n">u</span> <span class="o">=</span> <span class="n">label_to_node</span><span class="p">[</span><span class="n">u_label</span><span class="p">]</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">label_to_node</span><span class="p">[</span><span class="n">v_label</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">u</span> <span class="o">=</span> <span class="n">label_to_id</span><span class="p">[</span><span class="n">u_label</span><span class="p">]</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">label_to_id</span><span class="p">[</span><span class="n">v_label</span><span class="p">]</span>
+                    <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_label</span>
+                    <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_label</span>
+                <span class="c1">#</span>
+                <span class="n">V</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                <span class="n">V</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+                <span class="n">eventtimes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="n">eventtimes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">alpha</span> <span class="o">!=</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">omega</span> <span class="o">!=</span> <span class="kc">None</span>
+    <span class="n">eventtimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">eventtimes</span><span class="p">)</span>
+    <span class="n">eventtimes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">omega</span></div>
+
+
+<div class="viewcode-block" id="latencies_CM_ss"><a class="viewcode-back" href="../../straph.html#straph.betweenness.latencies_CM_ss">[docs]</a><span class="k">def</span> <span class="nf">latencies_CM_ss</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">global</span> <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span><span class="n">Caching</span>
+    <span class="n">Caching</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">omega</span> <span class="o">=</span> <span class="n">LS</span>
+    <span class="n">latencies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Res</span> <span class="o">=</span> <span class="n">Latency_lists</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">Res</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Res</span><span class="p">[</span><span class="n">u</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">tmp</span><span class="p">:</span>
+                <span class="n">latencies</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="c1"># print(&quot;Latencies :&quot;, latencies)  # {source : [(starting_time,arrival_time,latence)]}</span>
+        <span class="k">return</span> <span class="n">latencies</span></div>
+
+
+<div class="viewcode-block" id="distances_CM_ss"><a class="viewcode-back" href="../../straph.html#straph.betweenness.distances_CM_ss">[docs]</a><span class="k">def</span> <span class="nf">distances_CM_ss</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">global</span> <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">Caching</span>
+    <span class="n">Caching</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">eventtimes</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">omega</span> <span class="o">=</span> <span class="n">LS</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Res</span> <span class="o">=</span> <span class="n">only_dist</span><span class="p">((</span><span class="n">alpha</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">omega</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Res</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">distances</span><span class="p">:</span>
+                <span class="n">distances</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">Res</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">distances</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">Res</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">distances</span></div>
+    <span class="c1"># print(&quot;Distances :&quot;, distances)  # {noeud temp : distance}</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">Caching</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1">#</span>
+    <span class="n">Output_picture</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">__directory__</span> <span class="o">=</span> <span class="s2">&quot;/home/leo/Dev/CODE/Straph/examples/path_examples/&quot;</span>
+    <span class="vm">__file__</span> <span class="o">=</span> <span class="s2">&quot;tmp.lsf&quot;</span>
+    <span class="n">LS</span> <span class="o">=</span> <span class="n">load_link_stream</span><span class="p">(</span><span class="n">__directory__</span> <span class="o">+</span> <span class="vm">__file__</span><span class="p">)</span>
+
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">distances_CM_ss</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span><span class="mi">121</span><span class="p">))</span>
+    <span class="n">exit</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">LS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Source :&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">latencies_CM_ss</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">distances_CM_ss</span><span class="p">(</span><span class="n">LS</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># read input data</span>
+    <span class="c1"># if Output_picture:</span>
+    <span class="c1">#     f = open(&quot;draw.py&quot;, &quot;w&quot;)</span>
+    <span class="c1">#     f.write(&quot;from Drawing import *\n&quot;)</span>
+    <span class="c1">#     f.write(&quot;s = Drawing(alpha=%g, omega=%g)\n&quot; % (alpha, omega))</span>
+    <span class="c1">#     for v in sorted(V):</span>
+    <span class="c1">#         f.write(&quot;s.addNode(\&quot;&quot; + v + &quot;\&quot;, [(%g,%g)])\n&quot; % (alpha, alpha))</span>
+    <span class="c1">#     f.write(&quot;\n&quot;)</span>
+
+    <span class="c1"># compute sample betweenness</span>
+    <span class="c1"># nb_points = 100</span>
+    <span class="c1"># increment = (omega - alpha) / nb_points</span>
+    <span class="c1"># for i in range(nb_points):</span>
+    <span class="c1">#     t = alpha + (i * (omega - alpha)) / nb_points</span>
+    <span class="c1">#     for v in V:</span>
+    <span class="c1">#         resu = Betweenness((t, v))</span>
+    <span class="c1">#         if resu != 0:</span>
+    <span class="c1">#             btv = Betweenness((t, v))</span>
+    <span class="c1">#             sys.stdout.write(&quot;%g %s &quot; % (t, v))</span>
+    <span class="c1">#             sys.stdout.write(&quot;%g\n&quot; % btv)</span>
+    <span class="c1">#             sys.stdout.flush()</span>
+    <span class="c1">#             if Output_picture:</span>
+    <span class="c1">#                 f.write(&quot;s.addNodeCluster(\&quot;&quot; + v + &quot;\&quot;, [(%g,%g)], width=%g, color=11)\n&quot; % (</span>
+    <span class="c1">#                 t - increment / 2, t + increment / 2, int(1000. * math.sqrt(btv)) / 100.))</span>
+    <span class="c1">#</span>
+    <span class="c1"># if Output_picture:</span>
+    <span class="c1">#     for (b, e, u, v) in E:</span>
+    <span class="c1">#         if u &lt; v:</span>
+    <span class="c1">#             f.write(&quot;s.addLink(\&quot;&quot; + u + &quot;\&quot;, \&quot;&quot; + v + &quot;\&quot;, %g, %g)\n&quot; % (b, e))</span>
+    <span class="c1">#     f.write(&quot;\n&quot;)</span>
+    <span class="c1">#     f.write(&quot;\ns.addTimeLine(ticks=2)\n&quot;)</span>
+    <span class="c1">#     f.close()</span>
+    <span class="c1">#</span>
+    <span class="c1"># if Caching:</span>
+    <span class="c1">#     sys.stderr.write(&quot;Cache usage:\n&quot;)</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_N: %d %d\n&quot; % (len(all_N), nb_all_N))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_N_minus: %d %d\n&quot; % (len(all_N_minus), nb_all_N_minus))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_DD: %d %d\n&quot; % (len(all_DD), nb_all_DD))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_VSP: %d %d\n&quot; % (len(all_VSP), nb_all_VSP))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_VSP_tv: %d %d\n&quot; % (len(all_VSP_tv), nb_all_VSP_tv))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_LL: %d %d\n&quot; % (len(all_LL), nb_all_LL))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_NL: %d %d\n&quot; % (len(all_NL), nb_all_NL))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_PL: %d %d\n&quot; % (len(all_PL), nb_all_PL))</span>
+    <span class="c1">#     sys.stderr.write(&quot; all_Contributions: %d %d\n&quot; % (len(all_Contributions), nb_all_Contributions))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

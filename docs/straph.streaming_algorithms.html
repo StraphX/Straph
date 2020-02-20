@@ -1,0 +1,1085 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.streaming_algorithms package &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.streaming_algorithms package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms.fastest_path_algorithm">straph.streaming_algorithms.fastest_path_algorithm module</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms.kcores_streaming">straph.streaming_algorithms.kcores_streaming module</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms.scc_streaming">straph.streaming_algorithms.scc_streaming module</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms.shortest_path_streaming">straph.streaming_algorithms.shortest_path_streaming module</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms.wcc_streaming">straph.streaming_algorithms.wcc_streaming module</a></li>
+<li><a class="reference internal" href="#module-straph.streaming_algorithms">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.streaming_algorithms package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.streaming_algorithms.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-streaming-algorithms-package">
+<h1>straph.streaming_algorithms package<a class="headerlink" href="#straph-streaming-algorithms-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.streaming_algorithms.fastest_path_algorithm">
+<span id="straph-streaming-algorithms-fastest-path-algorithm-module"></span><h2>straph.streaming_algorithms.fastest_path_algorithm module<a class="headerlink" href="#module-straph.streaming_algorithms.fastest_path_algorithm" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.bfs_with_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">bfs_with_path</code><span class="sig-paren">(</span><em>a_l</em>, <em>id_wcc</em>, <em>start_comp</em>, <em>start_time</em>, <em>destination</em>, <em>duration_threshold</em>, <em>dict_id_wcc_to_dag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#bfs_with_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.bfs_with_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>BFS giving the path
+:param a_l:
+:param id_wcc:
+:param start_comp:
+:param start_time:
+:param destination:
+:param duration_threshold:
+:param dict_id_wcc_to_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.bfs_with_ttr">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">bfs_with_ttr</code><span class="sig-paren">(</span><em>a_l</em>, <em>G</em>, <em>id_wcc</em>, <em>start_comp</em>, <em>start_time</em>, <em>source</em>, <em>destination</em>, <em>duration_threshold</em>, <em>unvisited</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#bfs_with_ttr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.bfs_with_ttr" title="Permalink to this definition">¶</a></dt>
+<dd><p>BFS giving the time to reach
+:param a_l:
+:param id_wcc:
+:param start_comp:
+:param start_time:
+:param destination:
+:param duration_threshold:
+:param dict_id_wcc_to_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_all_fastest_paths">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_all_fastest_paths</code><span class="sig-paren">(</span><em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_all_fastest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_all_fastest_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:param scc_storage:
+:param dict_offset:
+:param refactor:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_all_foremost_paths">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_all_foremost_paths</code><span class="sig-paren">(</span><em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_all_foremost_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_all_foremost_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_augmented_neighborhood">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_augmented_neighborhood</code><span class="sig-paren">(</span><em>links</em>, <em>node_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_augmented_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_augmented_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>On veut des segments de noeuds comme clefs ainsi que dans les voisins (b,e,v) : [(t0,t1,(nt0,nt1,u))] :)
+:param links:
+:param node_presence:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_dag">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_dict_offset_dag</code><span class="sig-paren">(</span><em>path_scc_dag</em>, <em>storage_path=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_dict_offset_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute offset of each dag in ‘scc_dag.scf’, in order to fast access a dag.
+:param path_scc_scf:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_scc">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_dict_offset_scc</code><span class="sig-paren">(</span><em>path_scc_scf</em>, <em>storage_path=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_dict_offset_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute offset of each scc in ‘scc.scf’, in order to fast access a scc.
+:param path_scc_scf:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_wcc">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_dict_offset_wcc</code><span class="sig-paren">(</span><em>path_wcc_scf</em>, <em>storage_path=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_dict_offset_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_dict_offset_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute offset of each dag in ‘scc_dag.scf’, in order to fast access a dag.
+:param path_scc_scf:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_fastest_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_fastest_path</code><span class="sig-paren">(</span><em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:param scc_storage:
+:param dict_offset:
+:param refactor:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_fastest_path_streaming">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_fastest_path_streaming</code><span class="sig-paren">(</span><em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_fastest_path_streaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_fastest_path_streaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:param scc_storage:
+:param dict_offset:
+:param refactor:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_foremost_path</code><span class="sig-paren">(</span><em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_foremost_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path_pw">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_foremost_path_pw</code><span class="sig-paren">(</span><em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>dict_offset=None</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_foremost_path_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p># TODO : TO FINISH
+Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path_streaming">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_foremost_path_streaming</code><span class="sig-paren">(</span><em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_foremost_path_streaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_foremost_path_streaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_latencies_in_wcc_wu">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_latencies_in_wcc_wu</code><span class="sig-paren">(</span><em>source</em>, <em>N</em>, <em>L</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_latencies_in_wcc_wu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_latencies_in_wcc_wu" title="Permalink to this definition">¶</a></dt>
+<dd><p>One pass algorithm to compute single source latenciesinside a WCC
+BFS like (to respect the temporal order of the links).
+We can visit each node several time, but we visit links only once !!
+:param source:
+:param links:
+:param L:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_latencies_wu">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_latencies_wu</code><span class="sig-paren">(</span><em>source</em>, <em>index_node_to_wcc</em>, <em>id_wcc_to_augmented_neighborhood</em>, <em>id_wcc_to_node_presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_latencies_wu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_latencies_wu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single source computation of latencies (duration of any shortest path).
+:param source:
+:param wcc_storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_latency">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_latency</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em>, <em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_latency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_latency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the latency path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:param scc_storage:
+:param refactor:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_latency_ss">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_latency_ss</code><span class="sig-paren">(</span><em>source</em>, <em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_latency_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_latency_ss" title="Permalink to this definition">¶</a></dt>
+<dd><p># TODO : tester une version où on a Unvisited_wcc et Unvisited_scc
+Compute latencies from <em>source</em> to every nodes of S
+:param dict_id_wcc_dag:
+:param index_node_to_scc:
+:param source:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_ttr">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_ttr</code><span class="sig-paren">(</span><em>G</em>, <em>id_wcc</em>, <em>index_node_to_scc</em>, <em>start_time</em>, <em>source</em>, <em>destination</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em>, <em>unvisited=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_ttr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_ttr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute time to reach a temporal destination node from a temporal source node and starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.compute_ttr_ss">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">compute_ttr_ss</code><span class="sig-paren">(</span><em>G</em>, <em>id_wcc</em>, <em>dict_comp_to_ttr</em>, <em>source</em>, <em>start_comp=0</em>, <em>unvisited=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#compute_ttr_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.compute_ttr_ss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute time to reach every nodes in a WCC from a source
+%Techniquement dans chaque DAG la racine est la comp id_scc = 0
+:param G:
+:param id_wcc:
+:param dict_comp_to_ttr:
+:param source:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.construct_index_node_to_scc">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">construct_index_node_to_scc</code><span class="sig-paren">(</span><em>scc_storage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#construct_index_node_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.construct_index_node_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.construct_index_node_to_wcc">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">construct_index_node_to_wcc</code><span class="sig-paren">(</span><em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#construct_index_node_to_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.construct_index_node_to_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.fuzz_fastest_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">fuzz_fastest_path</code><span class="sig-paren">(</span><em>S</em>, <em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>dict_offset_scc=None</em>, <em>dict_offset_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#fuzz_fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.fuzz_fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.fuzz_latencies_wu">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">fuzz_latencies_wu</code><span class="sig-paren">(</span><em>S</em>, <em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>dict_offset_wcc</em>, <em>dag_path</em>, <em>scc_path</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#fuzz_latencies_wu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.fuzz_latencies_wu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.fuzz_latency">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">fuzz_latency</code><span class="sig-paren">(</span><em>S</em>, <em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>dict_offset_scc=None</em>, <em>dict_offset_dag=None</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#fuzz_latency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.fuzz_latency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.fuzz_latency_ss">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">fuzz_latency_ss</code><span class="sig-paren">(</span><em>S</em>, <em>dag_path</em>, <em>scc_path</em>, <em>index_node_to_scc</em>, <em>dict_offset_scc=None</em>, <em>dict_offset_dag=None</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#fuzz_latency_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.fuzz_latency_ss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.get_node_presence">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">get_node_presence</code><span class="sig-paren">(</span><em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#get_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.get_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.load_condensation_dag">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">load_condensation_dag</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>dag_path</em>, <em>scc_path</em>, <em>dict_offset_scc</em>, <em>dict_offset_dag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#load_condensation_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.load_condensation_dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO : Definir une limite pour ne charger le Dag que si il tient en mémoire (assez rare à riprio)
+:param id_wcc:
+:param dag_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.load_condensation_dags">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">load_condensation_dags</code><span class="sig-paren">(</span><em>dag_path</em>, <em>dict_offset_scc</em>, <em>dict_offset_dag</em>, <em>scc_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#load_condensation_dags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.load_condensation_dags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.load_dag_links">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">load_dag_links</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>dag_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#load_dag_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.load_dag_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.load_scc_from_msgpack">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">load_scc_from_msgpack</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>id_scc</em>, <em>scc_storage</em>, <em>dict_offset_scc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#load_scc_from_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.load_scc_from_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.load_wcc">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">load_wcc</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>dict_offset_wcc</em>, <em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#load_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.load_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.plot_fastest_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">plot_fastest_path</code><span class="sig-paren">(</span><em>path</em>, <em>latency</em>, <em>id_wcc</em>, <em>S</em>, <em>source</em>, <em>destination</em>, <em>col='#8f246b'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#plot_fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.plot_fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path on the Stream Graph S
+:param S: A Stream Graph
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.plot_foremost_path">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">plot_foremost_path</code><span class="sig-paren">(</span><em>path</em>, <em>ttr</em>, <em>id_wcc</em>, <em>S</em>, <em>source</em>, <em>destination</em>, <em>col='#8f246b'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#plot_foremost_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.plot_foremost_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path on the Stream Graph S
+:param S: A Stream Graph
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.remove_dominated_elements">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">remove_dominated_elements</code><span class="sig-paren">(</span><em>M</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#remove_dominated_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.remove_dominated_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.unpack_ttr">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">unpack_ttr</code><span class="sig-paren">(</span><em>L</em>, <em>index_node_to_scc</em>, <em>dict_comp_to_ttr</em>, <em>done</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#unpack_ttr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.unpack_ttr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.fastest_path_algorithm.update_paths">
+<code class="descclassname">straph.streaming_algorithms.fastest_path_algorithm.</code><code class="descname">update_paths</code><span class="sig-paren">(</span><em>M</em>, <em>t0</em>, <em>t1</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/fastest_path_algorithm.html#update_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.fastest_path_algorithm.update_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update L structure
+Elements of L are sorted by their starting time, (and the better the duration is the worse the arrival time is).
+We just need to add to L[v] the last element in L[u] before
+the beginning of the link (t0) and every other element during the link (from t0 to t1).
+:param M:
+:param t0:
+:param t1:
+:param u:
+:param v:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.streaming_algorithms.kcores_streaming">
+<span id="straph-streaming-algorithms-kcores-streaming-module"></span><h2>straph.streaming_algorithms.kcores_streaming module<a class="headerlink" href="#module-straph.streaming_algorithms.kcores_streaming" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.KC_list">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">KC_list</code><span class="sig-paren">(</span><em>k</em>, <em>a_l</em>, <em>node_label</em>, <em>C=[]</em>, <em>R=[]</em>, <em>DEBUG=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#KC_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.KC_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cliques of a static graph from its core odering dag.
+:param k: The parameter k, number of nodes in the considered cliques
+:param a_l: Adjacency list of the core ordering dag
+:param node_label: label of each node
+:param C: List of current cliques
+:param R: List of completed cliques
+:param DEBUG:
+:return: The k_cliques of the graph.
+References
+———
+[2] Listing k-cliques in Sparse Real-World Graphs
+Maximilien Danisch, et al., 2018
+<a class="reference external" href="https://dl.acm.org/citation.cfm?id=3186125">https://dl.acm.org/citation.cfm?id=3186125</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.algo_kcores_batagelj">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">algo_kcores_batagelj</code><span class="sig-paren">(</span><em>a_l</em>, <em>degrees</em>, <em>core_ordering=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#algo_kcores_batagelj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.algo_kcores_batagelj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cores of a static graph from its adjacency list and nodes degrees
+:return: the core number of each node in the graph
+References
+———-
+[1] An O(m) Algorithm for Cores Decomposition of Networks
+Vladimir Batagelj and Matjaz Zaversnik, 2003.
+<a class="reference external" href="http://arxiv.org/abs/cs.DS/0310049">http://arxiv.org/abs/cs.DS/0310049</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.get_graph_from_ordering">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">get_graph_from_ordering</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em>, <em>ordering</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#get_graph_from_ordering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.get_graph_from_ordering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.get_kcores">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">get_kcores</code><span class="sig-paren">(</span><em>scc</em>, <em>storage_kcores</em>, <em>storage_kcliques=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#get_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.get_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.kcores_from_sccs">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">kcores_from_sccs</code><span class="sig-paren">(</span><em>path_scc</em>, <em>storage_kcores</em>, <em>n_jobs=-1</em>, <em>storage_kcliques=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#kcores_from_sccs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.kcores_from_sccs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.neighborhood_and_degrees_from_links">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">neighborhood_and_degrees_from_links</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#neighborhood_and_degrees_from_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.neighborhood_and_degrees_from_links" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t0</strong> – </li>
+<li><strong>t1</strong> – </li>
+<li><strong>links</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.para_core">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">para_core</code><span class="sig-paren">(</span><em>i</em>, <em>interact_times</em>, <em>inter_links</em>, <em>time_2_pos</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#para_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.para_core" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.para_core_clique">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">para_core_clique</code><span class="sig-paren">(</span><em>i</em>, <em>interact_times</em>, <em>inter_links</em>, <em>time_2_pos</em>, <em>DEBUG=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#para_core_clique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.para_core_clique" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.refactoring_kcliques">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">refactoring_kcliques</code><span class="sig-paren">(</span><em>storage_kcliques</em>, <em>refactor_storage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#refactoring_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.refactoring_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd><p>To regroup (merge) temporal cliques
+:param storage_kcliques: output of kcliques_from_sccs
+:param refactor_storage: final output of post process kcliques
+:return: A file with post process kcliques</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.refactoring_kcores">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">refactoring_kcores</code><span class="sig-paren">(</span><em>storage_kcores</em>, <em>refactor_storage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#refactoring_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.refactoring_kcores" title="Permalink to this definition">¶</a></dt>
+<dd><p>To regroup (merge) temporal nodes by their core number
+:param storage_kcores: output of kcores_from_sccs
+:param refactor_storage: final output of post process kcores
+:return: A file with post process kcores</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.store_kcliques">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">store_kcliques</code><span class="sig-paren">(</span><em>C</em>, <em>id_wcc</em>, <em>id_scc</em>, <em>storage_kcliques</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#store_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.store_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.kcores_streaming.store_kcores">
+<code class="descclassname">straph.streaming_algorithms.kcores_streaming.</code><code class="descname">store_kcores</code><span class="sig-paren">(</span><em>L</em>, <em>id_wcc</em>, <em>id_scc</em>, <em>storage_kcores</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/kcores_streaming.html#store_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.kcores_streaming.store_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.streaming_algorithms.scc_streaming">
+<span id="straph-streaming-algorithms-scc-streaming-module"></span><h2>straph.streaming_algorithms.scc_streaming module<a class="headerlink" href="#module-straph.streaming_algorithms.scc_streaming" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.compute_scc_from_wcc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">compute_scc_from_wcc</code><span class="sig-paren">(</span><em>wcc_file</em>, <em>scc_file=None</em>, <em>dag_file=None</em>, <em>format='msgpack'</em>, <em>n_jobs=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#compute_scc_from_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.compute_scc_from_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute SCC from the WCC
+:param wcc_file: Input file containing the wcc (msgpack format)
+:param scc_file: Output file containing the scc (depending on :param format)
+:param dag_file: Output file containing the scc dag (without the links)
+:param format: Format to store the scc (‘msgpack’ or ‘parquet’)
+:param n_jobs: Parallel option
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.create_scc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">create_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#create_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.create_scc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>l</strong> – </li>
+<li><strong>node_2_status</strong> – </li>
+<li><strong>local_components</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.double_removal">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">double_removal</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#double_removal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.double_removal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.get_scc_from_wcc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">get_scc_from_wcc</code><span class="sig-paren">(</span><em>wcc</em>, <em>scc_file</em>, <em>dag_file=None</em>, <em>writer=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#get_scc_from_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.get_scc_from_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.merge_scc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">merge_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#merge_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.merge_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.remove_link_scc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">remove_link_scc</code><span class="sig-paren">(</span><em>node_to_remove</em>, <em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#remove_link_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.remove_link_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.split_procedure_scc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">split_procedure_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#split_procedure_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.split_procedure_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.store_comp">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">store_comp</code><span class="sig-paren">(</span><em>comp</em>, <em>storage_path</em>, <em>t0</em>, <em>cnt_scc_id</em>, <em>scc_dag</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em>, <em>write_to_parquet=None</em>, <em>writer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#store_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.store_comp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.scc_streaming.update_scc">
+<code class="descclassname">straph.streaming_algorithms.scc_streaming.</code><code class="descname">update_scc</code><span class="sig-paren">(</span><em>node_to_update</em>, <em>node_to_add</em>, <em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>scc_dag</em>, <em>cnt_scc_id=None</em>, <em>write_to_msgpack=None</em>, <em>id_wcc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/scc_streaming.html#update_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.scc_streaming.update_scc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node_to_update</strong> – </li>
+<li><strong>node_to_add</strong> – </li>
+<li><strong>l</strong> – </li>
+<li><strong>node_2_status</strong> – </li>
+<li><strong>local_components</strong> – </li>
+<li><strong>scc_dag</strong> – </li>
+<li><strong>cnt_scc_id</strong> – </li>
+<li><strong>write_to_msgpack</strong> – </li>
+<li><strong>id_wcc</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.streaming_algorithms.shortest_path_streaming">
+<span id="straph-streaming-algorithms-shortest-path-streaming-module"></span><h2>straph.streaming_algorithms.shortest_path_streaming module<a class="headerlink" href="#module-straph.streaming_algorithms.shortest_path_streaming" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.all_wcc_shortest_paths">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">all_wcc_shortest_paths</code><span class="sig-paren">(</span><em>N</em>, <em>source</em>, <em>potential_destinations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#all_wcc_shortest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.all_wcc_shortest_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>BFS Single Source, all possible shortest Paths ?
+:param N:
+:param alpha:
+:param omega:
+:param source:
+:param node_presence:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.bfs">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">bfs</code><span class="sig-paren">(</span><em>N</em>, <em>source</em>, <em>destinations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#bfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.bfs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_FSP_in_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_FSP_in_wcc</code><span class="sig-paren">(</span><em>source</em>, <em>N</em>, <em>D</em>, <em>A</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_FSP_in_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_FSP_in_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>One pass algorithm to compute single source distances inside a WCC
+BFS like (to respect the temporal order of the links).
+We can visit each node several time, but we visit links only once !!
+:param source:
+:param links:
+:param D: Containing the distances to each node from the source.
+:param A: containing the best duration for a shortest path. (fastest shortest path).
+:param P: Containing the current marked out shortest path.
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_all_shortest_paths">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_all_shortest_paths</code><span class="sig-paren">(</span><em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_all_shortest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_all_shortest_paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_augmented_neighborhood">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_augmented_neighborhood</code><span class="sig-paren">(</span><em>links</em>, <em>node_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_augmented_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_augmented_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>On veut des segments de noeuds comme clefs ainsi que dans les voisins (b,e,v) : [(t0,t1,(nt0,nt1,u))] :)
+:param links:
+:param node_presence:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_dict_offset_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_dict_offset_wcc</code><span class="sig-paren">(</span><em>path_wcc_scf</em>, <em>storage_path=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_dict_offset_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_dict_offset_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute offset of each dag in ‘scc_dag.scf’, in order to fast access a dag.
+:param path_scc_scf:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_distances">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_distances</code><span class="sig-paren">(</span><em>source</em>, <em>index_node_to_wcc</em>, <em>id_wcc_to_augmented_neighborhood</em>, <em>id_wcc_to_node_presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_distances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single source computation of distances (length of any shortest path).
+:param source:
+:param wcc_storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_distances_and_duration_FSP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_distances_and_duration_FSP</code><span class="sig-paren">(</span><em>source</em>, <em>index_node_to_wcc</em>, <em>id_wcc_to_augmented_neighborhood</em>, <em>id_wcc_to_node_presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_distances_and_duration_FSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_distances_and_duration_FSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single source computation of distances (length of any shortest path).
+:param source:
+:param wcc_storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_distances_and_duration_in_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_distances_and_duration_in_wcc</code><span class="sig-paren">(</span><em>source</em>, <em>N</em>, <em>D</em>, <em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_distances_and_duration_in_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_distances_and_duration_in_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>One pass algorithm to compute single source distances inside a WCC
+BFS like (to respect the temporal order of the links).
+We can visit each node several time, but we visit links only once !!
+:param source:
+:param links:
+:param D: Containing the distances to each node from the source.
+:param A: containing the best duration for a shortest path. (fastest shortest path).
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_distances_in_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_distances_in_wcc</code><span class="sig-paren">(</span><em>source</em>, <em>N</em>, <em>D</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_distances_in_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_distances_in_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>One pass algorithm to compute single source distances inside a WCC
+BFS like (to respect the temporal order of the links).
+We can visit each node several time, but we visit links only once !!
+:param source:
+:param links:
+:param D:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_distances_in_wcc_v2">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_distances_in_wcc_v2</code><span class="sig-paren">(</span><em>source</em>, <em>N</em>, <em>D</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_distances_in_wcc_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_distances_in_wcc_v2" title="Permalink to this definition">¶</a></dt>
+<dd><p>One pass algorithm to compute single source distances inside a WCC
+BFS like (to respect the temporal order of the links).
+We can visit each node several time, but we visit links only once !!
+:param source:
+:param links:
+:param D:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_links_to_segmented_nodes">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_links_to_segmented_nodes</code><span class="sig-paren">(</span><em>links</em>, <em>node_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_links_to_segmented_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_links_to_segmented_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_links_to_segmented_nodes_with_source">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_links_to_segmented_nodes_with_source</code><span class="sig-paren">(</span><em>links</em>, <em>source</em>, <em>node_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_links_to_segmented_nodes_with_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_links_to_segmented_nodes_with_source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_neighborhood">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_neighborhood</code><span class="sig-paren">(</span><em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_path_FSP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_path_FSP</code><span class="sig-paren">(</span><em>source</em>, <em>index_node_to_wcc</em>, <em>id_wcc_to_augmented_neighborhood</em>, <em>id_wcc_to_node_presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_path_FSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_path_FSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single source computation of distances (length of any shortest path).
+:param source:
+:param wcc_storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_segmented_neighborhood">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_segmented_neighborhood</code><span class="sig-paren">(</span><em>links</em>, <em>node_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_segmented_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_segmented_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>On veut des segments de noeuds comme clefs ainsi que dans les voisins (b,e,v) : [(t0,t1,(nt0,nt1,u))] :)
+:param links:
+:param node_presence:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.compute_shortest_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">compute_shortest_path</code><span class="sig-paren">(</span><em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#compute_shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.compute_shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.construct_index_node_to_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">construct_index_node_to_wcc</code><span class="sig-paren">(</span><em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#construct_index_node_to_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.construct_index_node_to_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.fuzz_all_shortest_paths">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">fuzz_all_shortest_paths</code><span class="sig-paren">(</span><em>S</em>, <em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#fuzz_all_shortest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.fuzz_all_shortest_paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.fuzz_distances">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">fuzz_distances</code><span class="sig-paren">(</span><em>S</em>, <em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>dict_offset_wcc</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#fuzz_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.fuzz_distances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.fuzz_shortest_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">fuzz_shortest_path</code><span class="sig-paren">(</span><em>S</em>, <em>wcc_storage_path</em>, <em>index_node_to_wcc</em>, <em>random_nodes=False</em>, <em>high_degree_nodes=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#fuzz_shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.fuzz_shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.get_node_presence">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">get_node_presence</code><span class="sig-paren">(</span><em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#get_node_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.get_node_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.load_wcc">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">load_wcc</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>dict_offset_wcc</em>, <em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#load_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.load_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.plot_shortest_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">plot_shortest_path</code><span class="sig-paren">(</span><em>path</em>, <em>S</em>, <em>color='#8f246b'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#plot_shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.plot_shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path on the Stream Graph S
+:param S: A Stream Graph
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.reformat_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">reformat_path</code><span class="sig-paren">(</span><em>p</em>, <em>a</em>, <em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#reformat_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.reformat_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.reformat_path_SP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">reformat_path_SP</code><span class="sig-paren">(</span><em>dest</em>, <em>p</em>, <em>a</em>, <em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#reformat_path_SP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.reformat_path_SP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.remove_dominated_elements">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">remove_dominated_elements</code><span class="sig-paren">(</span><em>L</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#remove_dominated_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.remove_dominated_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.remove_dominated_elements_FSP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">remove_dominated_elements_FSP</code><span class="sig-paren">(</span><em>L</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#remove_dominated_elements_FSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.remove_dominated_elements_FSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>FSP : Fastest Shortest Path
+:param L:
+:param v:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.unpack_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">unpack_path</code><span class="sig-paren">(</span><em>p</em>, <em>a</em>, <em>l</em>, <em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#unpack_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.unpack_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backtracking procedure in order to keep the coherency of the path.
+:param p: precedent node in the path
+:param a: arrival time in n
+:param l: leaving time of n
+:param source:
+:param destination:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.update_FSP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">update_FSP</code><span class="sig-paren">(</span><em>L</em>, <em>t0</em>, <em>t1</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#update_FSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.update_FSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>FSP : Fastest Shortest Path
+Update L structure
+Elements of L are sorted by their distances, (and the better the distance is the worse the arrival time is).
+We just need to add to L[v] the last element in L[u] before
+the beginning of the link (t0) and every other element during the link (from t0 to t1).
+:param L:
+:param t0:
+:param t1:
+:param u:
+:param v:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.update_L">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">update_L</code><span class="sig-paren">(</span><em>L</em>, <em>t0</em>, <em>t1</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#update_L"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.update_L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.update_path_SP">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">update_path_SP</code><span class="sig-paren">(</span><em>L</em>, <em>P</em>, <em>k</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#update_path_SP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.update_path_SP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the best Path so far : P[n]
+:param L:
+:param P:
+:param k:
+:param v:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.update_paths">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">update_paths</code><span class="sig-paren">(</span><em>L</em>, <em>t0</em>, <em>t1</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#update_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.update_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update L structure
+Elements of L are sorted by their distances, (and the better the distance is the worse the arrival time is).
+We just need to add to L[v] the last element in L[u] before
+the beginning of the link (t0) and every other element during the link (from t0 to t1).
+:param L:
+:param t0:
+:param t1:
+:param u:
+:param v:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.wcc_shortest_path">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">wcc_shortest_path</code><span class="sig-paren">(</span><em>N</em>, <em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#wcc_shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.wcc_shortest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single Source Algorithm</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.shortest_path_streaming.wcc_shortest_path_pw">
+<code class="descclassname">straph.streaming_algorithms.shortest_path_streaming.</code><code class="descname">wcc_shortest_path_pw</code><span class="sig-paren">(</span><em>links</em>, <em>alpha</em>, <em>omega</em>, <em>W</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/shortest_path_streaming.html#wcc_shortest_path_pw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.shortest_path_streaming.wcc_shortest_path_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pairwise Algorithm (du lourd, du très très lourd)
+:param links:
+:param alpha:
+:param omega:
+:param source:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.streaming_algorithms.wcc_streaming">
+<span id="straph-streaming-algorithms-wcc-streaming-module"></span><h2>straph.streaming_algorithms.wcc_streaming module<a class="headerlink" href="#module-straph.streaming_algorithms.wcc_streaming" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.check_intersection">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">check_intersection</code><span class="sig-paren">(</span><em>dict_node_presence</em>, <em>u</em>, <em>t0</em>, <em>t1</em>, <em>id_wcc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#check_intersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.check_intersection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check u is already in dict_node_presence between t0 and t1 in another wcc
+:param dict_node_presence:
+:param u:
+:param t0:
+:param t1:
+:param id_wcc:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.check_test_overlap_wcc">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">check_test_overlap_wcc</code><span class="sig-paren">(</span><em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#check_test_overlap_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.check_test_overlap_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if there is an overlap in WCC
+:param wcc_storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.compute_wcc_from_links">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">compute_wcc_from_links</code><span class="sig-paren">(</span><em>links_input</em>, <em>wcc_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#compute_wcc_from_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.compute_wcc_from_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.create_wcc">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">create_wcc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#create_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.create_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a wcc component
+:param u:
+:param v:
+:param t0:
+:param t1:
+:param node_2_status:
+:param nb_comp:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.end_comp">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">end_comp</code><span class="sig-paren">(</span><em>n_current_comp</em>, <em>local_components</em>, <em>cnt_wcc_id</em>, <em>storage_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#end_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.end_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the component
+:param n_current_comp:
+:param local_components:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.merge_wccs">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">merge_wccs</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#merge_wccs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.merge_wccs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two components
+:param l:
+:param node_2_status:
+:param local_components:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.streaming_algorithms.wcc_streaming.update_wcc">
+<code class="descclassname">straph.streaming_algorithms.wcc_streaming.</code><code class="descname">update_wcc</code><span class="sig-paren">(</span><em>node_to_update</em>, <em>node_to_add</em>, <em>l</em>, <em>node_2_status</em>, <em>local_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/streaming_algorithms/wcc_streaming.html#update_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.streaming_algorithms.wcc_streaming.update_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a component with a new node
+:param node_to_update:
+:param node_to_add:
+:param t0:
+:param t1:
+:param node_2_status:
+:param local_components:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.streaming_algorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.streaming_algorithms" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

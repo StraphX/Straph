@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.analysis package &mdash; straph 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> straph
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.analysis package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.anomalies_analysis">straph.analysis.anomalies_analysis module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.non_aggregated_analysis">straph.analysis.non_aggregated_analysis module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.stats_components_kcores">straph.analysis.stats_components_kcores module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.stream_comparaison">straph.analysis.stream_comparaison module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.stream_properties_analysis">straph.analysis.stream_properties_analysis module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis.visualisation_stream_graph_properties">straph.analysis.visualisation_stream_graph_properties module</a></li>
+<li><a class="reference internal" href="#module-straph.analysis">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.analysis package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.analysis.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-analysis-package">
+<h1>straph.analysis package<a class="headerlink" href="#straph-analysis-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.analysis.anomalies_analysis">
+<span id="straph-analysis-anomalies-analysis-module"></span><h2>straph.analysis.anomalies_analysis module<a class="headerlink" href="#module-straph.analysis.anomalies_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.anomalies_in_kcliques">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">anomalies_in_kcliques</code><span class="sig-paren">(</span><em>anomalies</em>, <em>storage_kcliques</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#anomalies_in_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.anomalies_in_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return kcliques containing anomalies and kcliques considered as normal.
+(For a comparison/discriminating purpose)
+:param anomalies:
+:param storage_kcliques:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.anomalies_in_kcores">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">anomalies_in_kcores</code><span class="sig-paren">(</span><em>anomalies</em>, <em>storage_kcores</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#anomalies_in_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.anomalies_in_kcores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return kcores containing anomalies and kcores considered as ‘normal’.
+(For a comparison/discriminating purpose)
+:param anomalies:
+:param storage_kcores:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.anomalies_in_scc">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">anomalies_in_scc</code><span class="sig-paren">(</span><em>anomalies</em>, <em>path_scc</em>, <em>storage_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#anomalies_in_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.anomalies_in_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return SCC containing anomalies
+:param anomalies:
+:param path_scc:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.anomalies_in_wcc">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">anomalies_in_wcc</code><span class="sig-paren">(</span><em>anomalies</em>, <em>path_wcc</em>, <em>storage_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#anomalies_in_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.anomalies_in_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return WCC containing anomalies
+:param anomalies:
+:param path_wcc:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.parse_xml">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">parse_xml</code><span class="sig-paren">(</span><em>path_xml</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#parse_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.parse_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse XML containing anomalies of MAWILAB Dataset
+:param path_xml:
+:param type: Type of anomaly (optional)
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.plot_kcores">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">plot_kcores</code><span class="sig-paren">(</span><em>kcores_with_anomalies</em>, <em>kcores_without_anomalies</em>, <em>title=None</em>, <em>legend=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#plot_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.plot_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.plot_lines_kcores">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">plot_lines_kcores</code><span class="sig-paren">(</span><em>node_core_info</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#plot_lines_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.plot_lines_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.plot_period">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">plot_period</code><span class="sig-paren">(</span><em>anomalies</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#plot_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.plot_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot anomalies in the MAWILAB Dataset
+:param anomalies:
+:param type: Type of anomaly (optional)
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.preprocess_anomalies_links">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">preprocess_anomalies_links</code><span class="sig-paren">(</span><em>anomalies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#preprocess_anomalies_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.preprocess_anomalies_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess links anomalies
+:param anomalies:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.preprocess_anomalies_nodes">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">preprocess_anomalies_nodes</code><span class="sig-paren">(</span><em>anomalies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#preprocess_anomalies_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.preprocess_anomalies_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess nodes anomalies
+:param anomalies:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.anomalies_analysis.replace_ip_with_id">
+<code class="descclassname">straph.analysis.anomalies_analysis.</code><code class="descname">replace_ip_with_id</code><span class="sig-paren">(</span><em>anomalies</em>, <em>path_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/anomalies_analysis.html#replace_ip_with_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.anomalies_analysis.replace_ip_with_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>For replacing IP in anomalies by their ID
+:param anomalies:
+:param path_dict:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis.non_aggregated_analysis">
+<span id="straph-analysis-non-aggregated-analysis-module"></span><h2>straph.analysis.non_aggregated_analysis module<a class="headerlink" href="#module-straph.analysis.non_aggregated_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.non_aggregated_analysis.extract_exact_nodes">
+<code class="descclassname">straph.analysis.non_aggregated_analysis.</code><code class="descname">extract_exact_nodes</code><span class="sig-paren">(</span><em>file_input</em>, <em>file_output</em>, <em>time_begin</em>, <em>time_break</em>, <em>time_bins</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/non_aggregated_analysis.html#extract_exact_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.non_aggregated_analysis.extract_exact_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.non_aggregated_analysis.find_times_of_interest">
+<code class="descclassname">straph.analysis.non_aggregated_analysis.</code><code class="descname">find_times_of_interest</code><span class="sig-paren">(</span><em>file_input</em>, <em>file_output</em>, <em>time_begin</em>, <em>time_break</em>, <em>time_bins</em>, <em>len_slide=200</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/non_aggregated_analysis.html#find_times_of_interest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.non_aggregated_analysis.find_times_of_interest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.non_aggregated_analysis.is_right_on_time">
+<code class="descclassname">straph.analysis.non_aggregated_analysis.</code><code class="descname">is_right_on_time</code><span class="sig-paren">(</span><em>l_nb_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/non_aggregated_analysis.html#is_right_on_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.non_aggregated_analysis.is_right_on_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.non_aggregated_analysis.plot_distributions">
+<code class="descclassname">straph.analysis.non_aggregated_analysis.</code><code class="descname">plot_distributions</code><span class="sig-paren">(</span><em>file</em>, <em>protocol=''</em>, <em>path_save=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/non_aggregated_analysis.html#plot_distributions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.non_aggregated_analysis.plot_distributions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.non_aggregated_analysis.plot_time_of_interest">
+<code class="descclassname">straph.analysis.non_aggregated_analysis.</code><code class="descname">plot_time_of_interest</code><span class="sig-paren">(</span><em>storage</em>, <em>protocol</em>, <em>path_save=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/non_aggregated_analysis.html#plot_time_of_interest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.non_aggregated_analysis.plot_time_of_interest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis.stats_components_kcores">
+<span id="straph-analysis-stats-components-kcores-module"></span><h2>straph.analysis.stats_components_kcores module<a class="headerlink" href="#module-straph.analysis.stats_components_kcores" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.analysis_components">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">analysis_components</code><span class="sig-paren">(</span><em>S</em>, <em>components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#analysis_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.analysis_components" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.analysis_intra_component">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">analysis_intra_component</code><span class="sig-paren">(</span><em>S</em>, <em>component</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#analysis_intra_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.analysis_intra_component" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.analysis_intra_kcore">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">analysis_intra_kcore</code><span class="sig-paren">(</span><em>S</em>, <em>core</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#analysis_intra_kcore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.analysis_intra_kcore" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.analysis_kcores">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">analysis_kcores</code><span class="sig-paren">(</span><em>S</em>, <em>k_cores</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#analysis_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.analysis_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.stats_Kcores">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">stats_Kcores</code><span class="sig-paren">(</span><em>path_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#stats_Kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.stats_Kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.stats_SCC">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">stats_SCC</code><span class="sig-paren">(</span><em>path_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#stats_SCC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.stats_SCC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.stats_WCC">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">stats_WCC</code><span class="sig-paren">(</span><em>path_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#stats_WCC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.stats_WCC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.stats_degree">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">stats_degree</code><span class="sig-paren">(</span><em>path_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#stats_degree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.stats_degree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stats_components_kcores.stats_nodes_links">
+<code class="descclassname">straph.analysis.stats_components_kcores.</code><code class="descname">stats_nodes_links</code><span class="sig-paren">(</span><em>path_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stats_components_kcores.html#stats_nodes_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stats_components_kcores.stats_nodes_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis.stream_comparaison">
+<span id="straph-analysis-stream-comparaison-module"></span><h2>straph.analysis.stream_comparaison module<a class="headerlink" href="#module-straph.analysis.stream_comparaison" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.stream_comparaison.stats_condensation_graph">
+<code class="descclassname">straph.analysis.stream_comparaison.</code><code class="descname">stats_condensation_graph</code><span class="sig-paren">(</span><em>list_directory</em>, <em>list_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_comparaison.html#stats_condensation_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_comparaison.stats_condensation_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis.stream_properties_analysis">
+<span id="straph-analysis-stream-properties-analysis-module"></span><h2>straph.analysis.stream_properties_analysis module<a class="headerlink" href="#module-straph.analysis.stream_properties_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.get_core_number">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">get_core_number</code><span class="sig-paren">(</span><em>storage_path_kcores</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#get_core_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.get_core_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preprocess kcores in order to return core numbers per nodes
+:param storage_path_kcores:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.preprocess_kcliques">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">preprocess_kcliques</code><span class="sig-paren">(</span><em>storage_kcliques</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#preprocess_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.preprocess_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>storage_kcliques</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.preprocess_kcliques_into_dataframe">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">preprocess_kcliques_into_dataframe</code><span class="sig-paren">(</span><em>nodes_cores_stats</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#preprocess_kcliques_into_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.preprocess_kcliques_into_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.preprocess_kcores_into_dataframe">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">preprocess_kcores_into_dataframe</code><span class="sig-paren">(</span><em>storage_path_kcores</em>, <em>output_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#preprocess_kcores_into_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.preprocess_kcores_into_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a DataFrame with node’s core numbers
+columns : (k, frequency in kcores, surface per cores, intervals inter core ?, interval in core ?)
+:param storage_path_kcores:
+:param output_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.preprocess_scc_into_dataframe">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">preprocess_scc_into_dataframe</code><span class="sig-paren">(</span><em>path_scc</em>, <em>output_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#preprocess_scc_into_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.preprocess_scc_into_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect properties of Strongly Connected Component into a pandas DataFrame
+:param path_wcc: Storage path of strongly connected components
+:param output_path: Path to store the DataFrame
+:return: A DataFrame containing SCC properties</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.preprocess_wcc_into_dataframe">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">preprocess_wcc_into_dataframe</code><span class="sig-paren">(</span><em>path_wcc</em>, <em>output_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#preprocess_wcc_into_dataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.preprocess_wcc_into_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect properties of Weakly Connected Component into a pandas DataFrame
+:param path_wcc: Storage path of weakly connected components
+:param output_path: Path to store the DataFrame
+:return: A DataFrame containing WCC properties</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.stats_condensation_graph">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">stats_condensation_graph</code><span class="sig-paren">(</span><em>figures_path</em>, <em>stats_path</em>, <em>stream_nodes_path</em>, <em>stream_links_path</em>, <em>dag_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#stats_condensation_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.stats_condensation_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.stats_kcores">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">stats_kcores</code><span class="sig-paren">(</span><em>path_figure</em>, <em>path_stats</em>, <em>format='pdf'</em>, <em>storage_path=None</em>, <em>with_anomalies=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#stats_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.stats_kcores" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path_figure</strong> – </li>
+<li><strong>path_stats</strong> – </li>
+<li><strong>format</strong> – </li>
+<li><strong>storage_path</strong> – </li>
+<li><strong>with_anomalies</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.stats_scc">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">stats_scc</code><span class="sig-paren">(</span><em>path_figure</em>, <em>path_stats</em>, <em>format='pdf'</em>, <em>storage_path=None</em>, <em>with_anomalies=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#stats_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.stats_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.stream_properties_analysis.stats_wcc">
+<code class="descclassname">straph.analysis.stream_properties_analysis.</code><code class="descname">stats_wcc</code><span class="sig-paren">(</span><em>path_figure</em>, <em>path_stats</em>, <em>format='pdf'</em>, <em>storage_path=None</em>, <em>with_anomalies=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/stream_properties_analysis.html#stats_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.stream_properties_analysis.stats_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis.visualisation_stream_graph_properties">
+<span id="straph-analysis-visualisation-stream-graph-properties-module"></span><h2>straph.analysis.visualisation_stream_graph_properties module<a class="headerlink" href="#module-straph.analysis.visualisation_stream_graph_properties" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.add_arrow">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">add_arrow</code><span class="sig-paren">(</span><em>e</em>, <em>ax</em>, <em>direction='right'</em>, <em>size=15</em>, <em>color=None</em>, <em>alpha=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#add_arrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.add_arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thanks to : <a class="reference external" href="https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib">https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib</a>
+add an arrow to a line.</p>
+<p>line:       ((a_x,_y),(b_x,b_y))
+ax:         matplotlib axes
+direction:  ‘left’ or ‘right’
+size:       size of the arrow in fontsize points
+color:      color of arrow (should be coherent with line color, or not )</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.load_times_scc">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">load_times_scc</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>id_scc</em>, <em>scc_storage</em>, <em>dict_offset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#load_times_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.load_times_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.parse_scc_to_plot">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">parse_scc_to_plot</code><span class="sig-paren">(</span><em>scc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#parse_scc_to_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.parse_scc_to_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.parse_wcc_to_plot">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">parse_wcc_to_plot</code><span class="sig-paren">(</span><em>wcc_storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#parse_wcc_to_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.parse_wcc_to_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_condensation_dag</code><span class="sig-paren">(</span><em>dag_storage</em>, <em>scc_storage</em>, <em>offset_storage</em>, <em>figures_path</em>, <em>arrow=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_condensation_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag_custom">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_condensation_dag_custom</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>SD_nodes</em>, <em>SD_links</em>, <em>scc_storage</em>, <em>offset_storage</em>, <em>arrow=False</em>, <em>label=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_condensation_dag_custom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag_custom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag_nx">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_condensation_dag_nx</code><span class="sig-paren">(</span><em>SD_nodes</em>, <em>SD_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_condensation_dag_nx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_condensation_dag_nx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_hinge_dag</code><span class="sig-paren">(</span><em>dag_storage</em>, <em>scc_storage</em>, <em>offset_storage</em>, <em>figures_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_hinge_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag_custom">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_hinge_dag_custom</code><span class="sig-paren">(</span><em>SD_nodes</em>, <em>SD_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_hinge_dag_custom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag_custom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag_nx">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_hinge_dag_nx</code><span class="sig-paren">(</span><em>SD_nodes</em>, <em>SD_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_hinge_dag_nx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_hinge_dag_nx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_kcliques">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_kcliques</code><span class="sig-paren">(</span><em>kcliques_storage_path</em>, <em>title=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_kcores">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_kcores</code><span class="sig-paren">(</span><em>kcores_storage_path</em>, <em>title=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_lines_kcliques">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_lines_kcliques</code><span class="sig-paren">(</span><em>cliques</em>, <em>label_to_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_lines_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_lines_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_lines_kcores">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_lines_kcores</code><span class="sig-paren">(</span><em>cores</em>, <em>label_to_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_lines_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_lines_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_lines_scc">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_lines_scc</code><span class="sig-paren">(</span><em>scc</em>, <em>label_to_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_lines_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_lines_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_lines_wcc">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_lines_wcc</code><span class="sig-paren">(</span><em>wcc</em>, <em>label_to_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_lines_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_lines_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_properties">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_scc">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_scc</code><span class="sig-paren">(</span><em>scc_storage_path</em>, <em>title=None</em>, <em>legend=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em>, <em>mask_biggest_comp=False</em>, <em>mask_big_comp=False</em>, <em>mask_small_comp=False</em>, <em>mask_medium_comp=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.analysis.visualisation_stream_graph_properties.plot_wcc">
+<code class="descclassname">straph.analysis.visualisation_stream_graph_properties.</code><code class="descname">plot_wcc</code><span class="sig-paren">(</span><em>wcc_storage_path</em>, <em>title=None</em>, <em>legend=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em>, <em>mask_biggest_comp=False</em>, <em>mask_big_comp=False</em>, <em>mask_small_comp=False</em>, <em>mask_medium_comp=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/analysis/visualisation_stream_graph_properties.html#plot_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.analysis.visualisation_stream_graph_properties.plot_wcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.analysis">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.analysis" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2019, Eol Ournan.
+      Last updated on Oct 22, 2019.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
