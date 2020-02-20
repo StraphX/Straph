@@ -801,22 +801,23 @@ class stream_graph:
         :param animated: Animated representation
         :return: A matplotlib plot
         """
-        # lnodes = len(self.nodes)
+
+
         lnodes = max(self.nodes) + 1
-        if clusters:
-            random.seed(3)
-            c_map_cluster = get_cmap(len(clusters) + 2)
-            #  list_colors = [c_map_cluster(c) for c in range(len(clusters))]
-            # random.shuffle(list_colors)
         c_map = get_cmap(lnodes)
         l_colors = [c_map(i) for i in range(lnodes)]
-        # random.shuffle(l_colors)
         fig = plt.figure()
         if animated:
             ax = plt.axes(xlim=(self.times[0] - 1,
                                 self.times[1] + 1), ylim=(-0.3, lnodes))
         # Plot Clusters
         if clusters:
+            # random.seed(3)
+            c_map_cluster = get_cmap(len(clusters) + 2)
+            if type(clusters[0][0][2]) != int and self.node_to_label:
+                label_to_node = {v:k for k,v in self.node_to_label.items()}
+                clusters = [[(t0,t1,label_to_node[n]) for t0,t1,n in c] for c in clusters]
+
             for c in range(len(clusters)):
                 for i in clusters[c]:
                     plt.hlines(i[2], xmin=i[0], linewidth=5,
@@ -950,6 +951,7 @@ class stream_graph:
         """
         lnodes = len(self.nodes)
         # c_map_cluster = get_cmap(max(dict_clusters.keys()))
+        norm_colors = plt.Normalize(vmin=min(dict_clusters.keys()),vmax=max(dict_clusters.keys()))
         c_map_cluster = cm.get_cmap(cmap, len(dict_clusters.keys()))
         fig = plt.figure()
         list_legend = []
@@ -960,9 +962,14 @@ class stream_graph:
             plt.hlines([p] * (len(t) // 2), xmin=t[::2], linewidth=2,
                        xmax=t[1::2], colors=color_n, alpha=0.9)
 
+        # Deal with labels
+        if type(list(dict_clusters.values())[0][2]) != int and self.node_to_label:
+            label_to_node = {v:k for k,v in self.node_to_label.items()}
+            dict_clusters = {k:[(t0,t1,label_to_node[n]) for t0,t1,n in v] for k,v in dict_clusters.items()}
+
         # Plot Degrees
         for d in sorted(dict_clusters, reverse=True):
-            current_color = c_map_cluster(d)
+            current_color = c_map_cluster(norm_colors(d))
             if title:
                 list_legend.append(mpatches.Patch(color=current_color, label=str(round(d, 2)), ))
             for n in dict_clusters[d]:
