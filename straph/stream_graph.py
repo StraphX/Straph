@@ -802,7 +802,6 @@ class stream_graph:
         :return: A matplotlib plot
         """
 
-
         lnodes = max(self.nodes) + 1
         c_map = get_cmap(lnodes)
         l_colors = [c_map(i) for i in range(lnodes)]
