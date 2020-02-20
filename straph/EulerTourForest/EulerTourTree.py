@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import matplotlib.collections as mcol
-import msgpack,math
 import copy
 
 from collections import defaultdict

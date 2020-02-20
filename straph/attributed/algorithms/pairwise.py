@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 ############################################################
 #           Pairwise Paths Algorithms for source nodes     #
 ############################################################

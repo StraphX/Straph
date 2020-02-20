@@ -1,8 +1,5 @@
 import matplotlib.pyplot as plt
 
-from straph import stream as sg
-
-
 class path:
     def __init__(self,
                  times=None,
@@ -86,69 +83,4 @@ class path:
                         is_present = True
                 if not is_present:
                     raise ValueError("Link : " + str(l) + " does not exists at time " + str(t) + " !")
-        print("Check Path Coherence ok !")
         return
-
-
-if __name__ == '__main__':
-
-    __directory__ = "/home/leo/Dev/CODE/Straph/examples/path_examples/"
-    __file__ = "path2"
-    S = sg.read_stream_graph(path_nodes=__directory__ + __file__ + "_nodes.sg",
-                          path_links=__directory__ + __file__ + "_links.sg")
-
-    S.check_integrity()
-    S.plot()
-    ss = S.filter_by_time_window(5,7)
-    ss.plot()
-    plt.show()
-    # FoP (0,A)-F
-    P = path(times=[0,3,6,7,7],
-             links=[(0, 0), (0, 1), (1, 2),(2, 4),(4, 5)],)
-    P.plot(S)
-    # plt.show()
-
-    # SFoP (0,A)-F
-    P = path(times=[0,2,4,7],
-             links=[(0, 0), (0, 1), (1, 4),(4, 5)],)
-    P.plot(S)
-
-    # FP A-F
-    P = path(times=[4,6,7,7],
-             links=[(0, 1), (1, 2),(2, 4),(4,5)],)
-    P.plot(S)
-    # plt.show()
-
-
-    # SFP A-F
-    P = path(times=[4,4,7],
-             links=[(0, 1), (1, 4),(4, 5)],)
-    P.plot(S)
-    # plt.show()
-
-    # SP A-D
-    P = path(times=[4,6,9],
-             links=[(0,1),(1,2),(2,3)])
-    P.plot(S)
-    # plt.show()
-
-    # FSP A-D
-    P = path(times=[4,4,8],
-             links=[(0, 1), (1, 4),(4,3)],)
-    P.plot(S)
-    plt.show()
-
-
-    S.times_to_reach((0, 5, 0))
-    # anim = S.plot(animated=True, repeat=True)
-    # anim2 = S.draw_induced_plot(repeat=True)
-    # plt.show()
-    #
-    # plt.show()
-
-
-    # P = path(times=[6,6, 6.5, 7],
-    #          links=[(0, 0), (0, 1), (1, 3),(3, 5)],)
-    # P.check_coherence(S)
-    # Exemple for paper : path from (0,0) to 5
-    # D'abord Foremost PAth

@@ -1,11 +1,6 @@
-import math,time
-from straph import stream as sg
-from straph.generators import erdos_renyi as gen
+
 from collections import defaultdict
 from sortedcontainers import SortedSet
-
-import numpy as np
-import matplotlib.pyplot as plt
 
 def get_pred_and_suc(value, times):
     '''
@@ -206,68 +201,3 @@ def postprocess_SCC(SCC):
             scc.append(c)
         SCC[k] = None # Free Memory
     return scc
-
-
-
-if __name__ == '__main__':
-    T = [0, 1000]
-    nb_nodes = 200
-    mean_flow_nodes = 6
-    mean_node_presence = 200
-    p_link = 0.8*np.sqrt(nb_nodes) / nb_nodes
-    mean_flow_links = 6
-    mean_link_presence = 50
-
-    S = gen.erdos_renyi(T,
-                        nb_nodes,
-                        mean_flow_nodes,
-                        mean_node_presence,
-                        p_link,
-                        mean_flow_links,
-                        mean_link_presence)
-    S.plot()
-
-    S.check_integrity()
-
-    chrono = time.time()
-    scc_classic = S.strongly_connected_components()
-    print("SCC Classic DONE :",time.time()-chrono)
-
-    chrono = time.time()
-    scc_uf = strongly_connected_components_UF(S)
-    print("SCC UF DONE in :",time.time()-chrono)
-
-
-    # S.plot(clusters=scc_classic,title="SCC Classic")
-    # S.plot(clusters=scc_uf, title="SCC UF")
-    # S.plot()
-    # plt.show()
-    set_uf = set()
-    set_classic = set()
-    for i in scc_uf:
-        set_nodes = set()
-        t0,t1 = None,None
-        for (t0,t1,n) in i:
-            set_nodes.add(n)
-        set_uf.add((t0,t1,tuple(sorted(set_nodes))))
-
-
-    for i in scc_classic:
-        set_nodes = set()
-        t0,t1 = None,None
-        for (t0,t1,n) in i:
-            set_nodes.add(n)
-        set_classic.add((t0,t1,tuple(sorted(set_nodes))))
-
-    print("N scc uf :",len(set_uf))
-    print("N scc classic:",len(set_classic))
-
-    for i in set_classic:
-        if i not in set_uf:
-            print("classic not uf :",i)
-    for j in set_uf:
-        if j not in set_classic:
-            print("uf not classic :",j)
-
-    assert set_uf==set_classic
-

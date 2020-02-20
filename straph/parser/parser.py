@@ -7,11 +7,9 @@ import math
 
 from collections import defaultdict
 
-from straph import stream as sg
+from straph import stream_graph as sg
 
-import matplotlib.pyplot as plt
-
-# TODO : parse PCAP (adpat pcap_to_csv and shit), see pcap_reader.
+# TODO : parse PCAP (adpat pcap_to_csv), see pcap_reader.
 # TODO : parse net, to finish (for Pajek datasets).
 
 __nb_2_protocol__ = {0: 'IPv6_HbH',  # IPv6 Hop by Hop
@@ -820,169 +818,12 @@ def sort_csv(input_file,entry_format,**kwargs):
             writer.writerow(line)
 
 
-
-if __name__ == '__main__':
-
-    __directory__ = "/home/leo/Dev/Data_Stream/CollegeMsg/"
-    __file__ = "CollegeMsg" # Open with CRAWDAD
-    config_js = json.load(open(__directory__+"config.json","r"))
-    entry_format = config_js["entry_format"]
-    config = config_js["config"]
-    delta = 3600
-    print(config)
-    sort_csv(__directory__ + __file__ + '.csv',entry_format=entry_format,**config)
-    parser(input_file=__directory__ + __file__ + '.csv', input_format='csv',
-           delta = delta,
-           entry_format=entry_format, output_file=__directory__ + __file__,
-           output_format=['sg','sgf'], **config)
-
-    exit()
-
-    # If multiple csv, can merge them with 'concatenate.sh'
-
-    # Entry format can be in the form : (b,e,u,v) or (t,u,v) with a specific link duration (or not).
-    # entry_format = {'b_pos':0,'e_pos':1,'u_pos':2,'v_pos':3}
-    # entry_format = {'t_pos':0,'delta_pos':1,'u_pos':2,'v_pos':3}
-
-    # __file__ = "Workplace"
-    # delimiter = '\t'
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/Wikipedia/"
-    # __file__ = "wikipedia"
-    # delta = 3600*24*2 # 2 days
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_otc/"
-    # __file__ = "bitcoin_otc"
-    # Entry format (u, v, weight, t)
-    # delta = 3600*24*2
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/Bitcoin/bitcoin_alpha/"
-    # __file__ = "bitcoin_alpha"
-    # delta = 3600*24*2
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/parse_net/11September/"
-    # __file__ = "Days"
-    # delta = 1
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/askubuntu/"  # LIP6
-    # __file__ = "askubuntu" # Open With Crawdad
-    # delta = 3600*24*2
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/DBLP/"  # LIP6
-    # __file__ = "dblp" # Open With 'dblp'
-    # delta = 1
-    # __directory__ = "C:\\Users\\Leo\\Data_Stream\\Socio_Patterns\\" # Zonzon
-    # __file__ = "High_School_2013"
-    # __directory__ = "/home/leo/Dev/Data_Stream/Socio_Patterns/High_School_2013/"
-    # __file__ = "High_School_2013"
-    # delta = 60
-    # entry_format = {'t_pos': 0, 'u_pos': 1, 'v_pos': 2}
-    #
-    # config_craw_dad = {'delimiter': ' ',
-    #               'time_is_datetime': False,
-    #               'ignore_header': False,
-    #               'nodes_to_label': True,
-    #              }
-    __directory__ = "/home/leo/Dev/Data_Stream/Crawdad/Infocom/"
-    __file__ = "infocom"
-    delta = 60   # infocom
-    entry_format = {'t_pos': 2, 'u_pos': 0, 'v_pos': 1}
-    config_craw_dad = {'delimiter': ' ',
-                  'time_is_datetime': False,
-                  'ignore_header': False,
-                  'nodes_to_label': True,
-                 }
-
-    __directory__ = "/home/leo/Dev/Data_Stream/Enron/"
-    __file__ = "enron"
-    delta = 3600
-    entry_format = {'t_pos': 3, 'u_pos': 0, 'v_pos': 1}
-    config_enron = {'delimiter': ' ',
-                  'time_is_datetime': False,
-                  'ignore_header': False,
-                  'nodes_to_label': True,
-                 }
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/2018/04/"  # LIP6
-    # __file__ = "20180418"
-    # delta = 1
-    # entry_format = {'t_pos': 0, 'u_pos': 1, 'v_pos': 2}
-    #
-    # config_mawi = {'delimiter':';',
-    #                'time_is_datetime':False,
-    #                'ignore_header':True,
-    #                'nodes_to_label':True}
-    # #
-    # #
-    # #
-    # __directory__ = "/home/leo/Dev/Data_Stream/slashdot/"
-    # __file__ = "slashdot-threads"
-    # delta = 300
-    # entry_format = {'t_pos': 3, 'u_pos': 0, 'v_pos': 1}
-    # config_slashdot = {'delimiter':' ',
-    #                'time_is_datetime':False,
-    #                'ignore_header':False,
-    #                'nodes_to_label':True}
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/Crawdad/Rollernet/"
-    # __file__ = "rollernet"
-    # delta = 20
-    # entry_format = {'t_pos': 2, 'u_pos': 0, 'v_pos': 1}
-    # config_craw_dad = {'delimiter': ' ',
-    #               'time_is_datetime': False,
-    #               'ignore_header': False,
-    #               'nodes_to_label': True,
-    #              }
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/BurningBush/"
-    # __file__ = "2015-03-18"
-    # entry_format = {'t_pos': 16, 'u_pos': 7, 'v_pos': 3, 'delta_pos': 9}
-    # config_bb = {'delimiter': ';',
-    #               'time_is_datetime': True,
-    #               'ignore_header': True,
-    #               'nodes_to_label': True,
-    #               'nrows':150000
-    #              }
-
-
-    __directory__ = "/home/leo/Dev/Data_Stream/flickr/"
-    __file__ = "flickr"
-    delta = 1
-    entry_format = {'t_pos': 4, 'u_pos': 0, 'v_pos': 1}
-    config_flickr = {'delimiter': ' ',
-                  'time_is_datetime': False,
-                  'ignore_header': True,
-                  'nodes_to_label': True}
-
-    sort_csv(__directory__ + __file__ + '.csv',entry_format=entry_format,**config_flickr)
-    parser(input_file=__directory__ + __file__ + '.csv', input_format='csv',
-           delta = delta,
-           entry_format=entry_format, output_file=__directory__ + __file__,
-           output_format=['sg','sgf'], **config_flickr)
-
-    # __directory__ = "/home/leo/Dev/Data_Stream/ITS/"
-    # __file__ = "Suricata"
-    # entry_format = {'t_pos': 12, 'u_pos': 1, 'v_pos': 2, 'delta_pos': 9}
-    # config_its = {'delimiter': ',',
-    #               'time_is_datetime': True,
-    #               'ignore_header': False,
-    #               'nodes_to_label': True}
-
-    #
-    # output_file_links = __directory__ + __file__ + "_links.sg"
-    # output_file_nodes = __directory__ + __file__ + "_nodes.sg"
-    #
-    # parser(input_file=__directory__ + __file__ + '.csv', input_format='csv',
-    #        entry_format=entry_format, output_file=__directory__ + __file__,
-    #        output_format='sgf', **config_its)
-
-    # BurningBush(input_file = __directory__+__file__+".csv",
-    #        output_file_links = output_file_links,
-    #        output_file_nodes = output_file_nodes,
-    #        delimiter=';',
-    #        null_duration_allowed=False)
-
-    # parse_net(input_file=__directory__ + __file__ + ".net",
-    #         output_file_links=output_file_links,
-    #         output_file_nodes = output_file_nodes,
-    #         delta=delta)
+# __directory__ =
+# __file__ =
+# delta = 60   # infocom
+# entry_format = {'t_pos': 2, 'u_pos': 0, 'v_pos': 1}
+# config_ = {'delimiter': ' ',
+#               'time_is_datetime': False,
+#               'ignore_header': False,
+#               'nodes_to_label': True,
+#              }

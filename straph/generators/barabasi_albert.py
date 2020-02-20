@@ -1,12 +1,8 @@
-import time, random, warnings
+import random, warnings
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-from collections import defaultdict
 
-from straph import stream as sg
-from straph.utils import profile_shit
+from straph import stream_graph as sg
 
 
 
@@ -311,57 +307,3 @@ def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_pa
         cnt += rep
 
     return nodes,node_presence
-
-if __name__ == '__main__':
-    T = [0, 10000]
-    nb_node = 50000
-    occurrence_law = 'poisson'
-    presence_law = 'poisson'
-
-    occurrence_param_node = 4
-    presence_param_node = 200
-    occurrence_param_link = 3
-    presence_param_link = 40
-
-    m0 = 5
-    m = 4
-
-    #
-    # profile_shit("barabasi_albert(T,nb_node,occurrence_law,occurrence_param_node,"
-    #              "presence_law,presence_param_node,occurrence_law,occurrence_param_link,"
-    #              "presence_law,presence_param_link,m_link=m,initial_nb_node=m0)",snakeviz=True)
-    # #S.describe()
-    # exit()
-
-
-    S = barabasi_albert(T,
-                        nb_node,
-                        occurrence_law,
-                        occurrence_param_node,
-                        presence_law,
-                        presence_param_node,
-                        occurrence_law,
-                        occurrence_param_link,
-                        presence_law,
-                        presence_param_link,
-                        initial_nb_node=m0,
-                        m_link=m,
-                        )
-
-    S.describe()
-
-    degrees = S.degrees()
-    fig = plt.figure()
-    sns.distplot(list(degrees.values()),axlabel= "Degree")
-
-    d_part = S.degrees_partition()
-    max_d = {}
-    for d, v in d_part.items():
-        for u in v:
-            max_d[u[2]] = d
-    fig = plt.figure()
-    sns.distplot(list(max_d.values()),axlabel= "Maximum instant degree")
-    # S.plot()
-    # S.check_integrity()
-    plt.show()
-    exit()

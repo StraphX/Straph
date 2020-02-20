@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.components package &mdash; Straph 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Straph
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.components package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.components.UnionFindSCC">straph.components.UnionFindSCC module</a></li>
+<li><a class="reference internal" href="#module-straph.components.component">straph.components.component module</a></li>
+<li><a class="reference internal" href="#module-straph.components.strongly_connected_component">straph.components.strongly_connected_component module</a></li>
+<li><a class="reference internal" href="#module-straph.components.weakly_connected_component">straph.components.weakly_connected_component module</a></li>
+<li><a class="reference internal" href="#module-straph.components">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.components package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.components.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-components-package">
+<h1>straph.components package<a class="headerlink" href="#straph-components-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.components.UnionFindSCC">
+<span id="straph-components-unionfindscc-module"></span><h2>straph.components.UnionFindSCC module<a class="headerlink" href="#module-straph.components.UnionFindSCC" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.components.UnionFindSCC.dynamic_connectivity">
+<code class="descclassname">straph.components.UnionFindSCC.</code><code class="descname">dynamic_connectivity</code><span class="sig-paren">(</span><em>E</em>, <em>SCC</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/UnionFindSCC.html#dynamic_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.UnionFindSCC.dynamic_connectivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.UnionFindSCC.get_pred_and_suc">
+<code class="descclassname">straph.components.UnionFindSCC.</code><code class="descname">get_pred_and_suc</code><span class="sig-paren">(</span><em>value</em>, <em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/UnionFindSCC.html#get_pred_and_suc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.UnionFindSCC.get_pred_and_suc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the predecessor and the successor of the value as well as the predecessor of the predecessor of the value
+in the array times.
+:param value: float
+:param times: SortedSet
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.UnionFindSCC.postprocess_SCC">
+<code class="descclassname">straph.components.UnionFindSCC.</code><code class="descname">postprocess_SCC</code><span class="sig-paren">(</span><em>SCC</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/UnionFindSCC.html#postprocess_SCC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.UnionFindSCC.postprocess_SCC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.UnionFindSCC.strongly_connected_components_UF">
+<code class="descclassname">straph.components.UnionFindSCC.</code><code class="descname">strongly_connected_components_UF</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/UnionFindSCC.html#strongly_connected_components_UF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.UnionFindSCC.strongly_connected_components_UF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.components.component">
+<span id="straph-components-component-module"></span><h2>straph.components.component module<a class="headerlink" href="#module-straph.components.component" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.components.component.algo_kcliques_KCList">
+<code class="descclassname">straph.components.component.</code><code class="descname">algo_kcliques_KCList</code><span class="sig-paren">(</span><em>k</em>, <em>a_l</em>, <em>node_label</em>, <em>C=[]</em>, <em>R=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#algo_kcliques_KCList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.algo_kcliques_KCList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cliques of a static graph from its core odering dag.
+:param k: The parameter k, number of nodes in the considered cliques
+:param a_l: Adjacency list of the core ordering dag
+:param node_label: label of each node
+:param C: List of current cliques
+:param R: List of completed cliques
+:param DEBUG:
+:return: The k_cliques of the graph.
+References
+———
+[2] Listing k-cliques in Sparse Real-World Graphs
+Maximilien Danisch, et al., 2018
+<a class="reference external" href="https://dl.acm.org/citation.cfm?id=3186125">https://dl.acm.org/citation.cfm?id=3186125</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.component.algo_kcores_batagelj">
+<code class="descclassname">straph.components.component.</code><code class="descname">algo_kcores_batagelj</code><span class="sig-paren">(</span><em>a_l</em>, <em>degrees</em>, <em>core_ordering=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#algo_kcores_batagelj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.algo_kcores_batagelj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cores of a static graph from its adjacency list and nodes degrees</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a_l</strong> – Adjacency list of the graph</li>
+<li><strong>degrees</strong> – degree of each node</li>
+<li><strong>core_ordering</strong> – Optionnal parameter, if True return a coreness ordering</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the core number of each node in the graph</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>[1] An O(m) Algorithm for Cores Decomposition of Networks
+Vladimir Batagelj and Matjaz Zaversnik, 2003.
+<a class="reference external" href="http://arxiv.org/abs/cs.DS/0310049">http://arxiv.org/abs/cs.DS/0310049</a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="straph.components.component.connected_component">
+<em class="property">class </em><code class="descclassname">straph.components.component.</code><code class="descname">connected_component</code><span class="sig-paren">(</span><em>id=None</em>, <em>times=None</em>, <em>nodes=None</em>, <em>links=None</em>, <em>link_presence=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="straph.components.component.connected_component.BFS_split">
+<code class="descname">BFS_split</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.BFS_split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.BFS_split" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.add_link">
+<code class="descname">add_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.add_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.add_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.adjacency_list">
+<code class="descname">adjacency_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.adjacency_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.adjacency_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.adjacency_list_at_t">
+<code class="descname">adjacency_list_at_t</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.adjacency_list_at_t"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.adjacency_list_at_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.dump_link_presence">
+<code class="descname">dump_link_presence</code><span class="sig-paren">(</span><em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.dump_link_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.dump_link_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump the connected component link_presence to a msgpack_file
+:param output: Writable bytes file open(…,’wb’)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.get_kcliques">
+<code class="descname">get_kcliques</code><span class="sig-paren">(</span><em>storage_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.get_kcliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.get_kcliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.get_kcores">
+<code class="descname">get_kcores</code><span class="sig-paren">(</span><em>storage_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.get_kcores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.get_kcores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.get_stable_components">
+<code class="descname">get_stable_components</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.get_stable_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.get_stable_components" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">stable components stemmed from the current component</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.get_stable_parts">
+<code class="descname">get_stable_parts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.get_stable_parts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.get_stable_parts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.load_link_presence">
+<code class="descname">load_link_presence</code><span class="sig-paren">(</span><em>input</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.load_link_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.load_link_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the connected component link_presence from a msgpack file
+:param input: Readable bytes file open(…,’rb’)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>C</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>links=True</em>, <em>link_pimping=False</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display in an elegant way a small stream graph
+We can also specify a path to save the animated of ploted stream graph
+:param animated: If we want an animation with cursor which move according to the time
+:return: A matplotlib plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.random_path">
+<code class="descname">random_path</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em>, <em>rand_time=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.random_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.random_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a random path between the source and the destination inside the component
+:param source:
+:param destination:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.random_path_ss">
+<code class="descname">random_path_ss</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.random_path_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.random_path_ss" title="Permalink to this definition">¶</a></dt>
+<dd><p>ss : single source
+Return random paths between the source and all the other nodes in the component
+:param source:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.remove_link">
+<code class="descname">remove_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.remove_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.remove_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.remove_node">
+<code class="descname">remove_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.remove_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.remove_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.set_begin_time">
+<code class="descname">set_begin_time</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.set_begin_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.set_begin_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.set_end_time">
+<code class="descname">set_end_time</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.set_end_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.set_end_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.set_id">
+<code class="descname">set_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.set_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.set_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.split_on_link">
+<code class="descname">split_on_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.split_on_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.split_on_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.component.connected_component.surface">
+<code class="descname">surface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#connected_component.surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.connected_component.surface" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.component.get_graph_from_ordering">
+<code class="descclassname">straph.components.component.</code><code class="descname">get_graph_from_ordering</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em>, <em>ordering</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#get_graph_from_ordering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.get_graph_from_ordering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.component.neighborhood_and_degrees_from_links">
+<code class="descclassname">straph.components.component.</code><code class="descname">neighborhood_and_degrees_from_links</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/component.html#neighborhood_and_degrees_from_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.component.neighborhood_and_degrees_from_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.components.strongly_connected_component">
+<span id="straph-components-strongly-connected-component-module"></span><h2>straph.components.strongly_connected_component module<a class="headerlink" href="#module-straph.components.strongly_connected_component" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.algo_kcliques_KCList">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">algo_kcliques_KCList</code><span class="sig-paren">(</span><em>k</em>, <em>a_l</em>, <em>node_label</em>, <em>C=[]</em>, <em>R=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#algo_kcliques_KCList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.algo_kcliques_KCList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cliques of a static graph from its core odering dag.
+:param k: The parameter k, number of nodes in the considered cliques
+:param a_l: Adjacency list of the core ordering dag
+:param node_label: label of each node
+:param C: List of current cliques
+:param R: List of completed cliques
+:return: The k_cliques of the graph.
+References
+———
+[2] Listing k-cliques in Sparse Real-World Graphs
+Maximilien Danisch, et al., 2018
+<a class="reference external" href="https://dl.acm.org/citation.cfm?id=3186125">https://dl.acm.org/citation.cfm?id=3186125</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.algo_kcores_batagelj">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">algo_kcores_batagelj</code><span class="sig-paren">(</span><em>a_l</em>, <em>degrees</em>, <em>core_ordering=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#algo_kcores_batagelj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.algo_kcores_batagelj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute k_cores of a static graph from its adjacency list and nodes degrees
+:return: the core number of each node in the graph
+References
+———-
+[1] An O(m) Algorithm for Cores Decomposition of Networks
+Vladimir Batagelj and Matjaz Zaversnik, 2003.
+<a class="reference external" href="http://arxiv.org/abs/cs.DS/0310049">http://arxiv.org/abs/cs.DS/0310049</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.catch_scc_from_msgpack">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">catch_scc_from_msgpack</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>id_scc</em>, <em>storage_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#catch_scc_from_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.catch_scc_from_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.close_component">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">close_component</code><span class="sig-paren">(</span><em>comp</em>, <em>n_comp</em>, <em>t0</em>, <em>final_components</em>, <em>cnt_scc_id</em>, <em>scc_dag</em>, <em>predecessor_in_dag</em>, <em>predecessor_in_dag_final</em>, <em>id_wcc=None</em>, <em>format='cluster'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#close_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.close_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close current component
+:param comp:
+:param n_comp:
+:param t0:
+:param final_components:
+:param cnt_scc_id:
+:param scc_dag:
+:param predecessor_in_dag:
+:param predecessor_in_dag_final:
+:param id_wcc:
+:param format:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.compute_stable_connected_components">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">compute_stable_connected_components</code><span class="sig-paren">(</span><em>S</em>, <em>format='cluster'</em>, <em>stable_dag=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#compute_stable_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.compute_stable_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Stable Connected Components
+:param S:
+:param format:
+:param stable_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.compute_strongly_connected_components">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">compute_strongly_connected_components</code><span class="sig-paren">(</span><em>S</em>, <em>format='cluster'</em>, <em>condensation_dag=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#compute_strongly_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.compute_strongly_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Strongly Connectec Components (SCC) of a Stream Graph.
+:param S: A Stream Graph
+:param format: Format of the output can be “cluster” or “scc_object”
+:param condensation_dag: Boolean, true if we want to output the Condensation DAG, false otherwise
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.create_scc">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">create_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>predecessor_in_dag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#create_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.create_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Strongly Connected Component from the link <em>l</em>
+:param l:
+:param node_2_status:
+:param tmp_components:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.get_graph_from_ordering">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">get_graph_from_ordering</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em>, <em>ordering</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#get_graph_from_ordering"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.get_graph_from_ordering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.is_connected">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">is_connected</code><span class="sig-paren">(</span><em>comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#is_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.is_connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if a component is connected, False otherwise:
+:param comp:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.load_scc_from_sgf">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">load_scc_from_sgf</code><span class="sig-paren">(</span><em>storage_path</em>, <em>scc_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#load_scc_from_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.load_scc_from_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a weakly connected component from a msgpack_file (sgf format).
+:param storage_path: Readable bytes file open(…,’rb’)
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.merge_scc">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">merge_scc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>predecessor_in_dag</em>, <em>predecessor_in_dag_final</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em>, <em>format='cluster'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#merge_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.merge_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.neighborhood_and_degrees_from_links">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">neighborhood_and_degrees_from_links</code><span class="sig-paren">(</span><em>t0</em>, <em>t1</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#neighborhood_and_degrees_from_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.neighborhood_and_degrees_from_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.new_departure_procedure">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">new_departure_procedure</code><span class="sig-paren">(</span><em>batch_departure</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>format</em>, <em>cnt_scc_id</em>, <em>id_wcc</em>, <em>predecessor_in_dag_tmp</em>, <em>predecessor_in_dag_final</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#new_departure_procedure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.new_departure_procedure" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batch_departure</strong> – </li>
+<li><strong>node_2_status</strong> – </li>
+<li><strong>tmp_components</strong> – </li>
+<li><strong>final_components</strong> – </li>
+<li><strong>scc_dag</strong> – </li>
+<li><strong>format</strong> – </li>
+<li><strong>cnt_scc_id</strong> – </li>
+<li><strong>id_wcc</strong> – </li>
+<li><strong>predecessor_in_dag_tmp</strong> – </li>
+<li><strong>predecessor_in_dag_final</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.process_arrival">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">process_arrival</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>format</em>, <em>cnt_scc_id</em>, <em>id_wcc</em>, <em>predecessor_in_dag_tmp</em>, <em>predecessor_in_dag_final</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#process_arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.process_arrival" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.store_scc_to_sgf">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">store_scc_to_sgf</code><span class="sig-paren">(</span><em>scc</em>, <em>storage_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#store_scc_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.store_scc_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump the strongly connected component to a msgpack_file (sgf format)
+:param output: Writable bytes file open(…,’wb’)
+:return:</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component">
+<em class="property">class </em><code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">strongly_connected_component</code><span class="sig-paren">(</span><em>id=None</em>, <em>times=None</em>, <em>nodes=None</em>, <em>set_links=None</em>, <em>links=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.add_link">
+<code class="descname">add_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.add_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.add_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.all_cliques">
+<code class="descname">all_cliques</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.all_cliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.all_cliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.core_number">
+<code class="descname">core_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.core_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.core_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.get_interactions_times">
+<code class="descname">get_interactions_times</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.get_interactions_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.get_interactions_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.get_nodes">
+<code class="descname">get_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.get_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.get_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.get_stable_components">
+<code class="descname">get_stable_components</code><span class="sig-paren">(</span><em>format='object'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.get_stable_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.get_stable_components" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">stable components stemmed from the current component</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.k_clique">
+<code class="descname">k_clique</code><span class="sig-paren">(</span><em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.k_clique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.k_clique" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.k_core">
+<code class="descname">k_core</code><span class="sig-paren">(</span><em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.k_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.k_core" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.merge">
+<code class="descname">merge</code><span class="sig-paren">(</span><em>comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.remove_link">
+<code class="descname">remove_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.remove_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.remove_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.set_begin_time">
+<code class="descname">set_begin_time</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.set_begin_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.set_begin_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.set_end_time">
+<code class="descname">set_end_time</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.set_end_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.set_end_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.split">
+<code class="descname">split</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.split" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.components.strongly_connected_component.strongly_connected_component.to_al">
+<code class="descname">to_al</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#strongly_connected_component.to_al"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.strongly_connected_component.to_al" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.update_scc">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">update_scc</code><span class="sig-paren">(</span><em>node_to_update</em>, <em>node_to_add</em>, <em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>final_components</em>, <em>scc_dag</em>, <em>predecessor_in_dag</em>, <em>predecessor_in_dag_final</em>, <em>cnt_scc_id=None</em>, <em>id_wcc=None</em>, <em>format='cluster'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#update_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.update_scc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node_to_update</strong> – </li>
+<li><strong>node_to_add</strong> – </li>
+<li><strong>l</strong> – </li>
+<li><strong>node_2_status</strong> – </li>
+<li><strong>tmp_components</strong> – </li>
+<li><strong>scc_dag</strong> – </li>
+<li><strong>cnt_scc_id</strong> – </li>
+<li><strong>write_to_msgpack</strong> – </li>
+<li><strong>id_wcc</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.strongly_connected_component.write_scc_to_msgpack">
+<code class="descclassname">straph.components.strongly_connected_component.</code><code class="descname">write_scc_to_msgpack</code><span class="sig-paren">(</span><em>scc</em>, <em>id_wcc</em>, <em>output_file</em>, <em>packer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/strongly_connected_component.html#write_scc_to_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.strongly_connected_component.write_scc_to_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump the strongly connected component to a msgpack_file (sgf format)
+:param output: Writable bytes file open(…,’wb’)
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.components.weakly_connected_component">
+<span id="straph-components-weakly-connected-component-module"></span><h2>straph.components.weakly_connected_component module<a class="headerlink" href="#module-straph.components.weakly_connected_component" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.create_wcc">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">create_wcc</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#create_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.create_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a wcc component
+:param u:
+:param v:
+:param t0:
+:param t1:
+:param node_2_status:
+:param nb_comp:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.end_comp">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">end_comp</code><span class="sig-paren">(</span><em>n_current_comp</em>, <em>tmp_components</em>, <em>final_components</em>, <em>cnt_wcc_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#end_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.end_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the component
+:param n_current_comp:
+:param tmp_components:
+:param storage_path:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.merge_wccs">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">merge_wccs</code><span class="sig-paren">(</span><em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#merge_wccs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.merge_wccs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two components
+:param l:
+:param node_2_status:
+:param tmp_components:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.store_wcc_to_sgf">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">store_wcc_to_sgf</code><span class="sig-paren">(</span><em>wcc</em>, <em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#store_wcc_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.store_wcc_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump the weakly connected component to a msgpack_file (scf format)
+:param output_file: Writable bytes file open(…,’wb’)
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.update_wcc">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">update_wcc</code><span class="sig-paren">(</span><em>node_to_update</em>, <em>node_to_add</em>, <em>l</em>, <em>node_2_status</em>, <em>tmp_components</em>, <em>comp_2_nb_links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#update_wcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.update_wcc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a component with a new node
+:param node_to_update:
+:param node_to_add:
+:param t0:
+:param t1:
+:param node_2_status:
+:param tmp_components:
+:param comp_2_nb_links:
+:return:</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="straph.components.weakly_connected_component.weakly_connected_component">
+<em class="property">class </em><code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">weakly_connected_component</code><span class="sig-paren">(</span><em>id=None</em>, <em>nodes=None</em>, <em>links=None</em>, <em>active_links=None</em>, <em>times=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#weakly_connected_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.weakly_connected_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.components.weakly_connected_component.weakly_connected_components">
+<code class="descclassname">straph.components.weakly_connected_component.</code><code class="descname">weakly_connected_components</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/components/weakly_connected_component.html#weakly_connected_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.components.weakly_connected_component.weakly_connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the weakly connected components of S
+:param S: A Stream Graph
+:return: WCC of S</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.components">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.components" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2020, Léo Rannou.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

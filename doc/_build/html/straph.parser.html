@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.parser package &mdash; Straph 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Straph
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.parser package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.parser.parser">straph.parser.parser module</a></li>
+<li><a class="reference internal" href="#module-straph.parser">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.parser package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.parser.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-parser-package">
+<h1>straph.parser package<a class="headerlink" href="#straph-parser-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.parser.parser">
+<span id="straph-parser-parser-module"></span><h2>straph.parser.parser module<a class="headerlink" href="#module-straph.parser.parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.parser.parser.BurningBush">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">BurningBush</code><span class="sig-paren">(</span><em>input_file</em>, <em>output_file_nodes</em>, <em>output_file_links</em>, <em>delimiter=';'</em>, <em>null_duration_allowed=True</em>, <em>nrows=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#BurningBush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.BurningBush" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Stream Graph reader for burningBUSH:
+:param input_file:
+:param output_file_nodes:
+:param output_file_links:
+:param delta:
+:param delimiter:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.csv_to_sgf">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">csv_to_sgf</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>time_bins</em>, <em>threshold_collect=5000000</em>, <em>directed_links=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#csv_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.csv_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a csv file into a Stream Graph File (Links only).
+Streaming File ordered by time of arrival
+:param file_input:
+:param destination:
+:param time_bins:
+:param threshold_collect:
+:param directed_links:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.datetime_to_timestamp">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">datetime_to_timestamp</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#datetime_to_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.datetime_to_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.inet_to_str">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">inet_to_str</code><span class="sig-paren">(</span><em>inet</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#inet_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.inet_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert inet object to a string</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>inet (inet struct): inet network address</dd>
+<dt>Returns:</dt>
+<dd>str: Printable/readable IP address</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.order_sgf">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">order_sgf</code><span class="sig-paren">(</span><em>path_input</em>, <em>path_output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#order_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.order_sgf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parse_csv">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parse_csv</code><span class="sig-paren">(</span><em>input_file</em>, <em>entry_format</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parse_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parse_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reader for .csv files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_file</strong> – </li>
+<li><strong>entry_format</strong> – </li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parse_json">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parse_json</code><span class="sig-paren">(</span><em>input_file</em>, <em>entry_format</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parse_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Stream Graph reader for JSON dataset:
+[u,v,t]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_file</strong> – </li>
+<li><strong>entry_format</strong> – </li>
+<li><strong>kwargs</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parse_link_stream">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parse_link_stream</code><span class="sig-paren">(</span><em>input_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parse_link_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parse_link_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse link stream format:
+alpha t0
+omega t1
+b e u v
+.
+.
+.
+b e v w
+:param input_file:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parse_net">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parse_net</code><span class="sig-paren">(</span><em>input_file</em>, <em>output_file_nodes</em>, <em>output_file_links</em>, <em>delta=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parse_net"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parse_net" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Stream Graph reader for dataset issued by Pajek
+Format of interactions : .net
+:param input_file:
+:param output_file_nodes:
+:param output_file_links:
+:param delta:
+:param delimiter:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parse_pcap">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parse_pcap</code><span class="sig-paren">(</span><em>input_file</em>, <em>entry_format</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parse_pcap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parse_pcap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.parser">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">parser</code><span class="sig-paren">(</span><em>input_file</em>, <em>input_format</em>, <em>entry_format</em>, <em>output_file=None</em>, <em>output_format='sg'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO : Weighted nodes, weighted links (then modify ‘entry_format’).
+:param input_file: Input FILE (name only)
+:param input_format: Format d’entrée acceptés : JSON, CSV, PCAP
+:param entry_format: Format of each line to be readed (t,u,v) = (line[x],line[y],line[w])
+:param output_file: Output FILE (name only)
+:param output_format: Format de sortie : SG,SGF,json
+:param is_link_stream: If ‘True’ nodes are always present
+:param is_directed: IF ‘False’ we checked if the inverse link is already present and avoid any duplicate.
+:param ndoes_to_label: If ‘True’ : creation of ‘nodes_to_label’ attribute
+:param delimiter: Delimiter in CSV format
+:param nrows: Number of line to read
+:param delta: Duration of link, if not specified
+:param order_sgf: If ‘True’ return an ordered SGF in increasing order
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.pcap_to_csv">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">pcap_to_csv</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>path_dict</em>, <em>protocol=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#pcap_to_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.pcap_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a pcap file to a csv
+:param file_input:
+:param destination:
+:param path_dict:
+:param protocol:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.pcap_to_sgf">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">pcap_to_sgf</code><span class="sig-paren">(</span><em>file_input</em>, <em>destination</em>, <em>time_bins</em>, <em>path_dict</em>, <em>protocol=None</em>, <em>threshold_collect=5000000</em>, <em>with_dict=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#pcap_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.pcap_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a pcap file to a Stream Graph File
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.sort_csv">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">sort_csv</code><span class="sig-paren">(</span><em>input_file</em>, <em>entry_format</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#sort_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.sort_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.parser.parser.write_links_to_sgf">
+<code class="descclassname">straph.parser.parser.</code><code class="descname">write_links_to_sgf</code><span class="sig-paren">(</span><em>destination</em>, <em>packer</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/parser/parser.html#write_links_to_sgf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.parser.parser.write_links_to_sgf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.parser">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.parser" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2020, Léo Rannou.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

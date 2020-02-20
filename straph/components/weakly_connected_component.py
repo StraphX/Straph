@@ -1,62 +1,5 @@
-import copy, pathlib,math
-from collections import defaultdict
-
+import copy
 import msgpack
-import gc
-
-from straph import stream as sg
-
-import matplotlib.pyplot as plt
-
-# TODO : Questions : Doit on representer les WCC comme des stream graphs eux même ?
-#                    On pourrait leur accoler un "id_wcc",
-#                    faire une classe weakly connected component qui hérite de stream graph ?
-
-
-
-# def store_wcc_to_sgf(wcc, storage_path):
-#     '''
-#     Dump the weakly connected component to a msgpack_file (sgf format)
-#     :param storage_path00: Writable bytes file open(...,'wb')
-#     :return:
-#     '''
-#     pathlib.Path(storage_path).mkdir(parents=True, exist_ok=True)
-#     packer = msgpack.Packer()
-#     links = []
-#     _,begin_time,end_time=wcc.links[0]
-#     for l, t0, t1 in wcc.links:
-#         links.append((1, l, t0, t1))  # code each link, 1 for a beginning, -1 for an ending
-#         links.append((-1, l, t1))
-#         begin_time = min(begin_time,t0)
-#         end_time = max(end_time,t1)
-#     links = sorted(links, key=lambda x: x[2])  # Sort the links
-#     with open(storage_path + "wcc_" + str(wcc.id) + '.sgf', 'wb') as output:
-#         # print("Comp ",str(wcc.id)," :")
-#         output.write(packer.pack((begin_time,end_time)))
-#         for l in links:
-#             # print(l)
-#             output.write(packer.pack(l))
-#         # print()
-#     return
-#
-#
-# def load_wcc_from_sgf(storage_path, wcc_id):
-#     '''
-#     Load a weakly connected component from a msgpack_file (sgf format)
-#     :param storage_path: Readable bytes file open(...,'rb')
-#     :return:
-#     '''
-#     unpacker = msgpack.Unpacker()
-#     links = []
-#     with open(storage_path + "wcc_" + str(wcc_id) + '.sgf', 'rb') as input:
-#         times = unpacker.unpack(input.readline())
-#         for i in input:
-#             l = unpacker.unpack(i)
-#             links.append(l)
-#     return weakly_connected_component(id=wcc_id,
-#                                       links=links,
-#                                       times = times)
-
 
 def store_wcc_to_sgf(wcc, output_file):
     '''
@@ -283,19 +226,3 @@ def merge_wccs(l, node_2_status, tmp_components, comp_2_nb_links):
     tmp_components[n_comp_2] = None
 
     node_2_status[v][1] = n_comp_1
-
-if __name__ == '__main__':
-    __directory__ = "/home/leo/Dev/Data_Stream/"
-    __file__ = "sg_generated"
-    S = sg.read_stream_graph(path_nodes=__directory__ + __file__ + "_nodes.sg",
-                             path_links=__directory__ + __file__ + "_links.sg")
-    S.plot()
-    # wcc = S.weakly_connected_components()
-    wcc = weakly_connected_components(S)
-    for c in wcc:
-        print("wcc :",c)
-
-        # Sub = S.substream(c)
-        # Sub.plot()
-    # S.plot(clusters=wcc)
-    plt.show()

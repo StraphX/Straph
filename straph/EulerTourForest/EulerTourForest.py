@@ -1,14 +1,7 @@
-import random
-import numpy as np
-import matplotlib.pyplot as plt
+
 import msgpack,gc
 from collections import defaultdict
 import copy
-
-
-import math,time
-from straph import stream as sg
-from straph.generators import erdos_renyi as gen
 
 from straph.EulerTourForest.EulerTourTree import construct_euler_tour_tree, union_treap
 
@@ -485,35 +478,6 @@ class EulerTourForest(object):
             SCC.append(current_comp)
 
 
-    def write_to_msgpack(self,T):
-        '''
-        A handler to store a connected component
-        :param storage_file:
-        :return:
-        '''
-        t0, t1 = T.begin_time, T.end_time
-        if t0 != t1:
-            L = T.get_data_in_priority_order()
-            links = set()
-            # Add tree edges
-            for l in L:
-                u,v = l
-                if l not in links and (v, u) not in links and u != v:
-                    links.add(l)
-                    # Add Non Tree Edges
-                    for n in self.non_tree_edges_al[u]:
-                        if (n,u) not in links and (u,n) not in links:
-                            links.add((n,u))
-                    for n in self.non_tree_edges_al[v]:
-                        if (n,v) not in links and (v,n) not in links:
-                            links.add((n,v))
-            if links:
-                # print("Links to store :", tuple(links))
-                storage_file.write(packer.pack((t0,t1,tuple(links))))
-            # TODO : compteur id scc
-        return
-
-
 def dynamic_connectivity(E, M):
     ETF = construct_euler_tour_forest(E)
     print("Initial Euler Tour Forest :\n", ETF)
@@ -573,71 +537,6 @@ def strongly_connected_components_ETF(S):
         SCC.append([c])
 
     return SCC
-
-
-
-import time
-if __name__ == '__main__':
-
-    T = [0, 1000]
-    nb_nodes = 200
-    mean_flow_nodes = 6
-    mean_node_presence = 200
-    p_link = 0.8*np.sqrt(nb_nodes) / nb_nodes
-    mean_flow_links = 6
-    mean_link_presence = 50
-
-    S = gen.erdos_renyi(T,
-                        nb_nodes,
-                        mean_flow_nodes,
-                        mean_node_presence,
-                        p_link,
-                        mean_flow_links,
-                        mean_link_presence)
-
-
-    chrono = time.time()
-    scc_classic = S.strongly_connected_components()
-    print("SCC Classic DONE :",time.time()-chrono)
-    #
-    #
-    chrono = time.time()
-    scc_etf = strongly_connected_components_ETF(S)
-    print("SCC ETF DONE in :",time.time()-chrono)
-
-    # S.plot(clusters=scc_classic,title="SCC Classic")
-    # S.plot(clusters=scc_etf, title="SCC UF")
-    # S.plot()
-    # plt.show()
-
-    set_etf = set()
-    set_classic = set()
-    for i in scc_etf:
-        set_nodes = set()
-        t0,t1 = None,None
-        for (t0,t1,n) in i:
-            set_nodes.add(n)
-        set_etf.add((t0, t1, tuple(sorted(set_nodes))))
-
-
-    for i in scc_classic:
-        set_nodes = set()
-        t0,t1 = None,None
-        for (t0,t1,n) in i:
-            set_nodes.add(n)
-        set_classic.add((t0,t1,tuple(sorted(set_nodes))))
-
-    print("N scc etf :", len(set_etf))
-    print("N scc classic:",len(set_classic))
-
-    for i in set_classic:
-        if i not in set_etf:
-            print("classic not etf :",i)
-    for j in set_etf:
-        if j not in set_classic:
-            print("etf not classic :",j)
-
-    assert set_etf == set_classic
 
 
 

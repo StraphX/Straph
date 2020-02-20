@@ -1,0 +1,1200 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.paths.paths &mdash; Straph 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Straph
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>straph.paths.paths</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for straph.paths.paths</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">heapq</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sortedcollections</span> <span class="k">import</span> <span class="n">SortedSet</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+
+
+<span class="c1"># TODO: - Add detailed paths + plots : !!!!!!! (lot of work)</span>
+
+
+<span class="c1">##########################################</span>
+<span class="c1">#       Visualisation for L-Algorithm    #</span>
+<span class="c1">##########################################</span>
+
+<div class="viewcode-block" id="plot_adjacency_list"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.plot_adjacency_list">[docs]</a><span class="k">def</span> <span class="nf">plot_adjacency_list</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">a_l</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plot the current adjacency list *a_l*.</span>
+
+<span class="sd">    :param S: A stream graph (we get its labels)</span>
+<span class="sd">    :param a_l: an adjacency list</span>
+<span class="sd">    :return: Plot of adjacency list</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="n">set_edge</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">a_l</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_edge</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_edge</span><span class="p">:</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_to_label</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">S</span><span class="o">.</span><span class="n">node_to_label</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]],</span> <span class="n">t1</span><span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">set_edge</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>
+                           <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;#5a5ff5&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="s1">&#39;Ubuntu&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="plot_stream"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.plot_stream">[docs]</a><span class="k">def</span> <span class="nf">plot_stream</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plot the stream graph and a marker for the instant *t*.</span>
+
+<span class="sd">    :param S: A stream Graph</span>
+<span class="sd">    :param t:  An instant</span>
+<span class="sd">    :return:  Plot of the stream graph</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_temporal_sources"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.get_temporal_sources">[docs]</a><span class="k">def</span> <span class="nf">get_temporal_sources</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the maximal segmented nodes (t0,t1,u) s.t u = source.</span>
+
+<span class="sd">    :param S: Stream Graph</span>
+<span class="sd">    :param source: source node</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span> <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][::</span><span class="mi">2</span><span class="p">],</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])]</span></div>
+
+
+<span class="c1">#######################################</span>
+<span class="c1">#           F-Algorithm               #</span>
+<span class="c1">#######################################</span>
+
+
+<div class="viewcode-block" id="F_Algorithm"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.F_Algorithm">[docs]</a><span class="k">def</span> <span class="nf">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An implementation of F-Algorithm (add ref).</span>
+<span class="sd">    Pairwise Algorithm to compute temporal paths in Stream Graph.</span>
+
+<span class="sd">    :param S: A Stream Graph</span>
+<span class="sd">    :param L_functions: Functions according to the path&#39;s type (supported :</span>
+<span class="sd">        - foremost path</span>
+<span class="sd">        - shortest foremost path</span>
+<span class="sd">        - shortest path</span>
+<span class="sd">        - fastest shortest path</span>
+<span class="sd">        - fastest path</span>
+<span class="sd">        - shortest fastest path)</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialisation</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">np</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">F</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">L_functions</span><span class="p">[</span><span class="s1">&#39;initialisation&#39;</span><span class="p">](</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">temporal_adjacency_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>  <span class="c1"># currently present links in the form of adjacency list</span>
+    <span class="n">nodes_to_udpate</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># Reached nodes so far</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">augmented_ordered_links</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">E</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Arrival</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+            <span class="n">nodes_to_udpate</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+            <span class="n">nodes_to_udpate</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">F_update</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">temporal_adjacency_list</span><span class="p">,</span> <span class="n">nodes_to_udpate</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">F</span></div>
+
+
+<div class="viewcode-block" id="F_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.F_update">[docs]</a><span class="k">def</span> <span class="nf">F_update</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">batch_arrival</span><span class="p">,</span> <span class="n">temporal_adjacency_list</span><span class="p">,</span> <span class="n">nodes_to_update</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Proceed to BFS_Update W_n for every encounter node so far (i.e. in nodes_to_update).</span>
+<span class="sd">    :param F:</span>
+<span class="sd">    :param batch_arrival:</span>
+<span class="sd">    :param temporal_adjacency_list:</span>
+<span class="sd">    :param nodes_to_update:</span>
+<span class="sd">    :param L_functions:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes_to_update</span><span class="p">:</span>
+        <span class="n">bfs_update</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="n">batch_arrival</span><span class="p">,</span> <span class="n">temporal_adjacency_list</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span></div>
+
+
+<span class="c1">#######################################</span>
+<span class="c1">#           L-Algorithm               #</span>
+<span class="c1">#######################################</span>
+
+<div class="viewcode-block" id="L_Algorithm"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.L_Algorithm">[docs]</a><span class="k">def</span> <span class="nf">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span>
+                <span class="n">initialisation_function</span><span class="p">,</span>
+                <span class="n">update_function</span><span class="p">,</span>
+                <span class="n">source_init_function</span><span class="p">,</span>
+                <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">is_temporal_source</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">sfp_special_case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An implementation of L-Algorithm (described in ~add ref)</span>
+<span class="sd">    Single Source Algorithm to compute temporal paths in Stream Graph</span>
+
+<span class="sd">    :param S: A Stream Graph</span>
+<span class="sd">    :param source: A temporal source node</span>
+<span class="sd">    :param L_functions: Functions according to the path&#39;s type (supported :</span>
+<span class="sd">            - foremost path</span>
+<span class="sd">            - shortest foremost path</span>
+<span class="sd">            - shortest path</span>
+<span class="sd">            - fastest shortest path</span>
+<span class="sd">            - fastest path</span>
+<span class="sd">            - shortest fastest path)</span>
+<span class="sd">    :return: R containing the best results</span>
+<span class="sd">    # IMPORTANT : We suppose that we are in the WCC of &#39;source&#39; otherwise it&#39;s fucking expensive !</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">initialisation_function</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">)</span>
+    <span class="n">temporal_adjacency_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>  <span class="c1"># key : temporal node, value : (temporal node, end time of link)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">ordered_events</span><span class="p">()</span>
+
+    <span class="n">batch_arrival</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">t_last_arrival</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">E</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Link ARRIVAL</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">i</span>
+
+            <span class="k">if</span> <span class="n">t1</span> <span class="o">&gt;=</span> <span class="n">start_time</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">t_last_arrival</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">t_last_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+
+                <span class="k">if</span> <span class="n">t0</span> <span class="o">==</span> <span class="n">t_last_arrival</span><span class="p">:</span>
+                    <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                    <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+                    <span class="n">batch_arrival</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">batch_arrival</span><span class="p">:</span>
+                        <span class="n">bfs_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">batch_arrival</span><span class="p">,</span>
+                                   <span class="n">temporal_adjacency_list</span><span class="p">,</span>
+                                   <span class="n">update_function</span><span class="p">,</span>
+                                   <span class="n">sfp_special_case</span><span class="o">=</span><span class="n">sfp_special_case</span><span class="p">)</span>
+
+                    <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                    <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+                    <span class="n">batch_arrival</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="p">]</span>
+                    <span class="n">t_last_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># LINK DEPARTURE</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">i</span>
+
+            <span class="k">if</span> <span class="n">t1</span> <span class="o">&gt;=</span> <span class="n">start_time</span><span class="p">:</span>
+                <span class="c1">#</span>
+                <span class="k">if</span> <span class="n">batch_arrival</span><span class="p">:</span>
+                    <span class="n">bfs_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span>
+                               <span class="n">batch_arrival</span><span class="p">,</span>
+                               <span class="n">temporal_adjacency_list</span><span class="p">,</span>
+                               <span class="n">update_function</span><span class="p">,</span>
+                               <span class="n">sfp_special_case</span><span class="o">=</span><span class="n">sfp_special_case</span><span class="p">)</span>
+                    <span class="n">batch_arrival</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1">#</span>
+                <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="c1"># Node departure</span>
+            <span class="n">t1</span><span class="p">,</span><span class="n">n</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+                <span class="n">L</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">is_temporal_source</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                        <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">t1</span><span class="p">):</span>
+                    <span class="c1"># If there is no possibility to extend any paths : we return the fuck out</span>
+                    <span class="k">return</span> <span class="n">R</span>
+
+        <span class="c1"># Node arrival (c == 2)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_temporal_source</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">source_init_function</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="bfs_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.bfs_update">[docs]</a><span class="k">def</span> <span class="nf">bfs_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">batch_arrival</span><span class="p">,</span>
+               <span class="n">temporal_adjacency_list</span><span class="p">,</span>
+               <span class="n">update_function</span><span class="p">,</span>
+               <span class="n">sfp_special_case</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Proceeds to browse every links present at instant :math:&#39;t_0&#39; in order to propagate the update on current possible paths</span>
+
+<span class="sd">    :param L:</span>
+<span class="sd">    :param source:</span>
+<span class="sd">    :param batch_arrival:</span>
+<span class="sd">    :param temporal_adjacency_list:</span>
+<span class="sd">    :param L_functions:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">sfp_special_case</span><span class="p">:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">begin_time</span> <span class="o">=</span> <span class="n">batch_arrival</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="ow">in</span> <span class="n">batch_arrival</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">u1</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+                <span class="n">b_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u1</span><span class="p">]</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">((</span><span class="n">begin_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">su1</span><span class="p">,</span><span class="n">du1</span><span class="p">,</span><span class="n">au1</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">u1</span><span class="p">][</span><span class="n">b_pos</span><span class="p">:]:</span>
+                    <span class="n">priority</span> <span class="o">=</span> <span class="p">(</span><span class="n">du1</span><span class="p">,</span> <span class="o">-</span> <span class="n">su1</span><span class="p">)</span>
+                    <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">u2</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+                <span class="n">b_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u2</span><span class="p">]</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">((</span><span class="n">begin_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u2</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">su2</span><span class="p">,</span><span class="n">du2</span><span class="p">,</span><span class="n">au2</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">u2</span><span class="p">][</span><span class="n">b_pos</span><span class="p">:]:</span>
+                    <span class="n">priority</span> <span class="o">=</span> <span class="p">(</span><span class="n">du2</span><span class="p">,</span> <span class="o">-</span> <span class="n">su2</span><span class="p">)</span>
+                    <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">Q</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">Q</span><span class="p">:</span>
+                <span class="n">p</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">end_link</span> <span class="o">=</span> <span class="n">heappop</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+                <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">pred</span><span class="p">))</span>
+                <span class="n">updated</span> <span class="o">=</span> <span class="n">update_function</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">begin_time</span><span class="p">,</span> <span class="n">end_link</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span>
+                <span class="n">b_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">((</span><span class="n">begin_time</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">cur</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">list_priorities</span> <span class="o">=</span> <span class="p">[(</span><span class="n">dcur</span><span class="p">,</span> <span class="o">-</span><span class="n">scur</span><span class="p">)</span> <span class="k">for</span> <span class="n">scur</span><span class="p">,</span><span class="n">dcur</span><span class="p">,</span><span class="n">acur</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">cur</span><span class="p">][</span><span class="n">b_pos</span><span class="p">:]]</span>
+                <span class="k">if</span> <span class="n">updated</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="nb">next</span> <span class="ow">in</span> <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">cur</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">priority</span> <span class="ow">in</span> <span class="n">list_priorities</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                                <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="nb">next</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+        <span class="c1"># print(&quot; L :&quot;,L)</span>
+        <span class="c1"># print(&quot; R :&quot;,R)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">begin_link</span> <span class="o">=</span> <span class="n">batch_arrival</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="ow">in</span> <span class="n">batch_arrival</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">u1</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+                <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u1</span><span class="p">],</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">u2</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+                <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u2</span><span class="p">],</span> <span class="n">u2</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">Q</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">Q</span><span class="p">:</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">end_link</span> <span class="o">=</span> <span class="n">heappop</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+                <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+                <span class="n">updated</span> <span class="o">=</span> <span class="n">update_function</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">begin_link</span><span class="p">,</span> <span class="n">end_link</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">updated</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="nb">next</span> <span class="ow">in</span> <span class="n">temporal_adjacency_list</span><span class="p">[</span><span class="n">cur</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="nb">next</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                            <span class="n">heappush</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">cur</span><span class="p">],</span> <span class="n">cur</span><span class="p">,</span> <span class="nb">next</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
+
+<span class="c1">######################################</span>
+<span class="c1">#           Foremost Paths (FoP)     #</span>
+<span class="c1">######################################</span>
+
+<div class="viewcode-block" id="FoP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FoP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &#39;L&#39; initialisation for FoP</span>
+
+<span class="sd">    :param source:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},{}</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># (a_u)</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="FoP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FoP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">t0</span></div>
+
+<div class="viewcode-block" id="FoP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_update">[docs]</a><span class="k">def</span> <span class="nf">FoP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    We update &#39;L&#39; according to the link (t0,t1,u,v) and FoP properties.</span>
+
+<span class="sd">    :param L:</span>
+<span class="sd">    :param t0:</span>
+<span class="sd">    :param t1:</span>
+<span class="sd">    :param u:</span>
+<span class="sd">    :param v:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+    <span class="c1"># If v is already in L, we&#39;ve reached v at t &lt;= t0.</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arrival</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arrival</span>
+    <span class="k">elif</span> <span class="n">t0</span> <span class="o">&gt;</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FoP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">FoP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Post process elements in &#39;L&#39; to obtain time to reach &#39;ttr&#39;</span>
+
+<span class="sd">    :param L:</span>
+<span class="sd">    :param source:</span>
+<span class="sd">    :param destination: optional</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1">#  Single source</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">start_time</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>                    <span class="c1"># Source - Target</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">]</span><span class="o">-</span><span class="n">start_time</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">ttr</span></div>
+
+
+<div class="viewcode-block" id="FoP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP">[docs]</a><span class="k">def</span> <span class="nf">FoP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If *destination* is specified: Return the time to reach *destination* from *source* in *S*.</span>
+<span class="sd">    Otherwise: Return the time to reach every reachable node in *S* from *source*.</span>
+
+<span class="sd">    :param S: Stream graph</span>
+<span class="sd">    :param source: temporal source node</span>
+<span class="sd">    :param destination: optional</span>
+<span class="sd">    :param start_time : optional, if not specified assume that the start time is source[0]</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Times to reach always takes a temporal source</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">FoP_initialisation</span><span class="p">,</span> <span class="n">FoP_update</span><span class="p">,</span> <span class="n">FoP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                    <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">)</span>
+    <span class="n">ttr</span> <span class="o">=</span> <span class="n">FoP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ttr</span></div>
+
+
+<div class="viewcode-block" id="FoP_postprocess_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_postprocess_pw">[docs]</a><span class="k">def</span> <span class="nf">FoP_postprocess_pw</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">ttr_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">ttr_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">FoP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ttr_pw</span></div>
+
+
+<div class="viewcode-block" id="FoP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FoP_pw">[docs]</a><span class="k">def</span> <span class="nf">FoP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the time to reach every reachable node in *S* from every other node.</span>
+<span class="sd">    (infinity if not reachable)</span>
+<span class="sd">    :param S: Stream graph</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">FoP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">FoP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">times_to_reach_pw</span> <span class="o">=</span> <span class="n">FoP_postprocess_pw</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">times_to_reach_pw</span></div>
+
+
+<span class="c1">######################################</span>
+<span class="c1">#           Shortest Foremost Paths  #</span>
+<span class="c1">######################################</span>
+
+<div class="viewcode-block" id="SFoP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SFoP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># (d_v,a_v)</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+<div class="viewcode-block" id="SFoP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SFoP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SFoP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_update">[docs]</a><span class="k">def</span> <span class="nf">SFoP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">du</span><span class="p">,</span> <span class="n">au</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+    <span class="n">new_distance</span> <span class="o">=</span> <span class="n">du</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">current_best_distance</span><span class="p">,</span> <span class="n">current_best_arrival</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">new_arrival</span> <span class="o">==</span> <span class="n">current_best_arrival</span> <span class="ow">and</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">current_best_distance</span><span class="p">:</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+            <span class="n">dv</span><span class="p">,</span> <span class="n">av</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">dv</span><span class="p">:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">new_distance</span> <span class="o">&gt;</span> <span class="n">dv</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+        <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="SFoP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SFoP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Post Process elements in &#39;L&#39; to obtain times to reach and lengths of shortest foremost path</span>
+
+<span class="sd">    :param L:</span>
+<span class="sd">    :param source:</span>
+<span class="sd">    :param destination:</span>
+<span class="sd">    :param start_time:</span>
+<span class="sd">    :param ttr:</span>
+<span class="sd">    :param lengths:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">start_time</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ttr</span><span class="p">,</span> <span class="n">lengths</span></div>
+
+
+<div class="viewcode-block" id="SFoP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP">[docs]</a><span class="k">def</span> <span class="nf">SFoP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1">#  Times to reach always takes a temporal source</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">SFoP_initialisation</span><span class="p">,</span> <span class="n">SFoP_update</span><span class="p">,</span>
+                    <span class="n">SFoP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                    <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">)</span>
+    <span class="n">ttr</span><span class="p">,</span><span class="n">lengths</span> <span class="o">=</span> <span class="n">SFoP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ttr</span><span class="p">,</span><span class="n">lengths</span></div>
+
+
+<div class="viewcode-block" id="SFoP_W_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_W_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SFoP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">ttr_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">length_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">ttr_pw</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">length_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">SFoP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ttr_pw</span><span class="p">,</span> <span class="n">length_pw</span></div>
+
+
+<div class="viewcode-block" id="SFoP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFoP_pw">[docs]</a><span class="k">def</span> <span class="nf">SFoP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">SFoP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">SFoP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ttr_pw</span><span class="p">,</span> <span class="n">lengths_pw</span> <span class="o">=</span> <span class="n">SFoP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ttr_pw</span><span class="p">,</span> <span class="n">lengths_pw</span></div>
+
+
+<span class="c1">######################################</span>
+<span class="c1">#           Shortest Paths           #</span>
+<span class="c1">######################################</span>
+
+<div class="viewcode-block" id="SP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">,</span><span class="n">R</span> <span class="o">=</span> <span class="p">{},{}</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># (d,a)</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+<div class="viewcode-block" id="SP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">t0</span><span class="p">)</span>  <span class="c1"># a</span></div>
+
+
+<div class="viewcode-block" id="SP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_update">[docs]</a><span class="k">def</span> <span class="nf">SP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Update Lv with the best element of Lu !</span>
+<span class="sd">    :param L:</span>
+<span class="sd">    :param t0:</span>
+<span class="sd">    :param t1:</span>
+<span class="sd">    :param u:</span>
+<span class="sd">    :param v:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">du</span><span class="p">,</span> <span class="n">au</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+
+    <span class="n">new_distance</span> <span class="o">=</span> <span class="n">du</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">current_best_distance</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">current_best_distance</span><span class="p">:</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span><span class="n">new_arrival</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+            <span class="n">dv</span><span class="p">,</span> <span class="n">av</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">dv</span><span class="p">:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">new_distance</span> <span class="o">&gt;</span> <span class="n">dv</span><span class="p">:</span> <span class="c1"># Maybe &gt;= (have to test with many arrival at the same time)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+        <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="SP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">distances</span></div>
+
+
+<div class="viewcode-block" id="SP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP">[docs]</a><span class="k">def</span> <span class="nf">SP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+        <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">SP_initialisation</span><span class="p">,</span> <span class="n">SP_update</span><span class="p">,</span>
+                    <span class="n">SP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                    <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">)</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="n">SP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">distances</span></div>
+
+
+<div class="viewcode-block" id="SP_W_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_W_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">distances_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">distances_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">SP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">distances_pw</span></div>
+
+
+<div class="viewcode-block" id="SP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SP_pw">[docs]</a><span class="k">def</span> <span class="nf">SP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">SP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">SP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">distances_pw</span> <span class="o">=</span> <span class="n">SP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">distances_pw</span></div>
+
+
+<span class="c1">######################################</span>
+<span class="c1">#           Fastest Shortest Paths   #</span>
+<span class="c1">######################################</span>
+
+<div class="viewcode-block" id="FSP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FSP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="n">source_segment</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                      <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][::</span><span class="mi">2</span><span class="p">],</span>
+                                        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+                      <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># (d_u,s_u,a_u)</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+<div class="viewcode-block" id="FSP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FSP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="n">t1</span><span class="p">,</span><span class="n">t0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FSP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_update">[docs]</a><span class="k">def</span> <span class="nf">FSP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">du</span><span class="p">,</span> <span class="n">su</span><span class="p">,</span> <span class="n">au</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">su</span> <span class="o">=</span> <span class="o">-</span><span class="n">su</span>
+    <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+    <span class="n">new_distance</span> <span class="o">=</span> <span class="n">du</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">new_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">su</span><span class="p">)</span>
+    <span class="n">new_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_arrival</span> <span class="o">-</span> <span class="n">new_start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">current_best_distance</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">current_best_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">current_best_distance</span> <span class="ow">or</span> <span class="p">(</span><span class="n">new_distance</span> <span class="o">==</span> <span class="n">current_best_distance</span> <span class="ow">and</span>
+                                                    <span class="n">new_duration</span> <span class="o">&lt;</span> <span class="n">current_best_duration</span><span class="p">):</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+            <span class="n">dv</span><span class="p">,</span> <span class="n">sv</span><span class="p">,</span> <span class="n">av</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="n">sv</span> <span class="o">=</span> <span class="o">-</span><span class="n">sv</span>
+            <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">dv</span> <span class="ow">or</span> <span class="p">(</span><span class="n">new_distance</span> <span class="o">==</span> <span class="n">dv</span> <span class="ow">and</span> <span class="n">new_start</span> <span class="o">&gt;</span> <span class="n">sv</span><span class="p">):</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+        <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_distance</span><span class="p">,</span> <span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FSP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">FSP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">durations</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+        <span class="n">durations</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">distances</span><span class="p">,</span> <span class="n">durations</span></div>
+
+
+<div class="viewcode-block" id="FSP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP">[docs]</a><span class="k">def</span> <span class="nf">FSP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+        <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">FSP_initialisation</span><span class="p">,</span> <span class="n">FSP_update</span><span class="p">,</span>
+                    <span class="n">FSP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">)</span>
+    <span class="n">distances</span><span class="p">,</span> <span class="n">durations</span> <span class="o">=</span> <span class="n">FSP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span>
+                                           <span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">distances</span><span class="p">,</span> <span class="n">durations</span></div>
+
+
+<div class="viewcode-block" id="FSP_W_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_W_postprocess">[docs]</a><span class="k">def</span> <span class="nf">FSP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">distances_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">duration_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">distances_pw</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">duration_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">FSP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">distances_pw</span><span class="p">,</span> <span class="n">duration_pw</span></div>
+
+
+<div class="viewcode-block" id="FSP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FSP_pw">[docs]</a><span class="k">def</span> <span class="nf">FSP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">FSP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">FSP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">distances_pw</span><span class="p">,</span> <span class="n">duration_pw</span> <span class="o">=</span> <span class="n">FSP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">distances_pw</span><span class="p">,</span> <span class="n">duration_pw</span></div>
+
+
+<span class="c1">######################################</span>
+<span class="c1">#           Fastest Paths            #</span>
+<span class="c1">######################################</span>
+
+<span class="c1">#  IMPORTANT : On indexe par L par -s_u au lieu de s_u pour gérer les batch arrival !!</span>
+
+<div class="viewcode-block" id="FP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+    <span class="n">source_segment</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                      <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][::</span><span class="mi">2</span><span class="p">],</span>
+                                        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+                      <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># (-s_u,a_u)</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="FP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">FP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">t1</span><span class="p">,</span><span class="n">t0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_update">[docs]</a><span class="k">def</span> <span class="nf">FP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Lu is sorted by the value of au and we analyze temporal links in temporal order.</span>
+<span class="sd">    :param L:</span>
+<span class="sd">    :param t0:</span>
+<span class="sd">    :param t1:</span>
+<span class="sd">    :param u:</span>
+<span class="sd">    :param v:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">su</span><span class="p">,</span> <span class="n">au</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+    <span class="n">su</span> <span class="o">=</span> <span class="o">-</span><span class="n">su</span>  <span class="c1">#  Trick for the sorted queue in bfs update</span>
+    <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+    <span class="n">new_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">su</span><span class="p">)</span>  <span class="c1"># Remember that the aim is to leaving the source node the latest possible (thus s_u</span>
+    <span class="c1">#  can be &gt; to t_1).</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+        <span class="n">current_best_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_arrival</span> <span class="o">-</span> <span class="n">new_start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">current_best_duration</span><span class="p">:</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+            <span class="n">sv</span><span class="p">,</span> <span class="n">av</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+            <span class="n">sv</span> <span class="o">=</span> <span class="o">-</span><span class="n">sv</span>
+            <span class="k">if</span> <span class="n">new_start</span> <span class="o">&gt;</span> <span class="n">sv</span><span class="p">:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">new_start</span> <span class="o">&lt;</span> <span class="n">sv</span><span class="p">:</span>
+                <span class="c1"># We did not update L : don&#39;t propagate the path !</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+        <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="FP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">FP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">latencies</span></div>
+
+
+<div class="viewcode-block" id="FP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP">[docs]</a><span class="k">def</span> <span class="nf">FP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+        <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">FP_initialisation</span><span class="p">,</span> <span class="n">FP_update</span><span class="p">,</span>
+                    <span class="n">FP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                    <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">)</span>
+    <span class="n">latencies</span> <span class="o">=</span> <span class="n">FP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">latencies</span></div>
+
+
+<div class="viewcode-block" id="FP_W_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_W_postprocess">[docs]</a><span class="k">def</span> <span class="nf">FP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">latencies_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">latencies_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">FP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">latencies_pw</span></div>
+
+
+<div class="viewcode-block" id="FP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.FP_pw">[docs]</a><span class="k">def</span> <span class="nf">FP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">FP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">FP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">latencies_pw</span> <span class="o">=</span> <span class="n">FP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">latencies_pw</span></div>
+
+
+<span class="c1">######################################</span>
+<span class="c1">#           Shortest Fastest Paths   #</span>
+<span class="c1">######################################</span>
+
+<div class="viewcode-block" id="SFP_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SFP_initialisation</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">source</span><span class="p">):</span>
+
+    <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="p">{},{}</span>
+    <span class="n">source_segment</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                      <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][::</span><span class="mi">2</span><span class="p">],</span>
+                                        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+                      <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">SortedSet</span><span class="p">([(</span><span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>  <span class="c1"># (s_u, d_u, a_u)</span>
+
+    <span class="n">R</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">source_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># (a_u, s_u, d_u)</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="SFP_source_initialisation"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_source_initialisation">[docs]</a><span class="k">def</span> <span class="nf">SFP_source_initialisation</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">SortedSet</span><span class="p">([(</span><span class="n">t1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">t0</span><span class="p">)])</span>  <span class="c1"># (s_u, d_u, a_u)</span></div>
+
+<div class="viewcode-block" id="SFP_update"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_update">[docs]</a><span class="k">def</span> <span class="nf">SFP_update</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Update Lv from (t0,t1,u,v) according to SFP constraints.</span>
+<span class="sd">    Dans L_u pour les SFP on a : soit un seul triplet et a_u &gt; s_u either many triplets and a_u &lt;= s_u,     they are sorted by their departure time</span>
+<span class="sd">    :param L:</span>
+<span class="sd">    :param t0:</span>
+<span class="sd">    :param t1:</span>
+<span class="sd">    :param u:</span>
+<span class="sd">    :param v:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Cleaning L[u] :</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">bu_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bu_pos</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># print(&quot; u :&quot;, u)</span>
+            <span class="c1"># print(&quot; current time :&quot;, t0)</span>
+            <span class="c1"># print(&quot;\t b pos cleaning u:&quot;, bu_pos)</span>
+            <span class="c1"># print(&quot;\t before L u:&quot;, L[u])</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">][:</span><span class="n">bu_pos</span><span class="p">])</span>
+            <span class="c1"># print(&quot;\t after L u:&quot;, L[u])</span>
+        <span class="c1"># TEST !! #</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># print(&quot;current time :&quot;, t0)</span>
+            <span class="c1"># print(&quot;u , L[u] :&quot;, u, L[u])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">s_pred</span><span class="p">,</span> <span class="n">d_pred</span><span class="p">,</span> <span class="n">a_pred</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">s_next</span><span class="p">,</span> <span class="n">d_next</span><span class="p">,</span> <span class="n">a_next</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">assert</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span> <span class="o">-</span> <span class="n">s_pred</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span> <span class="o">-</span> <span class="n">s_next</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">s_pred</span> <span class="o">&lt;</span> <span class="n">s_next</span>
+                <span class="k">assert</span> <span class="n">d_pred</span> <span class="o">&lt;</span> <span class="n">d_next</span>
+
+
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Cleaning L[v]</span>
+        <span class="n">bv_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bv_pos</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># print(&quot;v :&quot;, v)</span>
+            <span class="c1"># print(&quot; current time :&quot;, t0)</span>
+            <span class="c1"># print(&quot;\t b pos cleaning v:&quot;, bv_pos)</span>
+            <span class="c1"># print(&quot;\t before L v:&quot;, L[v])</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="n">bv_pos</span><span class="p">])</span>
+            <span class="c1"># print(&quot;\t after L v:&quot;, L[v])</span>
+        <span class="c1"># TEST !! #</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># print(&quot;current time :&quot;, t0)</span>
+            <span class="c1"># print(&quot;u , L[u] :&quot;, v, L[v])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">s_pred</span><span class="p">,</span> <span class="n">d_pred</span><span class="p">,</span> <span class="n">a_pred</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">s_next</span><span class="p">,</span> <span class="n">d_next</span><span class="p">,</span> <span class="n">a_next</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">assert</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span> <span class="o">-</span> <span class="n">s_pred</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span> <span class="o">-</span> <span class="n">s_next</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">s_pred</span> <span class="o">&lt;</span> <span class="n">s_next</span>
+                <span class="k">assert</span> <span class="n">d_pred</span> <span class="o">&lt;</span> <span class="n">d_next</span>
+
+
+    <span class="n">updated</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># print(&quot;\t u,v :&quot;,u,v)</span>
+    <span class="k">for</span> <span class="n">su</span><span class="p">,</span> <span class="n">du</span><span class="p">,</span> <span class="n">au</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span> <span class="c1"># As we have clean L_u we can consider every elements</span>
+
+        <span class="c1"># print(&quot;\t au,su,du :&quot;,au,su,du)</span>
+        <span class="n">new_arrival</span> <span class="o">=</span> <span class="n">t0</span>
+        <span class="n">new_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">su</span><span class="p">)</span>
+        <span class="n">new_distance</span> <span class="o">=</span> <span class="n">du</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">new_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_arrival</span> <span class="o">-</span> <span class="n">new_start</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># print(&quot;new a, new s, new d :&quot;,new_arrival,new_start,new_distance)</span>
+
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+
+            <span class="n">current_best_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">current_best_length</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">new_duration</span> <span class="o">&lt;</span> <span class="n">current_best_duration</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">new_duration</span> <span class="o">==</span> <span class="n">current_best_duration</span>
+                     <span class="ow">and</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">current_best_length</span><span class="p">):</span>
+                <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_arrival</span><span class="p">,</span> <span class="n">new_start</span><span class="p">,</span> <span class="n">new_distance</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">L</span><span class="p">:</span>
+
+                <span class="n">to_add</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">to_remove</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">sv</span><span class="p">,</span><span class="n">dv</span><span class="p">,</span><span class="n">av</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span> <span class="c1"># as we have clean L_v we can consider every elements</span>
+
+                    <span class="c1"># if new_start &gt; sv or (new_start == sv and new_distance &lt; dv) or \</span>
+                    <span class="c1">#         (new_duration == 0 and new_distance &lt; dv):</span>
+                    <span class="c1">#             L[v].add((new_start,new_distance,new_arrival))</span>
+                    <span class="k">if</span> <span class="n">new_start</span> <span class="o">&gt;</span> <span class="n">sv</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;=</span> <span class="n">dv</span><span class="p">:</span>
+                            <span class="n">to_add</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="n">to_remove</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">sv</span><span class="p">,</span><span class="n">dv</span><span class="p">,</span><span class="n">av</span><span class="p">))</span>
+
+                        <span class="k">elif</span> <span class="p">(</span><span class="n">sv</span><span class="p">,</span><span class="n">dv</span><span class="p">,</span><span class="n">av</span><span class="p">)</span> <span class="o">==</span> <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="c1"># IMPORTANT take care of the else</span>
+                            <span class="n">to_add</span> <span class="o">=</span> <span class="kc">True</span>
+
+                    <span class="k">elif</span> <span class="n">new_start</span> <span class="o">&lt;</span> <span class="n">sv</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">dv</span><span class="p">:</span>
+                            <span class="n">to_add</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">break</span>
+                        <span class="k">elif</span> <span class="n">new_distance</span> <span class="o">==</span> <span class="n">dv</span><span class="p">:</span>
+                            <span class="n">updated</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">break</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                    <span class="k">else</span><span class="p">:</span> <span class="c1"># new_start = sv</span>
+                        <span class="k">if</span> <span class="n">new_distance</span> <span class="o">&lt;</span> <span class="n">dv</span><span class="p">:</span>
+                            <span class="n">to_remove</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">sv</span><span class="p">,</span><span class="n">dv</span><span class="p">,</span><span class="n">av</span><span class="p">))</span>
+                            <span class="n">to_add</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">elif</span> <span class="n">new_distance</span> <span class="o">==</span> <span class="n">dv</span><span class="p">:</span>
+                            <span class="n">updated</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">break</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                <span class="k">if</span> <span class="n">to_remove</span><span class="p">:</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="n">to_remove</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">to_add</span><span class="p">:</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">))</span>
+                    <span class="n">updated</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">SortedSet</span><span class="p">([(</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)])</span>
+                <span class="n">updated</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">SortedSet</span><span class="p">([(</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_distance</span><span class="p">,</span> <span class="n">new_arrival</span><span class="p">)])</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_arrival</span><span class="p">,</span> <span class="n">new_start</span><span class="p">,</span> <span class="n">new_distance</span><span class="p">)</span>
+            <span class="n">updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+
+    <span class="k">return</span> <span class="n">updated</span></div>
+
+
+<div class="viewcode-block" id="SFP_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SFP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">start_time</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">destination</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">R</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span><span class="nb">max</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination</span><span class="p">:</span><span class="n">R</span><span class="p">[</span><span class="n">destination</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">R</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">latencies</span><span class="p">,</span> <span class="n">lengths</span></div>
+
+
+<div class="viewcode-block" id="SFP"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP">[docs]</a><span class="k">def</span> <span class="nf">SFP</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+
+    <span class="c1"># Checking the type of the input &#39;source&quot;:</span>
+    <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">source</span><span class="p">)</span>
+        <span class="n">is_temporal_source</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="n">L_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">SFP_initialisation</span><span class="p">,</span> <span class="n">SFP_update</span><span class="p">,</span>
+                    <span class="n">SFP_source_initialisation</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span>
+                    <span class="n">is_temporal_source</span><span class="o">=</span><span class="n">is_temporal_source</span><span class="p">,</span> <span class="n">sfp_special_case</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">latencies</span><span class="p">,</span> <span class="n">lengths</span> <span class="o">=</span> <span class="n">SFP_postprocess</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">source</span><span class="p">,</span><span class="n">destination</span><span class="p">,</span><span class="n">start_time</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">latencies</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">lengths</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">latencies</span><span class="p">,</span> <span class="n">lengths</span></div>
+
+
+<div class="viewcode-block" id="SFP_W_postprocess"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_W_postprocess">[docs]</a><span class="k">def</span> <span class="nf">SFP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
+    <span class="n">latencies_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">lengths_pw</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">latencies_pw</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">lengths_pw</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">SFP_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">latencies_pw</span><span class="p">,</span> <span class="n">lengths_pw</span></div>
+
+
+<div class="viewcode-block" id="SFP_pw"><a class="viewcode-back" href="../../../straph.paths.html#straph.paths.paths.SFP_pw">[docs]</a><span class="k">def</span> <span class="nf">SFP_pw</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">L_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;initialisation&#39;</span><span class="p">:</span> <span class="n">SFP_initialisation</span><span class="p">,</span>
+                   <span class="s1">&#39;update&#39;</span><span class="p">:</span> <span class="n">SFP_update</span><span class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">F_Algorithm</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L_functions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">W</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">latencies_pw</span><span class="p">,</span> <span class="n">lengths_pw</span> <span class="o">=</span> <span class="n">SFP_W_postprocess</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">latencies_pw</span><span class="p">,</span> <span class="n">lengths_pw</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2020, Léo Rannou.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

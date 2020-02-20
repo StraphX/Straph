@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.condensation package &mdash; Straph 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Straph
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.condensation package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.condensation.condensation_dag">straph.condensation.condensation_dag module</a></li>
+<li><a class="reference internal" href="#module-straph.condensation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.condensation package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.condensation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-condensation-package">
+<h1>straph.condensation package<a class="headerlink" href="#straph-condensation-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.condensation.condensation_dag">
+<span id="straph-condensation-condensation-dag-module"></span><h2>straph.condensation.condensation_dag module<a class="headerlink" href="#module-straph.condensation.condensation_dag" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.add_arrow">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">add_arrow</code><span class="sig-paren">(</span><em>e</em>, <em>ax</em>, <em>direction='right'</em>, <em>size=25</em>, <em>color=None</em>, <em>alpha=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#add_arrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.add_arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thanks to : <a class="reference external" href="https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib">https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib</a>
+add an arrow to a line.</p>
+<p>line:       ((a_x,_y),(b_x,b_y))
+ax:         matplotlib axes
+direction:  ‘left’ or ‘right’
+size:       size of the arrow in fontsize points
+color:      color of arrow (should be coherent with line color, or not )</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.compute_dict_offset">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">compute_dict_offset</code><span class="sig-paren">(</span><em>path_scc_scf</em>, <em>storage_path=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#compute_dict_offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.compute_dict_offset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.compute_links_msgpack">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">compute_links_msgpack</code><span class="sig-paren">(</span><em>path_scc_scf</em>, <em>dict_scc_dag</em>, <em>storage_path_scc_dag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#compute_links_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.compute_links_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.load_dag_from_ids">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">load_dag_from_ids</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>id_scc</em>, <em>path_scc_scf</em>, <em>dict_offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#load_dag_from_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.load_dag_from_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.load_scc_dag">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">load_scc_dag</code><span class="sig-paren">(</span><em>path_nodes</em>, <em>path_links=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#load_scc_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.load_scc_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.load_scc_dag_scf">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">load_scc_dag_scf</code><span class="sig-paren">(</span><em>path_scc_dag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#load_scc_dag_scf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.load_scc_dag_scf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a SCC DAG
+:param path_scc_dag:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.load_scc_from_msgpack">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">load_scc_from_msgpack</code><span class="sig-paren">(</span><em>id_wcc</em>, <em>id_scc</em>, <em>scc_storage</em>, <em>dict_offset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#load_scc_from_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.load_scc_from_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.load_set_nodes_from_msgpack">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">load_set_nodes_from_msgpack</code><span class="sig-paren">(</span><em>storage_scc</em>, <em>list_current_scc</em>, <em>scc_2_offset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#load_set_nodes_from_msgpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.load_set_nodes_from_msgpack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get nodes inside each considered scc using an offset to fast random access (via peek())
+:param storage_scc: Storage of SCC (msgpack format (scf ?))
+:param list_current_scc: List of scc id’s
+:param scc_2_offset: dictionary id_scc &lt;-&gt; offset (in the msgpack file)
+:return: A dictionary id_scc &lt;-&gt; nodes (inside the scc)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.merge_scc_dags">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">merge_scc_dags</code><span class="sig-paren">(</span><em>l_scc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#merge_scc_dags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.merge_scc_dags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge every other streams into the first one, we assume there’s no connection between them
+and that links aren’t constructed yet
+:param l_scc
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.condensation.condensation_dag.read_global_dag">
+<code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">read_global_dag</code><span class="sig-paren">(</span><em>dag_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#read_global_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.read_global_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="straph.condensation.condensation_dag.scc_dag">
+<em class="property">class </em><code class="descclassname">straph.condensation.condensation_dag.</code><code class="descname">scc_dag</code><span class="sig-paren">(</span><em>id=None</em>, <em>times=None</em>, <em>c_nodes=None</em>, <em>c_links=None</em>, <em>id_scc_to_scc=None</em>, <em>node_to_id_scc=None</em>, <em>segmented_node_to_id_scc=None</em>, <em>a_l=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.add_link">
+<code class="descname">add_link</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.add_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.add_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.add_node">
+<code class="descname">add_node</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.add_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.add_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.add_nodes">
+<code class="descname">add_nodes</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.add_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.add_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.adjacency_list">
+<code class="descname">adjacency_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.adjacency_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.adjacency_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.all_cliques">
+<code class="descname">all_cliques</code><span class="sig-paren">(</span><em>storage_path=None</em>, <em>n_jobs=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.all_cliques"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.all_cliques" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.all_fastest_paths">
+<code class="descname">all_fastest_paths</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.all_fastest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.all_fastest_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.all_fastest_paths_ss">
+<code class="descname">all_fastest_paths_ss</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.all_fastest_paths_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.all_fastest_paths_ss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and all other nodes (in condensation DAG)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.compute_all_foremost_paths">
+<code class="descname">compute_all_foremost_paths</code><span class="sig-paren">(</span><em>dict_id_wcc_to_dag</em>, <em>index_node_to_scc</em>, <em>source</em>, <em>destination</em>, <em>dict_offset=None</em>, <em>duration_threshold=None</em>, <em>start_comp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.compute_all_foremost_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.compute_all_foremost_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.compute_links">
+<code class="descname">compute_links</code><span class="sig-paren">(</span><em>path_scc</em>, <em>id_wcc</em>, <em>storage_path_scc_dag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.compute_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.compute_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.compute_links_inplace">
+<code class="descname">compute_links_inplace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.compute_links_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.compute_links_inplace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.condensation_path_as_substream">
+<code class="descname">condensation_path_as_substream</code><span class="sig-paren">(</span><em>path</em>, <em>node_to_label=None</em>, <em>path_bounds=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.condensation_path_as_substream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.condensation_path_as_substream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform a path in the condensation dag into a substream
+:param path: Sequence of SCC (object) in the condensation DAG
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.core_number">
+<code class="descname">core_number</code><span class="sig-paren">(</span><em>storage_path=None</em>, <em>n_jobs=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.core_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.core_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO : Add multiple information
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.fastest_path">
+<code class="descname">fastest_path</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fastest path between ‘source’ and ‘destination’
+:param source:
+:param destination:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.foremost_path">
+<code class="descname">foremost_path</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.foremost_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.foremost_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin time’.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.get_stable_dag">
+<code class="descname">get_stable_dag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.get_stable_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.get_stable_dag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.get_stable_parts_inplace">
+<code class="descname">get_stable_parts_inplace</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.get_stable_parts_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.get_stable_parts_inplace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.k_clique">
+<code class="descname">k_clique</code><span class="sig-paren">(</span><em>k</em>, <em>storage_path=None</em>, <em>n_jobs=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.k_clique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.k_clique" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.k_core">
+<code class="descname">k_core</code><span class="sig-paren">(</span><em>k</em>, <em>storage_path=None</em>, <em>n_jobs=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.k_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.k_core" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.latencies_ss">
+<code class="descname">latencies_ss</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.latencies_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.latencies_ss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.latency">
+<code class="descname">latency</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.latency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.latency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.node_to_scc">
+<code class="descname">node_to_scc</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.node_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.node_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>colors=None</em>, <em>saving_path=None</em>, <em>format='pdf'</em>, <em>title=None</em>, <em>node_to_label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.plot_as_nx">
+<code class="descname">plot_as_nx</code><span class="sig-paren">(</span><em>label=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.plot_as_nx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.plot_as_nx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.plot_custom">
+<code class="descname">plot_custom</code><span class="sig-paren">(</span><em>label=True</em>, <em>arrow=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.plot_custom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.plot_custom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.plot_fastest_path">
+<code class="descname">plot_fastest_path</code><span class="sig-paren">(</span><em>path</em>, <em>latency</em>, <em>source</em>, <em>destination</em>, <em>col='#8f246b'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.plot_fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.plot_fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path on the Stream Graph S
+:param S: A Stream Graph
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.plot_foremost_path">
+<code class="descname">plot_foremost_path</code><span class="sig-paren">(</span><em>path</em>, <em>ttr</em>, <em>source</em>, <em>destination</em>, <em>col='#8f246b'</em>, <em>label_nodes_by_letters=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.plot_foremost_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.plot_foremost_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a path on the Stream Graph S
+:param S: A Stream Graph
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.postprocess_fastest_paths">
+<code class="descname">postprocess_fastest_paths</code><span class="sig-paren">(</span><em>fastest_paths_comp</em>, <em>latencies_comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.postprocess_fastest_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.postprocess_fastest_paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.postprocess_latencies">
+<code class="descname">postprocess_latencies</code><span class="sig-paren">(</span><em>latencies_comp</em>, <em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.postprocess_latencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.postprocess_latencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.postprocess_ttr">
+<code class="descname">postprocess_ttr</code><span class="sig-paren">(</span><em>source</em>, <em>ttr_comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.postprocess_ttr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.postprocess_ttr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.refactor">
+<code class="descname">refactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.refactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.refactor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.refactor_path">
+<code class="descname">refactor_path</code><span class="sig-paren">(</span><em>path_comp</em>, <em>path_times</em>, <em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.refactor_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.refactor_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.set_id">
+<code class="descname">set_id</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.set_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.set_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.set_id_scc_to_scc">
+<code class="descname">set_id_scc_to_scc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.set_id_scc_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.set_id_scc_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.set_index_id_scc_to_scc">
+<code class="descname">set_index_id_scc_to_scc</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.set_index_id_scc_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.set_index_id_scc_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.set_index_node_to_id_scc">
+<code class="descname">set_index_node_to_id_scc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.set_index_node_to_id_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.set_index_node_to_id_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.set_index_segmented_node_to_id_scc">
+<code class="descname">set_index_segmented_node_to_id_scc</code><span class="sig-paren">(</span><em>segmented_nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.set_index_segmented_node_to_id_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.set_index_segmented_node_to_id_scc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.shortest_fastest_path">
+<code class="descname">shortest_fastest_path</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.shortest_fastest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.shortest_fastest_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO : FINISH
+:param source:
+:param destination:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.shortest_fastest_path_ss">
+<code class="descname">shortest_fastest_path_ss</code><span class="sig-paren">(</span><em>source</em>, <em>node_to_label=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.shortest_fastest_path_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.shortest_fastest_path_ss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute SFP in DAG !!
+:param source:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.store">
+<code class="descname">store</code><span class="sig-paren">(</span><em>output_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.store" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.store_links">
+<code class="descname">store_links</code><span class="sig-paren">(</span><em>path</em>, <em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.store_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.store_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.temporal_node_to_scc">
+<code class="descname">temporal_node_to_scc</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.temporal_node_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.temporal_node_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the Strongly Connected component containing the temporal source <em>node</em>.
+:param node:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.time_to_reach">
+<code class="descname">time_to_reach</code><span class="sig-paren">(</span><em>source</em>, <em>destination</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.time_to_reach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.time_to_reach" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.condensation.condensation_dag.scc_dag.times_to_reach_ss">
+<code class="descname">times_to_reach_ss</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/condensation/condensation_dag.html#scc_dag.times_to_reach_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.condensation.condensation_dag.scc_dag.times_to_reach_ss" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.condensation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.condensation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2020, Léo Rannou.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

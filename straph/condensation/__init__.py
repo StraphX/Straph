@@ -1,1 +1,1 @@
-from straph.dag.condensation_dag import *
+from straph.condensation.condensation_dag import *

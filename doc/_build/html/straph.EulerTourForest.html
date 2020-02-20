@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>straph.EulerTourForest package &mdash; Straph 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Straph
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">straph.EulerTourForest package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-straph.EulerTourForest.Chained_Treap">straph.EulerTourForest.Chained_Treap module</a></li>
+<li><a class="reference internal" href="#module-straph.EulerTourForest.EulerTourForest">straph.EulerTourForest.EulerTourForest module</a></li>
+<li><a class="reference internal" href="#module-straph.EulerTourForest.EulerTourTree">straph.EulerTourForest.EulerTourTree module</a></li>
+<li><a class="reference internal" href="#module-straph.EulerTourForest">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Straph</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>straph.EulerTourForest package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/straph.EulerTourForest.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="straph-eulertourforest-package">
+<h1>straph.EulerTourForest package<a class="headerlink" href="#straph-eulertourforest-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-straph.EulerTourForest.Chained_Treap">
+<span id="straph-eulertourforest-chained-treap-module"></span><h2>straph.EulerTourForest.Chained_Treap module<a class="headerlink" href="#module-straph.EulerTourForest.Chained_Treap" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode">
+<em class="property">class </em><code class="descclassname">straph.EulerTourForest.Chained_Treap.</code><code class="descname">CTreapNode</code><span class="sig-paren">(</span><em>data=None</em>, <em>parent=None</em>, <em>pred=None</em>, <em>suc=None</em>, <em>size=None</em>, <em>left=None</em>, <em>right=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A node of a Treap (priority is determined at random and used to balance the Treap)</p>
+<dl class="method">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.find_root">
+<code class="descname">find_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode.find_root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.find_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the root of the current node
+:param node:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.left_rotation">
+<code class="descname">left_rotation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode.left_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.left_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a left rotation on the Treap with the current TreapNode as the root
+<a class="reference external" href="https://en.wikipedia.org/wiki/Tree_rotation">https://en.wikipedia.org/wiki/Tree_rotation</a>
+Note : This doesn’t change the cyclic order, successor and predecessor unchanged
+:return: New root (aka the right child)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.right_rotation">
+<code class="descname">right_rotation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode.right_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.right_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a right rotation on the Treap with the current TreapNode as the root
+<a class="reference external" href="https://en.wikipedia.org/wiki/Tree_rotation">https://en.wikipedia.org/wiki/Tree_rotation</a>
+Note : This doesn’t change the cyclic order, successor and predecessor unchanged
+:return: New root ( aka the left child)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.tree_number">
+<code class="descname">tree_number</code><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.tree_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.Chained_Treap.CTreapNode.update_size">
+<code class="descname">update_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/Chained_Treap.html#CTreapNode.update_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.Chained_Treap.CTreapNode.update_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to keep the size
+:param node:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-straph.EulerTourForest.EulerTourForest">
+<span id="straph-eulertourforest-eulertourforest-module"></span><h2>straph.EulerTourForest.EulerTourForest module<a class="headerlink" href="#module-straph.EulerTourForest.EulerTourForest" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="straph.EulerTourForest.EulerTourForest.ETF_collections">
+<em class="property">class </em><code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">ETF_collections</code><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#ETF_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.ETF_collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Collection of Spanning Euler Forest (1 for each level of the algorithm)</p>
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.ETF_collections.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#ETF_collections.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.ETF_collections.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert and edge in the Forest at the level 0
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.ETF_collections.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#ETF_collections.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.ETF_collections.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>REMOVE AN EDGE in the current forest
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.ETF_collections.replace">
+<code class="descname">replace</code><span class="sig-paren">(</span><em>e</em>, <em>level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#ETF_collections.replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.ETF_collections.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>REPLACE A TREE EDGE
+:param e: edge
+:param level: level of the edge to replace in the forest
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.ETF_collections.search">
+<code class="descname">search</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#ETF_collections.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.ETF_collections.search" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest">
+<em class="property">class </em><code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">EulerTourForest</code><span class="sig-paren">(</span><em>trees=[]</em>, <em>tree_edge_2_node={}</em>, <em>non_tree_edges_al={}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Custom Data Structure Consisting in a Forest of Euler Tour Trees
+In the same manner as a Spanning Forest if composed of Spanning Trees</p>
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.add_edge_to_tree">
+<code class="descname">add_edge_to_tree</code><span class="sig-paren">(</span><em>E</em>, <em>present_node</em>, <em>node_to_add</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.add_edge_to_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.add_edge_to_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>We assume that u is in E and we just add v
+:param E:
+:param v:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.add_to_scc">
+<code class="descname">add_to_scc</code><span class="sig-paren">(</span><em>T</em>, <em>SCC</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.add_to_scc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.add_to_scc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the current tree <em>T</em> (aka a connected component) to <em>SCC</em>
+:param T: An Euler Tour Tree
+:param SCC: list of Strongly Connected Components
+:return: Updated SCC</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.check_edge_endpoints">
+<code class="descname">check_edge_endpoints</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.check_edge_endpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.check_edge_endpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if one of the endpoints is present in th forest
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.check_edge_presence">
+<code class="descname">check_edge_presence</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.check_edge_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.check_edge_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the edge is in the current spanning forest
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.insert_edge">
+<code class="descname">insert_edge</code><span class="sig-paren">(</span><em>l</em>, <em>SCC=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.insert_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.insert_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an edge in the Euler Tour Forest
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.is_tree_edge">
+<code class="descname">is_tree_edge</code><span class="sig-paren">(</span><em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.is_tree_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.is_tree_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if <em>e</em> is tree edge, false otherwise
+:param e: an edge
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.link_euler_tour_trees">
+<code class="descname">link_euler_tour_trees</code><span class="sig-paren">(</span><em>E1</em>, <em>E2</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.link_euler_tour_trees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.link_euler_tour_trees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two euler tour tree
+:param E1: An euler tour tree
+:param E2: An euler tour tree
+:param e: An edge
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the Euler Tour Trees in the Euler Tour Forest
+:param title: An optional title
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.remove_edge">
+<code class="descname">remove_edge</code><span class="sig-paren">(</span><em>l</em>, <em>SCC=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.remove_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.remove_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an edge from the Euler Tour Forest
+:param e:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourForest.EulerTourForest.replace_edge">
+<code class="descname">replace_edge</code><span class="sig-paren">(</span><em>E1</em>, <em>E2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#EulerTourForest.replace_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.EulerTourForest.replace_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find is there is a non tree edge linking E1 and E2
+:param E1: An euler tour tree
+:param E2: An euler tour tree
+:return: a replacement edge if found, false otherwise</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourForest.construct_euler_tour_forest">
+<code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">construct_euler_tour_forest</code><span class="sig-paren">(</span><em>edge_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#construct_euler_tour_forest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.construct_euler_tour_forest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an Euler Tour Forest from an edge list (the initial graph may be disconnected)
+:param edge_list:
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourForest.dynamic_connectivity">
+<code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">dynamic_connectivity</code><span class="sig-paren">(</span><em>E</em>, <em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#dynamic_connectivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.dynamic_connectivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourForest.scc_etf">
+<code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">scc_etf</code><span class="sig-paren">(</span><em>input_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#scc_etf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.scc_etf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourForest.spanning_forest_from_edge_list">
+<code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">spanning_forest_from_edge_list</code><span class="sig-paren">(</span><em>edge_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#spanning_forest_from_edge_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.spanning_forest_from_edge_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a spanning forest from an edge list (graph may be disconnected)
+:param edge_list: [(u1,u2),(u0,u2),….]
+:return: Spanning Forest, which is a list of tuple : [(tree edge, non tree edge),…]</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourForest.strongly_connected_components_ETF">
+<code class="descclassname">straph.EulerTourForest.EulerTourForest.</code><code class="descname">strongly_connected_components_ETF</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourForest.html#strongly_connected_components_ETF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourForest.strongly_connected_components_ETF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.EulerTourForest.EulerTourTree">
+<span id="straph-eulertourforest-eulertourtree-module"></span><h2>straph.EulerTourForest.EulerTourTree module<a class="headerlink" href="#module-straph.EulerTourForest.EulerTourTree" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree">
+<em class="property">class </em><code class="descclassname">straph.EulerTourForest.EulerTourTree.</code><code class="descname">EulerTourTree</code><span class="sig-paren">(</span><em>root=None</em>, <em>first=None</em>, <em>last=None</em>, <em>weight=None</em>, <em>begin_time=None</em>, <em>end_time=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Euler_tour_technique">https://en.wikipedia.org/wiki/Euler_tour_technique</a></p>
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.balance_down">
+<code class="descname">balance_down</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.balance_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.balance_down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Balance the Treap to respect the Heap invariant, from root to leaves (full browsing)
+:Status: OK
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.check_heap_invariant">
+<code class="descname">check_heap_invariant</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.check_heap_invariant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.check_heap_invariant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the heap invariant of the Treap
+:return: True if invariant respected, false otherwise</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.cut">
+<code class="descname">cut</code><span class="sig-paren">(</span><em>nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove and edge from the Euler Tour Tree.
+[first,…,node_0,after_node_0,….,node_1,after_node_1,…,last]
+-&gt;
+[first,…,before_node_0,node_0] [after_node_0,…,node_1,last]
+-&gt;
+[first,…,before_node_0] [after_node_0,…,before_node_1] [after_node_1,…,last]
+-&gt;
+[first,…,before_node_0,after_node_1,…,last] [after_node_0,before_node_1]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>e</strong> – an edge</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.find_first">
+<code class="descname">find_first</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.find_first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_first" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.find_last">
+<code class="descname">find_last</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.find_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.find_root">
+<code class="descname">find_root</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.find_root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.find_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the root of the current node
+:param node:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.get_data_in_priority_order">
+<code class="descname">get_data_in_priority_order</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.get_data_in_priority_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_data_in_priority_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.get_euler_tour">
+<code class="descname">get_euler_tour</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.get_euler_tour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_euler_tour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the induced euler tour representation of the Tree
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.get_internal_structure">
+<code class="descname">get_internal_structure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.get_internal_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.get_internal_structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>where=None</em>, <em>data=None</em>, <em>inlast=False</em>, <em>priority=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.releaf">
+<code class="descname">releaf</code><span class="sig-paren">(</span><em>where</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.releaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.releaf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the node
+:param node: Node to remove
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="straph.EulerTourForest.EulerTourTree.EulerTourTree.split">
+<code class="descname">split</code><span class="sig-paren">(</span><em>where</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#EulerTourTree.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.EulerTourTree.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the Euler Tour Tree according to the split in its Euler Tour.
+[first,…,where,after_where,…,last]
+-&gt;
+[first,…,where] [after_where,…last]</p>
+<p>Note : The left subtree contains at least the node <em>where</em> whereas the right subtree can be empty.
+:param where: The split is effectuated just after <em>where</em>
+:return: Left subtree and Right subtree</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourTree.construct_euler_tour_tree">
+<code class="descclassname">straph.EulerTourForest.EulerTourTree.</code><code class="descname">construct_euler_tour_tree</code><span class="sig-paren">(</span><em>edge_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#construct_euler_tour_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.construct_euler_tour_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an Euler Tour Tree from an edge list
+:param edge_list: An edge list
+:return: An euler tour tree</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourTree.euler_tour_from_edge_list">
+<code class="descclassname">straph.EulerTourForest.EulerTourTree.</code><code class="descname">euler_tour_from_edge_list</code><span class="sig-paren">(</span><em>edge_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#euler_tour_from_edge_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.euler_tour_from_edge_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the euler tour of a graph ( with edges, including self loops, instead of nodes).</p>
+<blockquote>
+<div><a class="reference external" href="https://en.wikipedia.org/wiki/Euler_tour_technique">https://en.wikipedia.org/wiki/Euler_tour_technique</a></div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>edge_list</strong> – An edge list.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list containing the euler tour.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="straph.EulerTourForest.EulerTourTree.union_treap">
+<code class="descclassname">straph.EulerTourForest.EulerTourTree.</code><code class="descname">union_treap</code><span class="sig-paren">(</span><em>T1</em>, <em>T2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/straph/EulerTourForest/EulerTourTree.html#union_treap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#straph.EulerTourForest.EulerTourTree.union_treap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-straph.EulerTourForest">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-straph.EulerTourForest" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2020, Léo Rannou.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
