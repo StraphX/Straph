@@ -11,10 +11,9 @@ Install directly with pip::
 
 Install the latest version of Straph::
 
-    git clone https://github.com/EolOurnan/Straph.git destination
+    git clone https://github.com/StraphX/Straph.git destination
     cd destination
     pip install .
-
 
 Examples
 --------
@@ -33,5 +32,5 @@ We ask you to cite us if you use this code in your project.::
 Contributing
 ------------
 
-Feel free to open an issue or contact us at :
+Feel free to open an issue or contact us at : leo.rannou@gmail.com
 
