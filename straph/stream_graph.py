@@ -157,7 +157,7 @@ def read_stream_graph(path_links, path_nodes=False, node_label=True,
 
 
 def sum_presence(np):
-    return sum([t1 - t0 for t0, t1 in zip(np[::2], np[1::2])])
+    return sum([t1 - t0 for p in np for t0, t1 in zip(p[::2], p[1::2])])
 
 
 def read_stream_graph_from_sgf(input, node_label=False):
@@ -288,8 +288,6 @@ class stream_graph:
                  node_presence=None,
                  links=None,
                  link_presence=None,
-                 card_E=None,
-                 card_W=None,
                  weights=None,
                  trips=None):
         """
@@ -313,8 +311,6 @@ class stream_graph:
         self.node_presence = node_presence
         self.links = links
         self.link_presence = link_presence
-        self.card_E = card_E
-        self.card_W = card_W
         self.weights = weights
         self.trips = trips
 
@@ -364,9 +360,27 @@ class stream_graph:
     #       Events Representation       #
     #####################################
 
+    def event_times(self):
+        """
+        Return the ordered set of event times: an instant corresponding to the arrival or departure of a link or of a node
+        :return: A list of ordered instant
+        """
+        et = []
+        for np in self.node_presence:
+            et += [t for t in np]
+        for lp in self.link_presence:
+            et += [t for t in lp]
+        return sorted(et)
+
+
     def ordered_events(self):
         """
-        :return:
+        Return the set of event: arrival and departure of nodes and links.
+        A node arrival is represented by (2,b,e,u)
+        A node departure is represented by (-2,e,u)
+        A link arrival is represented by (1,b,e,u,v)
+        A link departure is represented by (-1,e,u,v)
+        :return: The ordered set of events in the stream graph
         """
         links = []
         if self.weights and self.trips:
@@ -1137,12 +1151,6 @@ class stream_graph:
     #       Stream Properties       #
     #################################
 
-    def set_card_W(self):
-        self.card_W = sum_presence(self.node_presence)
-
-    def set_card_E(self):
-        self.card_E = sum_presence(self.link_presence)
-
     def duration(self):
         return self.times[1] - self.times[0]
 
@@ -1151,7 +1159,7 @@ class stream_graph:
 
     def coverage(self):
         T = self.duration()
-        cov = self.card_W / (len(self.nodes) * T)
+        cov = sum_presence(self.node_presence) / (len(self.nodes) * T)
         return cov
 
     def nb_nodes(self):
@@ -1159,7 +1167,7 @@ class stream_graph:
         :return: The number nodes according to their presence in the stream graph
         """
         T = self.times[1] - self.times[0]
-        nb_nodes = self.card_W / T
+        nb_nodes = sum_presence(self.node_presence) / T
         return nb_nodes
 
     def nb_links(self):
@@ -1167,7 +1175,7 @@ class stream_graph:
         :return: the number of links according to their presence in the stream graph 
         """
         T = self.times[1] - self.times[0]
-        nb_links = self.card_E / T
+        nb_links = sum_presence(self.link_presence) / T
         return nb_links
 
     def node_weight_at_t(self, t):
@@ -1197,9 +1205,16 @@ class stream_graph:
     def plot_node_weight(self):
         fig = plt.figure()
         T = self.event_times()
-        kt = [self.node_weight_at_t(t) for t in T]
+        #add delta to capture information just before an event and just after
+        delta = 10**-9
+        resampled_T = []
+        for t in T:
+            resampled_T.append(t-delta)
+            resampled_T.append(t)
+            resampled_T.append(t+delta)
+        kt = [self.node_weight_at_t(t) for t in resampled_T]
         # kt = self.node_weight_on_I(T)
-        plt.plot(T, kt)
+        plt.plot(resampled_T, kt)
         plt.xlabel("Time")
         plt.ylabel("Node weight")
         plt.title(" Node weight through time")
@@ -1210,8 +1225,15 @@ class stream_graph:
     def plot_link_weight(self):
         fig = plt.figure()
         T = self.event_times()
-        lt = [self.link_weight_at_t(t) for t in T]
-        plt.plot(T, lt)
+        #add delta to capture information just before an event and just after
+        delta = 10**-9
+        resampled_T = []
+        for t in T:
+            resampled_T.append(t-delta)
+            resampled_T.append(t)
+            resampled_T.append(t+delta)
+        lt = [self.link_weight_at_t(t) for t in resampled_T]
+        plt.plot(resampled_T, lt)
         plt.xlabel("Time")
         plt.ylabel("Link weight")
         plt.title("Link weight through time")
@@ -1220,13 +1242,13 @@ class stream_graph:
         return
 
     def node_duration(self):
-        nd = self.card_W / len(self.nodes)
+        nd = sum_presence(self.node_presence) / len(self.nodes)
         return nd
 
     def link_duration(self):
         V = len(self.nodes)
         possible_pairs = (V * (V - 1)) / 2
-        return self.card_E / possible_pairs
+        return sum_presence(self.link_presence) / possible_pairs
 
     def get_sum_intersection(self):
         l = len(self.nodes)
@@ -1261,7 +1283,7 @@ class stream_graph:
         :return: the density of the stream graph (aka the probability 
         if we randomly chose two nodes that they are linked together) 
         """
-        sum_links = self.card_E
+        sum_links = sum_presence(self.link_presence)
         sum_node_intersection = self.get_sum_intersection()
         return sum_links / sum_node_intersection
 
@@ -1391,10 +1413,10 @@ class stream_graph:
 
     def stream_graph_degree(self):
         T = self.times[1] - self.times[0]
-        return self.card_E / (len(self.nodes) * T)
+        return sum_presence(self.link_presence) / (len(self.nodes) * T)
 
     def expected_stream_graph_degree(self):
-        return 2 * self.card_E / self.card_W
+        return 2 * sum_presence(self.link_presence) / sum_presence(self.node_presence)
 
     def clustering_coefficient(self):
         """
@@ -3084,10 +3106,8 @@ class stream_graph:
         :param to_pandas: If 'True' return a pandas DataFrame
         :return:
         """
-        self.set_card_W()
-        self.set_card_E()
         property_to_method = {'duration': self.duration,
-                              'surface': self.card_E,
+                              'surface': self.surface,
                               'stream_graph_degree': self.stream_graph_degree,
                               'expected_stream_graph_degree': self.expected_stream_graph_degree,
                               'average_degree': self.average_degree,
@@ -3162,8 +3182,6 @@ class stream_graph:
         :param to_pandas: If 'True' return a pandas DataFrame
         :return:
         """
-        self.set_card_W()
-        self.set_card_E()
         property_to_method = {'degree': self.degrees,
                               'max_degree': self.nodes_max_degree,
                               'average_core_number': self.nodes_average_core_number,
@@ -3215,10 +3233,8 @@ class stream_graph:
         :param to_pandas: If 'True' return a pandas DataFrame
         :return:
         """
-        self.set_card_W()
-        self.set_card_E()
         property_to_method = {'duration': self.duration,
-                              'surface': self.card_E,
+                              'surface': self.surface,
                               'stream_graph_degree': self.stream_graph_degree,
                               'expected_stream_graph_degree': self.expected_stream_graph_degree,
                               'average_degree': self.average_degree,

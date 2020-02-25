@@ -1,11 +1,13 @@
 import math
+import time
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
 from heapq import *
-from sortedcollections import SortedSet
-from collections import defaultdict
+from sortedcollections import SortedList,SortedSet
+import sortedcontainers
+from collections import defaultdict, deque
 
 
 # TODO: - Add detailed paths + plots : !!!!!!! (lot of work)
@@ -169,7 +171,11 @@ def L_Algorithm(S, source,
 
     batch_arrival = []
     t_last_arrival = None
-
+    # TEST SFP#
+    if sfp_special_case:
+        batch_departure = []
+        t_last_departure = None
+    # END TEST SFP#
     for i in E:
         c = i[0]
         if c == 1:  # Link ARRIVAL
@@ -177,31 +183,41 @@ def L_Algorithm(S, source,
 
             if t1 >= start_time:
                 l = (t0, t1, u, v)
+
+                if sfp_special_case and batch_departure:
+                    bfs_update(L, R, source,
+                               batch_departure,
+                               temporal_adjacency_list,
+                               update_function,
+                               sfp_special_case=sfp_special_case)
+                    for t1d,ud,vd in batch_departure:
+                        temporal_adjacency_list[ud].remove((t1d, vd))
+                        temporal_adjacency_list[vd].remove((t1d, ud))
+                    batch_departure = []
+
                 if t_last_arrival is None:
                     t_last_arrival = t0
 
                 if t0 == t_last_arrival:
-                    temporal_adjacency_list[u].add((t1, v))
-                    temporal_adjacency_list[v].add((t1, u))
                     batch_arrival.append(l)
 
                 else:
+                    t_last_arrival = t0
                     if batch_arrival:
                         bfs_update(L, R, source, batch_arrival,
                                    temporal_adjacency_list,
                                    update_function,
                                    sfp_special_case=sfp_special_case)
-
-                    temporal_adjacency_list[u].add((t1, v))
-                    temporal_adjacency_list[v].add((t1, u))
                     batch_arrival = [l]
-                    t_last_arrival = t0
+
+                temporal_adjacency_list[u].add((t1, v))
+                temporal_adjacency_list[v].add((t1, u))
+
 
         elif c == -1:  # LINK DEPARTURE
             _, t1, u, v, _, _ = i
 
             if t1 >= start_time:
-                #
                 if batch_arrival:
                     bfs_update(L, R, source,
                                batch_arrival,
@@ -209,11 +225,42 @@ def L_Algorithm(S, source,
                                update_function,
                                sfp_special_case=sfp_special_case)
                     batch_arrival = []
-                #
-                temporal_adjacency_list[u].remove((t1, v))
-                temporal_adjacency_list[v].remove((t1, u))
+
+                if sfp_special_case:
+                    if t_last_departure is None:
+                        t_last_departure = t1
+                    if t1 == t_last_departure:
+                        batch_departure.append((t1, u, v))
+                    else:
+                        t_last_departure = t1
+                        if batch_departure:
+                            bfs_update(L, R, source, batch_departure,
+                                       temporal_adjacency_list,
+                                       update_function,
+                                       sfp_special_case=sfp_special_case)
+                            for t1d,ud,vd in batch_departure:
+                                temporal_adjacency_list[ud].remove((t1d, vd))
+                                temporal_adjacency_list[vd].remove((t1d, ud))
+                        batch_departure = [(t1, u, v)]
+
+                if not sfp_special_case:
+                    temporal_adjacency_list[u].remove((t1, v))
+                    temporal_adjacency_list[v].remove((t1, u))
 
         elif c == -2: # Node departure
+
+            if sfp_special_case and batch_departure:
+                bfs_update(L, R, source,
+                           batch_departure,
+                           temporal_adjacency_list,
+                           update_function,
+                           sfp_special_case=sfp_special_case)
+                for t1d, ud, vd in batch_departure:
+                    temporal_adjacency_list[ud].remove((t1d, vd))
+                    temporal_adjacency_list[vd].remove((t1d, ud))
+                batch_departure = []
+
+
             t1,n = i[1:]
             if n in L:
                 L.pop(n)
@@ -231,7 +278,7 @@ def L_Algorithm(S, source,
     return R
 
 
-def bfs_update(L, R, source, batch_arrival,
+def bfs_update(L, R, source, batch_links,
                temporal_adjacency_list,
                update_function,
                sfp_special_case = False):
@@ -240,50 +287,99 @@ def bfs_update(L, R, source, batch_arrival,
 
     :param L:
     :param source:
-    :param batch_arrival:
+    :param batch_links:
     :param temporal_adjacency_list:
     :param L_functions:
     :return:
     """
 
     if sfp_special_case:
+        # print()
+        # for no in L:
+        #     print("node :",no,"\t L[",no,"] :",L[no])
+        # print("Current Batch :",batch_links)
         Q = []
         visited = set()
-        begin_time = batch_arrival[0][0]
-        for _, e, u1, u2 in batch_arrival:
+        current_time = batch_links[0][0]
+
+        restart_from_source = False
+        for el in batch_links:
+            e, u1, u2 = el[-3:]
 
             if u1 in L:
-                b_pos = min(L[u1].bisect_left((begin_time, 0, 0)), len(L[u1]) - 1)
-
-                for su1,du1,au1 in L[u1][b_pos:]:
-                    priority = (du1, - su1)
-                    heappush(Q, (priority, u1, u2, e))
+                su1, du1, au1 = L[u1]
+                su1 = -su1
+                if su1 >= current_time:
+                    restart_from_source = True
+                priority = (-min(current_time,su1),du1,au1)
+                heappush(Q, (priority, u1, u2, e))
 
             if u2 in L:
-                b_pos = min(L[u2].bisect_left((begin_time, 0, 0)), len(L[u2]) - 1)
+                su2, du2, au2 = L[u2]
+                su2 = -su2
+                if su2 >= current_time:
+                    restart_from_source = True
+                priority = (-min(current_time, su2), du2, au2)
+                heappush(Q, (priority, u2, u1, e))
 
-                for su2,du2,au2 in L[u2][b_pos:]:
-                    priority = (du2, - su2)
-                    heappush(Q, (priority, u2, u1, e))
+        if restart_from_source:
+            for t, next in temporal_adjacency_list[source[1]]:
+                scur, dcur, acur = L[source[1]]
+                scur = -scur
+                priority = (-min(current_time, scur), dcur, acur)
+                heappush(Q, (priority, source[1], next, t))
+
         if Q:
             while Q:
-                p, pred, cur, end_link = heappop(Q)
-                visited.add((p, pred))
-                updated = update_function(L, R, begin_time, end_link, pred, cur)
-                b_pos = min(L[cur].bisect_left((begin_time, 0 , 0)), len(L[cur]) - 1)
-                list_priorities = [(dcur, -scur) for scur,dcur,acur in L[cur][b_pos:]]
+                _, pred, cur, end_link = heappop(Q)
+                visited.add(pred)
+                updated = update_function(L, R, current_time, end_link, pred, cur, ignore_future_paths=True)
                 if updated:
                     for t, next in temporal_adjacency_list[cur]:
-                        for priority in list_priorities:
-                            if (priority, cur) not in visited:
-                                heappush(Q, (priority, cur, next, t))
-        # print(" L :",L)
-        # print(" R :",R)
+                        if next not in visited:
+                            scur, dcur, acur = L[cur]
+                            scur = -scur
+                            priority = (-min(current_time,scur), dcur, acur)
+                            heappush(Q, (priority, cur, next, t))
+
+        if restart_from_source and len(batch_links[0])==3:
+            Q = []
+            visited = set()
+            current_time = batch_links[0][0]
+            restart_from_source = False
+            for el in batch_links:
+                e, u1, u2 = el[-3:]
+                if u1 in L:
+                    su1, du1, au1 = L[u1]
+                    su1 = -su1
+                    if su1 >= current_time:
+                        restart_from_source = True
+                    heappush(Q, (L[u1], u1, u2, e))
+                if u2 in L:
+                    su2, du2, au2 = L[u2]
+                    su2 = -su2
+                    if su2 >= current_time:
+                        restart_from_source = True
+                    heappush(Q, (L[u2], u2, u1, e))
+
+            if restart_from_source:
+                for t, next in temporal_adjacency_list[source[1]]:
+                    heappush(Q, (L[source[1]], source[1], next, t))
+
+            if Q:
+                while Q:
+                    _, pred, cur, end_link = heappop(Q)
+                    visited.add(pred)
+                    updated = update_function(L, R, current_time, end_link, pred, cur, ignore_future_paths=False)
+                    if updated:
+                        for t, next in temporal_adjacency_list[cur]:
+                            if next not in visited:
+                                heappush(Q, (L[cur], cur, next, t))
     else:
         Q = []
         visited = set()
-        begin_link = batch_arrival[0][0]
-        for _, e, u1, u2 in batch_arrival:
+        current_time = batch_links[0][0]
+        for _, e, u1, u2 in batch_links:
             if u1 in L:
                 heappush(Q, (L[u1], u1, u2, e))
             if u2 in L:
@@ -292,7 +388,7 @@ def bfs_update(L, R, source, batch_arrival,
             while Q:
                 _, pred, cur, end_link = heappop(Q)
                 visited.add(pred)
-                updated = update_function(L, R, begin_link, end_link, pred, cur)
+                updated = update_function(L, R, current_time, end_link, pred, cur)
                 if updated:
                     for t, next in temporal_adjacency_list[cur]:
                         if next not in visited:
@@ -765,7 +861,6 @@ def FP_postprocess(R,source, destination=None, start_time=None):
 
 def FP(S, source, destination=None,start_time=None):
 
-
     # Checking the type of the input 'source":
     is_temporal_source = True
     if type(source) == int:
@@ -810,143 +905,61 @@ def SFP_initialisation(S,source):
                       for t0, t1 in zip(S.node_presence[source[1]][::2],
                                         S.node_presence[source[1]][1::2])
                       if t0 <= source[0] <= t1][0]
-    L[source[1]] = SortedSet([(source_segment[1], 0, source[0])])  # (s_u, d_u, a_u)
-
+    L[source[1]] = (-source_segment[1], 0, source[0])  # (-s_u, d_u, a_u)
     R[source[1]] = (source[0], source_segment[1], 0)  # (a_u, s_u, d_u)
     return L, R
 
 
 def SFP_source_initialisation(L, source, t0, t1):
-    L[source[1]] = SortedSet([(t1, 0, t0)])  # (s_u, d_u, a_u)
+    L[source[1]] = (-t1, 0, t0) #(-s_u, d_u, a_u)
 
-def SFP_update(L, R, t0, t1, u, v):
+
+def SFP_update(L, R, t0, t1, u, v, ignore_future_paths=True):
     '''
-    Update Lv from (t0,t1,u,v) according to SFP constraints.
-    Dans L_u pour les SFP on a : soit un seul triplet et a_u > s_u either many triplets and a_u <= s_u,     they are sorted by their departure time
+    Update L and R according to the link (t0,t1,u,v)
     :param L:
+    :param R:
     :param t0:
     :param t1:
     :param u:
     :param v:
     :return:
     '''
-
-    # Cleaning L[u] :
-    if len(L[u]) > 1:
-        bu_pos = min(L[u].bisect_left((t0, 0, 0)), len(L[u]) - 1)
-        if bu_pos > 0:
-            # print(" u :", u)
-            # print(" current time :", t0)
-            # print("\t b pos cleaning u:", bu_pos)
-            # print("\t before L u:", L[u])
-            L[u].difference_update(L[u][:bu_pos])
-            # print("\t after L u:", L[u])
-        # TEST !! #
-        if len(L[u]) > 1:
-            # print("current time :", t0)
-            # print("u , L[u] :", u, L[u])
-            for i in range(len(L[u]) - 1):
-                s_pred, d_pred, a_pred = L[u][i]
-                s_next, d_next, a_next = L[u][i + 1]
-                assert max(t0 - s_pred, 0) == max(t0 - s_next, 0)
-                assert s_pred < s_next
-                assert d_pred < d_next
-
-
-    if v in L and len(L[v]) > 1:
-        # Cleaning L[v]
-        bv_pos = min(L[v].bisect_left((t0, 0, 0)), len(L[v]) - 1)
-        if bv_pos > 0:
-            # print("v :", v)
-            # print(" current time :", t0)
-            # print("\t b pos cleaning v:", bv_pos)
-            # print("\t before L v:", L[v])
-            L[v].difference_update(L[v][0:bv_pos])
-            # print("\t after L v:", L[v])
-        # TEST !! #
-        if len(L[v]) > 1:
-            # print("current time :", t0)
-            # print("u , L[u] :", v, L[v])
-            for i in range(len(L[v]) - 1):
-                s_pred, d_pred, a_pred = L[v][i]
-                s_next, d_next, a_next = L[v][i + 1]
-                assert max(t0 - s_pred, 0) == max(t0 - s_next, 0)
-                assert s_pred < s_next
-                assert d_pred < d_next
-
-
-    updated = False
-    # print("\t u,v :",u,v)
-    for su, du, au in L[u]: # As we have clean L_u we can consider every elements
-
-        # print("\t au,su,du :",au,su,du)
-        new_arrival = t0
-        new_start = min(t1, su)
-        new_distance = du + 1
-        new_duration = max(new_arrival - new_start, 0)
-        # print("new a, new s, new d :",new_arrival,new_start,new_distance)
-
-        if v in R:
-
-            current_best_duration = max(R[v][0] - R[v][1], 0)
-            current_best_length = R[v][2]
-            if new_duration < current_best_duration or \
-                    (new_duration == current_best_duration
-                     and new_distance < current_best_length):
-                R[v] = (new_arrival, new_start, new_distance)
-            if v in L:
-
-                to_add = False
-                to_remove = set()
-                for sv,dv,av in L[v]: # as we have clean L_v we can consider every elements
-
-                    # if new_start > sv or (new_start == sv and new_distance < dv) or \
-                    #         (new_duration == 0 and new_distance < dv):
-                    #             L[v].add((new_start,new_distance,new_arrival))
-                    if new_start > sv:
-                        if new_distance <= dv:
-                            to_add = True
-                            to_remove.add((sv,dv,av))
-
-                        elif (sv,dv,av) == L[v][-1]: # IMPORTANT take care of the else
-                            to_add = True
-
-                    elif new_start < sv:
-                        if new_distance < dv:
-                            to_add = True
-                            break
-                        elif new_distance == dv:
-                            updated = True
-                            break
-                        else:
-                            break
-
-                    else: # new_start = sv
-                        if new_distance < dv:
-                            to_remove.add((sv,dv,av))
-                            to_add = True
-                        elif new_distance == dv:
-                            updated = True
-                            break
-                        else:
-                            break
-
-                if to_remove:
-                    L[v].difference_update(to_remove)
-                if to_add:
-                    L[v].add((new_start, new_distance, new_arrival))
-                    updated = True
-            else:
-                L[v] = SortedSet([(new_start, new_distance, new_arrival)])
-                updated = True
-        else:
-            L[v] = SortedSet([(new_start, new_distance, new_arrival)])
+    su, du, au = L[u]
+    su = -su
+    new_start = min(t1, su)
+    new_arrival = t0
+    new_distance = du + 1
+    new_duration = max(new_arrival - new_start, 0)
+    if v in R:
+        current_best_duration = max(R[v][0] - R[v][1], 0)
+        current_best_length = R[v][2]
+        if new_duration < current_best_duration or \
+                (new_duration == current_best_duration
+                 and new_distance < current_best_length):
             R[v] = (new_arrival, new_start, new_distance)
-            updated = True
+        if v in L:
+            sv, dv, av = L[v]
+            sv = -sv
+            if ignore_future_paths and sv >= t0:  # Starting time in the future
+                # In this mode we consider best distances for nodes in the future
+                # and we ignore their potential future starting time
+                if new_distance < dv or (new_distance == dv and new_start > sv):
+                    L[v] = (-new_start, new_distance, new_arrival)
+                elif new_distance > dv or (new_distance == dv and new_start < sv):
+                    return False
+            else:
+                if new_start > sv or (new_start == sv and new_distance < dv):
+                    L[v] = (-new_start, new_distance, new_arrival)
+                elif new_start < sv or (new_start == sv and new_distance > dv):
+                    return False
 
-
-
-    return updated
+        else:
+            L[v] = (-new_start, new_distance, new_arrival)
+    else:
+        L[v] = (-new_start, new_distance, new_arrival)
+        R[v] = (new_arrival, new_start, new_distance)
+    return True
 
 
 def SFP_postprocess(R,source, destination=None,start_time = None):
