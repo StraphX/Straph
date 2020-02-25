@@ -1,17 +1,12 @@
 import math
-import time
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
 from heapq import *
-from sortedcollections import SortedList,SortedSet
-import sortedcontainers
-from collections import defaultdict, deque
-
+from collections import defaultdict
 
 # TODO: - Add detailed paths + plots : !!!!!!! (lot of work)
-
 
 ##########################################
 #       Visualisation for L-Algorithm    #
@@ -97,6 +92,8 @@ def F_Algorithm(S, L_functions):
     :return:
     """
     # Initialisation
+    #TODO : Finish F-algorithm
+    raise Warning('Functions not yet supported')
     F = {}
     for n, np in zip(S.nodes, S.node_presence):
         for t0, t1 in zip(np[::2], np[1::2]):
@@ -294,10 +291,7 @@ def bfs_update(L, R, source, batch_links,
     """
 
     if sfp_special_case:
-        # print()
-        # for no in L:
-        #     print("node :",no,"\t L[",no,"] :",L[no])
-        # print("Current Batch :",batch_links)
+
         Q = []
         visited = set()
         current_time = batch_links[0][0]
