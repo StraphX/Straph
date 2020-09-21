@@ -1,6 +1,10 @@
 import copy
 import msgpack
 
+from straph import stream as sg
+import matplotlib.pyplot as plt
+
+
 def store_wcc_to_sgf(wcc, output_file):
     '''
     Dump the weakly connected component to a msgpack_file (scf format)
@@ -226,3 +230,19 @@ def merge_wccs(l, node_2_status, tmp_components, comp_2_nb_links):
     tmp_components[n_comp_2] = None
 
     node_2_status[v][1] = n_comp_1
+
+if __name__ == '__main__':
+    __directory__ = "/home/leo/Dev/Data_Stream/"
+    __file__ = "sg_generated"
+    S = sg.read_stream_graph(path_nodes=__directory__ + __file__ + "_nodes.sg",
+                             path_links=__directory__ + __file__ + "_links.sg")
+    S.plot()
+    # wcc = S.weakly_connected_components()
+    wcc = weakly_connected_components(S)
+    for c in wcc:
+        print("wcc :",c)
+
+        # Sub = S.substream(c)
+        # Sub.plot()
+    # S.plot(clusters=wcc)
+    plt.show()

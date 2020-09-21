@@ -20,6 +20,14 @@ straph.components.component module
     :undoc-members:
     :show-inheritance:
 
+straph.components.stable\_connected\_component module
+-----------------------------------------------------
+
+.. automodule:: straph.components.stable_connected_component
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 straph.components.strongly\_connected\_component module
 -------------------------------------------------------
 

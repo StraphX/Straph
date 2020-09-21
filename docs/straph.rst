@@ -9,7 +9,7 @@ Subpackages
     straph.EulerTourForest
     straph.attributed
     straph.components
-    straph.condensation
+    straph.dag
     straph.generators
     straph.parser
     straph.paths
@@ -18,10 +18,10 @@ Subpackages
 Submodules
 ----------
 
-straph.stream\_graph module
----------------------------
+straph.stream module
+--------------------
 
-.. automodule:: straph.stream_graph
+.. automodule:: straph.stream
     :members:
     :undoc-members:
     :show-inheritance:

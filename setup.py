@@ -6,7 +6,7 @@ with open(path.join(this_directory, 'README.rst'),'r', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='straph',
-      version='0.1.1',
+      version='0.2',
       description='Straph is a python package to modelize, analyze and visualize Stream Graphs.',
       author='Leo Rannou',
       author_email='leo.rannou@gmail.com',

@@ -1,0 +1,196 @@
+
+spython:S3776É"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(ò¢Í!8¬ˆ±†Ë.
+ypython:S3776€"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(¾şÿÿÿÿ8¬ˆ±†Ë.
+>python:S125Œ"Remove this commented out code.(Œ…ª¿8¬ˆ±†Ë.
+upython:S101Í"QRename class "stream_graph" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(íÉè¸ÿÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776ó$"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(°Õ¹¸ùÿÿÿÿ8¬ˆ±†Ë.
+qpython:S117Ñ"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(îÛ¢şÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776¬#"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(íŸˆöÿÿÿÿÿ8¬ˆ±†Ë.
+Npython:S1481")Remove the unused local variable "nodes".(Á–İİÿÿÿÿÿ8¬ˆ±†Ë.
+xpython:S117õ%"TRename this parameter "list_WCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ªíÄıÿÿÿÿ8¬ˆ±†Ë.
+Epython:S1481Å#"%Remove the unused local variable "j".(¼¶ïı8¬ˆ±†Ë.
+>python:S125¦$"Remove this commented out code.(€ãÅ¹8¬ˆ±†Ë.
+=python:S125Q"Remove this commented out code.(¥¹ó˜8¬ˆ±†Ë.
+vpython:S100 "WRename method "link_weight_on_I" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Æ½¹Ú8¬ˆ±†Ë.
+qpython:S117À"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(î¿Ù˜şÿÿÿÿ8¬ˆ±†Ë.
+ƒpython:S117Ñ&"eRename this local variable "SFP_hybrid_latencies" to match the regular expression ^[_a-z][a-z0-9_]*$.(„‡èw8¬ˆ±†Ë.
+tpython:S3776¼""TRefactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.(Óø¢á8¬ˆ±†Ë.
+tpython:S3776Ÿ"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(åİĞ®8¬ˆ±†Ë.
+|python:S117œ"]Rename this local variable "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÆËº8¬ˆ±†Ë.
+xpython:S117&"TRename this parameter "list_WCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(İ»¸¤úÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776§"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(İçìÎ8¬ˆ±†Ë.
+python:S117œ%"[Rename this local variable "SCC_stream" to match the regular expression ^[_a-z][a-z0-9_]*$.(§•Û¥øÿÿÿÿ8¬ˆ±†Ë.
+ƒpython:S117Ï&"eRename this local variable "SFP_L_algo_latencies" to match the regular expression ^[_a-z][a-z0-9_]*$.(’™éM8¬ˆ±†Ë.
+rpython:S117¤"SRename this local variable "Et" to match the regular expression ^[_a-z][a-z0-9_]*$.(õô¡É8¬ˆ±†Ë.
+~python:S117¨%"ZRename this local variable "color_SCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ş‚Öÿÿÿÿÿ8¬ˆ±†Ë.
+Npython:S1481Ñ"".Remove the unused local variable "time_while".(ˆ½¶É8¬ˆ±†Ë.
+spython:S3776…"TRefactor this function to reduce its Cognitive Complexity from 44 to the 15 allowed.(ÀÜ‚s8¬ˆ±†Ë.
+>python:S125„"Remove this commented out code.(û¤ÿÃ8¬ˆ±†Ë.
+‚python:S117Ò&"cRename this local variable "SFP_hybrid_lengths" to match the regular expression ^[_a-z][a-z0-9_]*$.(è’ü8¬ˆ±†Ë.
+zpython:S117Š"\Rename this local variable "resampled_T" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô½Œ"8¬ˆ±†Ë.
+Epython:S1481Ï$"%Remove the unused local variable "k".(«‰ûì8¬ˆ±†Ë.
+Cpython:S125½$"Remove this commented out code.(Ÿ¬Éûıÿÿÿÿ8¬ˆ±†Ë.
+ppython:S107Î"LMethod "__init__" has 14 parameters, which is greater than the 7 authorized.(ÄÁšÃşÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776ç"TRefactor this function to reduce its Cognitive Complexity from 52 to the 15 allowed.(¥Äûÿÿÿÿ8¬ˆ±†Ë.
+xpython:S117ñ"TRename this local variable "Tuv" to match the regular expression ^[_a-z][a-z0-9_]*$.(ï®ßôÿÿÿÿÿ8¬ˆ±†Ë.
+rpython:S117"SRename this local variable "Et" to match the regular expression ^[_a-z][a-z0-9_]*$.(¨Å•ç8¬ˆ±†Ë.
+}python:S117Ë&"YRename this local variable "L_L_algo" to match the regular expression ^[_a-z][a-z0-9_]*$.(¼Ç„Ğıÿÿÿÿ8¬ˆ±†Ë.
+zpython:S107Ä
+"VMethod "plot_dict_clusters" has 10 parameters, which is greater than the 7 authorized.(äˆØóûÿÿÿÿ8¬ˆ±†Ë.
+>python:S125á"Remove this commented out code.(¾ÅÊ8¬ˆ±†Ë.
+tpython:S3776×"TRefactor this function to reduce its Cognitive Complexity from 36 to the 15 allowed.(Ğ½’¢8¬ˆ±†Ë.
+spython:S3776…#"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(õ‡íN8¬ˆ±†Ë.
+qpython:S117…"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ø–ÿºøÿÿÿÿ8¬ˆ±†Ë.
+>python:S125û
+"Remove this commented out code.(•²°ó8¬ˆ±†Ë.
+ypython:S3776ò"TRefactor this function to reduce its Cognitive Complexity from 32 to the 15 allowed.(ø¿Òîıÿÿÿÿ8¬ˆ±†Ë.
+spython:S3776°"TRefactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.(ğÜş'8¬ˆ±†Ë.
+ypython:S3776Ä"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(çÙš±ùÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125¶
+"Remove this commented out code.(®Ó˜¡ûÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776Á&"TRefactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.(àà¸£8¬ˆ±†Ë.
+lpython:S117Á&"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(àà¸£8¬ˆ±†Ë.
+Epython:S1481€"%Remove the unused local variable "i".(Øî‘Ú8¬ˆ±†Ë.
+Epython:S1481‰%"%Remove the unused local variable "k".(«‰ûì8¬ˆ±†Ë.
+wpython:S117ş"XRename this parameter "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(¬Ãäà8¬ˆ±†Ë.
+ypython:S3776¤&"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(áôÄıÿÿÿÿ8¬ˆ±†Ë.
+>python:S125ÿ"Remove this commented out code.(¯‰øÁ8¬ˆ±†Ë.
+qpython:S117ï"MRename this parameter "A" to match the regular expression ^[_a-z][a-z0-9_]*$.(ãÙÈÕúÿÿÿÿ8¬ˆ±†Ë.
+qpython:S117®"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(¸ãÔûÿÿÿÿ8¬ˆ±†Ë.
+Npython:S1481¥")Remove the unused local variable "nodes".(Á–İİÿÿÿÿÿ8¬ˆ±†Ë.
+Npython:S1481©")Remove the unused local variable "nodes".(» Æ§ıÿÿÿÿ8¬ˆ±†Ë.
+Jpython:S1481ç"%Remove the unused local variable "l".(‹¸µÒøÿÿÿÿ8¬ˆ±†Ë.
+Ipython:S1481«")Remove the unused local variable "edges".(ÄÙûÄ8¬ˆ±†Ë.
+Cpython:S125Æ"Remove this commented out code.(Ç•åÜüÿÿÿÿ8¬ˆ±†Ë.
+python:S117Ã""]Rename this local variable "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŸÒûÀıÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776ù"TRefactor this function to reduce its Cognitive Complexity from 39 to the 15 allowed.(„§£İşÿÿÿÿ8¬ˆ±†Ë.
+=python:S125m"Remove this commented out code.(­¤¥Ù8¬ˆ±†Ë.
+Cpython:S125°
+"Remove this commented out code.(Éß¬µúÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776	"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(â¸¥8¬ˆ±†Ë.
+Cpython:S125Ô"Remove this commented out code.(æ‘–šüÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776í"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(¿á¸øÿÿÿÿ8¬ˆ±†Ë.
+Wpython:S1481Ñ&"8Remove the unused local variable "SFP_hybrid_latencies".(„‡èw8¬ˆ±†Ë.
+lpython:S117Ù"MRename this parameter "A" to match the regular expression ^[_a-z][a-z0-9_]*$.(åÆÜ“8¬ˆ±†Ë.
+vpython:S117Ù"RRename this parameter "card_W" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÇŠ“‹ûÿÿÿÿ8¬ˆ±†Ë.
+|python:S117ƒ"XRename this parameter "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(œ§ë©ùÿÿÿÿ8¬ˆ±†Ë.
+{python:S117‡"WRename this local variable "G_glob" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÜÉÙ¾ùÿÿÿÿ8¬ˆ±†Ë.
+mpython:S117˜&"NRename this parameter "SG" to match the regular expression ^[_a-z][a-z0-9_]*$.(»éúà8¬ˆ±†Ë.
+mpython:S117Á&"NRename this parameter "LS" to match the regular expression ^[_a-z][a-z0-9_]*$.(àà¸£8¬ˆ±†Ë.
+{python:S117%"WRename this local variable "Kcores" to match the regular expression ^[_a-z][a-z0-9_]*$.(¿³ĞÏûÿÿÿÿ8¬ˆ±†Ë.
+>python:S125ş&"Remove this commented out code.(„¬ó»8¬ˆ±†Ë.
+‡python:S117Ğ&"cRename this local variable "SFP_L_algo_lengths" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕĞÛ‡ùÿÿÿÿ8¬ˆ±†Ë.
+rpython:S116ó"NRename this field "card_W" to match the regular expression ^[_a-z][_a-z0-9]*$.(×¦‰¶üÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776Ç!"TRefactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.(ìˆ²ò8¬ˆ±†Ë.
+}python:S117¹"YRename this local variable "list_WCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ñÆì°şÿÿÿÿ8¬ˆ±†Ë.
+‚python:S117ó"cRename this local variable "intersection_Tu_Tv" to match the regular expression ^[_a-z][a-z0-9_]*$.(ñ›½ï8¬ˆ±†Ë.
+Cpython:S125ê"Remove this commented out code.(¢Œ–Øøÿÿÿÿ8¬ˆ±†Ë.
+Epython:S1481ê"%Remove the unused local variable "i".(Ü÷ŸÍ8¬ˆ±†Ë.
+xpython:S117Ë%"TRename this parameter "Kcliques" to match the regular expression ^[_a-z][a-z0-9_]*$.(«„Ùıøÿÿÿÿ8¬ˆ±†Ë.
+zpython:S117Î&"[Rename this local variable "FSP_L_algo" to match the regular expression ^[_a-z][a-z0-9_]*$.( õĞÑ8¬ˆ±†Ë.
+ypython:S3776´"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(¿áş‡úÿÿÿÿ8¬ˆ±†Ë.
+Ipython:S1481Í"")Remove the unused local variable "depth".(Ïı¥8¬ˆ±†Ë.
+tpython:S3776¦'"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(Ä”—İ8¬ˆ±†Ë.
+Lpython:S1481ª"'Remove the unused local variable "fig".(ëİÚøÿÿÿÿ8¬ˆ±†Ë.
+>python:S125•%"Remove this commented out code.(€ãÅ¹8¬ˆ±†Ë.
+ypython:S3776²"TRefactor this function to reduce its Cognitive Complexity from 42 to the 15 allowed.(…¬ÊŒûÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776ä"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(úĞœê8¬ˆ±†Ë.
+>python:S125ã""Remove this commented out code.(îë¶“8¬ˆ±†Ë.
+Lpython:S1481†"'Remove the unused local variable "fig".(ëİÚøÿÿÿÿ8¬ˆ±†Ë.
+kpython:S117ä"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ò±*8¬ˆ±†Ë.
+python:S117œ!"bRename this local variable "New_link_presence" to match the regular expression ^[_a-z][a-z0-9_]*$.(Àˆı½8¬ˆ±†Ë.
+}python:S117Ì&"YRename this local variable "D_L_algo" to match the regular expression ^[_a-z][a-z0-9_]*$.(¯°º‚ûÿÿÿÿ8¬ˆ±†Ë.
+Tpython:S1066†"/Merge this if statement with the enclosing one.(ŠÇ¸ÿÿÿÿÿ8¬ˆ±†Ë.
+spython:S117‚&"TRename this parameter "list_WCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(¾˜æ8¬ˆ±†Ë.
+Npython:S1481‘")Remove the unused local variable "nodes".(» Æ§ıÿÿÿÿ8¬ˆ±†Ë.
+Epython:S1481†"%Remove the unused local variable "i".(‰«Šˆ8¬ˆ±†Ë.
+qpython:S117Ø"RRename this parameter "card_E" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ö”´8¬ˆ±†Ë.
+mpython:S116ò"NRename this field "card_E" to match the regular expression ^[_a-z][_a-z0-9]*$.(İ‰è‹8¬ˆ±†Ë.
+Spython:S1481¤".Remove the unused local variable "chrono_obl".(óşÿñùÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125—'"Remove this commented out code.(ı‚ØŸıÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776à'"TRefactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.(óÒ’¢8¬ˆ±†Ë.
+>python:S125"Remove this commented out code.(·¾ğ8¬ˆ±†Ë.
+lpython:S117À%"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄúÍ8¬ˆ±†Ë.
+>python:S125Û$"Remove this commented out code.(€ãÅ¹8¬ˆ±†Ë.
+Cpython:S125¾#"Remove this commented out code.(®àÓîûÿÿÿÿ8¬ˆ±†Ë.
+{python:S117"WRename this local variable "G_glob" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÜÉÙ¾ùÿÿÿÿ8¬ˆ±†Ë.
+ypython:S3776Ù"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(÷ì«Œşÿÿÿÿ8¬ˆ±†Ë.
+wpython:S117ù"SRename this local variable "Vt" to match the regular expression ^[_a-z][a-z0-9_]*$.(•‚Ôüÿÿÿÿ8¬ˆ±†Ë.
+upython:S100è"QRename method "set_card_W" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¥øØ¾úÿÿÿÿ8¬ˆ±†Ë.
+Bpython:S125"Remove this commented out code.(Ò’€­ùÿÿÿÿ8¬ˆ±†Ë.
+gpython:S107	"HMethod "plot" has 12 parameters, which is greater than the 7 authorized.(â¸¥8¬ˆ±†Ë.
+spython:S100ş"TRename method "DFS_iterative" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¬Ãäà8¬ˆ±†Ë.
+wpython:S117›"SRename this local variable "Vt" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ğƒääÿÿÿÿÿ8¬ˆ±†Ë.
+=python:S125"Remove this commented out code.(şşÕ8¬ˆ±†Ë.
+>python:S125Ó"Remove this commented out code.(Òë§8¬ˆ±†Ë.
+zpython:S117§"VRename this local variable "Index" to match the regular expression ^[_a-z][a-z0-9_]*$.(¡½é‘ùÿÿÿÿ8¬ˆ±†Ë.
+wpython:S117ü%"SRename this local variable "SG" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓñÏÁúÿÿÿÿ8¬ˆ±†Ë.
+ypython:S117&"ZRename this local variable "list_CDAG" to match the regular expression ^[_a-z][a-z0-9_]*$.(š²˜ï8¬ˆ±†Ë.
+ypython:S3776Ä
+"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(äˆØóûÿÿÿÿ8¬ˆ±†Ë.
+qpython:S117¤&"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(áôÄıÿÿÿÿ8¬ˆ±†Ë.
+lpython:S117 "MRename this parameter "I" to match the regular expression ^[_a-z][a-z0-9_]*$.(Æ½¹Ú8¬ˆ±†Ë.
+Cpython:S125Š"Remove this commented out code.(—Ë€øÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125á"Remove this commented out code.(‹˜“®øÿÿÿÿ8¬ˆ±†Ë.
+upython:S100ì"QRename method "set_card_E" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ø¤§¶øÿÿÿÿ8¬ˆ±†Ë.
+>python:S125¸&"Remove this commented out code.(ß€æ…8¬ˆ±†Ë.
+ypython:S3776Ë"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(¼‡èûÿÿÿÿÿ8¬ˆ±†Ë.
+zpython:S117‚ "VRename this local variable "Index" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÅüÀ‡üÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776Û"TRefactor this function to reduce its Cognitive Complexity from 61 to the 15 allowed.(ëÖÏ¹8¬ˆ±†Ë.
+Cpython:S125–"Remove this commented out code.(­­şüÿÿÿÿ8¬ˆ±†Ë.
+python:S117Ã$"]Rename this local variable "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡ìÊ¶üÿÿÿÿ8¬ˆ±†Ë.
+python:S117ˆ"[Rename this local variable "N_presence" to match the regular expression ^[_a-z][a-z0-9_]*$.(Øúóùÿÿÿÿ8¬ˆ±†Ë.
+qpython:S117û"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(ëñ…²üÿÿÿÿ8¬ˆ±†Ë.
+}python:S117š"YRename this local variable "N_degree" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢õÆ†ùÿÿÿÿ8¬ˆ±†Ë.
+Ipython:S1481“")Remove the unused local variable "edges".(ÄÙûÄ8¬ˆ±†Ë.
+Cpython:S125¢"Remove this commented out code.(Ô›•şûÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125¾"Remove this commented out code.(ôÕ¤ºüÿÿÿÿ8¬ˆ±†Ë.
+qpython:S117Œ"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(³ş€åşÿÿÿÿ8¬ˆ±†Ë.
+xpython:S117š!"ZRename this local variable "New_links" to match the regular expression ^[_a-z][a-z0-9_]*$.(®±28¬ˆ±†Ë.
+wpython:S117‰&"SRename this local variable "SG" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÓñÏÁúÿÿÿÿ8¬ˆ±†Ë.
+Epython:S1481·"%Remove the unused local variable "i".(‰«Šˆ8¬ˆ±†Ë.
+<python:S125F"Remove this commented out code.(ÜØ£8¬ˆ±†Ë.
+Ipython:S1481á"")Remove the unused local variable "depth".(Ûšï8¬ˆ±†Ë.
+ypython:S3776""TRefactor this function to reduce its Cognitive Complexity from 33 to the 15 allowed.(Æ£¼Ìıÿÿÿÿ8¬ˆ±†Ë.
+zpython:S117Í&"VRename this local variable "L_dag" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ö‹æ½ûÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125Ÿ$"Remove this commented out code.(ˆ»–‡ùÿÿÿÿ8¬ˆ±†Ë.
+Jpython:S1481‹"%Remove the unused local variable "i".(¾Ÿ£Áûÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125À"Remove this commented out code.(—Ë€øÿÿÿÿ8¬ˆ±†Ë.
+vpython:S117 "WRename this local variable "G_list" to match the regular expression ^[_a-z][a-z0-9_]*$.(¬ §ˆ8¬ˆ±†Ë.
+zpython:S117„!"VRename this local variable "Index" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÅüÀ‡üÿÿÿÿ8¬ˆ±†Ë.
+~python:S117“!"ZRename this local variable "New_nodes" to match the regular expression ^[_a-z][a-z0-9_]*$.(¥¨ä„øÿÿÿÿ8¬ˆ±†Ë.
+>python:S125Æ"Remove this commented out code.(Û“‡Ì8¬ˆ±†Ë.
+ypython:S117Ô&"[Rename this local variable "ttr_L_algo" to match the regular expression ^[_a-z][a-z0-9_]*$.(Šß³8¬ˆ±†Ë.
+Mpython:S1481º"(Remove the unused local variable "chrn".(ÎêïŸùÿÿÿÿ8¬ˆ±†Ë.
+Vpython:S1481Ò&"6Remove the unused local variable "SFP_hybrid_lengths".(è’ü8¬ˆ±†Ë.
+ypython:S3776ï"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(ãÙÈÕúÿÿÿÿ8¬ˆ±†Ë.
+{python:S100˜"WRename method "node_weight_on_I" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Á‘©×ùÿÿÿÿ8¬ˆ±†Ë.
+>python:S125¯"Remove this commented out code.(³ò“Å8¬ˆ±†Ë.
+qpython:S117˜"MRename this parameter "I" to match the regular expression ^[_a-z][a-z0-9_]*$.(Á‘©×ùÿÿÿÿ8¬ˆ±†Ë.
+lpython:S117¦'"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ä”—İ8¬ˆ±†Ë.
+Cpython:S125§"Remove this commented out code.(ƒš¤‹ûÿÿÿÿ8¬ˆ±†Ë.
+>python:S125Ø"Remove this commented out code.(ş‚Ü×8¬ˆ±†Ë.
+{python:S117»"WRename this local variable "G_glob" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÜÉÙ¾ùÿÿÿÿ8¬ˆ±†Ë.
+ypython:S117É&"URename this local variable "L_wu" to match the regular expression ^[_a-z][a-z0-9_]*$.( û‰Éøÿÿÿÿ8¬ˆ±†Ë.
+zpython:S117Ì "VRename this local variable "Index" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÅüÀ‡üÿÿÿÿ8¬ˆ±†Ë.
+lpython:S117"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(Œ®»ˆ8¬ˆ±†Ë.
+Cpython:S125´"Remove this commented out code.(¼¯úÓúÿÿÿÿ8¬ˆ±†Ë.
+Cpython:S125§	"Remove this commented out code.(ªÊ²ÿÿÿÿÿ8¬ˆ±†Ë.
+Jpython:S1481õ"%Remove the unused local variable "i".(©£Ÿµüÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776ñ"TRefactor this function to reduce its Cognitive Complexity from 70 to the 15 allowed.(¾äåå8¬ˆ±†Ë.
+qpython:S117—"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(ï†Şıøÿÿÿÿ8¬ˆ±†Ë.
+lpython:S117Û"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(ëÖÏ¹8¬ˆ±†Ë.
+Spython:S1481æ""3Remove the unused local variable "time_final_step".(¥Ñ¥è8¬ˆ±†Ë.
+>python:S125"Remove this commented out code.(·¾ğ8¬ˆ±†Ë.
+Cpython:S125ƒ"Remove this commented out code.(‹­ŸÉşÿÿÿÿ8¬ˆ±†Ë.
+>python:S125è!"Remove this commented out code.(²‹Œ¸8¬ˆ±†Ë.
+ypython:S3776Ò"TRefactor this function to reduce its Cognitive Complexity from 45 to the 15 allowed.(¼åöíûÿÿÿÿ8¬ˆ±†Ë.
+ypython:S117Ê&"URename this local variable "D_wu" to match the regular expression ^[_a-z][a-z0-9_]*$.(–§öÇøÿÿÿÿ8¬ˆ±†Ë.
+tpython:S3776Ä"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(•ï­¤8¬ˆ±†Ë.
+Cpython:S125"Remove this commented out code.(ğÆéŞùÿÿÿÿ8¬ˆ±†Ë.
+zpython:S117®"\Rename this local variable "resampled_T" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ô½Œ"8¬ˆ±†Ë.
+python:S117™$"]Rename this local variable "Neighborhood" to match the regular expression ^[_a-z][a-z0-9_]*$.(‡ìÊ¶üÿÿÿÿ8¬ˆ±†Ë.
+lpython:S117à'"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(óÒ’¢8¬ˆ±†Ë.
+ypython:S3776ä"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ğÛ¢üÿÿÿÿ8¬ˆ±†Ë.
+>python:S125Í
+"Remove this commented out code.(†Ôˆ¹8¬ˆ±†Ë.

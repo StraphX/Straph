@@ -5,8 +5,9 @@ from joblib import Parallel, delayed
 from collections import defaultdict
 import msgpack
 
-
-from straph.condensation import condensation_dag as cdag
+import gc
+from straph.dag import condensation_dag as cdag
+from straph.dag import stable_dag as sdag
 
 
 
@@ -21,7 +22,7 @@ def is_connected(comp):
     node_to_id_comp = {}
     for l in comp.links:
         # print("set_comp :",set_comp)
-        _,_,u,v = l
+        _, _, u, v = l
         if u in node_to_id_comp and v in node_to_id_comp:
             id_u_comp = node_to_id_comp[u]
             id_v_comp = node_to_id_comp[v]
@@ -45,15 +46,12 @@ def is_connected(comp):
             node_to_id_comp[u] = id_v_comp
             v_comp.add(u)
         else:
-            new_comp = set([u,v])
-            node_to_id_comp[u],node_to_id_comp[v] = len(set_comp),len(set_comp)
+            new_comp = set([u, v])
+            node_to_id_comp[u], node_to_id_comp[v] = len(set_comp), len(set_comp)
             set_comp[len(set_comp)] = new_comp
     if sum([1 for c in set_comp if set_comp[c] is not None]) == 1:
         return True
     return False
-
-
-
 
 
 def store_scc_to_sgf(scc, storage_path):
@@ -214,7 +212,7 @@ def algo_kcliques_KCList(k, a_l, node_label, C=[], R=[]):
 
 
 def catch_scc_from_msgpack(id_wcc, id_scc, storage_file):
-    with open(storage_file + 'scc.scf', 'rb') as input:
+    with open(storage_file + 'comp.scf', 'rb') as input:
         unpacker = msgpack.Unpacker(input)
         for l in unpacker:
             if l[0] == (id_wcc, id_scc):
@@ -243,33 +241,36 @@ def load_scc_from_sgf(storage_path, scc_id):
                                         links=links)
 
 
-def compute_stable_connected_components(S, format="cluster", stable_dag=False):
-    '''
-    Compute Stable Connected Components
-    :param S:
-    :param format:
-    :param stable_dag:
-    :return:
-    '''
-    stable_comps = []
-    scc, c_dag = compute_strongly_connected_components(S, format="object", condensation_dag=True)
+# def old_compute_stable_connected_components(S, format="object_with_links", stable_dag=False, isolated_nodes=True,
+#                                           streaming_output=None, free_memory=False):
+#     '''
+#     Compute Stable Connected Components
+#     :param S:
+#     :param format:
+#     :param stable_dag:
+#     :return:
+#     '''
+#     stable_comps = []
+#     if stable_dag:
+#         scc, c_dag = compute_strongly_connected_components(S, format="object_with_links", condensation_dag=True)
+#     else:
+#         scc = compute_strongly_connected_components(S, format="object_with_links", condensation_dag=False)
+#     for c in scc:
+#         # print()
+#         # print("comp id:",c.id," comp times :",c.times)
+#         # print("comp.nodes :",c.nodes)
+#         # print("comp.links :",c.links)
+#         stable_comps += c.get_stable_components(format=format)
+#
+#     if stable_dag:
+#         stable_dag = c_dag.get_stable_dag()
+#         stable_dag.compute_links_inplace()
+#         return stable_comps, stable_dag
+#
+#     return stable_comps
 
-    for c in scc:
-        # print()
-        # print("scc id:",c.id," scc times :",c.times)
-        # print("scc.nodes :",c.nodes)
-        # print("scc.links :",c.links)
-        stable_comps += c.get_stable_components(format=format)
-
-    if stable_dag:
-        stable_dag = c_dag.get_stable_dag()
-        stable_dag.compute_links_inplace()
-        return stable_comps, stable_dag
-
-    return stable_comps
-
-
-def compute_strongly_connected_components(S, format="cluster", condensation_dag=False):
+def compute_strongly_connected_components(S, format="object_with_links", condensation_dag=False, isolated_nodes=True,
+                                          streaming_output=None, free_memory=False):
     '''
     Compute Strongly Connectec Components (SCC) of a Stream Graph.
     :param S: A Stream Graph
@@ -282,113 +283,105 @@ def compute_strongly_connected_components(S, format="cluster", condensation_dag=
     final_components = []  # Clusters : [(t0,t1,u)]...
     cnt_scc_id = 0
     # Condensation DAG
-    scc_dag = cdag.scc_dag()
-    predecessor_in_dag_tmp = defaultdict(list)
-    predecessor_in_dag_final = {}
+    if condensation_dag:
+        condensation_dag = cdag.condensation_dag()
+    else:
+        condensation_dag = None
     #
     id_wcc = S.id
-    E = S.ordered_links()
-    t_last_departure = None
-    batch_departure = []
-    for i in E:
-        # print("i :",i)
-        c= i[0]
-        l = i[1:]
-        if c == 1: # ARRIVAL
-            if batch_departure:
-                cnt_scc_id = new_departure_procedure(batch_departure, node_2_status, tmp_components,
-                                                     final_components, scc_dag,
-                                                     format, cnt_scc_id, id_wcc,
-                                                     predecessor_in_dag_tmp,
-                                                     predecessor_in_dag_final)
-                batch_departure = []
 
-            cnt_scc_id = process_arrival(l, node_2_status, tmp_components,
-                                         final_components, scc_dag,
-                                         format, cnt_scc_id, id_wcc,
-                                         predecessor_in_dag_tmp, predecessor_in_dag_final)
-        else: # DEPARTURE
-            t = l[0]
-            if t == t_last_departure:
-                batch_departure.append(l)
-            else:
-                if batch_departure:
-                    cnt_scc_id = new_departure_procedure(batch_departure, node_2_status, tmp_components,
-                                                         final_components, scc_dag,
-                                                         format, cnt_scc_id, id_wcc,
-                                                         predecessor_in_dag_tmp,
-                                                         predecessor_in_dag_final)
-                batch_departure = [l]
-                t_last_departure = t
+    E = S.ordered_batch_links(free_memory=free_memory)
 
-    # Process Last links :
-    if batch_departure:
-        cnt_scc_id = new_departure_procedure(batch_departure, node_2_status, tmp_components,
-                                             final_components, scc_dag,
-                                             format, cnt_scc_id, id_wcc,
-                                             predecessor_in_dag_tmp,
-                                             predecessor_in_dag_final)
+    if streaming_output:
+        opt = open(streaming_output, 'w')
+    else:
+        opt = None
+
+    for batch in E:
+        # print("\n Batch :",batch)
+        c = batch[0][0]
+        if c == 1:  # ARRIVAL
+            #print("node 2 status before :",node_2_status)
+            cnt_scc_id = process_batch_link_arrival(batch, node_2_status, tmp_components,
+                                                    final_components,
+                                                    cnt_scc_id,
+                                                    condensation_dag=condensation_dag,
+                                                    format=format,
+                                                    streaming_output=opt)
+            #print("node 2 status after :",node_2_status)
+
+        else:  # DEPARTURE
+            #print("node 2 status before :",node_2_status)
+
+            cnt_scc_id = process_batch_link_departure(batch, node_2_status, tmp_components,
+                                                      final_components,
+                                                      cnt_scc_id,
+                                                      condensation_dag=condensation_dag,
+                                                      format=format,
+                                                      streaming_output=opt)
+            #print("node 2 status after :",node_2_status)
 
 
     # Add isolated Nodes
-    for c in S.get_isolated_nodes():
-        isolated_scc = strongly_connected_component(id=cnt_scc_id,
-                                                    times=[c[0], c[1]],
-                                                    nodes=set([c[2]]))
-        if format == "cluster":
-            final_components.append([c])
-        if format == "object":
-            final_components.append(isolated_scc)
-        if condensation_dag:
-            scc_dag.add_node(isolated_scc)
-        cnt_scc_id += 1
+    if isolated_nodes:
+        for c in S.get_isolated_nodes():
+            if format == "cluster":
+                final_components.append([c])
+                if condensation_dag:
+                    condensation_dag.add_node([c])
+            elif format == "object" or format == "object_with_links":
+                c = strongly_connected_component(id=cnt_scc_id,
+                                                 times=[c[0], c[1]],
+                                                 nodes={c[2]})
+                final_components.append(c)
+                if condensation_dag:
+                    condensation_dag.add_node(c)
+            elif format == "streaming":
+                c = (c[0], c[1], 1)
+                if streaming_output:
+                    opt.write(str(c[0]) + ";" + str(c[1]) + ";" + str(1))
+                    opt.write("\n")
+                else:
+                    final_components.append(c)
+            cnt_scc_id += 1
 
     if condensation_dag:
-        scc_dag.set_id(id_wcc)
-        return final_components, scc_dag
+        condensation_dag.set_id(id_wcc)
+        return final_components, condensation_dag
     else:
         return final_components
 
 
-def process_arrival(l, node_2_status, tmp_components, final_components, scc_dag,
-                    format, cnt_scc_id, id_wcc, predecessor_in_dag_tmp, predecessor_in_dag_final):
+def process_arrival(l, node_2_status, tmp_components, final_components, condensation_dag,
+                    cnt_scc_id, id_wcc, format="cluster", streaming_output=None):
     # ARRIVAL
 
-    u,v = l[2],l[3]
+    u, v = l[2], l[3]
     if u not in node_2_status and v not in node_2_status:
-        create_scc(l, node_2_status, tmp_components, predecessor_in_dag_tmp)
+        create_scc(l, node_2_status, tmp_components, format=format)
 
     elif u in node_2_status and v not in node_2_status:
         cnt_scc_id = update_scc(u, v, l, node_2_status, tmp_components,
                                 final_components,
-                                scc_dag,
-                                predecessor_in_dag_tmp,
-                                predecessor_in_dag_final,
+                                condensation_dag=condensation_dag,
                                 cnt_scc_id=cnt_scc_id,
-                                id_wcc=id_wcc,
-                                format=format
+                                format=format, streaming_output=streaming_output
                                 )
 
     elif u not in node_2_status and v in node_2_status:
         cnt_scc_id = update_scc(v, u, l, node_2_status, tmp_components,
                                 final_components,
-                                scc_dag,
-                                predecessor_in_dag_tmp,
-                                predecessor_in_dag_final,
+                                condensation_dag=condensation_dag,
                                 cnt_scc_id=cnt_scc_id,
-                                id_wcc=id_wcc,
-                                format=format
+                                format=format, streaming_output=streaming_output
                                 )
 
     elif node_2_status[u][1] != node_2_status[v][1]:
         cnt_scc_id = merge_scc(l, node_2_status, tmp_components,
                                final_components,
-                               scc_dag,
-                               predecessor_in_dag_tmp,
-                               predecessor_in_dag_final,
+                               condensation_dag=condensation_dag,
                                cnt_scc_id=cnt_scc_id,
-                               id_wcc=id_wcc,
-                               format=format
+                               format=format, streaming_output=streaming_output
                                )
     else:
         node_2_status[u][0] += 1
@@ -398,60 +391,51 @@ def process_arrival(l, node_2_status, tmp_components, final_components, scc_dag,
     return cnt_scc_id
 
 
-
-
 def merge_scc(l, node_2_status, tmp_components,
               final_components,
-              scc_dag,
-              predecessor_in_dag,
-              predecessor_in_dag_final,
+              condensation_dag=None,
               cnt_scc_id=None,
-              id_wcc=None,
-              format="cluster"):
+              format="cluster", streaming_output=None):
     t0, t1, u, v = l
-    n_comp_1 = node_2_status[u][1]
-    n_comp_2 = node_2_status[v][1]
-    comp_1 = tmp_components[n_comp_1]
-    comp_2 = tmp_components[n_comp_2]
+    id_comp_u = node_2_status[u][1]
+    id_comp_v = node_2_status[v][1]
+
+    if len(tmp_components[id_comp_v].nodes) > len(tmp_components[id_comp_u].nodes):
+        #  If a component is bigger than another we merge into the bigger one.
+        id_comp_u, id_comp_v = id_comp_v, id_comp_u
+
+    comp_1 = tmp_components[id_comp_u]
+    comp_2 = tmp_components[id_comp_v]
+
     if comp_1.times[0] != t0:
-        cnt_scc_id = close_component(comp_1, n_comp_1, t0, final_components, cnt_scc_id, scc_dag,
-                                     predecessor_in_dag,
-                                     predecessor_in_dag_final,
-                                     id_wcc=id_wcc,
-                                     format=format)
+        cnt_scc_id = close_component(comp_1, t0, final_components, cnt_scc_id, condensation_dag=condensation_dag,
+                                     format=format, streaming_output=streaming_output)
         # predecessor_in_dag[n_comp_1] += [cnt_scc_id - 1]  # previous closed component
         comp_1.set_begin_time(t0)
 
     if comp_2.times[0] != t0:
-        cnt_scc_id = close_component(comp_2, n_comp_2, t0, final_components, cnt_scc_id, scc_dag,
-                                     predecessor_in_dag,
-                                     predecessor_in_dag_final,
-                                     id_wcc=id_wcc,
-                                     format=format)
+        cnt_scc_id = close_component(comp_2, t0, final_components, cnt_scc_id, condensation_dag=condensation_dag,
+                                     format=format, streaming_output=streaming_output)
         # predecessor_in_dag[n_comp_1] += [cnt_scc_id - 1]  # previous closed component (n_comp_1 because we merge)
+
+    for n in comp_2.nodes:
+        node_2_status[n][1] = id_comp_u  # Actualize referencement before deletion of 2nd comp
 
     comp_1.merge(comp_2)
     comp_1.add_link(l)  # Add the current link
-
-    for n in comp_2.get_nodes():
-        node_2_status[n][1] = n_comp_1  # Actualize referencement before deletion of 2nd comp
-
     node_2_status[u][0] += 1
     node_2_status[v][0] += 1
 
-    tmp_components[n_comp_2] = None
+    tmp_components[id_comp_v] = None
     # print("after merge :",comp_1.links)
     return cnt_scc_id
 
 
 def update_scc(node_to_update, node_to_add, l, node_2_status, tmp_components,
                final_components,
-               scc_dag,
-               predecessor_in_dag,
-               predecessor_in_dag_final,
+               condensation_dag=None,
                cnt_scc_id=None,
-               id_wcc=None,
-               format="cluster"
+               format="cluster", streaming_output=None
                ):
     '''
 
@@ -460,32 +444,30 @@ def update_scc(node_to_update, node_to_add, l, node_2_status, tmp_components,
     :param l:
     :param node_2_status:
     :param tmp_components:
-    :param scc_dag:
+    :param condensation_dag:
     :param cnt_scc_id:
     :param write_to_msgpack:
     :param id_wcc:
     :return:
     '''
     t0, t1 = l[0], l[1]
-    n_current_comp = node_2_status[node_to_update][1]
-    current_comp = tmp_components[n_current_comp]
+    id_current_comp = node_2_status[node_to_update][1]
+    current_comp = tmp_components[id_current_comp]
     if current_comp.times[0] != t0:
-        cnt_scc_id = close_component(current_comp, n_current_comp,
-                                     t0, final_components, cnt_scc_id, scc_dag,
-                                     predecessor_in_dag,
-                                     predecessor_in_dag_final,
-                                     id_wcc=id_wcc,
-                                     format=format)
+        cnt_scc_id = close_component(current_comp, t0, final_components, cnt_scc_id,
+                                     condensation_dag=condensation_dag,
+                                     format=format, streaming_output=streaming_output)
         # predecessor_in_dag[n_current_comp] += [cnt_scc_id - 1]  # previous closed component
         current_comp.set_begin_time(t0)  # Input a new begining time
-    current_comp.add_link(l)  # Actualize the component (will add the node and the link)
-    node_2_status[node_to_add] = [1, n_current_comp]
+    current_comp.add_node(node_to_add)  # Add the node to the comp
+    current_comp.add_link(l)  # Actualize the component with the new link
+    node_2_status[node_to_add] = [1, id_current_comp]
     node_2_status[node_to_update][0] += 1
     # print("after update :",current_comp.links)
     return cnt_scc_id
 
 
-def create_scc(l, node_2_status, tmp_components, predecessor_in_dag):
+def create_scc(l, node_2_status, tmp_components, format="cluster"):
     '''
     Create a Strongly Connected Component from the link *l*
     :param l:
@@ -494,302 +476,186 @@ def create_scc(l, node_2_status, tmp_components, predecessor_in_dag):
     :return:
     '''
     t0, t1, u, v = l
-    n_comp = len(tmp_components)
-    node_2_status[u] = [1, n_comp]
-    node_2_status[v] = [1, n_comp]
+    new_id_comp = len(tmp_components)
+    node_2_status[u] = [1, new_id_comp]
+    node_2_status[v] = [1, new_id_comp]
+    if format == "object_with_links":
+        lks = [[t0, t1, u, v]]
+    else:
+        lks = None
     tmp_components.append(strongly_connected_component(times=[t0, t0],
-                                                       set_links=set([(u, v)]),
-                                                       links=[[t0, t1, u, v]]))
+                                                       nodes={u, v},
+                                                       set_links={(u, v)},
+                                                       links=lks))
     # print("creation :",{u,v})
 
 
-# def process_batch_departure(batch_departure, node_2_status, tmp_components, final_components, scc_dag,
-#                             format, cnt_scc_id, id_wcc, predecessor_in_dag):
-#     # DEPARTURE
-#     for l in batch_departure:
-#         u, v = l[1], l[2]
-#         node_2_status[u][0] -= 1
-#         node_2_status[v][0] -= 1
-#         # # Regrouper les liens partant concernant la même composantes
-#         if node_2_status[u][0] == 0 and node_2_status[v][0] == 0:
-#             cnt_scc_id = double_departure(l, node_2_status, tmp_components,
-#                                           final_components,
-#                                           scc_dag,
-#                                           predecessor_in_dag,
-#                                           cnt_scc_id=cnt_scc_id,
-#                                           id_wcc=id_wcc,
-#                                           format=format
-#                                           )
-#         elif node_2_status[u][0] == 0:
-#             cnt_scc_id = single_departure(u, l, node_2_status, tmp_components,
-#                                           final_components,
-#                                           scc_dag,
-#                                           predecessor_in_dag,
-#                                           cnt_scc_id=cnt_scc_id,
-#                                           id_wcc=id_wcc,
-#                                           format=format
-#                                           )
-#         elif node_2_status[v][0] == 0:
-#             cnt_scc_id = single_departure(v, l, node_2_status, tmp_components,
-#                                           final_components,
-#                                           scc_dag,
-#                                           predecessor_in_dag,
-#                                           cnt_scc_id=cnt_scc_id,
-#                                           id_wcc=id_wcc,
-#                                           format=format
-#                                           )
-#         else:
-#             # In this procedure we can use the BFS to compute any kind of distance, which can be of use further on.
-#             cnt_scc_id = split_procedure(l, node_2_status, tmp_components,
-#                                          final_components,
-#                                          scc_dag,
-#                                          predecessor_in_dag,
-#                                          cnt_scc_id=cnt_scc_id,
-#                                          id_wcc=id_wcc,
-#                                          format=format)
-#     return cnt_scc_id
-#
+def process_batch_link_arrival(batch, node_2_status, tmp_components, final_components,
+                               cnt_scc_id, condensation_dag=None, format="cluster", streaming_output=None):
+    for b in batch:
+        t0, t1, u, v = b[1:]
+        l = (t0, t1, u, v)
+        if u not in node_2_status and v not in node_2_status:
+            create_scc(l, node_2_status, tmp_components, format=format)
 
-def new_departure_procedure(batch_departure, node_2_status, tmp_components,
-                            final_components, scc_dag,
-                            format, cnt_scc_id, id_wcc,
-                            predecessor_in_dag_tmp, predecessor_in_dag_final):
-    '''
+        elif u in node_2_status and v not in node_2_status:
+            cnt_scc_id = update_scc(u, v, l, node_2_status, tmp_components,
+                                    final_components,
+                                    condensation_dag=condensation_dag,
+                                    cnt_scc_id=cnt_scc_id,
+                                    format=format, streaming_output=streaming_output
+                                    )
 
-    :param batch_departure:
-    :param node_2_status:
-    :param tmp_components:
-    :param final_components:
-    :param scc_dag:
-    :param format:
-    :param cnt_scc_id:
-    :param id_wcc:
-    :param predecessor_in_dag_tmp:
-    :param predecessor_in_dag_final:
-    :return:
-    '''
-    id_comp_to_split = set()
-    id_comp_to_close = set()
-    t1 = None
-    for l in batch_departure:
-        t1, u, v = l
-        node_2_status[u][0] -= 1
-        node_2_status[v][0] -= 1
-        n_comp = node_2_status[u][1]
-        comp = tmp_components[n_comp]
-        comp.remove_link((u,v))
-        if node_2_status[u][0] == 0 or node_2_status[v][0] == 0:
-            id_comp_to_close.add(n_comp)
-            if node_2_status[u][0] == 0:
-                del node_2_status[u]
-            if node_2_status[v][0] == 0:
-                del node_2_status[v]
-            if len(comp.set_links) == 0:
-                cnt_scc_id = close_component(comp, n_comp, t1, final_components, cnt_scc_id, scc_dag,
-                                             predecessor_in_dag_tmp,
-                                             predecessor_in_dag_final,
-                                             id_wcc=id_wcc,
-                                             format=format)
-                tmp_components[n_comp] = None
-                id_comp_to_split.discard(n_comp)
-                id_comp_to_close.discard(n_comp)
+        elif u not in node_2_status and v in node_2_status:
+            cnt_scc_id = update_scc(v, u, l, node_2_status, tmp_components,
+                                    final_components,
+                                    condensation_dag=condensation_dag,
+                                    cnt_scc_id=cnt_scc_id,
+                                    format=format, streaming_output=streaming_output
+                                    )
+
+        elif node_2_status[u][1] != node_2_status[v][1]:
+            cnt_scc_id = merge_scc(l, node_2_status, tmp_components,
+                                   final_components,
+                                   condensation_dag=condensation_dag,
+                                   cnt_scc_id=cnt_scc_id,
+                                   format=format, streaming_output=streaming_output
+                                   )
         else:
-            id_comp_to_split.add(n_comp)
-
-    for n_comp in id_comp_to_split:
-        comp = tmp_components[n_comp]
-        # print("before split :",comp.links)
-        R = comp.split()
-        if R :
-            id_comp_to_close.discard(n_comp)
-            # We close the current component :)
-            cnt_scc_id = close_component(comp, n_comp, t1, final_components, cnt_scc_id, scc_dag,
-                                         predecessor_in_dag_tmp,
-                                         predecessor_in_dag_final,
-                                         id_wcc=id_wcc,
-                                         format=format)
-            tmp_components[n_comp] = None
-            for C in R:
-                # New components
-                comp_nodes = C.get_nodes()
-                # assert is_connected(C)
-                C.set_begin_time(t1)  # set new begin time
-                for n in comp_nodes:
-                    node_2_status[n][1] = len(tmp_components)
-                    # predecessor_in_dag_tmp[len(tmp_components)] += [cnt_scc_id - 1]  # previous closed component
-                tmp_components.append(C)  # to the antecedent of news comp
-
-    # Id comp to close is necessary.
-    for n_comp in id_comp_to_close:
-        comp = tmp_components[n_comp]
-        cnt_scc_id = close_component(comp, n_comp, t1, final_components, cnt_scc_id, scc_dag,
-                                     predecessor_in_dag_tmp,
-                                     predecessor_in_dag_final,
-                                     id_wcc=id_wcc,
-                                     format=format)
-        comp.set_begin_time(t1)
-
+            node_2_status[u][0] += 1
+            node_2_status[v][0] += 1
+            current_comp = tmp_components[node_2_status[u][1]]
+            current_comp.add_link(l)
 
     return cnt_scc_id
 
 
-# def single_departure(node_to_remove, l, node_2_status, tmp_components,
-#                      final_components,
-#                      scc_dag,
-#                      predecessor_in_dag,
-#                      cnt_scc_id=None,
-#                      id_wcc=None,
-#                      format="cluster"):
-#     # Remove the link, close the component
-#     t1 = l[0]
-#     n_comp_to_keep = node_2_status[node_to_remove][1]
-#     # print(" SINGLE REMOVAL comp : ", n_comp_to_keep, " REMOVE : ", node_to_remove)
-#     comp_to_keep = tmp_components[n_comp_to_keep]
-#     comp_to_keep.remove_link((l[1], l[2]))  # Remove Link
-#     # if comp_to_keep.times[0] != t1:
-#     cnt_scc_id = close_component(comp_to_keep, n_comp_to_keep, t1, final_components, cnt_scc_id, scc_dag,
-#                                  predecessor_in_dag,
-#                                  id_wcc=id_wcc,
-#                                  format=format)
-#     predecessor_in_dag[n_comp_to_keep] += [cnt_scc_id - 1]
-#     comp_to_keep.set_begin_time(t1)  # Set begin time
-#     del node_2_status[node_to_remove]
-#     return cnt_scc_id
-#
-#
-# def double_departure(l, node_2_status, tmp_components,
-#                      final_components,
-#                      scc_dag,
-#                      predecessor_in_dag,
-#                      cnt_scc_id=None,
-#                      id_wcc=None,
-#                      format="cluster"):
-#     t1, u, v = l
-#     n_current_comp = node_2_status[u][1]
-#     # print(" DOUBLE REMOVAL comp : ", n_current_comp, " u :", u, " v :", v)
-#     current_comp = tmp_components[n_current_comp]
-#     current_comp.remove_link((u, v))
-#     if len(current_comp.set_links) == 0:  # If there is less than 2 nodes left, clear the component
-#         # if current_comp.times[0] != t1:
-#         cnt_scc_id = close_component(current_comp, n_current_comp, t1, final_components, cnt_scc_id, scc_dag,
-#                                      predecessor_in_dag,
-#                                      id_wcc=id_wcc,
-#                                      format=format)
-#         # End of the SCC, no successor
-#         tmp_components[n_current_comp] = None
-#         del node_2_status[u], node_2_status[v]
-#     else:  # Else double departure means a split
-#         cnt_scc_id = split_procedure(l, node_2_status, tmp_components,
-#                                      scc_dag,
-#                                      predecessor_in_dag,
-#                                      cnt_scc_id=cnt_scc_id,
-#                                      id_wcc=id_wcc,
-#                                      format=format)
-#
-#     return cnt_scc_id
-#
-#
-# def split_procedure(l, node_2_status, tmp_components,
-#                     final_components,
-#                     scc_dag,
-#                     predecessor_in_dag,
-#                     cnt_scc_id=None,
-#                     id_wcc=None,
-#                     format="cluster"):
-#     t1, u, v = l
-#     n_current_comp = node_2_status[u][1]
-#     current_comp = tmp_components[n_current_comp]
-#     current_comp.remove_link((u, v))
-#     R = current_comp.split((u, v))
-#     # print(" SPLIT COMP : ", n_current_comp)
-#     #######################
-#     # Splitting procedure #
-#     #######################
-#     if R:
-#         # print(" SPLIT SUCCESFULL")
-#         # if current_comp.times[0] != t1:
-#         cnt_scc_id = close_component(current_comp, n_current_comp,
-#                                      t1, final_components, cnt_scc_id, scc_dag, predecessor_in_dag,
-#                                      id_wcc=id_wcc,
-#                                      format=format)
-#
-#         u_is_present = False
-#         v_is_present = False
-#         for C in R:
-#             C.set_begin_time(t1)  # set new begin time
-#             # print("  NEW COMP : ", len(tmp_components))
-#             C_nodes = C.get_nodes()
-#             # print(" C LINKS :",C.set_links)
-#             # print(" C NODES :", C_nodes)
-#             for n in C_nodes:
-#                 node_2_status[n][1] = len(tmp_components)
-#             if u in C_nodes:
-#                 u_is_present = True
-#             if v in C_nodes:
-#                 v_is_present = True
-#             predecessor_in_dag[len(tmp_components)] += [cnt_scc_id - 1]  # previous closed component
-#             tmp_components.append(C)  # to the antecedent of news comp
-#         if not u_is_present:
-#             # print("Remove u :", u)
-#             del node_2_status[u]
-#         if not v_is_present:
-#             # print("Remove v :", v)
-#             del node_2_status[v]
-#         tmp_components[n_current_comp] = None
-#     # else:
-#     #     print(" NO SPLIT : REPLACEMENT LINK FOUND")
-#     return cnt_scc_id
-#
-#
+def process_batch_link_departure(batch, node_2_status, tmp_components,
+                                 final_components, cnt_scc_id, condensation_dag=None,
+                                 format="cluster",
+                                 streaming_output=None):
+    '''
+    :param batch:
+    :param node_2_status:
+    :param tmp_components:
+    :param final_components:
+    :param condensation_dag:
+    :param format:
+    :param cnt_scc_id:
+    :param id_wcc:
+    :return:
+    '''
+    id_comp_to_split = set()
+    id_comp_to_close = set()
+    nodes_to_remove = set()
+    t1 = batch[0][1]
+    for l in batch:
+        u, v = l[2], l[3]
+        node_2_status[u][0] -= 1
+        node_2_status[v][0] -= 1
+        id_comp = node_2_status[u][1]
+        comp = tmp_components[id_comp]
+        comp.remove_link((u, v))
+        # By default we split the component
+        if node_2_status[u][0] == 0 or node_2_status[v][0] == 0:
+            #  If it's a node's departure, there is several cases:
+            #  1. No more links in the components (it's empty)
+            if not comp.set_links:
+                cnt_scc_id = close_component(comp, t1, final_components, cnt_scc_id, condensation_dag=condensation_dag,
+                                             format=format, streaming_output=streaming_output)
+                tmp_components[id_comp] = None
+                id_comp_to_split.discard(id_comp)
+                id_comp_to_close.discard(id_comp)
+                del node_2_status[u]
+                del node_2_status[v]
+            # 2. A node left but there is still some nodes inside (and other departure to come)
+            else:
+                if node_2_status[u][0] == 0:
+                    id_comp_to_close.add(id_comp)
+                    nodes_to_remove.add(u)
+                    del node_2_status[u]
+                if node_2_status[v][0] == 0:
+                    id_comp_to_close.add(id_comp)
+                    nodes_to_remove.add(v)
+                    del node_2_status[v]
+        else:
+            id_comp_to_split.add(id_comp)
+
+    for id_comp in id_comp_to_split:
+        comp = tmp_components[id_comp]
+        # print("before split :",comp.links)
+        if comp.set_links:
+            R = comp.split()
+            if R:
+                # We close the current component :)
+                cnt_scc_id = close_component(comp, t1, final_components, cnt_scc_id, condensation_dag=condensation_dag,
+                                             format=format, streaming_output=streaming_output)
+                tmp_components[id_comp] = None
+                id_comp_to_close.discard(id_comp)
+                for C in R:
+                    # New components
+                    # assert is_connected(C)
+                    C.set_begin_time(t1)  # set new begin time
+                    new_id_comp = len(tmp_components)
+                    for n in C.nodes:
+                        node_2_status[n][1] = new_id_comp
+                        # predecessor_in_dag_tmp[len(tmp_components)] += [cnt_scc_id - 1]  # previous closed component
+                    tmp_components.append(C)  # to the antecedent of news comp
+
+    # Id comp to close is necessary.
+    for id_comp in id_comp_to_close:
+        comp = tmp_components[id_comp]
+        cnt_scc_id = close_component(comp, t1, final_components, cnt_scc_id, condensation_dag=condensation_dag,
+                                     format=format, streaming_output=streaming_output)
+        comp.nodes -= nodes_to_remove
+        if comp.nodes:
+            comp.set_begin_time(t1)  # A node left but other are still presents.
+        else:
+            raise ValueError("Starfoullah")
+
+    return cnt_scc_id
 
 
 def close_component(comp,
-                    n_comp,
-                    t0,
+                    t,
                     final_components,
                     cnt_scc_id,
-                    scc_dag,
-                    predecessor_in_dag,
-                    predecessor_in_dag_final,
-                    id_wcc=None,
-                    format="cluster"):
+                    condensation_dag=None,
+                    format="cluster",
+                    streaming_output=None):
     '''
     Close current component
     :param comp:
     :param n_comp:
-    :param t0:
+    :param t:
     :param final_components:
     :param cnt_scc_id:
-    :param scc_dag:
-    :param predecessor_in_dag:
-    :param predecessor_in_dag_final:
+    :param condensation_dag:
     :param id_wcc:
     :param format:
     :return:
     '''
-    copy_comp = copy.copy(comp)
-    copy_comp.set_end_time(t0)  # Put an end time to the previous component
-    copy_comp.id = cnt_scc_id
-    #
-    set_nodes = set()
-    for l in copy_comp.links:
-        _, _, u, v = l
-        set_nodes.add(u)
-        set_nodes.add(v)
-    copy_comp.nodes = set_nodes
-    #
-    if format == "object":
-        final_components.append(copy_comp)
-    if format == "cluster":
-        c_nodes = set_nodes
-        c = [(copy_comp.times[0], copy_comp.times[1], n) for n in c_nodes]
-        final_components.append(c)
 
-    # predecessor_in_dag_final[cnt_scc_id] = copy.copy(predecessor_in_dag[n_comp])
-    # predecessor_in_dag[n_comp] = []
-    if scc_dag:
-        scc_dag.add_node(copy_comp)
-        cnt_scc_id += 1
+    if format == "object" or format == "object_with_links":
+        copy_comp = copy.copy(comp)
+        copy_comp.set_end_time(t)  # Put an end time to the previous component
+        copy_comp.id = cnt_scc_id
+        final_components.append(copy_comp)
+        c = copy_comp
+    elif format == "cluster":
+        c = [(comp.times[0], t, n) for n in comp.nodes]
+        final_components.append(c)
+    elif format == "streaming":
+        n_nodes = len(comp.nodes)
+        if streaming_output:
+            streaming_output.write(str(comp.times[0]) + ";" + str(t) + ";" + str(n_nodes))
+            streaming_output.write("\n")
+        else:
+            c = (comp.times[0], t, n_nodes)
+            final_components.append(c)
+    if condensation_dag:
+        condensation_dag.add_node(c)
+    cnt_scc_id += 1
     return cnt_scc_id
 
 
@@ -816,21 +682,29 @@ class strongly_connected_component:
         self.links = links
 
     def __repr__(self):
-        rep = "Id SCC :" + str(self.id) + " time window :" + str(self.times)
-        rep += "\nNodes :" + str(self.nodes)
-        rep += "\nLinks :" + str(self.links)
+        rep = "Id SCC :" + str(self.id) + " time window :" + str(self.times) + "\n"
+        rep += "Nodes :" + str(self.nodes) + "\n"
+        rep += "Links :" + str(self.links) + "\n"
         return rep
 
     def __copy__(self):
         t = copy.copy(self.times)
-        l = [copy.copy(l) for l in self.links]
+        if self.links:
+            l = [copy.copy(l) for l in self.links]
+        else:
+            l = None
+        n = copy.copy(self.nodes)
         return strongly_connected_component(times=t,
+                                            nodes=n,
                                             links=l)
 
     def size(self):
-        return len(self.nodes)
+        if self.nodes:
+            return len(self.nodes)
+        else:
+            return len(self.get_nodes())
 
-    def to_al(self):
+    def to_adjacency_list(self):
         al = defaultdict(set)
         if self.links:
             for l in self.links:
@@ -842,77 +716,98 @@ class strongly_connected_component:
 
     def set_begin_time(self, t):
         self.times = [t, t]
-        new_links = []
-        for t0, t1, u, v in self.links:
-            if t1 >= t and (u, v) in self.set_links:
-                new_links.append([t0, t1, u, v])
-        self.links = new_links
+        if self.links:
+            self.links = [l for l in self.links if l[1] >= t and (l[2], l[3]) in self.set_links]
 
     def set_end_time(self, t):
         self.times[1] = t
-        # for l in self.links:
-        #     if l[1] > t:
-        #         l[1] = t
+
+    def add_node(self, n):
+        self.nodes.add(n)
 
     def add_link(self, link):
         u, v = link[2], link[3]
         self.set_links.add((u, v))
-        self.links.append(list(link))
+        if self.links:
+            self.links.append(list(link))
 
     def merge(self, comp):
+        self.nodes |= comp.nodes
         self.set_links |= comp.set_links
-        self.links += comp.links
+        if self.links:
+            self.links += comp.links
 
     def remove_link(self, link):
         self.set_links.discard(link)
 
-    def get_nodes(self):
-        return set([n for l in self.set_links for n in l])
+    def remove_node(self, n):
+        self.nodes.discard(n)
 
-    def split(self): #,link
+    def get_nodes(self):
+        return {n for l in self.set_links for n in l}
+
+    def split(self):  # ,link
         # CUSTOM BFS
+        R = []
+
         component_2_set_links = []
         node_2_component = {}
         for l in self.set_links:
             n1, n2 = l
             if n1 not in node_2_component and n2 not in node_2_component:
-                node_2_component[n1] = len(component_2_set_links)
-                node_2_component[n2] = len(component_2_set_links)
-                component_2_set_links.append(set([l]))
+                n_comp = len(component_2_set_links)
+                node_2_component[n1] = n_comp
+                node_2_component[n2] = n_comp
+                component_2_set_links.append({l})
 
             elif n1 in node_2_component and n2 not in node_2_component:
                 n_comp = node_2_component[n1]
-                component_2_set_links[n_comp].add(l)
                 node_2_component[n2] = n_comp
+
+                component_2_set_links[n_comp].add(l)
 
             elif n1 not in node_2_component and n2 in node_2_component:
                 n_comp = node_2_component[n2]
-                component_2_set_links[n_comp].add(l)
                 node_2_component[n1] = n_comp
+
+                component_2_set_links[n_comp].add(l)
 
             elif node_2_component[n1] != node_2_component[n2]:
                 n_comp_1, n_comp_2 = node_2_component[n1], node_2_component[n2]
-                component_2_set_links[n_comp_1] |= component_2_set_links[n_comp_2]
-                component_2_set_links[n_comp_1].add(l)
+                if len(component_2_set_links[n_comp_2]) > len(component_2_set_links[n_comp_1]):
+                    #  If a component is bigger than another we merge into the bigger one.
+                    n_comp_1, n_comp_2 = n_comp_2, n_comp_1
+
                 for e in component_2_set_links[n_comp_2]:
                     node_2_component[e[0]] = n_comp_1
                     node_2_component[e[1]] = n_comp_1
+
+                component_2_set_links[n_comp_1] |= component_2_set_links[n_comp_2]
+                component_2_set_links[n_comp_1].add(l)
+
                 component_2_set_links[n_comp_2] = None
+
             else:
                 component_2_set_links[node_2_component[n1]].add(l)
 
-        R = []
         # print("Component 2 set links :",component_2_set_links)
-        if sum([1 for i in component_2_set_links if i is not None]) > 1:
+        if sum([1 for el in component_2_set_links if el is not None]) > 1:
             for set_links in component_2_set_links:
-                if set_links is not None:
-                    current_links = [l for l in self.links if (l[2], l[3]) in set_links]
+                if set_links:
+                    if self.links:
+                        current_links = [l for l in self.links if (l[2], l[3]) in set_links]
+                    else:
+                        current_links = None
                     # print("  current links :",current_links)
                     # print("  set links :",set_links)
-                    R.append(
-                        strongly_connected_component(set_links=set_links,
-                                                     links=current_links))
+                    current_nodes = {n for l in set_links for n in l}
+
+                    new_c = strongly_connected_component(set_links=set_links,
+                                                         nodes=current_nodes,
+                                                         links=current_links)
+                    R.append(new_c)
         return R
+
 
     def get_stable_components(self, format="object"):
         '''
@@ -921,36 +816,43 @@ class strongly_connected_component:
 
         if self.links and len(self.get_interactions_times()) > 1:
             interact_times = self.get_interactions_times()
-            time_2_pos = {t: i for t, i in zip(interact_times, range(len(interact_times)))}
-            inter_nodes = [set() for k in range(len(interact_times) - 1)]
-            inter_links = [[] for k in range(len(interact_times) - 1)]
+            time_to_pos = {t: i for t, i in zip(interact_times, range(len(interact_times)))}
+            inter_nodes = [set() for _ in range(len(interact_times) - 1)]
+            inter_links = [[] for _ in range(len(interact_times) - 1)]
             for l in self.links:
                 t0, t1, u, v = l
                 t0 = max(t0, self.times[0])
                 t1 = min(t1, self.times[1])
-                for i in range(time_2_pos[t0], time_2_pos[t1]):
+                for i in range(time_to_pos[t0], time_to_pos[t1]):
                     inter_nodes[i].add(u)
                     inter_nodes[i].add(v)
                     inter_links[i].append((u, v))
             stable_components = []
-            if format == "object":
+            if format == "object" or format == "object_with_links":
                 for j in range(len(interact_times) - 1):
                     c = strongly_connected_component(id=(self.id, j),
                                                      times=(interact_times[j], interact_times[j + 1]),
-                                                     nodes=set([u for u in inter_nodes[time_2_pos[interact_times[j]]]]),
-                                                     links=[l for l in inter_links[time_2_pos[interact_times[j]]]]
+                                                     nodes=set(
+                                                         [u for u in inter_nodes[time_to_pos[interact_times[j]]]]),
+                                                     links=[l for l in inter_links[time_to_pos[interact_times[j]]]]
                                                      )
                     stable_components.append(c)
             if format == "cluster":
                 for j in range(len(interact_times) - 1):
                     c = [(interact_times[j], interact_times[j + 1], u) for u in
-                         inter_nodes[time_2_pos[interact_times[j]]]]
+                         inter_nodes[time_to_pos[interact_times[j]]]]
                     stable_components.append(c)
         else:
-            if format == "object":
-                stable_components = [strongly_connected_component(id=self.id,
-                                                                  times=self.times,
-                                                                  nodes=self.nodes)]
+            if format == "object" or format == "object_with_links":
+                if self.links:
+                    stable_components = [strongly_connected_component(id=self.id,
+                                                                      times=self.times,
+                                                                      nodes=self.nodes,
+                                                                      links=[(u, v) for _, _, u, v in self.links])]
+                else:
+                    stable_components = [strongly_connected_component(id=self.id,
+                                                                      times=self.times,
+                                                                      nodes=self.nodes)]
             if format == "cluster":
                 stable_components = [[(self.times[0], self.times[1], u) for u in self.nodes]]
         return stable_components
@@ -958,9 +860,9 @@ class strongly_connected_component:
     def get_interactions_times(self):
         interact_times = set()
         for l in self.links:
-            t0,t1,_,_ = l
-            t0 = max(t0,self.times[0])
-            t1 = min(t1,self.times[1])
+            t0, t1, _, _ = l
+            t0 = max(t0, self.times[0])
+            t1 = min(t1, self.times[1])
             interact_times.add(t0)
             interact_times.add(t1)
         return sorted(interact_times)
@@ -979,8 +881,8 @@ class strongly_connected_component:
         inter_links = [[] for _ in range(len(interact_times) - 1)]
         for l in self.links:
             t0, t1, u, v = l
-            t0 = max(t0,self.times[0])
-            t1 = min(t1,self.times[1])
+            t0 = max(t0, self.times[0])
+            t1 = min(t1, self.times[1])
             for i in range(time_2_pos[t0], time_2_pos[t1]):
                 inter_links[i].append((u, v))
 
@@ -1018,8 +920,8 @@ class strongly_connected_component:
         inter_links = [[] for k in range(len(interact_times) - 1)]
         for l in self.links:
             t0, t1, u, v = l
-            t0 = max(t0,self.times[0])
-            t1 = min(t1,self.times[1])
+            t0 = max(t0, self.times[0])
+            t1 = min(t1, self.times[1])
             for i in range(time_2_pos[t0], time_2_pos[t1]):
                 inter_links[i].append((u, v))
 
@@ -1052,17 +954,22 @@ class strongly_connected_component:
             return L
         interact_times = self.get_interactions_times()
         time_2_pos = {t: i for t, i in zip(interact_times, range(len(interact_times)))}
-        inter_links = [[] for k in range(len(interact_times) - 1)]
+        inter_links = [[] for _ in range(len(interact_times) - 1)]
         for l in self.links:
             t0, t1, u, v = l
-            t0 = max(t0,self.times[0])
-            t1 = min(t1,self.times[1])
+            t0 = max(t0, self.times[0])
+            t1 = min(t1, self.times[1])
             for i in range(time_2_pos[t0], time_2_pos[t1]):
                 inter_links[i].append((u, v))
+
         def para_clique(i):
             cliques = {}
             t0, t1 = interact_times[i], interact_times[i + 1]
             current_links = inter_links[time_2_pos[t0]]
+            if not current_links:
+                # Maybe an instant component...
+                #print("No current links")
+                return {}
             a_l, degrees = neighborhood_and_degrees_from_links(t0, t1, current_links)
             cores, core_ordering = algo_kcores_batagelj(a_l, degrees, core_ordering=True)
             max_core_number = max(cores.values())
@@ -1086,5 +993,3 @@ class strongly_connected_component:
                 L[k] += v
 
         return L
-
-# TODO : Faire une classe "component" dont strongly_connected_component et weakly_connected_component hériteront.

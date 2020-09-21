@@ -1,5 +1,10 @@
 import matplotlib.pyplot as plt
 
+from straph import stream as sg
+
+plt.rcParams["figure.figsize"] = (15, 10)
+
+
 class path:
     def __init__(self,
                  times=None,
@@ -24,13 +29,19 @@ class path:
         return self.times[-1] - self.times[0]
 
     def plot(self, S, color="#18036f",
-             markersize=10):
+             markersize=10, dag=False):
         '''
         Draw a path on the Stream Graph S
         :param S: A Stream Graph
         :return:
         '''
-        S.plot()
+
+        if dag:
+
+            dag = S.condensation_dag()
+            dag.plot(node_to_label=S.node_to_label)
+        else:
+            S.plot()
         # Plot Source
         id_source = S.nodes.index(self.links[0][0])
         plt.plot([self.times[0]], [id_source], color=color,
@@ -83,4 +94,5 @@ class path:
                         is_present = True
                 if not is_present:
                     raise ValueError("Link : " + str(l) + " does not exists at time " + str(t) + " !")
+        print("Check Path Coherence ok !")
         return

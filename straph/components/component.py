@@ -3,9 +3,9 @@ from joblib import Parallel, delayed
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import random
+import math
 import msgpack
 from straph.utils import get_cmap
-
 
 def algo_kcores_batagelj(a_l, degrees, core_ordering=False):
     '''
@@ -483,6 +483,15 @@ class connected_component:
                 path_queue += [(w, path + [w]) for w in a_l[v]]
         return
 
+    def shortest_path(self, source, destination):
+        '''
+        Return the shortest path between the source and the destination inside the component
+        :param source:
+        :param destination:
+        :return:
+        '''
+        return
+
     def random_path_ss(self, source):
         '''
         ss : single source
@@ -508,6 +517,85 @@ class connected_component:
             path_queue += [(w, path + [w]) for w in a_l[v]]
         return
 
+
+    def shortest_path_ss(self, source,storage_path = None):
+        '''
+        weight\forall link == 1
+        :param source:
+        :return:
+        '''
+        if storage_path:
+            self.load_link_presence(storage_path)
+        S = set() # Visited Nodes
+        L = set() # Visited Links
+        D = {n : math.inf for n in self.nodes}
+        P = {n: None for n in self.nodes}           # Previous node
+        T = {n: self.times[0] for n in self.nodes}  # Time of arrival from previous node
+        a_l = self.adjacency_list()                 #(t0,t1,node)
+        D[source] = 0
+        while S != self.nodes:
+            v = min(set(D.keys()) - S, key=D.get)
+            for (t0,t1,w) in set(a_l[v])-L:
+                if t1 < T[w]:   # Si le lien est déjà fini, on ne peut plus le prendre (sans déconner)!
+                    continue
+                new_path = D[v] +1
+                if new_path< D[w]:
+                    D[w] = new_path
+                    P[w] = v
+                    T[w] = t0
+                elif new_path == D[w] and t0 < T[w]:
+                    P[w] = v
+                    T[w] = t0
+            S.add(v)
+            L |= set([el for el in a_l[v]])
+        print("D :", D)
+        print("P :", P)
+        print("T :", T)
+        paths = {}
+        targets = copy.copy(self.nodes)
+        targets.discard(source)
+        while targets:
+            v = targets.pop()
+            destination = v
+            path = []
+            times = []
+            print("v : ",v)
+            while v is not None:
+                path.append(v)
+                times.append(T[v])
+                v = P[v]
+            times = list(reversed(times))
+            path = list(reversed(path))
+            for i in range(len(times)-1):
+                if times[i+1] < times[i]:
+                    times[i+1] = times[i]
+            print("path :", path)
+            paths[destination] = (times,path)
+        print("paths :", paths)
+        if storage_path:
+            self.link_presence.clear()
+        return paths
+
+
+    def random_path_pw(self):
+        '''
+        pw : pairwise
+        Return random paths between every node (pairwise)
+        :return:
+        '''
+        paths = []
+        for n in self.nodes:
+            paths.append(self.random_path_ss(n))
+        return paths
+
+    def shortest_path_pw(self):
+        '''
+        pw : pairwise
+        Return all the shortest path between every node (pairwise)
+        :return:
+        '''
+
+        return
 
     def plot(self, links=True, link_pimping=False, title=None):
         # todo : Adapt plot function from Stream.
@@ -581,5 +669,3 @@ class connected_component:
         plt.tick_params(top='off', bottom='on', right='off', left='on', labelleft='on', labelbottom='on')
         plt.tight_layout()
         return
-
-

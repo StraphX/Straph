@@ -1,8 +1,10 @@
-import random, warnings
+import time, random, warnings
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-
-from straph import stream_graph as sg
+from straph import stream as sg
+from straph.utils import profile_shit
 
 
 def random_link(p_link):
@@ -361,9 +363,6 @@ def generate_link_presence(nb_node, node_presence, occurrence_law_link,
             link_presence.append(random_link_presence(intersec, rep, dur))
 
     return links, link_presence
-
-
-
 
 
 

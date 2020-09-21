@@ -1,0 +1,24 @@
+
+Cpython:S125¬"Remove this commented out code.(ñôä²úÿÿÿÿ8ĞÒ“†Ë.
+Spython:S1066Z"/Merge this if statement with the enclosing one.(ĞÓµŠÿÿÿÿÿ8ĞÒ“†Ë.
+kpython:S117C"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(çÆæŠ8ĞÒ“†Ë.
+Spython:S1066j"/Merge this if statement with the enclosing one.(ĞÓµŠÿÿÿÿÿ8ĞÒ“†Ë.
+Jpython:S1481ù"%Remove the unused local variable "k".(ˆÃ”Ïûÿÿÿÿ8ĞÒ“†Ë.
+>python:S125§"Remove this commented out code.(û÷¾¹8ĞÒ“†Ë.
+Cpython:S125°"Remove this commented out code.(ã­¾µûÿÿÿÿ8ĞÒ“†Ë.
+kpython:S117C"MRename this parameter "C" to match the regular expression ^[_a-z][a-z0-9_]*$.(çÆæŠ8ĞÒ“†Ë.
+Cpython:S125”"Remove this commented out code.(ìãÑ÷øÿÿÿÿ8ĞÒ“†Ë.
+ypython:S117o"VRename this local variable "new_C" to match the regular expression ^[_a-z][a-z0-9_]*$.(³–Â€ûÿÿÿÿ8ĞÒ“†Ë.
+tpython:S3776ş"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(è½Ìé8ĞÒ“†Ë.
+spython:S3776C"TRefactor this function to reduce its Cognitive Complexity from 46 to the 15 allowed.(çÆæŠ8ĞÒ“†Ë.
+Epython:S1481ú"%Remove the unused local variable "k".(¢òá·8ĞÒ“†Ë.
+{python:S117\"XRename this local variable "final_C" to match the regular expression ^[_a-z][a-z0-9_]*$.(…¿ÁŒùÿÿÿÿ8ĞÒ“†Ë.
+>python:S125¡"Remove this commented out code.(äéŠ8ĞÒ“†Ë.
+Lpython:S1481ä"'Remove the unused local variable "fig".(ëİÚøÿÿÿÿ8ĞÒ“†Ë.
+>python:S125µ"Remove this commented out code.(ÉÚÿ 8ĞÒ“†Ë.
+spython:S3776‰"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(Ó ˜@8ĞÒ“†Ë.
+qpython:S117ë"MRename this parameter "C" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ÿòùÿÿÿÿ8ĞÒ“†Ë.
+|python:S1542C"]Rename function "algo_kcliques_KCList" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(çÆæŠ8ĞÒ“†Ë.
+Epython:S1481ç"%Remove the unused local variable "k".(±Àë¡8ĞÒ“†Ë.
+opython:S100ş"PRename method "BFS_split" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(è½Ìé8ĞÒ“†Ë.
+wpython:S101‚"XRename class "connected_component" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(â€÷ó8ĞÒ“†Ë.

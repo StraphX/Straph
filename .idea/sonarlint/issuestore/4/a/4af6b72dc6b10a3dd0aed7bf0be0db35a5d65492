@@ -1,0 +1,41 @@
+
+>python:S125ð"Remove this commented out code.(„îªà8ÅÊ¢†Ë.
+>python:S125ô"Remove this commented out code.(ûÅµ‘8ÅÊ¢†Ë.
+Cpython:S125ø"Remove this commented out code.(µÓÉ¶üÿÿÿÿ8ÅÊ¢†Ë.
+Cpython:S125¾"Remove this commented out code.(ûÏê—ýÿÿÿÿ8ÅÊ¢†Ë.
+Cpython:S125Æ"Remove this commented out code.(ÇòŽþÿÿÿÿ8ÅÊ¢†Ë.
+>python:S125Ö"Remove this commented out code.(þíÑÔ8ÅÊ¢†Ë.
+>python:S125ç"Remove this commented out code.(¼ƒüŒ8ÅÊ¢†Ë.
+>python:S125€"Remove this commented out code.(‹ƒ¾Ö8ÅÊ¢†Ë.
+=python:S125"Remove this commented out code.(±§öj8ÅÊ¢†Ë.
+>python:S125¼"Remove this commented out code.(˜†®ð8ÅÊ¢†Ë.
+>python:S125À"Remove this commented out code.(š÷Ô©8ÅÊ¢†Ë.
+>python:S125Å"Remove this commented out code.(Ø¯³¸8ÅÊ¢†Ë.
+Cpython:S125É"Remove this commented out code.(ë×î¾ýÿÿÿÿ8ÅÊ¢†Ë.
+>python:S125Ð"Remove this commented out code.(éÊçÔ8ÅÊ¢†Ë.
+Cpython:S125ß"Remove this commented out code.(ö·öêûÿÿÿÿ8ÅÊ¢†Ë.
+Cpython:S125Ž"Remove this commented out code.(öÈÆþÿÿÿÿ8ÅÊ¢†Ë.
+>python:S125¤"Remove this commented out code.(ÁÍ›‹8ÅÊ¢†Ë.
+>python:S125Ä"Remove this commented out code.(…Þ®8ÅÊ¢†Ë.
+>python:S125‚"Remove this commented out code.(ô¿Å€8ÅÊ¢†Ë.
+Cpython:S125–"Remove this commented out code.(ðÞ®îÿÿÿÿÿ8ÅÊ¢†Ë.
+>python:S125Õ"Remove this commented out code.(Ô·ßð8ÅÊ¢†Ë.
+xpython:S3776"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(õº·äúÿÿÿÿ8ÅÊ¢†Ë.
+ypython:S3776ñ"TRefactor this function to reduce its Cognitive Complexity from 29 to the 15 allowed.(ŽÉÁžûÿÿÿÿ8ÅÊ¢†Ë.
+spython:S3776»"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(¥ ö$8ÅÊ¢†Ë.
+rpython:S101`"TRename class "ETF_collections" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(€Ô¥ 8ÅÊ¢†Ë.
+ypython:S117M"VRename this local variable "Trees" to match the regular expression ^[_a-z][a-z0-9_]*$.(ì™©·ýÿÿÿÿ8ÅÊ¢†Ë.
+qpython:S117ã"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÕèÏ…ÿÿÿÿÿ8ÅÊ¢†Ë.
+spython:S117ÿ"ORename this parameter "SCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(ï¡ŽÄøÿÿÿÿ8ÅÊ¢†Ë.
+mpython:S117Ì"NRename this parameter "E1" to match the regular expression ^[_a-z][a-z0-9_]*$.(ìÇ”æ8ÅÊ¢†Ë.
+mpython:S117Ì"NRename this parameter "E2" to match the regular expression ^[_a-z][a-z0-9_]*$.(ìÇ”æ8ÅÊ¢†Ë.
+mpython:S117Ý"NRename this parameter "E1" to match the regular expression ^[_a-z][a-z0-9_]*$.(å°ÝÔ8ÅÊ¢†Ë.
+mpython:S117Ý"NRename this parameter "E2" to match the regular expression ^[_a-z][a-z0-9_]*$.(å°ÝÔ8ÅÊ¢†Ë.
+spython:S117ñ"ORename this parameter "SCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘–§Öûÿÿÿÿ8ÅÊ¢†Ë.
+mpython:S117¦"NRename this parameter "E1" to match the regular expression ^[_a-z][a-z0-9_]*$.(¹ÇöÈ8ÅÊ¢†Ë.
+mpython:S117¦"NRename this parameter "E2" to match the regular expression ^[_a-z][a-z0-9_]*$.(¹ÇöÈ8ÅÊ¢†Ë.
+qpython:S117Õ"MRename this parameter "T" to match the regular expression ^[_a-z][a-z0-9_]*$.(³Ž­úøÿÿÿÿ8ÅÊ¢†Ë.
+spython:S117Õ"ORename this parameter "SCC" to match the regular expression ^[_a-z][a-z0-9_]*$.(³Ž­úøÿÿÿÿ8ÅÊ¢†Ë.
+qpython:S117ñ"MRename this parameter "T" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŽÉÁžûÿÿÿÿ8ÅÊ¢†Ë.
+kpython:S117»"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(¥ ö$8ÅÊ¢†Ë.
+‰python:S1542»"jRename function "strongly_connected_components_ETF" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¥ ö$8ÅÊ¢†Ë.

@@ -1,0 +1,5 @@
+
+kpython:S117"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÙöÈõ8üð«†Ë.
+gpython:S101"IRename class "path" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(Ë—¹à8üð«†Ë.
+xpython:S3776O"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(Ðð„àþÿÿÿÿ8üð«†Ë.
+ppython:S117O"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ðð„àþÿÿÿÿ8üð«†Ë.

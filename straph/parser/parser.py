@@ -6,11 +6,11 @@ import msgpack
 import math
 
 from collections import defaultdict
+from sortedcollections import SortedSet
 
-from straph import stream_graph as sg
+from straph import stream as sg
 
-# TODO : parse PCAP (adpat pcap_to_csv), see pcap_reader.
-# TODO : parse net, to finish (for Pajek datasets).
+import matplotlib.pyplot as plt
 
 __nb_2_protocol__ = {0: 'IPv6_HbH',  # IPv6 Hop by Hop
                      1: 'ICMP',  # Internet Control Message
@@ -269,7 +269,6 @@ def order_sgf(path_input, path_output):
     with open(path_input, 'rb') as input, open(path_output, 'wb') as output:
         unpacker = msgpack.Unpacker(input, use_list=False)
         for i in unpacker:
-            print("l : ", i)
             t0, t1, u, v = i
             links.append((1, t0, t1, u, v))  # code each link, 1 for a beginning, -1 for an ending
             links.append((-1, t1, u, v))
@@ -279,14 +278,14 @@ def order_sgf(path_input, path_output):
     return
 
 
-def parse_net(input_file, output_file_nodes, output_file_links, delta=1):
+def parse_net(input_file, output_file_nodes, output_file_links, link_duration=1):
     """
     A Stream Graph reader for dataset issued by Pajek
     Format of interactions : .net
     :param input_file:
     :param output_file_nodes:
     :param output_file_links:
-    :param delta:
+    :param link_duration:
     :param delimiter:
     :return:
     """
@@ -316,21 +315,21 @@ def parse_net(input_file, output_file_nodes, output_file_links, delta=1):
                 current_time = int(current_time)
                 if e in E and E[e][-1] >= current_time:
                     # print("Extend Link Presence")
-                    E[e][-1] = max(E[e][-1], current_time+delta)
+                    E[e][-1] = max(E[e][-1], current_time + link_duration)
                 else:
-                    E[e] += [current_time, current_time+delta]
+                    E[e] += [current_time, current_time + link_duration]
 
                 if u in W and W[u][-1] >= current_time:
                     # print("Extend Node Presence")
-                    W[u][-1] = max(W[u][-1], current_time+delta)
+                    W[u][-1] = max(W[u][-1], current_time + link_duration)
                 else:
-                    W[u] += [current_time, current_time+delta]
+                    W[u] += [current_time, current_time + link_duration]
 
                 if v in W and W[v][-1] >= current_time:
                     # print("Extend Node Presence")
-                    W[v][-1] = max(W[v][-1], current_time+delta)
+                    W[v][-1] = max(W[v][-1], current_time + link_duration)
                 else:
-                    W[v] += [current_time, current_time+delta]
+                    W[v] += [current_time, current_time + link_duration]
 
     with open(output_file_links, 'w') as output_file:
         for k, v in E.items():
@@ -344,10 +343,7 @@ def parse_net(input_file, output_file_nodes, output_file_links, delta=1):
             for t in v:
                 output_file.write(str(t) + " ")
             output_file.write("\n")
-    print("Nb of links : ", len(E))
-    print("Nb of segmented links : ", sum([len(item) / 2 for item in E.values()]))
-    print("Nb of Nodes : ", len(W))
-    print("Nb of segmented nodes : ", sum([len(item) / 2 for item in W.values()]))
+
 
 
 def BurningBush(input_file, output_file_nodes, output_file_links, delimiter=';', null_duration_allowed=True,
@@ -357,7 +353,7 @@ def BurningBush(input_file, output_file_nodes, output_file_links, delimiter=';',
     :param input_file:
     :param output_file_nodes:
     :param output_file_links:
-    :param delta:
+    :param link_duration:
     :param delimiter:
     :return:
     """
@@ -412,10 +408,7 @@ def BurningBush(input_file, output_file_nodes, output_file_links, delimiter=';',
             for t in v:
                 output_file.write(str(t) + " ")
             output_file.write("\n")
-    print("Nb of links : ", len(E))
-    print("Nb of segmented links : ", sum([len(item) / 2 for item in E.values()]))
-    print("Nb of Nodes : ", len(W))
-    print("Nb of segmented nodes : ", sum([len(item) / 2 for item in W.values()]))
+
 
 
 def parse_csv(input_file, entry_format, **kwargs):
@@ -431,12 +424,14 @@ def parse_csv(input_file, entry_format, **kwargs):
     # Convert entry format
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
-    elif len(entry_format) == 4 and 'delta_pos' in entry_format:
-        (t_pos, delta_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['delta_pos'], \
-                                           entry_format['u_pos'], entry_format['v_pos']
+    elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
+        (t_pos, link_duration_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['link_duration_pos'], \
+                                                   entry_format['u_pos'], entry_format['v_pos']
     elif len(entry_format) == 4 and 'b_pos' in entry_format:
         (b_pos, e_pos, u_pos, v_pos) = entry_format['b_pos'], entry_format['e_pos'], \
                                        entry_format['u_pos'], entry_format['v_pos']
+    else:
+        raise TypeError("Entry format is not supported, see documentation !")
     E = defaultdict(list)
     W = defaultdict(list)
     cnt_rows = 0
@@ -452,16 +447,16 @@ def parse_csv(input_file, entry_format, **kwargs):
         if kwargs['ignore_header']:
             next(reader, None)
 
-        if kwargs['delta']:
-            delta = kwargs['delta']
-        else:
-            delta = 0
-            print("[WARNING] No delta provided, links durations are set to 0.")
+        if kwargs['link_duration']:
+            link_duration = kwargs['link_duration']
+        elif 'link_duration_pos' not in entry_format:
+            link_duration = 0
+            print("[WARNING] No link_duration provided, links durations are set to 0.")
 
         for line in reader:
             cnt_rows += 1
-            if cnt_rows % 100000 ==0:
-                print((cnt_rows/kwargs['size'])*100,"% loaded")
+            if cnt_rows % 1000000 == 0:
+                print((cnt_rows / kwargs['size']) * 100, "% loaded")
 
             if kwargs['nrows'] and cnt_rows > kwargs['nrows']:
                 break
@@ -491,7 +486,7 @@ def parse_csv(input_file, entry_format, **kwargs):
                 elif 'b_pos' in entry_format:
                     b = datetime_to_timestamp(line[b_pos])
                     e = datetime_to_timestamp(line[e_pos])
-                    delta = e - b
+                    link_duration = e - b
                     t = b
             else:
                 if 't_pos' in entry_format:
@@ -499,13 +494,13 @@ def parse_csv(input_file, entry_format, **kwargs):
                 elif 'b_pos' in entry_format:
                     b = float(line[b_pos].replace(',', ''))
                     e = float(line[e_pos].replace(',', ''))
-                    delta = e - b
+                    link_duration = e - b
                     t = b
 
-            if 'delta_pos' in entry_format:
-                delta = float(line[delta_pos].replace(',', ''))
+            if 'link_duration_pos' in entry_format:
+                link_duration = float(line[link_duration_pos].replace(',', ''))
 
-            min_t, max_t = min(min_t, t), max(max_t, t+delta)
+            min_t, max_t = min(min_t, t), max(max_t, t + link_duration)
 
             if kwargs['is_directed']:
                 l = (u, v)
@@ -516,19 +511,30 @@ def parse_csv(input_file, entry_format, **kwargs):
                     l = (u, v)
 
             if l in E and E[l][-1] >= t:
-                E[l][-1] = max(E[l][-1], t+delta)
+                E[l][-1] = max(E[l][-1], t + link_duration)
             else:
-                E[l] += [t, t+delta]
+                E[l] += [t, t + link_duration]
             if kwargs['is_link_stream'] is False:
                 if u in W and W[u][-1] >= t:
-                    W[u][-1] = max(W[u][-1], t+delta)
+                    W[u][-1] = max(W[u][-1], t + link_duration)
                 else:
-                    W[u] += [t, t+delta]
+                    W[u] += [t, t + link_duration]
 
                 if v in W and W[v][-1] >= t:
-                    W[v][-1] = max(W[v][-1], t+delta)
+                    W[v][-1] = max(W[v][-1], t + link_duration)
                 else:
-                    W[v] += [t, t+delta]
+                    W[v] += [t, t + link_duration]
+            else:
+                W[u] = [min_t, max_t]
+                W[v] = [min_t, max_t]
+
+    if kwargs['is_link_stream'] is True:
+        W = {k: [min_t, max_t] for k in W.keys()}
+
+    if kwargs['delta']:
+        delta = kwargs['delta']
+        print("Approximate events with delta = ", delta)
+        W, E = approximate_events(W, E, delta)
 
     S = sg.stream_graph(times=[min_t, max_t],
                         nodes=list(W.keys()),
@@ -536,8 +542,48 @@ def parse_csv(input_file, entry_format, **kwargs):
                         node_presence=[W[k] for k in W.keys()],
                         link_presence=[E[k] for k in E.keys()],
                         node_to_label=nodes_to_label,
-                        node_to_id= {i:i for i in W.keys()})
+                        node_to_id={i: i for i in W.keys()})
     return S
+
+
+def approximate_events(W, E, delta):
+    event_times = sorted(set([t for np in W.values() for t in np] + [t for lp in E.values() for t in lp]))
+    t_old = event_times[0]
+    discretized_event_times = SortedSet()
+    discretized_event_times.add(t_old)
+    for t in event_times[1:]:
+        if t - t_old >= delta:
+            discretized_event_times.add(t)
+            t_old = t
+
+    new_W = {}
+    for n, np in W.items():
+        new_W[n] = []
+        for t0, t1 in zip(np[::2], np[1::2]):
+            #  assert t1-t0 >= delta
+            if t0 not in discretized_event_times:
+                # Catch time after t0 in discretized event times:
+                t0 = discretized_event_times[discretized_event_times.bisect(t0)]
+            if t1 not in discretized_event_times:
+                # Catch time before t1 in discretize event times:
+                t1 = discretized_event_times[discretized_event_times.bisect(t1)-1]
+
+            new_W[n] += [t0,t1]
+
+    new_E = {}
+    for l, lp in E.items():
+        new_E[l] = []
+        for t0, t1 in zip(lp[::2], lp[1::2]):
+            # assert t1-t0 >= delta
+            if t0 not in discretized_event_times:
+                # Catch time after t0 in discretized event times:
+                t0 = discretized_event_times[discretized_event_times.bisect(t0)]
+            if t1 not in discretized_event_times:
+                # Catch time before t1 in discretize event times:
+                t1 = discretized_event_times[discretized_event_times.bisect(t1)-1]
+
+            new_E[l] += [t0,t1]
+    return new_W, new_E
 
 
 def parse_json(input_file, entry_format, **kwargs):
@@ -554,9 +600,9 @@ def parse_json(input_file, entry_format, **kwargs):
     # Convert entry format
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
-    elif len(entry_format) == 4 and 'delta_pos' in entry_format:
-        (t_pos, delta_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['delta_pos'], \
-                                           entry_format['u_pos'], entry_format['v_pos']
+    elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
+        (t_pos, link_duration_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['link_duration_pos'], \
+                                                   entry_format['u_pos'], entry_format['v_pos']
     elif len(entry_format) == 4 and 'b_pos' in entry_format:
         (b_pos, e_pos, u_pos, v_pos) = entry_format['b_pos'], entry_format['e_pos'], \
                                        entry_format['u_pos'], entry_format['v_pos']
@@ -570,13 +616,12 @@ def parse_json(input_file, entry_format, **kwargs):
     with open(input_file, 'r') as input_file:
         reader = json.load(input_file)
         for line in reader:
-            print("Line :", line)
             cnt_rows += 1
 
-            if cnt_rows % 100000 ==0:
-                print((cnt_rows/kwargs['size'])*100,"% loaded")
+            if cnt_rows % 100000 == 0:
+                print((cnt_rows / kwargs['size']) * 100, "% loaded")
 
-            if kwargs['nrows'] and cnt_rows > kwargs['nrows'] :
+            if kwargs['nrows'] and cnt_rows > kwargs['nrows']:
                 break
             if kwargs['nodes_to_label']:
                 # Convert Label to int
@@ -597,7 +642,7 @@ def parse_json(input_file, entry_format, **kwargs):
                 elif 'b_pos' in entry_format:
                     b = datetime_to_timestamp(line[b_pos])
                     e = datetime_to_timestamp(line[e_pos])
-                    delta = e - b
+                    link_duration = e - b
                     t = b
             else:
                 if 't_pos' in entry_format:
@@ -605,15 +650,15 @@ def parse_json(input_file, entry_format, **kwargs):
                 elif 'b_pos' in entry_format:
                     b = float(line[b_pos].replace(',', ''))
                     e = float(line[e_pos].replace(',', ''))
-                    delta = e - b
+                    link_duration = e - b
                     t = b
 
-            min_t, max_t = min(min_t, t), max(max_t, t+delta)
+            min_t, max_t = min(min_t, t), max(max_t, t + link_duration)
 
-            if kwargs['delta']:
-                delta = kwargs['delta']
-            elif 'delta_pos' in entry_format:
-                delta = float(line[delta_pos].replace(',', ''))
+            if kwargs['link_duration']:
+                link_duration = kwargs['link_duration']
+            elif 'link_duration_pos' in entry_format:
+                link_duration = float(line[link_duration_pos].replace(',', ''))
 
             if kwargs['is_directed']:
                 l = (u, v)
@@ -621,25 +666,25 @@ def parse_json(input_file, entry_format, **kwargs):
                 if (v, u) in E:
                     l = (v, u)
                 else:
-                    l = (u,v)
+                    l = (u, v)
             if u == v:
                 # SELF LOOP : we ignore it
                 continue
 
             if l in E and E[l][-1] >= t:
-                E[l][-1] = max(E[l][-1], t+delta)
+                E[l][-1] = max(E[l][-1], t + link_duration)
             else:
-                E[l] += [t, t+delta]
+                E[l] += [t, t + link_duration]
             if kwargs['is_link_stream'] is False:
                 if u in W and W[u][-1] >= t:
-                    W[u][-1] = max(W[u][-1], t+delta)
+                    W[u][-1] = max(W[u][-1], t + link_duration)
                 else:
-                    W[u] += [t, t+delta]
+                    W[u] += [t, t + link_duration]
 
                 if v in W and W[v][-1] >= t:
-                    W[v][-1] = max(W[v][-1], t+delta)
+                    W[v][-1] = max(W[v][-1], t + link_duration)
                 else:
-                    W[v] += [t, t+delta]
+                    W[v] += [t, t + link_duration]
 
     S = sg.stream_graph(times=[min_t, max_t],
                         nodes=list(W.keys()),
@@ -669,14 +714,14 @@ def parse_link_stream(input_file):
 
     nodes_to_label = {}
     label_to_id = defaultdict(lambda: len(label_to_id))
-    with open(input_file,'r') as ipt:
+    with open(input_file, 'r') as ipt:
         size = sum(1 for _ in ipt)
 
     with open(input_file, 'r') as input_file:
         for line in input_file:
             cnt_rows += 1
-            if cnt_rows % 100000 ==0:
-                print((cnt_rows/size)*100,"% loaded")
+            if cnt_rows % 100000 == 0:
+                print((cnt_rows / size) * 100, "% loaded")
             l = line.strip().split()
             if len(l) == 2:
                 assert l[0] in ["alpha", "omega"]
@@ -696,27 +741,25 @@ def parse_link_stream(input_file):
                 b = float(b)
                 e = float(e)
 
-                l = (u,v)
+                l = (u, v)
                 if l in E:
-                    l = (v,u)
+                    l = (v, u)
                 if l in E and E[l][-1] >= b:
                     E[l][-1] = max(E[l][-1], e)
                 else:
                     E[l] += [b, e]
                 if u not in W:
-                    W[u] = [alpha,omega]
+                    W[u] = [alpha, omega]
                 if v not in W:
-                    W[v] = [alpha,omega]
+                    W[v] = [alpha, omega]
 
-
-
-    S = sg.stream_graph(times=[alpha,omega],
+    S = sg.stream_graph(times=[alpha, omega],
                         nodes=list(W.keys()),
                         links=list(E.keys()),
                         node_presence=[W[k] for k in W.keys()],
                         link_presence=[E[k] for k in E.keys()],
                         node_to_label=nodes_to_label,
-                        node_to_id= {i:i for i in W.keys()})
+                        node_to_id={i: i for i in W.keys()})
     return S
 
 
@@ -737,8 +780,9 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
     :param ndoes_to_label: If 'True' : creation of 'nodes_to_label' attribute
     :param delimiter: Delimiter in CSV format
     :param nrows: Number of line to read
-    :param delta: Duration of link, if not specified
+    :param link_duration: Duration of link, if not specified
     :param order_sgf: If 'True' return an ordered SGF in increasing order
+    :param delta: Force links that begin/end in the same window *[t-delta/2,t+delta/2]* to begin/end at *t*
     :return:
     """
     with open(input_file) as ipt:
@@ -746,22 +790,24 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
                    'is_link_stream': False,
                    'is_directed': False,
                    'nrows': None,
-                   'delta': False,
+                   'link_duration': False,
                    'order_sgf': False,
                    'ignore_header': True,
-                   'nodes_to_label': True,
+                   'nodes_to_label': False,
                    'time_is_datetime': False,
+                   'delta': None,
                    'size': (kwargs['nrows'] if 'nrows' in kwargs else sum(1 for _ in ipt))}
     options.update(kwargs)
-    if ('t_pos' in entry_format or 'delta_pos' in entry_format) and \
+    if ('t_pos' in entry_format or 'link_duration_pos' in entry_format) and \
             ('b_pos' in entry_format or 'e_pos' in entry_format):
         raise TypeError('Invalide entry format :' + str(entry_format) + ' should be of type {t_pos,u_pos,v_pos} or'
-                                                                        ' {t_pos,delta_pos,u_pos,v_pos} or {b_pos,e_pos,u_pos,v_pos} !')
-    if options['delta'] and ('b_pos' in entry_format or 'e_pos' in entry_format):
+                                                                        ' {t_pos,link_duration_pos,u_pos,v_pos} or'
+                                                                        '{b_pos,e_pos,u_pos,v_pos} !')
+    if options['link_duration'] and ('b_pos' in entry_format or 'e_pos' in entry_format):
         raise TypeError('link_duration is incompatible with entry format : {b_pos,e_pos,u_pos,v_pos} !')
 
-    if options['delta'] and ('delta_pos' in entry_format):
-        raise TypeError('link_duration is incompatible with entry format : {t_pos,delta_pos,u_pos,v_pos} !')
+    if options['link_duration'] and ('link_duration_pos' in entry_format):
+        raise TypeError('link_duration is incompatible with entry format : {t_pos,link_duration_pos,u_pos,v_pos} !')
 
     if input_format == 'csv':
         S = parse_csv(input_file, entry_format, **options)
@@ -771,10 +817,11 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
         S = parse_pcap(input_file, entry_format, **options)
     elif input_format == 'net':
         S = parse_net(input_format, entry_format, **options)
-
+    else:
+        raise TypeError('Format not supported')
 
     if output_file is not None:
-        if isinstance(output_format,str):
+        if isinstance(output_format, str):
             output_format = [output_format]
 
         for of in output_format:
@@ -785,14 +832,10 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
             elif of == 'json':
                 S.write_to_json(output_file)
 
-    # print("\n AFTER PARSER:")
-    # print("max nodes :", max(S.nodes))
-    # print("max node in links :", max([max(i) for i in S.links]))
     return S
 
 
-def sort_csv(input_file,entry_format,**kwargs):
-
+def sort_csv(input_file, entry_format, **kwargs):
     list_lines = []
     with open(input_file, 'r') as input:
         reader = csv.reader(input, delimiter=kwargs['delimiter'])
@@ -803,27 +846,16 @@ def sort_csv(input_file,entry_format,**kwargs):
 
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines, key=lambda x:float(x[t_pos]))
-    elif len(entry_format) == 4 and 'delta_pos' in entry_format:
-        (t_pos, delta_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['delta_pos'], \
-                                           entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines, key=lambda x:float(x[t_pos]))
+        list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
+    elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
+        (t_pos, link_duration_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['link_duration_pos'], \
+                                                   entry_format['u_pos'], entry_format['v_pos']
+        list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
     elif len(entry_format) == 4 and 'b_pos' in entry_format:
         (b_pos, e_pos, u_pos, v_pos) = entry_format['b_pos'], entry_format['e_pos'], \
                                        entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines,key=lambda x:float(x[b_pos]))
-    with open(input_file,'w') as output:
-        writer = csv.writer(output,delimiter = kwargs['delimiter'])
+        list_lines = sorted(list_lines, key=lambda x: float(x[b_pos]))
+    with open(input_file, 'w') as output:
+        writer = csv.writer(output, delimiter=kwargs['delimiter'])
         for line in list_lines:
             writer.writerow(line)
-
-
-# __directory__ =
-# __file__ =
-# delta = 60   # infocom
-# entry_format = {'t_pos': 2, 'u_pos': 0, 'v_pos': 1}
-# config_ = {'delimiter': ' ',
-#               'time_is_datetime': False,
-#               'ignore_header': False,
-#               'nodes_to_label': True,
-#              }

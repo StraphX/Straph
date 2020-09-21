@@ -20,13 +20,20 @@ def get_cmap(N,cmap = 'hsv'):
 
     return map_index_to_rgb_color
 
-def profile_function(sf, snakeviz=False):
-    '''
-    Profile a function passed as a string *sf* using CProfile. The result can be visualise with snakeviz (option).
-    :param sf:  string correspoding to a function call (example : profile_function("do_thing(foo,bar)",snakeviz=True).)
-    :param snakeviz: Use snakevize to visualise results of CProfile (a web page will open).
-    :return:
-    '''
+def profile_shit(sf,snakeviz=False):
+    # print(" VMPROF PROFILING")
+    # dat_file = open("/home/leo/Documents/stats_profile.dat",'r+')
+    # vmprof.enable(dat_file.fileno(),period=0.00099)
+    # f()
+    # vmprof.disable()
+    # vmprof.read_profile(dat_file)
+
+    #
+    # print(" # YAPPI PROFILING #")
+    # yappi.start()
+    # f()
+    # yappi.get_func_stats().print_all()
+    # yappi.get_thread_stats().print_all()
     cProfile.run(str(sf),
                  'profiling_stats')
     print("# CProfile PROFILING #")
@@ -34,6 +41,57 @@ def profile_function(sf, snakeviz=False):
     p.sort_stats('cumulative').print_stats(60)
     if snakeviz:
         subprocess.run([os.path.join(os.path.dirname(sys.executable),"snakeviz"),"profiling_stats"])
+
+
+def describe_to_latex_landscape_old(df, latex_output_path, title=None):
+    '''
+    Take a pandas DataFrame and output a latex table.
+    Requirements : latex, pdflatex
+    :param df: A Pandas DataFrame (of a reasonable size, nb of columns).
+    :param latex_output_path: Path to write the corresponding LaTeX table.
+    :param title: Title of the output LaTeX table.
+    :return:
+    '''
+    pathlib.Path(latex_output_path).mkdir(parents=True, exist_ok=True)
+    if title:
+        path_tex = latex_output_path + '/_describe_' + title + '.tex'
+    else:
+        path_tex = latex_output_path + '/_describe.tex'
+    n_columns = len(df.columns)
+    df_describe = df.describe(percentiles=[0.1, 0.50, 0.6, 0.7, 0.8, 0.90, 0.99, 0.999, 0.9999])
+    with open(path_tex, 'w') as output:
+        output.writelines(['\documentclass{article} \n',
+                           '\\usepackage[landscape]{geometry} \n',
+                           '\\begin{document} \n',
+                           '\\newgeometry{margin=1.5cm} \n',
+                           ])
+        output.write('\\begin{table} \n')
+        output.write('\centering \n')
+        output.write('\t \\begin{tabular}[t]{' + '|c' * (n_columns + 1) + '|} \n')
+        output.write('\t \t \hline \n')
+        output.write('\t \t')
+        output.writelines([' & ' + re.sub('_', '\_', c) for c in df.columns])
+        output.write(' \\\\ \n')
+        output.write('\t \t \hline \n')
+        for i in df_describe.index:
+            output.write('\t \t' + re.sub('%', '\%', i) + ' & ')
+            output.writelines([str(round(df_describe.loc[i, c], 6)) + ' & '
+                               if c != df_describe.columns[-1]
+                               else str(df_describe.loc[i, c])
+                               for c in df_describe.columns])
+            output.write(' \\\\ \n')
+            output.write('\t \t \hline \n')
+        output.write('\t \end{tabular} \n')
+
+        if title:
+            output.write('\caption{Description Of ' + title + ' }')
+        else:
+            output.write('\caption{Description}')
+        output.write('\end{table} \n')
+        output.write('\n')
+        output.write('\end{document}')
+    path_pdf_directory = latex_output_path
+    subprocess.run(["pdflatex", "-output-directory", path_pdf_directory, path_tex])
 
 
 def dataframe_to_latex_landscape(df, latex_output_path, title=None,
@@ -155,3 +213,7 @@ def plot_adjacency_list(S, a_l,label =True):
     plt.tick_params(top=False, bottom=False, right=False, left=False, labelbottom=False, labelleft=False)
     plt.tight_layout()
     # plt.show()
+
+
+def nx_degree(G):
+    return {n: G.degree[n] for n in G.nodes}
