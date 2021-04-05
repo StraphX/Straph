@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.paths package &#8212; straph 1 documentation</title>
+
+    <link href="_static/css/theme.css" rel="stylesheet"/>
+    <link href="_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="index.html">
+            <img src="_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#submodules">
+                            Submodules
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.paths.path_object">
+                            straph.paths.path_object module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.paths.paths">
+                            straph.paths.paths module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.paths">
+                            Module contents
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/straph.paths.rst">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <div class="section" id="straph-paths-package">
+                    <h1>straph.paths package<a class="headerlink" href="#straph-paths-package"
+                                               title="Permalink to this headline">¶</a></h1>
+                    <div class="section" id="submodules">
+                        <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a>
+                        </h2>
+                    </div>
+                    <div class="section" id="module-straph.paths.path_object">
+                        <span id="straph-paths-path-object-module"></span>
+                        <h2>straph.paths.path_object module<a class="headerlink" href="#module-straph.paths.path_object"
+                                                              title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.paths.path_object.Path">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.paths.path_object.</code><code
+                                    class="sig-name descname">Path</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">times</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">links</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/path_object.html#Path"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.path_object.Path"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <dl class="py method">
+                                    <dt id="straph.paths.path_object.Path.add_link">
+                                        <code class="sig-name descname">add_link</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">l</span></em>, <em class="sig-param"><span class="n">t</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/paths/path_object.html#Path.add_link"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.paths.path_object.Path.add_link"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.paths.path_object.Path.check_coherence">
+                                        <code class="sig-name descname">check_coherence</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">S</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/paths/path_object.html#Path.check_coherence"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.paths.path_object.Path.check_coherence"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.paths.path_object.Path.duration">
+                                        <code class="sig-name descname">duration</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/paths/path_object.html#Path.duration"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.paths.path_object.Path.duration"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.paths.path_object.Path.length">
+                                        <code class="sig-name descname">length</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/paths/path_object.html#Path.length"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.paths.path_object.Path.length"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.paths.path_object.Path.plot">
+                                        <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                            class="n">color</span><span class="o">=</span><span class="default_value">'#18036f'</span></em>,
+                                        <em class="sig-param"><span class="n">markersize</span><span
+                                                class="o">=</span><span class="default_value">10</span></em>, <em
+                                            class="sig-param"><span class="n">dag</span><span class="o">=</span><span
+                                            class="default_value">False</span></em>, <em class="sig-param"><span
+                                            class="n">fig</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/paths/path_object.html#Path.plot"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.paths.path_object.Path.plot"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Draw a path on the <code class="docutils literal notranslate"><span
+                                            class="pre">StreamGraph</span></code> object <em>S</em></p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>S</strong> – </p></li>
+                                                    <li><p><strong>color</strong> – </p></li>
+                                                    <li><p><strong>markersize</strong> – </p></li>
+                                                    <li><p><strong>dag</strong> – </p></li>
+                                                    <li><p><strong>fig</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.paths.paths">
+                        <span id="straph-paths-paths-module"></span>
+                        <h2>straph.paths.paths module<a class="headerlink" href="#module-straph.paths.paths"
+                                                        title="Permalink to this headline">¶</a></h2>
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#FP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP_W_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP_W_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">W</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#FP_W_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP_W_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#FP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Lu is sorted by the value of su and we analyze temporal links in temporal order.
+                                :param R:
+                                :param L:
+                                :param t0:
+                                :param t1:
+                                :param u:
+                                :param v:
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#FSP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP_W_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP_W_postprocess</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">W</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FSP_W_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP_W_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#FSP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FSP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FSP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FSP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FSP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FSP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FSP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#FoP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>If <em>destination</em> is specified: Return the time to reach <em>destination</em>
+                                from <em>source</em> in <em>S</em>.
+                                Otherwise: Return the time to reach every reachable node in <em>S</em> from
+                                <em>source</em>.
+                                :param E:
+                                :param S: Stream graph
+                                :param source: temporal source node
+                                :param destination: optional
+                                :param start_time: optional, if not specified assume that the start time is source[0]
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#FoP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>‘L’ initialisation for FoP</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>S</strong> – </p></li>
+                                            <li><p><strong>source</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FoP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Post process elements in ‘L’ to obtain time to reach ‘ttr’</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>start_time</strong> – </p></li>
+                                            <li><p><strong>R</strong> – </p></li>
+                                            <li><p><strong>source</strong> – </p></li>
+                                            <li><p><strong>destination</strong> – optional</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP_postprocess_pw">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP_postprocess_pw</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">W</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FoP_postprocess_pw"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP_postprocess_pw"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FoP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.FoP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">FoP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#FoP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.FoP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>We update ‘L’ according to the link (t0,t1,u,v) and FoP properties.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>R</strong> – </p></li>
+                                            <li><p><strong>L</strong> – </p></li>
+                                            <li><p><strong>t0</strong> – </p></li>
+                                            <li><p><strong>t1</strong> – </p></li>
+                                            <li><p><strong>u</strong> – </p></li>
+                                            <li><p><strong>v</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.L_Algorithm">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">L_Algorithm</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span class="n">initialisation_function</span></em>,
+                                <em class="sig-param"><span class="n">update_function</span></em>, <em
+                                    class="sig-param"><span class="n">source_init_function</span></em>, <em
+                                    class="sig-param"><span class="n">start_time</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">is_temporal_source</span><span
+                                    class="o">=</span><span class="default_value">False</span></em>, <em
+                                    class="sig-param"><span class="n">sfp_special_case</span><span
+                                    class="o">=</span><span class="default_value">False</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#L_Algorithm"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.L_Algorithm"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>An implementation of L-Algorithm (described in ~add ref):
+                                Single Source Algorithm to compute temporal paths in Stream Graph
+                                IMPORTANT : We suppose that we are in the WCC of ‘source’ otherwise it’s fucking
+                                expensive !</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>E</strong> – </p></li>
+                                            <li><p><strong>sfp_special_case</strong> – </p></li>
+                                            <li><p><strong>is_temporal_source</strong> – </p></li>
+                                            <li><p><strong>start_time</strong> – </p></li>
+                                            <li><p><strong>source_init_function</strong> – </p></li>
+                                            <li><p><strong>update_function</strong> – </p></li>
+                                            <li><p><strong>S</strong> – A Stream Graph</p></li>
+                                            <li><p><strong>source</strong> – A temporal source node</p></li>
+                                            <li><p><strong>initialisation_function</strong> – Functions according to the
+                                                path’s type (supported: - foremost path - shortest foremost path -
+                                                shortest path - fastest shortest path - fastest path - shortest fastest
+                                                path)</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>R containing the best results</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#SFP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_W_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_W_postprocess</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">W</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFP_W_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_W_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#SFP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Update L and R according to the link (t0,t1,u,v)
+                                :param L:
+                                :param R:
+                                :param t0:
+                                :param t1:
+                                :param u:
+                                :param v:
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFP_update_old">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFP_update_old</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFP_update_old"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFP_update_old"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Update Lv from (t0,t1,u,v) according to SFP constraints.
+                                Dans L_u pour les SFP on a : soit un seul triplet et a_u &gt; s_u either many triplets
+                                and a_u &lt;= s_u,
+                                they are sorted by their departure time</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>R</strong> – </p></li>
+                                            <li><p><strong>L</strong> – </p></li>
+                                            <li><p><strong>t0</strong> – </p></li>
+                                            <li><p><strong>t1</strong> – </p></li>
+                                            <li><p><strong>u</strong> – </p></li>
+                                            <li><p><strong>v</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#SFoP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP_W_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP_W_postprocess</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">W</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFoP_W_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP_W_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP_initialisation</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#SFoP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFoP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Post Process elements in ‘L’ to obtain times to reach and lengths of shortest
+                                foremost path</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>R</strong> – </p></li>
+                                            <li><p><strong>source</strong> – </p></li>
+                                            <li><p><strong>destination</strong> – </p></li>
+                                            <li><p><strong>start_time</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFoP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SFoP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SFoP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SFoP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SFoP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">E</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#SP"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP_W_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP_W_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">W</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/paths/paths.html#SP_W_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP_W_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#SP_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP_postprocess">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP_postprocess</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">R</span></em>, <em class="sig-param"><span
+                                    class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SP_postprocess"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP_postprocess"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP_source_initialisation">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP_source_initialisation</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">L</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SP_source_initialisation"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP_source_initialisation"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.SP_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">SP_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em
+                                    class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span
+                                    class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#SP_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.SP_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Update Lv with the best element of Lu !
+                                :param R:
+                                :param L:
+                                :param t0:
+                                :param t1:
+                                :param u:
+                                :param v:
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.bfs_update">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">bfs_update</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">L</span></em>, <em class="sig-param"><span
+                                    class="n">R</span></em>, <em class="sig-param"><span class="n">source</span></em>,
+                                <em class="sig-param"><span class="n">batch_links</span></em>, <em
+                                    class="sig-param"><span class="n">temporal_adjacency_list</span></em>, <em
+                                    class="sig-param"><span class="n">update_function</span></em>, <em
+                                    class="sig-param"><span class="n">sfp_special_case</span><span
+                                    class="o">=</span><span class="default_value">False</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/paths/paths.html#bfs_update"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.bfs_update"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Proceeds to browse every links present at instant :math:’t_0’ in order to propagate
+                                the update on current possible paths</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>sfp_special_case</strong> – </p></li>
+                                            <li><p><strong>R</strong> – </p></li>
+                                            <li><p><strong>L</strong> – </p></li>
+                                            <li><p><strong>source</strong> – </p></li>
+                                            <li><p><strong>batch_links</strong> – </p></li>
+                                            <li><p><strong>temporal_adjacency_list</strong> – </p></li>
+                                            <li><p><strong>update_function</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.get_temporal_sources">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">get_temporal_sources</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#get_temporal_sources"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.get_temporal_sources"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Return the maximal segmented nodes (t0,t1,u) s.t u = source.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>S</strong> – Stream Graph</p></li>
+                                            <li><p><strong>source</strong> – source node</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.plot_adjacency_list">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">plot_adjacency_list</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">a_l</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/paths/paths.html#plot_adjacency_list"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.plot_adjacency_list"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Plot the current adjacency list <em>adj_list</em>.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>S</strong> – A stream graph (we get its labels)</p></li>
+                                            <li><p><strong>a_l</strong> – an adjacency list</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Plot of adjacency list</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.paths.paths.plot_stream">
+                                <code class="sig-prename descclassname">straph.paths.paths.</code><code
+                                    class="sig-name descname">plot_stream</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">S</span></em>, <em class="sig-param"><span
+                                    class="n">t</span></em><span class="sig-paren">)</span><a class="reference internal"
+                                                                                              href="_modules/straph/paths/paths.html#plot_stream"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.paths.paths.plot_stream"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Plot the stream graph and a marker for the instant <em>t</em>.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>S</strong> – A stream Graph</p></li>
+                                            <li><p><strong>t</strong> – An instant</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Plot of the stream graph</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.paths">
+                        <span id="module-contents"></span>
+                        <h2>Module contents<a class="headerlink" href="#module-straph.paths"
+                                              title="Permalink to this headline">¶</a></h2>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.dags.dag &#8212; straph 1 documentation</title>
+
+    <link href="../../../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../../../"
+            src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../../../index.html">
+            <img src="../../../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <h1>Source code for straph.dags.dag</h1>
+                <div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2017-2020 Léo Rannou - Sorbonne Université/LIP6 - Thales</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.collections</span> <span class="k">as</span> <span
+                        class="nn">mcol</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                        class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span> <span class="nn">straph.utils</span> <span class="kn">import</span> <span class="n">get_cmap</span>
+
+
+<div class="viewcode-block" id="merge_dags"><a class="viewcode-back"
+                                               href="../../../straph.dags.html#straph.dags.dag.merge_dags">[docs]</a><span
+        class="k">def</span> <span class="nf">merge_dags</span><span class="p">(</span><span
+        class="n">dag_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merge every other streams into the first one, we assume there&#39;s no connection between them</span>
+<span class="sd">    and that links aren&#39;t constructed yet</span>
+
+<span class="sd">    :param dag_list: A list of ``Dag`` objects</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scc1</span> <span class="o">=</span> <span class="n">dag_list</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+    <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span class="o">=</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">scc1</span><span class="o">.</span><span class="n">times</span><span
+            class="p">:</span>
+        <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span class="o">=</span> <span
+            class="n">scc1</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">scc1</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">scc</span> <span class="ow">in</span> <span
+            class="n">dag_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">scc1</span><span class="o">.</span><span class="n">c_nodes</span> <span
+            class="o">+=</span> <span class="n">scc</span><span class="o">.</span><span class="n">c_nodes</span>
+        <span class="k">if</span> <span class="n">scc</span><span class="o">.</span><span class="n">times</span><span
+            class="p">:</span>
+            <span class="n">min_t</span> <span class="o">=</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">min_t</span><span class="p">,</span> <span class="n">scc</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span>
+            <span class="n">max_t</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_t</span><span class="p">,</span> <span class="n">scc</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">])</span>
+    <span class="k">if</span> <span class="n">scc1</span><span class="o">.</span><span class="n">times</span><span
+            class="p">:</span>
+        <span class="n">scc1</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span
+            class="p">[</span><span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span><span
+            class="p">]</span>
+    <span class="k">return</span> <span class="n">scc1</span></div>
+
+
+<div class="viewcode-block" id="add_arrow"><a class="viewcode-back"
+                                              href="../../../straph.dags.html#straph.dags.dag.add_arrow">[docs]</a><span
+        class="k">def</span> <span class="nf">add_arrow</span><span class="p">(</span><span class="n">e</span><span
+        class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">direction</span><span
+        class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span
+        class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span
+        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span
+        class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Thanks to : https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib</span>
+<span class="sd">    add an arrow to a line.</span>
+
+<span class="sd">    :param e: ((a_x,_y),(b_x,b_y))</span>
+<span class="sd">    :param ax: matplotlib axes</span>
+<span class="sd">    :param direction: &#39;left&#39; or &#39;right&#39;</span>
+<span class="sd">    :param size: size of the arrow in fontsize points</span>
+<span class="sd">    :param color: color of arrow (should be coherent with line color, or not )</span>
+<span class="sd">    :param alpha:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span
+            class="s1">&#39;left&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span
+            class="s1">&#39;&#39;</span><span class="p">,</span>
+                    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span
+            class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span
+            class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span
+            class="p">,</span>
+                    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span
+            class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span
+            class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span
+            class="p">,</span>
+                    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span
+            class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;&lt;-&quot;</span><span
+            class="p">,</span> <span class="n">connectionstyle</span><span class="o">=</span><span class="s2">&quot;arc3&quot;</span><span
+            class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span
+            class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="n">size</span><span
+            class="p">,</span>
+                    <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span
+            class="s1">&#39;&#39;</span><span class="p">,</span>
+                    <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span
+            class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span
+            class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span
+            class="p">,</span>
+                    <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span
+            class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span
+            class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span
+            class="p">,</span>
+                    <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span
+            class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;&quot;</span><span
+            class="p">,</span> <span class="n">connectionstyle</span><span class="o">=</span><span class="s2">&quot;arc3&quot;</span><span
+            class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span
+            class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="n">size</span><span
+            class="p">,</span>
+                    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Dag"><a class="viewcode-back" href="../../../straph.dags.html#straph.dags.dag.Dag">[docs]</a><span
+        class="k">class</span> <span class="nc">Dag</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span>
+                 <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">c_nodes</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">c_links</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">id_comp_to_comp</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">node_to_id_comp</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">segmented_node_to_id_comp</span><span class="o">=</span><span
+            class="kc">None</span><span class="p">,</span>
+                 <span class="n">adj_list</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A basic constructor for a ``Dag`` object.</span>
+
+<span class="sd">        :param id:</span>
+<span class="sd">        :param times:</span>
+<span class="sd">        :param c_nodes : A list of nodes identifiers (each node represents a component:</span>
+<span class="sd">        a set of nodes, a begin time, an end time)</span>
+<span class="sd">        :param c_links : A list of directed link (each link represent two adjacent components)</span>
+<span class="sd">        :param id_comp_to_comp:</span>
+<span class="sd">        :param node_to_id_comp:</span>
+<span class="sd">        :param segmented_node_to_id_comp:</span>
+<span class="sd">        :param adj_list:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span
+            class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span
+            class="n">times</span>
+        <span class="c1"># Do not touch !</span>
+        <span class="k">if</span> <span class="n">c_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span
+            class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span> <span class="o">=</span> <span
+            class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span> <span class="o">=</span> <span
+            class="n">c_nodes</span>
+        <span class="k">if</span> <span class="n">c_links</span> <span class="ow">is</span> <span class="kc">None</span><span
+            class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_links</span> <span class="o">=</span> <span
+            class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_links</span> <span class="o">=</span> <span
+            class="n">c_links</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_to_id_comp</span> <span
+            class="o">=</span> <span class="n">node_to_id_comp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segmented_node_to_id_comp</span> <span
+            class="o">=</span> <span class="n">segmented_node_to_id_comp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span> <span
+            class="o">=</span> <span class="n">id_comp_to_comp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adj_list</span> <span
+            class="o">=</span> <span class="n">adj_list</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">):</span>
+        <span class="n">rep</span> <span class="o">=</span> <span class="s2">&quot;</span><span
+            class="se">\n</span><span class="s2">Id wcc :&quot;</span> <span class="o">+</span> <span
+            class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">id</span><span class="p">)</span>
+        <span class="n">rep</span> <span class="o">+=</span> <span class="s2">&quot;</span><span
+            class="se">\n</span><span class="s2">Nodes :&quot;</span> <span class="o">+</span> <span
+            class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">c_nodes</span><span class="p">)</span>
+        <span class="n">rep</span> <span class="o">+=</span> <span class="s2">&quot;</span><span
+            class="se">\n</span><span class="s2">Links :&quot;</span> <span class="o">+</span> <span
+            class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">c_links</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rep</span>
+
+<div class="viewcode-block" id="Dag.describe"><a class="viewcode-back"
+                                                 href="../../../straph.dags.html#straph.dags.dag.Dag.describe">[docs]</a>    <span
+        class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print a Short description of the current ``Dag`` object.</span>
+
+<span class="sd">        :return: Nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DAG Id:&quot;</span><span class="p">,</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;Nb of Nodes (comp) : &quot;</span><span class="p">,</span> <span class="nb">len</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span
+            class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;Nb of stream nodes : &quot;</span><span class="p">,</span> <span class="nb">len</span><span
+            class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">n</span> <span
+            class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span> <span class="k">for</span> <span class="n">n</span> <span
+            class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">])))</span>
+        <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;Nb of links (betw. comp): &quot;</span><span class="p">,</span> <span class="nb">len</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c_links</span><span
+            class="p">))</span>
+        <span class="n">stream_links</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">()</span>
+        <span class="n">degree_in</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span
+            class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">n</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">}</span>
+        <span class="n">degree_out</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span
+            class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">n</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">links</span><span
+            class="p">:</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+                    <span class="n">stream_links</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span
+            class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;Nb of stream links : &quot;</span><span class="p">,</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">stream_links</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_links</span><span class="p">:</span>
+            <span class="n">degree_out</span><span class="p">[</span><span class="n">l</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span
+            class="mi">1</span>
+            <span class="n">degree_in</span><span class="p">[</span><span class="n">l</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span
+            class="mi">1</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean In degree :&quot;</span><span
+            class="p">,</span> <span class="nb">sum</span><span class="p">([</span><span class="n">i</span> <span
+            class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span
+            class="n">degree_in</span><span class="o">.</span><span class="n">values</span><span
+            class="p">()])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">degree_in</span><span class="p">),</span>
+              <span class="s2">&quot; mean out degree :&quot;</span><span class="p">,</span> <span class="nb">sum</span><span
+            class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span
+            class="ow">in</span> <span class="n">degree_out</span><span class="o">.</span><span
+            class="n">values</span><span class="p">()])</span> <span class="o">/</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">degree_out</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Dag.set_index_node_to_id_comp"><a class="viewcode-back"
+                                                                  href="../../../straph.dags.html#straph.dags.dag.Dag.set_index_node_to_id_comp">[docs]</a>    <span
+        class="k">def</span> <span class="nf">set_index_node_to_id_comp</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">):</span>
+        <span class="n">node_to_id_comp</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="c1"># order comp by their starting time</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">c_nodes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span
+            class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]):</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">node_to_id_comp</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_to_id_comp</span> <span
+            class="o">=</span> <span class="n">node_to_id_comp</span></div>
+
+<div class="viewcode-block" id="Dag.set_index_segmented_node_to_id_comp"><a class="viewcode-back"
+                                                                            href="../../../straph.dags.html#straph.dags.dag.Dag.set_index_segmented_node_to_id_comp">[docs]</a>    <span
+        class="k">def</span> <span class="nf">set_index_segmented_node_to_id_comp</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">segmented_nodes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">node_to_id_comp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_index_node_to_id_comp</span><span
+            class="p">()</span>
+        <span class="n">segmented_node_to_id_comp</span> <span class="o">=</span> <span
+            class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span
+            class="n">segmented_nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">id_scc</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">node_to_id_comp</span><span class="p">[</span><span
+            class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">]]:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">id_scc</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">&lt;=</span> <span class="n">c</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]:</span>
+                    <span class="n">segmented_node_to_id_comp</span><span class="p">[</span><span
+            class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">id_scc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segmented_node_to_id_comp</span> <span
+            class="o">=</span> <span class="n">segmented_node_to_id_comp</span></div>
+
+<div class="viewcode-block" id="Dag.set_id_comp_to_comp"><a class="viewcode-back"
+                                                            href="../../../straph.dags.html#straph.dags.dag.Dag.set_id_comp_to_comp">[docs]</a>    <span
+        class="k">def</span> <span class="nf">set_id_comp_to_comp</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+        <span class="n">id_comp_to_comp</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">cnt_id_scc</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+                <span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">cnt_id_scc</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="n">cnt_id_scc</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+                <span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">c</span><span
+            class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span
+            class="n">c</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span> <span
+            class="o">=</span> <span class="n">id_comp_to_comp</span></div>
+
+<div class="viewcode-block" id="Dag.set_id"><a class="viewcode-back"
+                                               href="../../../straph.dags.html#straph.dags.dag.Dag.set_id">[docs]</a>    <span
+        class="k">def</span> <span class="nf">set_id</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span
+            class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span
+            class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span
+            class="nb">id</span></div>
+
+<div class="viewcode-block" id="Dag.set_index_id_comp_to_comp"><a class="viewcode-back"
+                                                                  href="../../../straph.dags.html#straph.dags.dag.Dag.set_index_id_comp_to_comp">[docs]</a>    <span
+        class="k">def</span> <span class="nf">set_index_id_comp_to_comp</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span> <span
+            class="o">=</span> <span class="n">index</span></div>
+
+<div class="viewcode-block" id="Dag.add_node"><a class="viewcode-back"
+                                                 href="../../../straph.dags.html#straph.dags.dag.Dag.add_node">[docs]</a>    <span
+        class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="o">.</span><span
+            class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dag.add_nodes"><a class="viewcode-back"
+                                                  href="../../../straph.dags.html#straph.dags.dag.Dag.add_nodes">[docs]</a>    <span
+        class="k">def</span> <span class="nf">add_nodes</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">l</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span> <span
+            class="o">+=</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="Dag.add_link"><a class="viewcode-back"
+                                                 href="../../../straph.dags.html#straph.dags.dag.Dag.add_link">[docs]</a>    <span
+        class="k">def</span> <span class="nf">add_link</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">l</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_links</span><span class="o">.</span><span
+            class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dag.size"><a class="viewcode-back"
+                                             href="../../../straph.dags.html#straph.dags.dag.Dag.size">[docs]</a>    <span
+        class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dag.refactor"><a class="viewcode-back"
+                                                 href="../../../straph.dags.html#straph.dags.dag.Dag.refactor">[docs]</a>    <span
+        class="k">def</span> <span class="nf">refactor</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">):</span>
+        <span class="k">return</span> <span class="p">[[(</span><span class="n">cc</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span
+            class="n">cc</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span> <span
+            class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cc</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">cc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">c_nodes</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Dag.compute_links_inplace"><a class="viewcode-back"
+                                                              href="../../../straph.dags.html#straph.dags.dag.Dag.compute_links_inplace">[docs]</a>    <span
+        class="k">def</span> <span class="nf">compute_links_inplace</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># chrono = time.time()</span>
+        <span class="c1"># IF there&#39;s is some links, discard them.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">c_links</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c_links</span> <span class="o">=</span> <span
+            class="p">[]</span>
+        <span class="n">dict_begin_time_to_cnodes</span> <span class="o">=</span> <span
+            class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">dict_end_time_to_cnodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+                <span class="n">dict_begin_time_to_cnodes</span><span class="p">[</span><span class="n">c</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span
+            class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">i</span><span class="p">)</span>
+                <span class="n">dict_end_time_to_cnodes</span><span class="p">[</span><span class="n">c</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span
+            class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">i</span><span class="p">)</span>
+            <span class="c1"># For each end_time find a begin_time (if it exists) then compute the intersection of nodes</span>
+            <span class="c1"># if not empty add to dag links</span>
+            <span class="n">set_links</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">()</span>
+            <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">set</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_end_time_to_cnodes</span><span
+            class="p">:</span>
+                <span class="k">if</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_begin_time_to_cnodes</span><span
+            class="p">:</span>
+                    <span class="c1"># Double for loop in order to match pairwise</span>
+                    <span class="k">for</span> <span class="n">cn_parent_id</span> <span class="ow">in</span> <span
+            class="n">dict_end_time_to_cnodes</span><span class="p">[</span><span class="n">te</span><span
+            class="p">]:</span>
+                        <span class="k">for</span> <span class="n">cn_child_id</span> <span class="ow">in</span> <span
+            class="n">dict_begin_time_to_cnodes</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">cn_child_id</span> <span class="o">!=</span> <span
+            class="n">cn_parent_id</span><span class="p">:</span>
+                                <span class="n">cn_child_nodes</span> <span class="o">=</span> <span
+            class="nb">set</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">cn_child_id</span><span class="p">]])</span>
+                                <span class="n">cn_parent_nodes</span> <span class="o">=</span> <span
+            class="nb">set</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">cn_parent_id</span><span class="p">]])</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span
+            class="n">cn_child_nodes</span><span class="o">.</span><span class="n">isdisjoint</span><span
+            class="p">(</span><span class="n">cn_parent_nodes</span><span class="p">):</span>
+                                    <span class="n">set_links</span><span class="o">.</span><span
+            class="n">add</span><span class="p">((</span><span class="n">cn_parent_id</span><span
+            class="p">,</span> <span class="n">cn_child_id</span><span class="p">))</span>
+                                    <span class="n">a_l</span><span class="p">[</span><span
+            class="n">cn_parent_id</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">cn_child_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+                <span class="n">dict_begin_time_to_cnodes</span><span class="p">[</span><span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">cn</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="n">dict_end_time_to_cnodes</span><span class="p">[</span><span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">cn</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c1"># For each end_time find a begin_time (if it exists) then compute the intersection of nodes</span>
+            <span class="c1"># if not empty add to dag links</span>
+            <span class="n">set_links</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">()</span>
+            <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">set</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_end_time_to_cnodes</span><span
+            class="p">:</span>
+                <span class="k">if</span> <span class="n">te</span> <span class="ow">in</span> <span class="n">dict_begin_time_to_cnodes</span><span
+            class="p">:</span>
+                    <span class="c1"># Double for loop in order to match pairwise</span>
+                    <span class="k">for</span> <span class="n">cn_parent_id</span> <span class="ow">in</span> <span
+            class="n">dict_end_time_to_cnodes</span><span class="p">[</span><span class="n">te</span><span
+            class="p">]:</span>
+                        <span class="k">for</span> <span class="n">cn_child_id</span> <span class="ow">in</span> <span
+            class="n">dict_begin_time_to_cnodes</span><span class="p">[</span><span class="n">te</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">cn_child_id</span> <span class="o">!=</span> <span
+            class="n">cn_parent_id</span><span class="p">:</span>
+                                <span class="n">cn_child</span> <span class="o">=</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">cn_child_id</span><span class="p">]</span>
+                                <span class="n">cn_parent</span> <span class="o">=</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">cn_parent_id</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span
+            class="n">cn_child</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span
+            class="n">isdisjoint</span><span class="p">(</span><span class="n">cn_parent</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+                                    <span class="n">set_links</span><span class="o">.</span><span
+            class="n">add</span><span class="p">((</span><span class="n">cn_parent_id</span><span
+            class="p">,</span> <span class="n">cn_child_id</span><span class="p">))</span>
+                                    <span class="n">a_l</span><span class="p">[</span><span
+            class="n">cn_parent_id</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">cn_child_id</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># print(&quot;[DAG] compute link inplace :&quot;, time.time() - chrono)</span>
+        <span class="c1"># chrono = time.time()</span>
+        <span class="c1"># Remove useless links:</span>
+        <span class="n">to_remove</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="n">set_links</span><span class="p">:</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span
+            class="n">l</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">:</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                        <span class="n">to_remove</span><span class="o">.</span><span class="n">add</span><span
+            class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+                        <span class="k">break</span>
+        <span class="n">set_links</span> <span class="o">-=</span> <span class="n">to_remove</span>
+        <span class="c1"># print(&quot;[DAG] remove useless links :&quot;, time.time() - chrono)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_links</span> <span
+            class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">set_links</span><span
+            class="p">)</span></div>
+
+<div class="viewcode-block" id="Dag.adjacency_list"><a class="viewcode-back"
+                                                       href="../../../straph.dags.html#straph.dags.dag.Dag.adjacency_list">[docs]</a>    <span
+        class="k">def</span> <span class="nf">adjacency_list</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adj_list</span><span class="p">:</span>
+            <span class="n">a_l</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_links</span><span class="p">:</span>
+                <span class="c1"># ONLY IF the destination is accesible from begin time</span>
+                <span class="c1"># c = self.index_id_scc_to_nodes[l[1]]</span>
+                <span class="c1"># if c.times[0] &gt;= threshold:</span>
+                <span class="n">a_l</span><span class="p">[</span><span class="n">l</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adj_list</span> <span class="o">=</span> <span
+            class="n">a_l</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adj_list</span></div>
+
+    <span class="c1">#############################</span>
+    <span class="c1">#       Plot Functions      #</span>
+    <span class="c1">#############################</span>
+
+<div class="viewcode-block" id="Dag.plot"><a class="viewcode-back"
+                                             href="../../../straph.dags.html#straph.dags.dag.Dag.plot">[docs]</a>    <span
+        class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span
+        class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span
+        class="p">,</span>
+             <span class="n">node_to_label</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">26</span><span
+            class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">):</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span
+            class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span
+            class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="n">rectangles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">unique_nodes</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">()</span>
+        <span class="n">min_t</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">max_t</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span
+            class="o">.</span><span class="n">inf</span>
+        <span class="n">icol</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">colors</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">get_cmap</span><span
+            class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cn</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">!=</span> <span
+            class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cn</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">==</span> <span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)),</span>
+                                                       <span class="n">width</span><span class="o">=</span><span
+            class="mf">0.2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                                       <span class="n">height</span><span class="o">=</span><span
+            class="nb">max</span><span class="p">(</span><span class="n">cn</span><span class="o">.</span><span
+            class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">,</span>
+                                                       <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                       <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                       <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.4</span>
+                                                       <span class="p">))</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)),</span>
+                                                       <span class="n">width</span><span class="o">=</span><span
+            class="n">cn</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">],</span>
+                                                       <span class="n">height</span><span class="o">=</span><span
+            class="nb">max</span><span class="p">(</span><span class="n">cn</span><span class="o">.</span><span
+            class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">,</span>
+                                                       <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                       <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                       <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.3</span>
+                                                       <span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cn</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">==</span> <span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)),</span>
+                                                       <span class="n">width</span><span class="o">=</span><span
+            class="mf">0.2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                                       <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                       <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                       <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                       <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.5</span>
+                                                       <span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)),</span>
+                                                       <span class="n">width</span><span class="o">=</span><span
+            class="n">cn</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">],</span>
+                                                       <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                       <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                       <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                       <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.5</span>
+                                                       <span class="p">))</span>
+            <span class="n">icol</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">&quot;</span><span
+            class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span
+            class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span
+            class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span
+            class="n">cn</span><span class="o">.</span><span class="n">nodes</span><span class="p">])))</span>
+            <span class="n">unique_nodes</span> <span class="o">|=</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">nodes</span>
+            <span class="n">min_t</span> <span class="o">=</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">min_t</span><span class="p">,</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span>
+            <span class="n">max_t</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_t</span><span class="p">,</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">])</span>
+        <span class="n">icol</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">l</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+            class="n">rectangles</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">random</span><span
+            class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span
+            class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span
+            class="o">*</span> <span class="mf">0.1</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span
+            class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span
+            class="n">r</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+            <span class="n">cx</span> <span class="o">=</span> <span class="n">rx</span> <span class="o">+</span> <span
+            class="n">r</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span
+            class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="n">eps</span>
+            <span class="n">cy</span> <span class="o">=</span> <span class="n">ry</span> <span class="o">+</span> <span
+            class="n">r</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span
+            class="o">/</span> <span class="mf">2.0</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span
+            class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">icol</span><span
+            class="p">),</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span
+            class="n">cy</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span
+            class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span
+            class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span
+            class="p">)</span>
+            <span class="n">icol</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">icol</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">rectangles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cn</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">!=</span> <span
+            class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cn</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">==</span> <span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span
+            class="p">),</span>
+                                                           <span class="n">width</span><span class="o">=</span><span
+            class="mf">0.2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                                           <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                           <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                           <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                           <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.5</span>
+                                                           <span class="p">))</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">cn</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span
+            class="p">),</span>
+                                                           <span class="n">width</span><span class="o">=</span><span
+            class="n">cn</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cn</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">],</span>
+                                                           <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                           <span class="n">edgecolor</span><span class="o">=</span><span
+            class="s1">&#39;k&#39;</span><span class="p">,</span>
+                                                           <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">colors</span><span class="p">(</span><span class="n">icol</span><span class="p">),</span>
+                                                           <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.5</span>
+                                                           <span class="p">))</span>
+            <span class="n">icol</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rectangles</span><span
+            class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span
+            class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span
+            class="n">min_t</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span> <span
+            class="n">max_t</span> <span class="o">+</span> <span class="mf">0.3</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span
+            class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">unique_nodes</span><span class="p">)</span> <span class="o">+</span> <span
+            class="mf">0.3</span><span class="p">))</span>
+
+        <span class="c1"># Set xticks</span>
+        <span class="n">xticks</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span
+            class="n">linspace</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]),</span> <span class="mi">11</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span
+            class="n">xticks</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span
+            class="p">(</span><span class="n">xticks</span><span class="p">,</span>
+                           <span class="n">fontname</span><span class="o">=</span><span
+            class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+            class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set yticks</span>
+        <span class="n">yticks</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span
+            class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span
+            class="n">unique_nodes</span><span class="p">),</span> <span class="nb">int</span><span
+            class="p">(</span><span class="nb">max</span><span class="p">(</span><span
+            class="n">unique_nodes</span><span class="p">)),</span> <span class="nb">min</span><span
+            class="p">(</span><span class="nb">len</span><span class="p">(</span><span
+            class="n">unique_nodes</span><span class="p">),</span> <span class="mi">25</span><span
+            class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span
+            class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span
+            class="n">yticks</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">node_to_label</span> <span class="ow">is</span> <span
+            class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span
+            class="p">([</span><span class="n">node_to_label</span><span class="p">[</span><span class="n">i</span><span
+            class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span
+            class="n">yticks</span><span class="p">],</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span>
+                               <span class="n">fontsize</span><span class="o">=</span><span
+            class="n">fontsize</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;#666699&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span
+            class="p">(</span><span class="n">yticks</span><span class="p">,</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span
+            class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;#666699&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set axes label</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span
+            class="s2">&quot;Nodes&quot;</span><span class="p">,</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span
+            class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span
+            class="o">=</span><span class="s1">&#39;#666699&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span
+            class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span
+            class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span
+            class="o">=</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span
+            class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span
+            class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">place</span><span class="p">,</span> <span
+            class="n">spine</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span
+            class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">place</span> <span class="o">!=</span> <span class="s1">&#39;bottom&#39;</span><span
+            class="p">:</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span
+            class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_bounds</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">])</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_color</span><span
+            class="p">(</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span
+            class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+            class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span
+            class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+            class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span
+            class="n">labelleft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span
+            class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+<div class="viewcode-block" id="Dag.plot_as_nx"><a class="viewcode-back"
+                                                   href="../../../straph.dags.html#straph.dags.dag.Dag.plot_as_nx">[docs]</a>    <span
+        class="k">def</span> <span class="nf">plot_as_nx</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">True</span><span
+        class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">figure</span><span class="p">()</span>
+        <span class="n">g_adjacency_list</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">i</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span
+            class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span
+            class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">c_nodes</span><span class="p">)}</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;adj_list : &quot;</span><span
+            class="p">,</span> <span class="n">g_adjacency_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">c_links</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_links</span><span class="p">:</span>
+                <span class="n">n1</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+                <span class="n">n2</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span>
+                <span class="n">g_adjacency_list</span><span class="p">[</span><span class="n">n1</span><span class="p">]</span><span
+            class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n2</span><span
+            class="p">)</span>
+            <span class="n">G_glob</span> <span class="o">=</span> <span class="n">nx</span><span
+            class="o">.</span><span class="n">from_dict_of_lists</span><span class="p">(</span><span class="n">g_adjacency_list</span><span
+            class="p">)</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span
+            class="n">kamada_kawai_layout</span><span class="p">(</span><span class="n">G_glob</span><span
+            class="p">)</span>
+            <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+                <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span
+            class="p">(</span><span class="n">G_glob</span><span class="p">,</span> <span class="n">pos</span><span
+            class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">15</span><span
+            class="p">)</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span
+            class="p">(</span><span class="n">G_glob</span><span class="p">,</span> <span class="n">pos</span><span
+            class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">10</span><span
+            class="p">,</span>
+                                   <span class="n">node_color</span><span class="o">=</span><span class="s2">&quot;#339966&quot;</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span
+            class="p">)</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span
+            class="p">(</span><span class="n">G_glob</span><span class="p">,</span> <span class="n">pos</span><span
+            class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;#2d5986&#39;</span><span
+            class="p">,</span>
+                                   <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span
+            class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span
+            class="p">,</span> <span class="n">arrows</span><span class="o">=</span><span class="kc">True</span><span
+            class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="Dag.plot_custom"><a class="viewcode-back"
+                                                    href="../../../straph.dags.html#straph.dags.dag.Dag.plot_custom">[docs]</a>    <span
+        class="k">def</span> <span class="nf">plot_custom</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span
+        class="kc">True</span><span class="p">,</span> <span class="n">arrow</span><span class="o">=</span><span
+        class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span
+        class="mi">30</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span
+        class="kc">None</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">figure</span><span class="p">()</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">gca</span><span class="p">()</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">min_x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">max_x</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span
+            class="o">.</span><span class="n">inf</span>
+        <span class="n">max_y</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">min_y</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span
+            class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">):</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span
+            class="n">n</span><span class="o">.</span><span class="n">times</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span
+            class="n">mean</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span
+            class="n">n</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span> <span
+            class="o">+</span> <span class="n">t1</span><span class="p">)</span> <span class="o">/</span> <span
+            class="mi">2</span>
+            <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">t0</span><span
+            class="p">)</span>
+            <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_x</span><span class="p">,</span> <span class="n">t1</span><span
+            class="p">)</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_y</span><span class="p">,</span> <span class="n">y</span><span
+            class="p">)</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span
+            class="p">]</span>
+
+        <span class="n">g_adjacency_list</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">adjacency_list</span><span class="p">()</span>
+
+        <span class="c1"># Plot nodes and links : plot nodes in increasing order</span>
+        <span class="c1"># adjust &#39;y&#39; depending on the number of neighbors</span>
+        <span class="n">E</span><span class="p">,</span> <span class="n">E_path</span> <span class="o">=</span> <span
+            class="p">[],</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span
+            class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If we choose to plot a path on the DAG, we need a second edge_collections</span>
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">_</span> <span
+            class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pos</span><span
+            class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span
+            class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">g_adjacency_list</span><span
+            class="p">[</span><span class="n">n</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span
+            class="n">path</span> <span class="ow">or</span> <span class="p">(</span><span class="n">u</span><span
+            class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="ow">in</span> <span
+            class="n">path</span><span class="p">:</span>
+                        <span class="n">E_path</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">pos</span><span class="p">[</span><span class="n">n</span><span
+            class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">E</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">pos</span><span class="p">[</span><span class="n">n</span><span
+            class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">_</span> <span
+            class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pos</span><span
+            class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span
+            class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span
+            class="mi">0</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">g_adjacency_list</span><span
+            class="p">[</span><span class="n">n</span><span class="p">]:</span>
+                    <span class="n">E</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">pos</span><span class="p">[</span><span class="n">n</span><span
+            class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]))</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span
+            class="n">asarray</span><span class="p">([</span><span class="n">pos</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span
+            class="ow">in</span> <span class="n">pos</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span
+            class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span
+            class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                   <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#339966&quot;</span><span
+            class="p">,</span>
+                   <span class="n">s</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
+                   <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span
+            class="p">,</span>
+                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span>
+                   <span class="p">)</span>
+        <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span
+            class="n">pos</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span
+            class="n">n</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span
+            class="n">n</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span
+            class="mi">28</span><span class="p">)</span>
+
+        <span class="n">edge_collections</span> <span class="o">=</span> <span class="n">mcol</span><span
+            class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">E</span><span
+            class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span
+            class="s1">&#39;#2d5986&#39;</span><span class="p">],</span> <span class="n">linewidths</span><span
+            class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">alpha</span><span
+            class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">arrow</span> <span class="ow">is</span> <span
+            class="kc">True</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">E</span><span
+            class="p">:</span>
+                <span class="n">add_arrow</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span
+            class="n">ax</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span
+            class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span><span
+            class="o">=</span><span class="s1">&#39;#2d5986&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span
+            class="p">(</span><span class="n">edge_collections</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">edge_collections_path</span> <span class="o">=</span> <span class="n">mcol</span><span
+            class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">E_path</span><span
+            class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span
+            class="s1">&#39;#8f246b&#39;</span><span class="p">],</span> <span class="n">linewidths</span><span
+            class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span
+            class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arrow</span> <span class="ow">is</span> <span
+            class="kc">True</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span
+            class="n">E_path</span><span class="p">:</span>
+                    <span class="n">add_arrow</span><span class="p">(</span><span class="n">e</span><span
+            class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">direction</span><span
+            class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span
+            class="n">color</span><span class="o">=</span><span class="s1">&#39;#8f246b&#39;</span><span
+            class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span
+            class="p">(</span><span class="n">edge_collections_path</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span
+            class="n">min_y</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span> <span
+            class="n">max_y</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span
+            class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span
+            class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span
+            class="nb">int</span><span class="p">(</span><span class="n">min_x</span><span class="p">),</span> <span
+            class="nb">int</span><span class="p">(</span><span class="n">max_x</span><span class="p">),</span> <span
+            class="mi">11</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span
+            class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">fontname</span><span
+            class="o">=</span><span class="s1">&#39;Garamond&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span
+            class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span
+            class="o">=</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">place</span><span class="p">,</span> <span
+            class="n">spine</span> <span class="ow">in</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span
+            class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">place</span> <span class="o">!=</span> <span class="s1">&#39;bottom&#39;</span><span
+            class="p">:</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span
+            class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_bounds</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">])</span>
+                <span class="n">spine</span><span class="o">.</span><span class="n">set_color</span><span
+            class="p">(</span><span class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span
+            class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+            class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+            class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span
+            class="p">,</span>
+                       <span class="n">labelsize</span><span class="o">=</span><span class="n">fontsize</span><span
+            class="p">,</span>
+                       <span class="n">colors</span><span class="o">=</span><span
+            class="s1">&#39;#476b6b&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div></div>
+</pre>
+                </div>
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

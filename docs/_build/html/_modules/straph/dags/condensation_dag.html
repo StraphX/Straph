@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.dags.condensation_dag &#8212; straph 1 documentation</title>
+
+    <link href="../../../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../../../"
+            src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../../../index.html">
+            <img src="../../../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <h1>Source code for straph.dags.condensation_dag</h1>
+                <div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2017-2020 Léo Rannou - Sorbonne Université/LIP6 - Thales</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                        class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span
+                        class="p">,</span> <span class="n">deque</span>
+
+<span class="kn">from</span> <span class="nn">straph</span> <span class="kn">import</span> <span
+                        class="n">components</span> <span class="k">as</span> <span class="n">comp</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="kn">import</span> <span class="n">paths</span> <span
+                        class="k">as</span> <span class="n">pt</span>
+<span class="kn">from</span> <span class="nn">straph</span> <span class="kn">import</span> <span class="n">stream</span> <span
+                        class="k">as</span> <span class="n">sg</span>
+<span class="kn">from</span> <span class="nn">straph.dags.dag</span> <span class="kn">import</span> <span
+                        class="n">Dag</span>
+<span class="kn">from</span> <span class="nn">straph.dags.stable_dag</span> <span class="kn">import</span> <span
+                        class="n">StableDag</span>
+
+
+<div class="viewcode-block" id="compute_all_foremost_paths"><a class="viewcode-back"
+                                                               href="../../../straph.dags.html#straph.dags.condensation_dag.compute_all_foremost_paths">[docs]</a><span
+        class="k">def</span> <span class="nf">compute_all_foremost_paths</span><span class="p">(</span><span class="n">dict_id_wcc_to_dag</span><span
+        class="p">,</span> <span class="n">index_node_to_scc</span><span class="p">,</span> <span
+        class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span>
+                               <span class="n">duration_threshold</span><span class="o">=</span><span
+            class="kc">None</span><span class="p">,</span> <span class="n">start_comp</span><span
+            class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute a foremost path between &#39;source&#39; and &#39;destination&quot; starting at &#39;begin time&#39;.</span>
+
+<span class="sd">    :param dict_id_wcc_to_dag:</span>
+<span class="sd">    :param index_node_to_scc:</span>
+<span class="sd">    :param source:</span>
+<span class="sd">    :param destination:</span>
+<span class="sd">    :param duration_threshold:</span>
+<span class="sd">    :param start_comp:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span>
+    <span class="c1"># print(&quot;Foremost path from &quot;, source, &quot; to &quot;, destination, &quot; starting at time &quot;, start)</span>
+
+    <span class="c1"># Get starting component</span>
+    <span class="k">if</span> <span class="n">start_comp</span><span class="p">:</span>
+        <span class="n">id_wcc</span><span class="p">,</span> <span class="n">start_comp</span> <span class="o">=</span> <span
+            class="n">start_comp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">id_wcc</span><span class="p">,</span> <span class="n">start_comp</span> <span class="o">=</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span
+            class="n">id_scc</span><span class="p">)</span> <span class="ow">in</span> <span
+            class="n">index_node_to_scc</span><span class="p">[</span><span class="n">source</span><span
+            class="p">]:</span>
+            <span class="n">id_wcc</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">dict_id_wcc_to_dag</span><span
+            class="p">[</span><span class="n">id_wcc</span><span class="p">]</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_scc</span><span
+            class="p">]</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">start</span> <span class="o">&lt;=</span> <span class="n">c</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[[</span><span class="n">id_scc</span><span class="p">]],</span> <span
+            class="mi">0</span><span class="p">,</span> <span class="n">id_wcc</span>
+                <span class="n">start_comp</span> <span class="o">=</span> <span class="n">id_scc</span>
+                <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">start_comp</span> <span class="ow">is</span> <span
+            class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node : &quot;</span> <span
+            class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; does not exist in the Stream Graph at time &quot;</span> <span
+            class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">start</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; !&quot;</span><span class="p">)</span>
+    <span class="n">adj_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">end_time_comp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">dict_id_wcc_to_dag</span><span
+            class="p">[</span><span class="n">id_wcc</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">c_links</span><span
+            class="p">:</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">G</span><span
+            class="o">.</span><span class="n">c_links</span><span class="p">:</span>
+            <span class="c1"># ONLY IF the destination is accesible from begin time</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">l</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span
+            class="n">start</span><span class="p">:</span>
+                <span class="n">adj_list</span><span class="p">[</span><span class="n">l</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">end_time_comp</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">duration_threshold</span> <span class="ow">is</span> <span
+            class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">end_time_comp</span><span
+            class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="n">duration_threshold</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">end_time_comp</span><span class="p">)</span> <span
+            class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="c1"># print(&quot;duration threshold :&quot;,duration_threshold)</span>
+    <span class="c1"># print(&quot; adj_list : &quot;, adj_list)</span>
+
+    <span class="c1"># Custom BFS on DAG</span>
+    <span class="k">def</span> <span class="nf">bfs_scc</span><span class="p">(</span><span class="n">a_l</span><span
+            class="p">,</span> <span class="n">start_cmp</span><span class="p">,</span> <span class="n">dst</span><span
+            class="p">):</span>
+        <span class="n">path_queue</span> <span class="o">=</span> <span class="p">[(</span><span
+            class="n">start_cmp</span><span class="p">,</span> <span class="p">[</span><span
+            class="n">start_cmp</span><span class="p">])]</span>
+        <span class="n">foremost_duration</span> <span class="o">=</span> <span
+            class="n">duration_threshold</span>  <span class="c1"># This variable, once assigned, is used as a threshold (yeah)</span>
+        <span class="k">while</span> <span class="n">path_queue</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">path</span><span
+            class="p">)</span> <span class="o">=</span> <span class="n">path_queue</span><span class="o">.</span><span
+            class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># print(&quot; v : &quot;,v)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">path_queue</span><span class="p">)</span> <span class="o">&gt;</span> <span
+            class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">path_queue</span><span class="p">)</span> <span class="o">%</span> <span
+            class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot; len path queue :&quot;</span><span class="p">,</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">path_queue</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                    <span class="n">cmp</span> <span class="o">=</span> <span class="n">dict_id_wcc_to_dag</span><span
+            class="p">[</span><span class="n">id_wcc</span><span class="p">]</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot; comp id :&quot;</span><span class="p">,</span> <span class="n">cc</span><span
+            class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot; comp times :&quot;</span><span class="p">,</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">dst</span> <span class="ow">in</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                        <span class="c1"># print(&quot;PATH Found :&quot;,path)</span>
+                        <span class="n">foremost_duration</span> <span class="o">=</span> <span
+            class="nb">min</span><span class="p">(</span><span class="n">foremost_duration</span><span
+            class="p">,</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">start</span><span class="p">)</span>
+                        <span class="k">yield</span> <span class="n">path</span> <span class="o">+</span> <span
+            class="p">[</span><span class="n">cc</span><span class="p">]</span>
+                        <span class="c1"># return path + [c]</span>
+                    <span class="k">elif</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">foremost_duration</span><span
+            class="p">:</span>
+                        <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">cc</span><span class="p">,</span> <span class="n">path</span> <span
+            class="o">+</span> <span class="p">[</span><span class="n">cc</span><span class="p">]))</span>
+
+    <span class="c1"># print(&quot; Start BFS&quot;)</span>
+    <span class="n">foremost_paths</span> <span class="o">=</span> <span class="nb">list</span><span
+            class="p">(</span><span class="n">bfs_scc</span><span class="p">(</span><span class="n">adj_list</span><span
+            class="p">,</span> <span class="n">start_comp</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">foremost_paths</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">path_times</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">foremost_paths</span><span
+            class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">p</span><span
+            class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">dict_id_wcc_to_dag</span><span class="p">[</span><span class="n">id_wcc</span><span
+            class="p">]</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">path_times</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="c1"># print(&quot;Path times :&quot;, path_times)</span>
+    <span class="n">min_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span
+            class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span
+            class="n">path_times</span><span class="p">])</span>
+    <span class="c1"># print(&quot;Foremost time : &quot;, min_t)</span>
+    <span class="n">fm_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">t</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+            class="n">foremost_paths</span><span class="p">,</span> <span class="n">path_times</span><span
+            class="p">):</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_t</span><span
+            class="p">:</span>
+            <span class="n">fm_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fm_paths</span><span class="p">,</span> <span
+            class="n">min_t</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span
+            class="n">id_wcc</span></div>
+
+
+<div class="viewcode-block" id="CondensationDag"><a class="viewcode-back"
+                                                    href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag">[docs]</a><span
+        class="k">class</span> <span class="nc">CondensationDag</span><span class="p">(</span><span class="n">Dag</span><span
+        class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span>
+                 <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">times</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">c_nodes</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">c_links</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">id_comp_to_comp</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">node_to_id_comp</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="n">segmented_node_to_id_comp</span><span class="o">=</span><span
+            class="kc">None</span><span class="p">,</span>
+                 <span class="n">adj_list</span><span class="o">=</span><span class="kc">None</span><span
+            class="p">,</span>
+                 <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A basic constructor for a ``CondensationDag``</span>
+
+<span class="sd">        :param id:</span>
+<span class="sd">        :param times:</span>
+<span class="sd">        :param c_nodes : A list of nodes id (each node represents a ``StronglyConnectedComponent`` object:</span>
+<span class="sd">        a set of nodes, a begin time, an end time)</span>
+<span class="sd">        :param c_links : A list of directed link (each directed links connects two adjacent</span>
+<span class="sd">        ``StronglyConnectedComponent``)</span>
+<span class="sd">        :param id_comp_to_comp:</span>
+<span class="sd">        :param node_to_id_comp:</span>
+<span class="sd">        :param segmented_node_to_id_comp:</span>
+<span class="sd">        :param adj_list:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span
+            class="fm">__init__</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span
+            class="n">times</span><span class="p">,</span> <span class="n">c_nodes</span><span class="p">,</span> <span
+            class="n">c_links</span><span class="p">,</span> <span class="n">id_comp_to_comp</span><span
+            class="p">,</span> <span class="n">node_to_id_comp</span><span class="p">,</span>
+                         <span class="n">segmented_node_to_id_comp</span><span class="p">,</span> <span class="n">adj_list</span><span
+            class="p">)</span>
+
+<div class="viewcode-block" id="CondensationDag.get_stable_dag"><a class="viewcode-back"
+                                                                   href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.get_stable_dag">[docs]</a>    <span
+        class="k">def</span> <span class="nf">get_stable_dag</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Add stables parts as stable connected components</span>
+        <span class="n">stable_DAG</span> <span class="o">=</span> <span class="n">StableDag</span><span
+            class="p">()</span>
+        <span class="n">stable_DAG</span><span class="o">.</span><span class="n">set_id</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span
+            class="p">)</span>
+        <span class="n">stable_DAG</span><span class="o">.</span><span class="n">times</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span>
+        <span class="n">cnt_c_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">cmp</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="n">stable_comps</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">get_stable_components</span><span class="p">(</span><span class="nb">format</span><span
+            class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="n">stable_comps</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span
+            class="n">cnt_c_nodes</span>
+                <span class="n">cnt_c_nodes</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">stable_DAG</span><span class="o">.</span><span class="n">add_nodes</span><span
+            class="p">(</span><span class="n">stable_comps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stable_DAG</span></div>
+
+    <span class="c1">################################</span>
+    <span class="c1">#       FORMAT                 #</span>
+    <span class="c1">################################</span>
+
+<div class="viewcode-block" id="CondensationDag.cluster_to_object"><a class="viewcode-back"
+                                                                      href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.cluster_to_object">[docs]</a>    <span
+        class="k">def</span> <span class="nf">cluster_to_object</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+        <span class="n">new_cnodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">id_cc</span><span class="p">,</span> <span class="n">cc</span> <span
+            class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span
+            class="n">cc</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span>
+            <span class="n">new_cnodes</span> <span class="o">=</span> <span class="n">comp</span><span
+            class="o">.</span><span class="n">StronglyConnectedComponent</span><span class="p">(</span><span class="nb">id</span><span
+            class="o">=</span><span class="n">id_cc</span><span class="p">,</span> <span class="n">times</span><span
+            class="o">=</span><span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">cc</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span
+            class="p">]),</span>
+                                                         <span class="n">nodes</span><span class="o">=</span><span
+            class="nb">set</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span
+            class="ow">in</span> <span class="n">cc</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c_nodes</span> <span
+            class="o">=</span> <span class="n">new_cnodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span> <span
+            class="o">=</span> <span class="p">{</span><span class="n">cc</span><span class="o">.</span><span class="n">id</span><span
+            class="p">:</span> <span class="n">cc</span> <span class="k">for</span> <span class="n">cc</span> <span
+            class="ow">in</span> <span class="n">new_cnodes</span><span class="p">}</span></div>
+
+    <span class="c1">###############################</span>
+    <span class="c1">#       Paths Methods         #</span>
+    <span class="c1">###############################</span>
+
+<div class="viewcode-block" id="CondensationDag.path_induced_substream"><a class="viewcode-back"
+                                                                           href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.path_induced_substream">[docs]</a>    <span
+        class="k">def</span> <span class="nf">path_induced_substream</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span
+        class="n">node_to_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">path_bounds</span><span class="o">=</span><span
+            class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform a path in the condensation dag into a substream</span>
+
+<span class="sd">        :param path: Sequence of identifiers of ``StronglyConnectedComponent`` objects in the current \</span>
+<span class="sd">        ``CondensationDag``</span>
+<span class="sd">        :param node_to_label:</span>
+<span class="sd">        :param path_bounds:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span
+            class="nb">int</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">id_scc</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">id_scc</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
+
+        <span class="n">new_nodes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">nodes_to_new_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">nodes_to_new_nodes</span><span class="p">))</span>
+        <span class="n">new_node_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">new_node_to_id</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">new_links</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">t0_min</span><span class="p">,</span> <span class="n">t1_max</span> <span
+            class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span
+            class="p">,</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">path</span><span
+            class="p">:</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span>  <span
+            class="c1"># Initial Bounds</span>
+            <span class="k">if</span> <span class="n">path_bounds</span> <span class="ow">is</span> <span
+            class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span
+            class="n">path_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span
+            class="n">t0</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span
+            class="n">path_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span
+            class="n">t1</span><span class="p">)</span>  <span class="c1"># Bounds</span>
+            <span class="n">t0_min</span><span class="p">,</span> <span class="n">t1_max</span> <span class="o">=</span> <span
+            class="nb">min</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t0_min</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span
+            class="n">t1</span><span class="p">,</span> <span class="n">t1_max</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes_to_new_nodes</span><span
+            class="p">:</span>
+                    <span class="n">new_n</span> <span class="o">=</span> <span class="n">nodes_to_new_nodes</span><span
+            class="p">[</span><span class="n">n</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">new_nodes</span><span
+            class="p">[</span><span class="n">new_n</span><span class="p">][</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]:</span>
+                        <span class="n">new_nodes</span><span class="p">[</span><span class="n">new_n</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="n">t1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_nodes</span><span class="p">[</span><span class="n">new_n</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span
+            class="p">,</span> <span class="n">t1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_n</span> <span class="o">=</span> <span class="n">nodes_to_new_nodes</span><span
+            class="p">[</span><span class="n">n</span><span class="p">]</span>
+                    <span class="n">new_node_to_id</span><span class="p">[</span><span class="n">new_n</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">n</span>
+                    <span class="k">if</span> <span class="n">node_to_label</span><span class="p">:</span>
+                        <span class="n">new_node_to_label</span><span class="p">[</span><span
+            class="n">new_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_to_label</span><span
+            class="p">[</span><span class="n">n</span><span class="p">]</span>
+                    <span class="n">new_nodes</span><span class="p">[</span><span class="n">new_n</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">links</span> <span
+            class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+                    <span class="n">lt0</span><span class="p">,</span> <span class="n">lt1</span> <span
+            class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span
+            class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">lt1</span> <span class="o">&lt;</span> <span
+            class="n">t0</span> <span class="ow">or</span> <span class="n">lt0</span> <span class="o">&gt;</span> <span
+            class="n">t1</span><span class="p">:</span>
+                        <span class="c1"># We do not consider links that end or begin outside the bounds</span>
+                        <span class="k">continue</span>
+                    <span class="n">lt0</span><span class="p">,</span> <span class="n">lt1</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t0</span><span
+            class="p">,</span> <span class="n">lt0</span><span class="p">),</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">lt1</span><span
+            class="p">)</span>
+                    <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span
+            class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span
+            class="n">l</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="n">new_u</span><span class="p">,</span> <span class="n">new_v</span> <span
+            class="o">=</span> <span class="n">nodes_to_new_nodes</span><span class="p">[</span><span class="n">u</span><span
+            class="p">],</span> <span class="n">nodes_to_new_nodes</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">new_u</span><span
+            class="p">,</span> <span class="n">new_v</span><span class="p">)</span> <span class="ow">in</span> <span
+            class="n">new_links</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">lt0</span> <span class="o">&lt;=</span> <span
+            class="n">new_links</span><span class="p">[(</span><span class="n">new_u</span><span
+            class="p">,</span> <span class="n">new_v</span><span class="p">)][</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]:</span>
+                            <span class="n">new_links</span><span class="p">[(</span><span class="n">new_u</span><span
+            class="p">,</span> <span class="n">new_v</span><span class="p">)][</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lt1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">new_links</span><span class="p">[(</span><span class="n">new_u</span><span
+            class="p">,</span> <span class="n">new_v</span><span class="p">)]</span> <span class="o">+=</span> <span
+            class="p">[</span><span class="n">lt0</span><span class="p">,</span> <span class="n">lt1</span><span
+            class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_links</span><span class="p">[(</span><span class="n">new_u</span><span
+            class="p">,</span> <span class="n">new_v</span><span class="p">)]</span> <span class="o">=</span> <span
+            class="p">[</span><span class="n">lt0</span><span class="p">,</span> <span class="n">lt1</span><span
+            class="p">]</span>
+                    <span class="c1"># print(&quot;l :&quot;,(node_to_label[new_u],node_to_label[new_v]))</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span
+            class="n">StreamGraph</span><span class="p">(</span><span class="n">times</span><span
+            class="o">=</span><span class="p">[</span><span class="n">t0_min</span><span class="p">,</span> <span
+            class="n">t1_max</span><span class="p">],</span>
+                           <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">new_nodes</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                           <span class="n">node_presence</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">new_nodes</span><span class="o">.</span><span class="n">values</span><span
+            class="p">()),</span>
+                           <span class="n">node_to_label</span><span class="o">=</span><span
+            class="n">new_node_to_label</span><span class="p">,</span>
+                           <span class="n">node_to_id</span><span class="o">=</span><span
+            class="n">new_node_to_id</span><span class="p">,</span>
+                           <span class="n">links</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">new_links</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                           <span class="n">link_presence</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">new_links</span><span class="o">.</span><span class="n">values</span><span
+            class="p">()))</span>
+        <span class="k">return</span> <span class="n">F</span></div>
+
+    <span class="c1">####################################################</span>
+    <span class="c1">#   1. Source-Destination Time to reach/ Latencies #</span>
+    <span class="c1">####################################################</span>
+    <span class="c1"># TODO: Need to update functions in 1. with below functions in 2.</span>
+
+<div class="viewcode-block" id="CondensationDag.temporal_node_to_scc"><a class="viewcode-back"
+                                                                         href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.temporal_node_to_scc">[docs]</a>    <span
+        class="k">def</span> <span class="nf">temporal_node_to_scc</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the ``StronglyConnectedComponent`` containing the temporal source *node*.</span>
+
+<span class="sd">        :param node:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span>
+        <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span
+            class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span
+            class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span class="n">t0</span> <span
+            class="o">&lt;=</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t1</span><span
+            class="p">:</span>
+                <span class="k">return</span> <span class="n">c</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node : &quot;</span> <span
+            class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; does not exist in the Stream Graph at time &quot;</span> <span
+            class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t0</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; !&quot;</span><span
+            class="p">)</span></div>
+
+<div class="viewcode-block" id="CondensationDag.node_to_scc"><a class="viewcode-back"
+                                                                href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.node_to_scc">[docs]</a>    <span
+        class="k">def</span> <span class="nf">node_to_scc</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">list_scc</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">list_scc</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">list_scc</span></div>
+
+<div class="viewcode-block" id="CondensationDag.time_to_reach"><a class="viewcode-back"
+                                                                  href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.time_to_reach">[docs]</a>    <span
+        class="k">def</span> <span class="nf">time_to_reach</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cluster_to_object</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_to_reach</span><span
+            class="p">(</span><span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_to_reach_temporal_nodes</span><span
+            class="p">(</span><span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_time_to_reach</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">):</span>
+        <span class="c1"># TODO : to finish</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_time_to_reach_temporal_nodes</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the time to reach the *destination* from the temporal source node *source* in the SG.</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">temporal_node_to_scc</span><span class="p">(</span><span
+            class="n">source</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">start_comp</span> <span class="ow">is</span> <span
+            class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ttr</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start comp:&quot;</span><span
+            class="p">,</span> <span class="n">start_comp</span><span class="p">)</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span
+            class="n">start_comp</span><span class="p">])</span>  <span class="c1"># comp</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">start_comp</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+        <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="n">cmp</span> <span class="o">=</span> <span class="n">queue</span><span
+            class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">destination</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> \
+                    <span class="n">destination</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">ttr</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ttr</span><span
+            class="p">,</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">st</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cmp</span><span class="o">.</span><span class="n">id</span> <span
+            class="ow">in</span> <span class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">cmp</span><span class="o">.</span><span class="n">id</span><span
+            class="p">]:</span>
+                <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">cmp</span><span class="o">.</span><span
+            class="n">id</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span class="ow">in</span> <span
+            class="n">visited</span><span class="p">:</span>
+                        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">c_id</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">st</span> <span class="o">+</span> <span class="n">ttr</span><span
+            class="p">:</span>
+                            <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">c</span><span class="p">)</span>
+                        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span
+            class="n">c_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ttr</span>
+
+<div class="viewcode-block" id="CondensationDag.latency"><a class="viewcode-back"
+                                                            href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.latency">[docs]</a>    <span
+        class="k">def</span> <span class="nf">latency</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span
+        class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cluster_to_object</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Source node is not yet supported as input for latency computation in CondensationDag.&quot;</span><span
+            class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latency_temporal_nodes</span><span
+            class="p">(</span><span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_latency_temporal_nodes</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the latency between the temporal node *source* and the temporal node *destination* in the SG.</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">latency</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">unvisited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">:</span>  <span class="c1"># On itere sur les comp contenant source</span>
+            <span class="k">if</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">source</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">unvisited</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span
+            class="p">)</span>
+                <span class="k">if</span> <span class="n">destination</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">latency</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">return</span> <span class="n">latency</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unvisited</span><span
+            class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">unvisited</span><span class="o">.</span><span class="n">pop</span><span class="p">()]</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">start_comp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span
+            class="c1"># starting time</span>
+            <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([(</span><span
+            class="n">start_comp</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">)])</span>  <span class="c1"># comp, starting time</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">start_comp</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+            <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+                <span class="n">cmp</span><span class="p">,</span> <span class="n">st</span> <span
+            class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span
+            class="p">()</span>
+                <span class="c1"># We can reset the starting time</span>
+                <span class="k">if</span> <span class="n">source</span> <span class="ow">in</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">source</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+                    <span class="n">unvisited</span><span class="o">.</span><span class="n">discard</span><span
+            class="p">(</span><span class="n">cmp</span><span class="o">.</span><span class="n">id</span><span
+            class="p">)</span>
+                <span class="c1"># Update latencies</span>
+                <span class="k">if</span> <span class="n">destination</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">latency</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">latency</span><span
+            class="p">,</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">st</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">id</span> <span class="ow">in</span> <span class="n">a_l</span> <span class="ow">and</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">cmp</span><span class="o">.</span><span
+            class="n">id</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">cmp</span><span class="o">.</span><span class="n">id</span><span
+            class="p">]:</span>
+                        <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">c_id</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">st</span> <span class="o">+</span> <span class="n">latency</span><span class="p">:</span>
+                                <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">))</span>
+                            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span
+            class="p">)</span>
+        <span class="k">return</span> <span class="n">latency</span>
+
+    <span class="c1">#####################################################</span>
+    <span class="c1">#   2. Single-Source Time to reach and Latencies    #</span>
+    <span class="c1">#####################################################</span>
+
+<div class="viewcode-block" id="CondensationDag.times_to_reach_ss"><a class="viewcode-back"
+                                                                      href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.times_to_reach_ss">[docs]</a>    <span
+        class="k">def</span> <span class="nf">times_to_reach_ss</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cluster_to_object</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_times_to_reach_ss</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_times_to_reach_temporal_nodes_ss</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CondensationDag.postprocess_ttr"><a class="viewcode-back"
+                                                                    href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.postprocess_ttr">[docs]</a>    <span
+        class="k">def</span> <span class="nf">postprocess_ttr</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">ttr_comp</span><span
+        class="p">):</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">node_to_id_comp</span><span class="p">:</span>
+            <span class="n">potential_ttr</span> <span class="o">=</span> <span class="p">[</span><span class="n">ttr_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">node_to_id_comp</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="n">ttr_comp</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">potential_ttr</span><span class="p">:</span>
+                <span class="n">ttr</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">min</span><span class="p">(</span><span
+            class="n">potential_ttr</span><span class="p">)</span>
+        <span class="n">ttr</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span
+            class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">ttr</span></div>
+
+    <span class="k">def</span> <span class="nf">_times_to_reach_ss</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">id_start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">node_to_id_comp</span><span class="p">[</span><span
+            class="n">source</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span
+            class="c1"># The first SCC where the source appears</span>
+        <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span>
+        <span class="n">ttr_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">_times_to_reach_comp_ss</span><span class="p">(</span><span class="n">id_start_comp</span><span
+            class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span
+            class="n">start_comp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">])</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">postprocess_ttr</span><span class="p">(</span><span class="n">source</span><span
+            class="p">,</span> <span class="n">ttr_comp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ttr</span>
+
+    <span class="k">def</span> <span class="nf">_times_to_reach_temporal_nodes_ss</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">potential_start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">segmented_node_to_id_comp</span><span class="p">[</span><span class="n">source</span><span
+            class="p">]</span>
+        <span class="n">id_start_comp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">potential_start_comp</span><span
+            class="p">:</span>
+            <span class="n">comp_t0</span><span class="p">,</span> <span class="n">comp_t1</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span><span class="o">.</span><span class="n">times</span>
+            <span class="k">if</span> <span class="n">comp_t0</span> <span class="o">&lt;=</span> <span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">comp_t1</span><span class="p">:</span>
+                <span class="n">id_start_comp</span> <span class="o">=</span> <span class="n">id_comp</span>
+                <span class="k">break</span>
+        <span class="n">ttr_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">_times_to_reach_comp_ss</span><span class="p">(</span><span class="n">id_start_comp</span><span
+            class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ttr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">postprocess_ttr</span><span class="p">(</span><span class="n">source</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ttr_comp</span><span
+            class="p">)</span>
+        <span class="k">return</span> <span class="n">ttr</span>
+
+    <span class="k">def</span> <span class="nf">_times_to_reach_comp_ss</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span> <span class="n">id_start_comp</span><span class="p">,</span> <span
+            class="n">start_time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the times to reach from the temporal source node :*source* to every other node in the SG.</span>
+
+<span class="sd">        :param id_start_comp:</span>
+<span class="sd">        :param start_time:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">times_to_reach_comp</span> <span class="o">=</span> <span class="p">{</span><span class="n">id_start_comp</span><span
+            class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span
+            class="n">id_start_comp</span><span class="p">])</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">id_start_comp</span><span class="p">}</span>
+        <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="n">id_comp</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span
+            class="n">popleft</span><span class="p">()</span>
+            <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]</span>
+            <span class="n">times_to_reach_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">-</span> <span class="n">start_time</span>
+            <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">id_comp</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span class="ow">in</span> <span
+            class="n">visited</span><span class="p">:</span>
+                        <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">c_id</span><span class="p">)</span>
+                        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span
+            class="n">c_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">times_to_reach_comp</span>
+
+<div class="viewcode-block" id="CondensationDag.latencies_ss"><a class="viewcode-back"
+                                                                 href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.latencies_ss">[docs]</a>    <span
+        class="k">def</span> <span class="nf">latencies_ss</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cluster_to_object</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latencies_ss</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latencies_temporal_nodes_ss</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CondensationDag.postprocess_latencies"><a class="viewcode-back"
+                                                                          href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.postprocess_latencies">[docs]</a>    <span
+        class="k">def</span> <span class="nf">postprocess_latencies</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">latencies_comp</span><span
+        class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">node_to_id_comp</span><span class="p">:</span>
+            <span class="n">potential_latencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">latencies_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">node_to_id_comp</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="n">latencies_comp</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">potential_latencies</span><span class="p">:</span>
+                <span class="n">latencies</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">min</span><span class="p">(</span><span
+            class="n">potential_latencies</span><span class="p">)</span>
+        <span class="n">latencies</span><span class="p">[</span><span class="n">source</span><span
+            class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">latencies</span></div>
+
+    <span class="k">def</span> <span class="nf">_latencies_ss</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">ids_start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">node_to_id_comp</span><span class="p">[</span><span
+            class="n">source</span><span class="p">]</span>  <span class="c1"># SCCs where the source appears</span>
+        <span class="n">latencies_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">_latencies_comp_ss</span><span class="p">(</span><span class="n">ids_start_comp</span><span
+            class="p">)</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">postprocess_latencies</span><span class="p">(</span><span class="n">latencies_comp</span><span
+            class="p">,</span> <span class="n">source</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">latencies</span>
+
+    <span class="k">def</span> <span class="nf">_latencies_temporal_nodes_ss</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">ids_start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">segmented_node_to_id_comp</span><span class="p">[</span><span class="n">source</span><span
+            class="p">]</span>  <span class="c1"># SCC where the source appears</span>
+        <span class="n">latencies_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">_latencies_comp_ss</span><span class="p">(</span><span class="n">ids_start_comp</span><span
+            class="p">)</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">postprocess_latencies</span><span class="p">(</span><span class="n">latencies_comp</span><span
+            class="p">,</span> <span class="n">source</span><span class="p">[</span><span class="mi">2</span><span
+            class="p">])</span>
+        <span class="k">return</span> <span class="n">latencies</span>
+
+    <span class="k">def</span> <span class="nf">_latencies_comp_ss</span><span class="p">(</span><span
+            class="bp">self</span><span class="p">,</span> <span class="n">ids_start_comp</span><span
+            class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the latencies from the temporal source node: *source* to every other node in the SG.</span>
+
+<span class="sd">        :param ids_start_comp:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">latencies</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span
+            class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span
+            class="ow">in</span> <span class="n">ids_start_comp</span><span class="p">}</span>  <span class="c1"># clefs : destination nodes ; valeurs : latency</span>
+        <span class="n">set_start_comps</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">(</span><span class="n">ids_start_comp</span><span class="p">)</span>
+        <span class="n">unvisited</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">(</span><span class="n">ids_start_comp</span><span class="p">)</span>
+        <span class="n">visited_to_st</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># TODO : unvisited and set_start _comps necessaire ?</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unvisited</span><span
+            class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">id_start_comp</span> <span class="o">=</span> <span class="n">unvisited</span><span
+            class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_start_comp</span><span class="p">]</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>  <span class="c1"># starting time</span>
+            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+            <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([(</span><span
+            class="n">id_start_comp</span><span class="p">,</span> <span class="n">st</span><span class="p">)])</span>  <span
+            class="c1"># comp, starting time</span>
+            <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+                <span class="n">id_comp</span><span class="p">,</span> <span class="n">st</span> <span
+            class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span
+            class="p">()</span>
+                <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span>
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">set_start_comps</span><span
+            class="p">:</span>
+                    <span class="c1"># We can reset the starting time</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+                    <span class="n">unvisited</span><span class="o">.</span><span class="n">discard</span><span
+            class="p">(</span><span class="n">id_comp</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">latencies</span><span
+            class="p">:</span>
+                        <span class="n">latencies</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">st</span><span
+            class="p">,</span> <span class="n">latencies</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">latencies</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">-</span> <span class="n">st</span>
+
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">id_comp</span><span class="p">]:</span>
+
+                        <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">visited_to_st</span> <span class="ow">or</span> <span
+            class="n">st</span> <span class="o">&gt;</span> <span class="n">visited_to_st</span><span class="p">[</span><span
+            class="n">c_id</span><span class="p">]:</span>
+                            <span class="c1"># TODO : Verifier que la condition s&#39;applique bien</span>
+
+                            <span class="c1"># On ne doit pas avoir c_id plusieurs fois dans la queue !!</span>
+                            <span class="c1"># Ou tester en sortie de pile !</span>
+                            <span class="c1"># We leave later :)</span>
+                            <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">))</span>
+                            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+        <span class="k">return</span> <span class="n">latencies</span>
+
+    <span class="c1">##############################################</span>
+    <span class="c1">#   3. Arbitrary Foremost and fastest Paths  #</span>
+    <span class="c1">##############################################</span>
+
+<div class="viewcode-block" id="CondensationDag.foremost_path"><a class="viewcode-back"
+                                                                  href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.foremost_path">[docs]</a>    <span
+        class="k">def</span> <span class="nf">foremost_path</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a foremost path between &#39;source&#39; and &#39;destination&quot; starting at &#39;begin time&#39;.</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+        <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">temporal_node_to_scc</span><span class="p">(</span><span
+            class="n">source</span><span class="p">)</span>
+        <span class="n">adj_list</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">adjacency_list</span><span class="p">()</span>
+
+        <span class="c1"># Custom BFS on DAG</span>
+        <span class="k">def</span> <span class="nf">bfs_scc</span><span class="p">(</span><span
+            class="n">a_l</span><span class="p">,</span> <span class="n">start_cmp</span><span class="p">,</span> <span
+            class="n">dst</span><span class="p">):</span>
+            <span class="n">path_queue</span> <span class="o">=</span> <span class="n">deque</span><span
+            class="p">([(</span><span class="n">start_cmp</span><span class="p">,</span> <span class="p">[</span><span
+            class="n">start_cmp</span><span class="o">.</span><span class="n">id</span><span class="p">])])</span>
+            <span class="n">ttr</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>  <span class="c1"># This variable, once assigned, is used as a threshold (yeah)</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">start_cmp</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+            <span class="k">while</span> <span class="n">path_queue</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">cmp</span><span class="p">,</span> <span
+            class="n">path</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">path_queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">cmp</span><span class="o">.</span><span
+            class="n">id</span> <span class="ow">in</span> <span class="n">a_l</span> <span class="ow">and</span> <span
+            class="n">a_l</span><span class="p">[</span><span class="n">cmp</span><span class="o">.</span><span
+            class="n">id</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">v_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">cmp</span><span class="o">.</span><span class="n">id</span><span
+            class="p">]:</span>
+                        <span class="k">if</span> <span class="n">v_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">v_id</span><span class="p">]</span>
+                            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">v_id</span><span class="p">)</span>
+
+                            <span class="k">if</span> <span class="n">dst</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">v</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span class="n">dst</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">v</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">v</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">&lt;=</span> <span class="n">dst</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]:</span>
+                                <span class="n">ttr</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ttr</span><span
+            class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">st</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+                                <span class="k">yield</span> <span class="n">path</span> <span class="o">+</span> <span
+            class="p">[</span><span class="n">v_id</span><span class="p">]</span>
+                            <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">st</span> <span class="o">+</span> <span class="n">ttr</span><span class="p">:</span>
+                                <span class="n">path_queue</span><span class="o">.</span><span
+            class="n">append</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span
+            class="n">path</span> <span class="o">+</span> <span class="p">[</span><span class="n">v_id</span><span
+            class="p">]))</span>
+
+        <span class="c1"># print(&quot; Start BFS&quot;)</span>
+        <span class="n">foremost_paths</span> <span class="o">=</span> <span class="nb">list</span><span
+            class="p">(</span><span class="n">bfs_scc</span><span class="p">(</span><span class="n">adj_list</span><span
+            class="p">,</span> <span class="n">start_comp</span><span class="p">,</span> <span
+            class="n">destination</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">foremost_paths</span><span
+            class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span
+            class="kc">None</span>
+
+        <span class="n">path_times</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span
+            class="n">foremost_paths</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span
+            class="n">p</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">c_id</span><span class="p">]</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">path_times</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="c1"># print(&quot;Path times :&quot;, path_times)</span>
+        <span class="n">min_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span
+            class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span
+            class="n">path_times</span><span class="p">])</span>
+        <span class="c1"># print(&quot;Foremost time : &quot;, min_t)</span>
+        <span class="n">fm_paths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">t</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+            class="n">foremost_paths</span><span class="p">,</span> <span class="n">path_times</span><span
+            class="p">):</span>
+            <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_t</span><span
+            class="p">:</span>
+                <span class="n">fm_paths</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fm_paths</span><span class="p">,</span> <span
+            class="n">min_t</span> <span class="o">-</span> <span class="n">st</span></div>
+
+<div class="viewcode-block" id="CondensationDag.fastest_path"><a class="viewcode-back"
+                                                                 href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.fastest_path">[docs]</a>    <span
+        class="k">def</span> <span class="nf">fastest_path</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the fastest path between &#39;source&#39; and &#39;destination&#39;</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">ids_start_comp</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segmented_node_to_id_comp</span><span
+            class="p">[</span><span class="n">source</span><span class="p">])</span>
+        <span class="n">unvisited</span> <span class="o">=</span> <span class="n">copy</span><span
+            class="o">.</span><span class="n">copy</span><span class="p">(</span><span
+            class="n">ids_start_comp</span><span class="p">)</span>  <span
+            class="c1"># SCC where the source appears</span>
+        <span class="n">visited_to_st</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">latency</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">fastest_paths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unvisited</span><span
+            class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">id_start_comp</span> <span class="o">=</span> <span class="n">unvisited</span><span
+            class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">start_comp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span
+            class="c1"># starting time</span>
+            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+            <span class="n">path_queue</span> <span class="o">=</span> <span class="n">deque</span><span
+            class="p">([((</span><span class="n">id_start_comp</span><span class="p">,</span> <span
+            class="n">st</span><span class="p">),</span> <span class="p">[</span><span
+            class="n">id_start_comp</span><span class="p">])])</span>  <span
+            class="c1">#  ((id comp, start time),path)</span>
+            <span class="k">while</span> <span class="n">path_queue</span><span class="p">:</span>
+                <span class="n">e</span><span class="p">,</span> <span class="n">path</span> <span
+            class="o">=</span> <span class="n">path_queue</span><span class="o">.</span><span
+            class="n">popleft</span><span class="p">()</span>
+                <span class="n">id_comp</span><span class="p">,</span> <span class="n">st</span> <span
+            class="o">=</span> <span class="n">e</span>
+                <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span>
+
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">ids_start_comp</span><span
+            class="p">:</span>
+                    <span class="c1"># We can reset the starting time</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]</span>
+                    <span class="n">unvisited</span><span class="o">.</span><span class="n">discard</span><span
+            class="p">(</span><span class="n">id_comp</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">destination</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">new_latency</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">st</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">new_latency</span> <span class="o">&lt;</span> <span
+            class="n">latency</span><span class="p">:</span>
+                        <span class="n">fastest_paths</span> <span class="o">=</span> <span class="n">path</span>
+                        <span class="n">latency</span> <span class="o">=</span> <span class="n">new_latency</span>
+
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">id_comp</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">visited_to_st</span><span class="p">:</span>
+                            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+                            <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">),</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span
+            class="n">c_id</span><span class="p">]))</span>
+                        <span class="k">elif</span> <span class="n">st</span> <span class="o">&gt;</span> <span
+            class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span class="p">]:</span>
+                            <span class="c1"># We leave later :)</span>
+                            <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">),</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span
+            class="n">c_id</span><span class="p">]))</span>
+                            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+        <span class="k">return</span> <span class="n">fastest_paths</span><span class="p">,</span> <span class="n">latency</span></div>
+
+    <span class="c1">############################################</span>
+    <span class="c1">#   4. All foremost path and fastest paths #</span>
+    <span class="c1">############################################</span>
+
+<div class="viewcode-block" id="CondensationDag.all_fastest_paths"><a class="viewcode-back"
+                                                                      href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.all_fastest_paths">[docs]</a>    <span
+        class="k">def</span> <span class="nf">all_fastest_paths</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the fastest path between &#39;source&#39; and &#39;destination&#39;</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">ids_start_comp</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segmented_node_to_id_comp</span><span
+            class="p">[</span><span class="n">source</span><span class="p">])</span>
+        <span class="n">unvisited</span> <span class="o">=</span> <span class="n">copy</span><span
+            class="o">.</span><span class="n">copy</span><span class="p">(</span><span
+            class="n">ids_start_comp</span><span class="p">)</span>  <span
+            class="c1"># SCC where the source appears</span>
+        <span class="c1"># We store visited component along with the starting time corresponding with the path that reached them</span>
+        <span class="n">visited_to_st</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">latency</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+        <span class="n">fastest_paths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unvisited</span><span
+            class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">id_start_comp</span> <span class="o">=</span> <span class="n">unvisited</span><span
+            class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">start_comp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span
+            class="c1"># starting time</span>
+            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+            <span class="n">path_queue</span> <span class="o">=</span> <span class="n">deque</span><span
+            class="p">([((</span><span class="n">id_start_comp</span><span class="p">,</span> <span
+            class="n">st</span><span class="p">),</span> <span class="p">[</span><span
+            class="n">id_start_comp</span><span class="p">])])</span>  <span
+            class="c1">#  ((id comp, start time),path)</span>
+            <span class="k">while</span> <span class="n">path_queue</span><span class="p">:</span>
+                <span class="n">e</span><span class="p">,</span> <span class="n">path</span> <span
+            class="o">=</span> <span class="n">path_queue</span><span class="o">.</span><span
+            class="n">popleft</span><span class="p">()</span>
+                <span class="n">id_comp</span><span class="p">,</span> <span class="n">st</span> <span
+            class="o">=</span> <span class="n">e</span>
+                <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span>
+
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">ids_start_comp</span><span
+            class="p">:</span>
+                    <span class="c1"># We can reset the starting time</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]</span>
+                    <span class="n">unvisited</span><span class="o">.</span><span class="n">discard</span><span
+            class="p">(</span><span class="n">id_comp</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">destination</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="ow">and</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">&lt;=</span> <span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span
+            class="n">destination</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">new_latency</span> <span class="o">=</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">cmp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span
+            class="n">st</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">new_latency</span> <span class="o">&lt;</span> <span
+            class="n">latency</span><span class="p">:</span>
+                        <span class="n">fastest_paths</span> <span class="o">=</span> <span class="p">[</span><span
+            class="n">path</span><span class="p">]</span>
+                        <span class="n">latency</span> <span class="o">=</span> <span class="n">new_latency</span>
+                    <span class="k">elif</span> <span class="n">new_latency</span> <span class="o">==</span> <span
+            class="n">latency</span><span class="p">:</span>
+                        <span class="n">fastest_paths</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">id_comp</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">visited_to_st</span><span class="p">:</span>
+                            <span class="c1"># We haven&#39;t seen the comp :)</span>
+                            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+                            <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">),</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span
+            class="n">c_id</span><span class="p">]))</span>
+                        <span class="k">elif</span> <span class="n">st</span> <span class="o">&gt;</span> <span
+            class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span class="p">]:</span>
+                            <span class="c1"># We leave later :)</span>
+                            <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">),</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span
+            class="n">c_id</span><span class="p">]))</span>
+                            <span class="n">visited_to_st</span><span class="p">[</span><span class="n">c_id</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">st</span>
+        <span class="k">return</span> <span class="n">fastest_paths</span><span class="p">,</span> <span class="n">latency</span></div>
+
+<div class="viewcode-block" id="CondensationDag.all_fastest_paths_ss"><a class="viewcode-back"
+                                                                         href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.all_fastest_paths_ss">[docs]</a>    <span
+        class="k">def</span> <span class="nf">all_fastest_paths_ss</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the fastest path between &#39;source&#39; and all other nodes (in condensation DAG)</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">adjacency_list</span><span class="p">()</span>
+        <span class="n">ids_start_comp</span> <span class="o">=</span> <span class="nb">set</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segmented_node_to_id_comp</span><span
+            class="p">[</span><span class="n">source</span><span class="p">])</span>
+        <span class="n">unvisited</span> <span class="o">=</span> <span class="n">copy</span><span
+            class="o">.</span><span class="n">copy</span><span class="p">(</span><span
+            class="n">ids_start_comp</span><span class="p">)</span>  <span
+            class="c1"># SCC where the source appears</span>
+        <span class="n">latencies_comp</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">i</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span
+            class="n">i</span> <span class="ow">in</span> <span class="n">ids_start_comp</span><span class="p">}</span>  <span
+            class="c1"># keys : destination nodes ;values : latency</span>
+        <span class="n">fastest_paths</span> <span class="o">=</span> <span class="p">{</span><span
+            class="n">i</span><span class="p">:</span> <span class="p">{</span><span class="n">i</span><span
+            class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span
+            class="n">ids_start_comp</span><span class="p">}</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unvisited</span><span
+            class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">id_start_comp</span> <span class="o">=</span> <span class="n">unvisited</span><span
+            class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">start_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_start_comp</span><span
+            class="p">]</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">start_comp</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span
+            class="c1"># starting time</span>
+            <span class="n">path_queue</span> <span class="o">=</span> <span class="n">deque</span><span
+            class="p">([((</span><span class="n">id_start_comp</span><span class="p">,</span> <span
+            class="n">st</span><span class="p">),</span> <span class="p">[</span><span
+            class="n">id_start_comp</span><span class="p">])])</span>  <span
+            class="c1">#  ((id comp,start_time),path)</span>
+            <span class="k">while</span> <span class="n">path_queue</span><span class="p">:</span>
+                <span class="n">e</span><span class="p">,</span> <span class="n">path</span> <span
+            class="o">=</span> <span class="n">path_queue</span><span class="o">.</span><span
+            class="n">popleft</span><span class="p">()</span>
+                <span class="n">id_comp</span><span class="p">,</span> <span class="n">st</span> <span
+            class="o">=</span> <span class="n">e</span>
+                <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span>
+                <span class="n">new_latency</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">-</span> <span class="n">st</span>
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span class="n">ids_start_comp</span><span
+            class="p">:</span>
+                    <span class="c1"># We can reset the starting time</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">cmp</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]</span>
+                    <span class="n">unvisited</span><span class="o">.</span><span class="n">discard</span><span
+            class="p">(</span><span class="n">id_comp</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">latencies_comp</span> <span class="ow">or</span> <span class="n">latencies_comp</span><span
+            class="p">[</span><span class="n">id_comp</span><span class="p">]</span> <span class="o">&gt;</span> <span
+            class="n">new_latency</span><span class="p">:</span>
+                        <span class="n">latencies_comp</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">new_latency</span>
+                        <span class="n">fastest_paths</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span
+            class="p">(</span><span class="n">path</span><span class="p">)}</span>
+                    <span class="k">elif</span> <span class="n">latencies_comp</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]</span> <span class="o">==</span> <span
+            class="n">new_latency</span><span class="p">:</span>
+                        <span class="n">fastest_paths</span><span class="p">[</span><span class="n">id_comp</span><span
+            class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span
+            class="nb">tuple</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">id_comp</span> <span class="ow">in</span> <span
+            class="n">a_l</span> <span class="ow">and</span> <span class="n">a_l</span><span class="p">[</span><span
+            class="n">id_comp</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">c_id</span> <span class="ow">in</span> <span class="n">a_l</span><span
+            class="p">[</span><span class="n">id_comp</span><span class="p">]:</span>
+                        <span class="c1"># We haven&#39;t seen the comp or its worth it to continue :)</span>
+                        <span class="n">cmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">c_id</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">c_id</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">latencies_comp</span> <span class="ow">or</span> <span class="n">latencies_comp</span><span
+            class="p">[</span><span class="n">c_id</span><span class="p">]</span> <span class="o">&gt;=</span> <span
+            class="n">cmp</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">st</span><span
+            class="p">:</span>
+                            <span class="n">path_queue</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(((</span><span class="n">c_id</span><span class="p">,</span> <span class="n">st</span><span
+            class="p">),</span> <span class="n">path</span> <span class="o">+</span> <span class="p">[</span><span
+            class="n">c_id</span><span class="p">]))</span>
+
+        <span class="n">fastest_paths_nodes</span><span class="p">,</span> <span class="n">latencies_nodes</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postprocess_fastest_paths</span><span
+            class="p">(</span><span class="n">fastest_paths</span><span class="p">,</span> <span class="n">latencies_comp</span><span
+            class="p">)</span>
+        <span class="k">del</span> <span class="n">fastest_paths_nodes</span><span class="p">[</span><span class="n">source</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">fastest_paths_nodes</span><span class="p">,</span> <span
+            class="n">latencies_nodes</span></div>
+
+<div class="viewcode-block" id="CondensationDag.postprocess_fastest_paths"><a class="viewcode-back"
+                                                                              href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.postprocess_fastest_paths">[docs]</a>    <span
+        class="k">def</span> <span class="nf">postprocess_fastest_paths</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">fastest_paths_comp</span><span class="p">,</span> <span class="n">latencies_comp</span><span
+        class="p">):</span>
+        <span class="c1"># FP and Latencies in DAG to FP and Lat in Stream :</span>
+        <span class="n">latencies_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">math</span><span
+            class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">fastest_paths_nodes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">node_to_id_comp</span><span class="p">:</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span
+            class="n">inf</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">node_to_id_comp</span><span class="p">[</span><span
+            class="n">n</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">latencies_comp</span><span
+            class="p">:</span>
+                    <span class="k">if</span> <span class="n">latencies_comp</span><span class="p">[</span><span
+            class="n">c</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lat</span><span
+            class="p">:</span>
+                        <span class="n">fastest_paths_nodes</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">fastest_paths_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span
+            class="p">()</span>
+                        <span class="n">latencies_nodes</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">latencies_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span>
+                        <span class="n">lat</span> <span class="o">=</span> <span class="n">latencies_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="n">latencies_comp</span><span class="p">[</span><span
+            class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">lat</span><span
+            class="p">:</span>
+                        <span class="n">fastest_paths_nodes</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="o">|=</span> <span class="n">fastest_paths_comp</span><span
+            class="p">[</span><span class="n">c</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">fastest_paths_nodes</span><span class="p">,</span> <span
+            class="n">latencies_nodes</span></div>
+
+    <span class="c1">###############################################</span>
+    <span class="c1">#   5. Shortest Fastest Path                  #</span>
+    <span class="c1">#    (Hybrids Methods)                        #</span>
+    <span class="c1">###############################################</span>
+
+<div class="viewcode-block" id="CondensationDag.shortest_fastest_path_ss"><a class="viewcode-back"
+                                                                             href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.shortest_fastest_path_ss">[docs]</a>    <span
+        class="k">def</span> <span class="nf">shortest_fastest_path_ss</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">node_to_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Shortest Fastest Paths in a single source manner in a ``StreamGraph``</span>
+<span class="sd">        using the current ``CondensationDag``.</span>
+
+<span class="sd">        :param source:</span>
+<span class="sd">        :param node_to_label:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lengths</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">math</span><span
+            class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">fastest_paths_nodes</span><span class="p">,</span> <span class="n">latencies_nodes</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">all_fastest_paths_ss</span><span class="p">(</span><span class="n">source</span><span
+            class="p">)</span>
+        <span class="n">lengths</span><span class="p">[</span><span class="n">source</span><span class="p">[</span><span
+            class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">destination</span> <span class="ow">in</span> <span class="n">fastest_paths_nodes</span><span
+            class="p">:</span>
+            <span class="n">list_fp</span> <span class="o">=</span> <span class="n">fastest_paths_nodes</span><span
+            class="p">[</span><span class="n">destination</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">fp</span> <span class="ow">in</span> <span
+            class="n">list_fp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span
+            class="n">fp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span
+            class="p">:</span>
+                    <span class="n">fp</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span
+            class="p">]</span>
+
+                <span class="c1"># print(&quot;\nfp :&quot;,fp)</span>
+                <span class="c1"># print(&quot;destination :&quot;,destination)</span>
+                <span class="c1"># assert source[2] in self.id_comp_to_comp[fp[0]].nodes</span>
+                <span class="c1"># assert destination in self.id_comp_to_comp[fp[-1]].nodes</span>
+                <span class="c1"># If length of the cdag path &gt; 1 : last time of the first comp; first time of the last comp</span>
+                <span class="c1"># Because they are SCC and all stream nodes are reachables at any instant.</span>
+                <span class="n">path_bounds</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">fp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span
+            class="p">:</span>
+                    <span class="n">path_bounds</span> <span class="o">=</span> <span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">fp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span
+            class="o">.</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">],</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">id_comp_to_comp</span><span class="p">[</span><span class="n">fp</span><span
+            class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="c1"># print(&quot;Path_bounds :&quot;,path_bounds)</span>
+                    <span class="c1"># print(&quot;latencies destination :&quot;,latencies_nodes[destination])</span>
+                    <span class="c1"># assert path_bounds[1] - path_bounds[0] == latencies_nodes[destination]</span>
+
+                <span class="c1"># else:</span>
+                <span class="c1">#     assert latencies_nodes[destination] == 0</span>
+                <span class="c1">#     print(&quot;Path_bounds :&quot;,path_bounds)</span>
+                <span class="n">substream</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">path_induced_substream</span><span class="p">(</span><span
+            class="n">fp</span><span class="p">,</span> <span class="n">path_bounds</span><span class="o">=</span><span
+            class="n">path_bounds</span><span class="p">,</span>
+                                                        <span class="n">node_to_label</span><span
+            class="o">=</span><span class="n">node_to_label</span><span class="p">)</span>  <span class="c1">#  Get Substream for DAG paths</span>
+                <span class="n">stream_node_to_substream_node</span> <span class="o">=</span> <span
+            class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span
+            class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span
+            class="n">substream</span><span class="o">.</span><span class="n">node_to_id</span><span
+            class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="n">substream_source</span> <span class="o">=</span> <span class="n">stream_node_to_substream_node</span><span
+            class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">2</span><span
+            class="p">]]</span>
+                <span class="n">substream_destination</span> <span class="o">=</span> <span class="n">stream_node_to_substream_node</span><span
+            class="p">[</span><span class="n">destination</span><span class="p">]</span>
+                <span class="c1"># assert destination in stream_node_to_substream_node</span>
+                <span class="c1"># assert source[2] in stream_node_to_substream_node</span>
+                <span class="c1">#  Get source in Substream</span>
+                <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                <span class="n">npres</span> <span class="o">=</span> <span class="n">substream</span><span
+            class="o">.</span><span class="n">node_presence</span><span class="p">[</span><span class="n">substream_source</span><span
+            class="p">]</span>
+                <span class="k">for</span> <span class="n">nt0</span><span class="p">,</span> <span class="n">nt1</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">npres</span><span
+            class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">npres</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+            class="p">]):</span>
+                    <span class="k">if</span> <span class="n">source</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">nt0</span> <span
+            class="o">&lt;=</span> <span class="n">nt1</span> <span class="o">&lt;=</span> <span class="n">source</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">b</span><span class="p">,</span> <span class="n">e</span> <span
+            class="o">=</span> <span class="n">nt0</span><span class="p">,</span> <span class="n">nt1</span>
+                        <span class="k">break</span>
+                <span class="c1"># print(&quot;Source in stream :&quot;,source)</span>
+                <span class="c1"># print(&quot;Source in substream :&quot;,(b,e,substream_source))</span>
+                <span class="c1"># print(&quot;Destination in substream :&quot;,substream_destination)</span>
+                <span class="c1"># substream.plot()</span>
+                <span class="c1"># plt.show()</span>
+                <span class="c1">#  Compute distances in Substream</span>
+                <span class="c1"># print(&quot;Latency in Stream :&quot;,latencies_nodes[destination])</span>
+                <span class="c1"># L,D = substream.latencies_and_lengths(((b, e, substream_source)))</span>
+                <span class="n">D</span> <span class="o">=</span> <span class="n">substream</span><span
+            class="o">.</span><span class="n">distances</span><span class="p">((</span><span class="n">b</span><span
+            class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">stream_node_to_substream_node</span><span
+            class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">2</span><span
+            class="p">]]))</span>
+                <span class="c1"># if substream_destination not in D:</span>
+                <span class="c1">#     print(&quot;nb wcc substream :&quot;,substream.number_of_weakly_connected_component())</span>
+                <span class="c1">#     wcc = substream.weakly_connected_components()</span>
+                <span class="c1">#     adj_list = substream.instant_graph(substream.times[0], label=False)</span>
+                <span class="c1">#     plot_adjacency_list(substream, adj_list, label = False)</span>
+                <span class="c1">#     substream.plot()</span>
+                <span class="c1">#     plt.show()</span>
+
+                <span class="c1"># if fp == [8, 25, 12, 13] and destination == 3 and source[2] == 7:</span>
+                <span class="c1">#     # adj_list = substream.instant_graph(substream.times[0], label=False)</span>
+                <span class="c1">#     # plot_adjacency_list(substream, adj_list, label = False)</span>
+                <span class="c1">#     self.plot()</span>
+                <span class="c1">#     substream.plot()</span>
+                <span class="c1">#     plt.show()</span>
+
+                <span class="c1"># print(&quot;Latency in substream :&quot;,L[substream_destination])</span>
+                <span class="c1"># print(&quot;length in substream :&quot;,D[substream_destination])</span>
+                <span class="c1"># assert L[substream_destination] == latencies_nodes[destination]</span>
+                <span class="n">lengths</span><span class="p">[</span><span class="n">destination</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lengths</span><span
+            class="p">[</span><span class="n">destination</span><span class="p">],</span> <span class="n">D</span><span
+            class="p">[</span><span class="n">substream_destination</span><span class="p">])</span>
+            <span class="c1"># print(&quot;Length SFP HYBRID :&quot;,lengths[destination])</span>
+        <span class="k">return</span> <span class="n">latencies_nodes</span><span class="p">,</span> <span class="n">lengths</span></div>
+
+    <span class="c1"># END PATHS #</span>
+
+    <span class="c1">#########################################</span>
+    <span class="c1">#           Reachability Queries        #</span>
+    <span class="c1">#########################################</span>
+
+<div class="viewcode-block" id="CondensationDag.is_reachable"><a class="viewcode-back"
+                                                                 href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.is_reachable">[docs]</a>    <span
+        class="k">def</span> <span class="nf">is_reachable</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">latency</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span
+            class="n">target</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1">#########################################</span>
+    <span class="c1">#       Plot Functions                  #</span>
+    <span class="c1">#########################################</span>
+
+<div class="viewcode-block" id="CondensationDag.plot_foremost_path"><a class="viewcode-back"
+                                                                       href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.plot_foremost_path">[docs]</a>    <span
+        class="k">def</span> <span class="nf">plot_foremost_path</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span
+        class="n">ttr</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">,</span>
+                           <span class="n">col</span><span class="o">=</span><span class="s2">&quot;#8f246b&quot;</span><span
+            class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a path on the current ``CondensationDag``</span>
+
+<span class="sd">        :param path: A Stream Graph</span>
+<span class="sd">        :param ttr:</span>
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :param col:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span
+            class="nb">int</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">id_scc</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">id_scc</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
+
+        <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">path_induced_substream</span><span class="p">(</span><span class="n">path</span><span
+            class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="n">rectangles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">path</span><span
+            class="p">:</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span
+            class="n">source</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#4d79ff&#39;</span>
+                <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="n">destination</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#00cc00&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">col</span>
+                <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="n">n</span> <span
+            class="o">-</span> <span class="mf">0.15</span><span class="p">),</span>
+                                                   <span class="n">width</span><span class="o">=</span><span class="n">t1</span> <span
+            class="o">-</span> <span class="n">t0</span><span class="p">,</span>
+                                                   <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                   <span class="n">edgecolor</span><span class="o">=</span><span
+            class="n">color</span><span class="p">,</span>
+                                                   <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">color</span><span class="p">,</span>
+                                                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span>
+                                                   <span class="p">))</span>
+            <span class="c1"># Plot a single rectangle for COMP</span>
+            <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">+</span> <span class="mf">0.15</span><span class="p">),</span>
+                                               <span class="n">width</span><span class="o">=</span><span
+            class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">,</span>
+                                               <span class="n">height</span><span class="o">=</span><span
+            class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span
+            class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span>
+                                               <span class="n">edgecolor</span><span class="o">=</span><span class="n">col</span><span
+            class="p">,</span>
+                                               <span class="n">facecolor</span><span class="o">=</span><span class="n">col</span><span
+            class="p">,</span>
+                                               <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.3</span>
+                                               <span class="p">))</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">gca</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rectangles</span><span
+            class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span
+            class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="c1"># Plot temporal source and temporal destination</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span
+            class="p">[</span><span class="n">source</span><span class="p">[</span><span class="mi">2</span><span
+            class="p">]],</span> <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;#000099&#39;</span><span class="p">,</span>
+                 <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span
+            class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">13</span><span
+            class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span
+            class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span
+            class="o">+</span> <span class="n">ttr</span><span class="p">],</span> <span class="p">[</span><span
+            class="n">destination</span><span class="p">[</span><span class="mi">2</span><span
+            class="p">]],</span> <span class="n">color</span><span class="o">=</span><span
+            class="s1">&#39;#004d00&#39;</span><span class="p">,</span>
+                 <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;v&#39;</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span
+            class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">13</span><span
+            class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span
+            class="s2">&quot;Foremost Path from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">+</span> <span
+            class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span
+            class="p">(</span><span class="n">destination</span><span class="p">))</span></div>
+        <span class="c1"># plt.tight_layout()</span>
+
+<div class="viewcode-block" id="CondensationDag.plot_fastest_path"><a class="viewcode-back"
+                                                                      href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.plot_fastest_path">[docs]</a>    <span
+        class="k">def</span> <span class="nf">plot_fastest_path</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span
+        class="n">latency</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">,</span>
+                          <span class="n">col</span><span class="o">=</span><span
+            class="s2">&quot;#8f246b&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a path on the current ``CondensationDag``</span>
+
+<span class="sd">        :param path:</span>
+<span class="sd">        :param latency:</span>
+<span class="sd">        :param source:</span>
+<span class="sd">        :param destination:</span>
+<span class="sd">        :param col:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span
+            class="nb">int</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">id_comp_to_comp</span><span class="p">[</span><span
+            class="n">id_scc</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">id_scc</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">path_induced_substream</span><span class="p">(</span><span class="n">path</span><span
+            class="p">)</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="n">rectangles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">path</span><span
+            class="p">:</span>
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span
+            class="n">c</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">.</span><span
+            class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span
+            class="n">source</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#4d79ff&#39;</span>
+                <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="n">destination</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#00cc00&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">col</span>
+
+                <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="n">n</span> <span
+            class="o">-</span> <span class="mf">0.15</span><span class="p">),</span>
+                                                   <span class="n">width</span><span class="o">=</span><span class="n">t1</span> <span
+            class="o">-</span> <span class="n">t0</span><span class="p">,</span>
+                                                   <span class="n">height</span><span class="o">=</span><span
+            class="mf">0.3</span><span class="p">,</span>
+                                                   <span class="n">edgecolor</span><span class="o">=</span><span
+            class="n">color</span><span class="p">,</span>
+                                                   <span class="n">facecolor</span><span class="o">=</span><span
+            class="n">color</span><span class="p">,</span>
+                                                   <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span>
+                                                   <span class="p">))</span>
+            <span class="c1"># Plot a single rectangle for COMP</span>
+            <span class="n">rectangles</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">mpatch</span><span class="o">.</span><span class="n">Rectangle</span><span
+            class="p">((</span><span class="n">t0</span><span class="p">,</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">+</span> <span class="mf">0.15</span><span class="p">),</span>
+                                               <span class="n">width</span><span class="o">=</span><span
+            class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">,</span>
+                                               <span class="n">height</span><span class="o">=</span><span
+            class="nb">max</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span
+            class="n">nodes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">nodes</span><span
+            class="p">)</span> <span class="o">-</span> <span class="mf">0.3</span><span class="p">,</span>
+                                               <span class="n">edgecolor</span><span class="o">=</span><span class="n">col</span><span
+            class="p">,</span>
+                                               <span class="n">facecolor</span><span class="o">=</span><span class="n">col</span><span
+            class="p">,</span>
+                                               <span class="n">alpha</span><span class="o">=</span><span
+            class="mf">0.3</span>
+                                               <span class="p">))</span>
+        <span class="n">source_comp</span> <span class="o">=</span> <span class="n">path</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span
+            class="n">gca</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rectangles</span><span
+            class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span
+            class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="c1"># Plot temporal source and temporal destination</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span
+            class="n">source_comp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span
+            class="n">source</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span
+            class="n">color</span><span class="o">=</span><span class="s1">&#39;#000099&#39;</span><span
+            class="p">,</span>
+                 <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span
+            class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">13</span><span
+            class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span
+            class="n">source_comp</span><span class="o">.</span><span class="n">times</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span
+            class="n">latency</span><span class="p">],</span> <span class="p">[</span><span class="n">destination</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">color</span><span
+            class="o">=</span><span class="s1">&#39;#004d00&#39;</span><span class="p">,</span>
+                 <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span
+            class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span
+            class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">13</span><span
+            class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span
+            class="s2">&quot;Fastest Path from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span
+            class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">+</span> <span
+            class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span
+            class="p">(</span><span class="n">destination</span><span class="p">))</span></div>
+        <span class="c1"># plt.tight_layout()</span>
+
+<div class="viewcode-block" id="CondensationDag.refactor_path"><a class="viewcode-back"
+                                                                  href="../../../straph.dags.html#straph.dags.condensation_dag.CondensationDag.refactor_path">[docs]</a>    <span
+        class="k">def</span> <span class="nf">refactor_path</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">path_comp</span><span class="p">,</span> <span
+        class="n">path_times</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span
+        class="n">destination</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Path comp :&quot;</span><span
+            class="p">,</span> <span class="n">path_comp</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Path Time :&quot;</span><span
+            class="p">,</span> <span class="n">path_times</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span
+            class="n">Path</span><span class="p">([],</span> <span class="p">[])</span>
+        <span class="n">cur_node</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span
+            class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span
+            class="n">path_comp</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span
+            class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current comp:&quot;</span><span
+            class="p">,</span> <span class="n">path_comp</span><span class="p">[</span><span class="n">i</span><span
+            class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Next comp:&quot;</span><span
+            class="p">,</span> <span class="n">path_comp</span><span class="p">[</span><span class="n">i</span> <span
+            class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">cur_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span
+            class="n">path_comp</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">next_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span
+            class="n">path_comp</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span
+            class="mi">1</span><span class="p">]]</span>
+            <span class="n">intersec_nodes</span> <span class="o">=</span> <span class="n">cur_comp</span><span
+            class="o">.</span><span class="n">nodes</span> <span class="o">&amp;</span> <span class="n">next_comp</span><span
+            class="o">.</span><span class="n">nodes</span>
+            <span class="k">if</span> <span class="n">cur_node</span> <span class="ow">in</span> <span class="n">intersec_nodes</span><span
+            class="p">:</span>
+                <span class="c1"># No need to jump</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">next_node</span> <span class="o">=</span> <span class="n">random</span><span
+            class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">intersec_nodes</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;Intersec_nodes :&quot;</span><span class="p">,</span> <span class="n">intersec_nodes</span><span
+            class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;current node :&quot;</span><span
+            class="p">,</span> <span class="n">cur_node</span><span class="p">,</span> <span class="s2">&quot; next node:&quot;</span><span
+            class="p">,</span> <span class="n">next_node</span><span class="p">)</span>
+            <span class="n">path_inside_comp</span> <span class="o">=</span> <span class="n">cur_comp</span><span
+            class="o">.</span><span class="n">random_path</span><span class="p">(</span><span
+            class="n">cur_node</span><span class="p">,</span> <span class="n">next_node</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span
+            class="s2">&quot;path_inside_comp&quot;</span><span class="p">,</span> <span
+            class="n">path_inside_comp</span><span class="p">)</span>
+            <span class="n">cur_node</span> <span class="o">=</span> <span class="n">next_node</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span
+            class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path_inside_comp</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span
+            class="mi">1</span><span class="p">):</span>
+                <span class="n">P</span><span class="o">.</span><span class="n">add_link</span><span class="p">((</span><span
+            class="n">path_inside_comp</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">path_inside_comp</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span
+            class="o">+</span> <span class="mi">1</span><span class="p">]),</span> <span
+            class="n">path_times</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">()</span>
+        <span class="n">path_inside_comp</span> <span class="o">=</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">c_nodes</span><span class="p">[</span><span
+            class="n">path_comp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]]</span><span class="o">.</span><span class="n">random_path</span><span class="p">(</span><span
+            class="n">cur_node</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span
+            class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span
+            class="n">path_inside_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span
+            class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">P</span><span class="o">.</span><span class="n">add_link</span><span
+            class="p">((</span><span class="n">path_inside_comp</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span
+            class="n">path_inside_comp</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span
+            class="p">]),</span> <span class="n">path_inside_comp</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;path times :&quot;</span><span
+            class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">times</span><span
+            class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;path nodes :&quot;</span><span
+            class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">links</span><span
+            class="p">)</span>
+        <span class="k">return</span> <span class="n">P</span></div></div>
+</pre>
+                </div>
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

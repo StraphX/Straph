@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Introduction &#8212; straph 1 documentation</title>
+
+    <link href="../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html"/>
+    <link rel="search" title="Search" href="../search.html"/>
+    <link rel="next" title="Visualisation" href="Drawing.html"/>
+    <link rel="prev" title="User Guide" href="../tutorials.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../index.html">
+            <img src="../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 current active nav-item">
+                    <a class="reference internal nav-link" href="../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+                    <ul class="current nav bd-sidenav">
+                        <li class="toctree-l2 current active">
+                            <a class="current reference internal" href="#">
+                                Introduction
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Drawing.html">
+                                Visualisation
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Readers%20and%20Writers%20%28Input-Output%29.html">
+                                Readers and Writers
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Stream%20Graph%20Theory%20Properties.html">
+                                Stream Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Induced%20Graphs%20and%20Substreams.html">
+                                Induced Graphs and Substreams
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Connected%20Components.html">
+                                Connected Components
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Graph%20Theory%20Properties.html">
+                                Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Temporal%20Paths.html">
+                                Temporal Paths in Stream Graph
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Random%20Stream%20Graphs.html">
+                                Stream Graph Generators
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Use%20Case%201%2C%20Temporal%20Network%20Analysis.html">
+                                Temporal Network Analysis: High School Dataset, Interactions among Students
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Basic-visualisation">
+                            Basic visualisation
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Stream-Graph-Object">
+                            Stream Graph Object
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Manipulating-a-Stream-Graph-Object">
+                            Manipulating a Stream Graph Object
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/notebooks/Introduction.ipynb">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+
+                <style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+                </style>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[1]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">straph</span> <span class="k">as</span> <span class="nn">sg</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[2]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span
+                                class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span
+                                class="p">]</span> <span class="o">=</span> <span class="p">(</span><span
+                                class="mi">12</span><span class="p">,</span><span class="mi">9</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="section" id="Introduction">
+                    <h1>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline">¶</a>
+                    </h1>
+                    <p>Formally, a stream graph <img class="math"
+                                                     src="../_images/math/f55df6d60d95e9f0037cb383e660df030c917c63.png"
+                                                     alt="S = (T,V,W,E)"/> is defined by a set of time instants <img
+                            class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png" alt="T"/>, a
+                        finite set of nodes <img class="math"
+                                                 src="../_images/math/e4762cec46619bf7781cae62216214f909395368.png"
+                                                 alt="V"/>, a set of temporal nodes <img class="math"
+                                                                                         src="../_images/math/69e9d94b4777dfcbb3400d3244578b6c83d482a6.png"
+                                                                                         alt="W \subseteq T \times V"/>,
+                        and a set of temporal links <img class="math"
+                                                         src="../_images/math/71e8b74a4c1c5b1c8c7ded53dd89b171109e2286.png"
+                                                         alt="E\subseteq T \times V \times V"/>. The set of time
+                        instants <img class="math" src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png"
+                                      alt="T"/> can be continuous or discrete. Likewise interactions (temporal links)
+                        between two nodes can be discrete <img class="math"
+                                                               src="../_images/math/6f79f7b34f44db6f4298c3666b5fc97f58070fbb.png"
+                                                               alt="(b,b,u,v)"/> or continuous <img class="math"
+                                                                                                    src="../_images/math/b27499dee4e4b8d0538190fc5edb8da09bc58246.png"
+                                                                                                    alt="(b,e,u,v)"/>
+                        (with <img class="math" src="../_images/math/a50ea65c3d677c2d819ec40be695298de6f27e6b.png"
+                                   alt="b,e \in T"/> and <img class="math"
+                                                              src="../_images/math/44de5cc9c2bfad08280ebbd458f43ef15b41a96e.png"
+                                                              alt="u,v \in V"/>).</p>
+                    <p>Stream graphs can be used to model any connected structure evolving through time. For instance,
+                        IP traffic between entities can be modelised as follow: whenever two IP adresses exchanges
+                        packets we record a temporal link between these two nodes corresponding to the duration of the
+                        exchange.</p>
+                    <p>First of all, we load an artificial example that will be used in the following steps of analysis
+                        and visualisation.</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[3]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">path_directory</span> <span class="o">=</span> <span
+                                    class="s2">&quot;examples/&quot;</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">read_stream_graph</span><span
+                                    class="p">(</span><span class="n">path_nodes</span><span class="o">=</span><span
+                                    class="n">path_directory</span> <span class="o">+</span> <span class="s2">&quot;example_nodes.sg&quot;</span><span
+                                    class="p">,</span>
+                         <span class="n">path_links</span><span class="o">=</span><span class="n">path_directory</span> <span
+                                    class="o">+</span> <span class="s2">&quot;example_links.sg&quot;</span><span
+                                    class="p">)</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="Basic-visualisation">
+                        <h2>Basic visualisation<a class="headerlink" href="#Basic-visualisation"
+                                                  title="Permalink to this headline">¶</a></h2>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[4]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Introduction_8_0.png"
+                                     src="../_images/notebooks_Introduction_8_0.png"/>
+                            </div>
+                        </div>
+                        <p>We refer to this <a class="reference internal" href="Drawing.html"><span
+                                class="doc">Notebook</span></a> for more details on visualisation.</p>
+                    </div>
+                    <div class="section" id="Stream-Graph-Object">
+                        <h2>Stream Graph Object<a class="headerlink" href="#Stream-Graph-Object"
+                                                  title="Permalink to this headline">¶</a></h2>
+                        <p><strong>Paradigme</strong>: In <code class="docutils literal notranslate"><span class="pre">Straph</span></code>
+                            simple data structures should be represented by built-in python objects, resulting in a more
+                            comprehensive and intuitive code.</p>
+                        <p>After a comparative analysis we choose to use the following data structures for manipulating
+                            stream graphs. (As numerous algorithms and basic computations are not based on vectorials
+                            operations <code class="docutils literal notranslate"><span class="pre">Numpy</span></code>
+                            arrays were deemed to slow.)</p>
+                        <p>A <code class="docutils literal notranslate"><span class="pre">StreamGraph</span></code>
+                            object is constituted by five main attributes:</p>
+                        <ul class="simple">
+                            <li><p><code class="docutils literal notranslate"><span class="pre">times</span></code>: the
+                                time window of the stream graph (<img class="math"
+                                                                      src="../_images/math/e8dea8254118f111b5fb20895b03528c17566f06.png"
+                                                                      alt="T"/>)</p></li>
+                            <li><p><code class="docutils literal notranslate"><span class="pre">nodes</span></code>: the
+                                list of nodes present in the stream graph (<img class="math"
+                                                                                src="../_images/math/e4762cec46619bf7781cae62216214f909395368.png"
+                                                                                alt="V"/>)</p></li>
+                            <li><p><code class="docutils literal notranslate"><span
+                                    class="pre">node_presence</span></code>: a list of list, each list corresponds to a
+                                node and contains its presence time (<img class="math"
+                                                                          src="../_images/math/1fbee781f84569077719a167b64e12064360fac1.png"
+                                                                          alt="W"/>)</p></li>
+                            <li><p><code class="docutils literal notranslate"><span class="pre">links</span></code>: the
+                                list of links present in the stream graph (<img class="math"
+                                                                                src="../_images/math/1815f600df7845409443aed470eac2d449e4ddb0.png"
+                                                                                alt="E"/>)</p></li>
+                            <li><p><code class="docutils literal notranslate"><span
+                                    class="pre">node_presence</span></code>: a list of list, each list corresponds to a
+                                link and contains its presence time (<img class="math"
+                                                                          src="../_images/math/1815f600df7845409443aed470eac2d449e4ddb0.png"
+                                                                          alt="E"/>)</p></li>
+                        </ul>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[5]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">times</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[5]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+[0.0, 10.0]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>The stream graph spans from instant <img class="math"
+                                                                    src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png"
+                                                                    alt="0"/> to <img class="math"
+                                                                                      src="../_images/math/475d5964a90500c461804bca3d965ff8679e248c.png"
+                                                                                      alt="10"/></p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[6]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">nodes</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[6]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+[0, 1, 2, 3, 4, 5]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p><code class="docutils literal notranslate"><span class="pre">S</span></code> contains <img
+                                class="math" src="../_images/math/ba290a7507ee9018f2b149b2746103b05b4cc4ee.png"
+                                alt="6"/> nodes. Nodes are always represented by integers, their labels can be stored in
+                            the attribute <code class="docutils literal notranslate"><span
+                                    class="pre">node_to_label</span></code>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[7]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">node_to_label</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[7]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+{0: &#39;A&#39;, 1: &#39;B&#39;, 2: &#39;C&#39;, 3: &#39;D&#39;, 4: &#39;E&#39;, 5: &#39;F&#39;}
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">node_presence</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+[[0.0, 5.0, 7.0, 10.0],
+ [0.0, 10.0],
+ [0.0, 1.0, 4.0, 6.0],
+ [0.0, 1.0, 2.0, 4.0, 8.0, 10.0],
+ [0.0, 10.0],
+ [0.0, 4.0, 6.0, 10.0]]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>As we can see on the above figure, node <img class="math"
+                                                                        src="../_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png"
+                                                                        alt="A"/> with index <img class="math"
+                                                                                                  src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png"
+                                                                                                  alt="0"/> is present
+                            from time <img class="math"
+                                           src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png" alt="0"/>
+                            to <img class="math" src="../_images/math/51d4ace3c51c5a5490fc4464952d6c46d518fbc8.png"
+                                    alt="5"/>, absent from <img class="math"
+                                                                src="../_images/math/51d4ace3c51c5a5490fc4464952d6c46d518fbc8.png"
+                                                                alt="5"/> to <img class="math"
+                                                                                  src="../_images/math/bc1bafc0b553246780ec53eb1d4bc76662b09b5e.png"
+                                                                                  alt="7"/> and present again from <img
+                                    class="math" src="../_images/math/bc1bafc0b553246780ec53eb1d4bc76662b09b5e.png"
+                                    alt="7"/> to <img class="math"
+                                                      src="../_images/math/475d5964a90500c461804bca3d965ff8679e248c.png"
+                                                      alt="10"/>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[9]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">links</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[9]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+[(0, 1), (1, 2), (1, 4), (2, 3), (2, 4), (3, 4), (3, 5), (4, 5)]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[10]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">link_presence</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[10]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+[[0.0, 4.0, 8.0, 9.0],
+ [4.0, 5.0],
+ [7.0, 7.0],
+ [0.0, 1.0],
+ [5.0, 5.0],
+ [2.0, 4.0, 8.0, 10.0],
+ [3.0, 4.0],
+ [0.0, 4.0, 6.0, 10.0]]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>The link <img class="math" src="../_images/math/ca22f1c7976ce48694a0ea1599ec267fa05c2d4f.png"
+                                         alt="(4,5)"/> (corresponding to nodes <img class="math"
+                                                                                    src="../_images/math/1815f600df7845409443aed470eac2d449e4ddb0.png"
+                                                                                    alt="E"/> and <img class="math"
+                                                                                                       src="../_images/math/df00656702b70b4b6f7ffbf6a9aa9a334bab1914.png"
+                                                                                                       alt="F"/>) with
+                            index <img class="math" src="../_images/math/51d4ace3c51c5a5490fc4464952d6c46d518fbc8.png"
+                                       alt="5"/> is active from time <img class="math"
+                                                                          src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png"
+                                                                          alt="0"/> to <img class="math"
+                                                                                            src="../_images/math/3204f0580808cc1d3ded72d87384c025c9e7e272.png"
+                                                                                            alt="3"/> and again from
+                            <img class="math" src="../_images/math/bc1bafc0b553246780ec53eb1d4bc76662b09b5e.png"
+                                 alt="7"/> to <img class="math"
+                                                   src="../_images/math/475d5964a90500c461804bca3d965ff8679e248c.png"
+                                                   alt="10"/>.</p>
+                        <p>A short description of a stream graph scale can be obtained with <code
+                                class="docutils literal notranslate"><span class="pre">.describe()</span></code></p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[11]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+Nb of Nodes :  6
+Nb of segmented nodes :  11.0
+Nb of links :  8
+Nb of segmented links :  11.0
+Nb of event times :  11
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>We can add or remove nodes and links to/from a <code
+                                class="docutils literal notranslate"><span class="pre">stream_graph</span></code> object
+                            (we refer to this <a class="reference internal"
+                                                 href="Readers%20and%20Writers%20%28Input-Output%29.html"><span
+                                    class="doc">notebook</span></a> for further information).</p>
+                        <p>We can easily add a new node. Let’s add <img class="math"
+                                                                        src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png"
+                                                                        alt="G"/> present from <img class="math"
+                                                                                                    src="../_images/math/31fdf41b39df23c95e52c5aef07f59d9adf82f3c.png"
+                                                                                                    alt="0"/> to <img
+                                class="math" src="../_images/math/3204f0580808cc1d3ded72d87384c025c9e7e272.png"
+                                alt="3"/> and from <img class="math"
+                                                        src="../_images/math/963219eafec84d240711eb594e2b8904b8883d82.png"
+                                                        alt="8"/> to <img class="math"
+                                                                          src="../_images/math/f3ebee65f051b4ad053b59d88d03b08e6b1cab3a.png"
+                                                                          alt="9"/>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[12]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">add_node</span><span
+                                        class="p">(</span><span class="s1">&#39;G&#39;</span><span
+                                        class="p">,[</span><span class="mi">0</span><span class="p">,</span><span
+                                        class="mi">3</span><span class="p">,</span><span class="mi">8</span><span
+                                        class="p">,</span><span class="mi">9</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[12]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+6
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Likewise we can add a new link. If one of the extrimities is new, it will be added
+                            automatically for the duration of the link. Let’s add a link <img class="math"
+                                                                                              src="../_images/math/96c3b2ba98459219ad46ad2cc40fb8184ab8c4bc.png"
+                                                                                              alt="(G,H)"/> from <img
+                                    class="math" src="../_images/math/ec830c85a5fbb48028fe797044da6bdfb924c2fa.png"
+                                    alt="1"/> to <img class="math"
+                                                      src="../_images/math/3204f0580808cc1d3ded72d87384c025c9e7e272.png"
+                                                      alt="3"/> and from <img class="math"
+                                                                              src="../_images/math/963219eafec84d240711eb594e2b8904b8883d82.png"
+                                                                              alt="8"/> to <img class="math"
+                                                                                                src="../_images/math/f3ebee65f051b4ad053b59d88d03b08e6b1cab3a.png"
+                                                                                                alt="9"/>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[13]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">add_link</span><span
+                                        class="p">((</span><span class="s1">&#39;G&#39;</span><span
+                                        class="p">,</span><span class="s1">&#39;H&#39;</span><span
+                                        class="p">),[</span><span class="mi">1</span><span class="p">,</span><span
+                                        class="mi">3</span><span class="p">,</span><span class="mi">8</span><span
+                                        class="p">,</span><span class="mi">9</span><span class="p">])</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Introduction_28_0.png"
+                                     src="../_images/notebooks_Introduction_28_0.png"/>
+                            </div>
+                        </div>
+                        <p>Let’s remove these new interactions between nodes <img class="math"
+                                                                                  src="../_images/math/89878909dbb648acdc4a44ded1bd982d7bddef5d.png"
+                                                                                  alt="G"/> and <img class="math"
+                                                                                                     src="../_images/math/cb5de54f699cf4b3c7c1a3e87313d11d536c0d88.png"
+                                                                                                     alt="H"/>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[14]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">remove_link</span><span class="p">((</span><span
+                                        class="s1">&#39;G&#39;</span><span class="p">,</span><span class="s1">&#39;H&#39;</span><span
+                                        class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Introduction_30_0.png"
+                                     src="../_images/notebooks_Introduction_30_0.png"/>
+                            </div>
+                        </div>
+                        <p><em>Note</em> : If we remove a node, all of its links will be automatically removed.</p>
+                        <div class="nbinput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[15]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">remove_node</span><span
+                                        class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">)</span>
+<span class="n">S</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span
+                                        class="s1">&#39;H&#39;</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[16]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Introduction_33_0.png"
+                                     src="../_images/notebooks_Introduction_33_0.png"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="Manipulating-a-Stream-Graph-Object">
+                        <h2>Manipulating a Stream Graph Object<a class="headerlink"
+                                                                 href="#Manipulating-a-Stream-Graph-Object"
+                                                                 title="Permalink to this headline">¶</a></h2>
+                        <p>There are several manners to manipulate a <code class="docutils literal notranslate"><span
+                                class="pre">StreamGraph</span></code> object: - Iterate on nodes - Iterate on links -
+                            Iterate on temporally ordered links - Iterate on temporally ordered events</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[17]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">np</span> <span
+                                        class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+                                        class="n">S</span><span class="o">.</span><span class="n">nodes</span><span
+                                        class="p">,</span><span class="n">S</span><span class="o">.</span><span
+                                        class="n">node_presence</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">b</span><span class="p">,</span><span class="n">e</span> <span
+                                        class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+                                        class="n">np</span><span class="p">[::</span><span class="mi">2</span><span
+                                        class="p">],</span><span class="n">np</span><span class="p">[</span><span
+                                        class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+                                        class="p">]):</span> <span class="c1"># Even index are arrivals and odd index departure</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node &quot;</span><span
+                                        class="p">,</span><span class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">n</span><span class="p">],</span><span class="s2">&quot; is present from &quot;</span><span
+                                        class="p">,</span><span class="n">b</span><span class="p">,</span><span
+                                        class="s2">&quot; to &quot;</span><span class="p">,</span><span
+                                        class="n">e</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+Node  A  is present from  0.0  to  5.0
+Node  A  is present from  7.0  to  10.0
+Node  B  is present from  0.0  to  10.0
+Node  C  is present from  0.0  to  1.0
+Node  C  is present from  4.0  to  6.0
+Node  D  is present from  0.0  to  1.0
+Node  D  is present from  2.0  to  4.0
+Node  D  is present from  8.0  to  10.0
+Node  E  is present from  0.0  to  10.0
+Node  F  is present from  0.0  to  4.0
+Node  F  is present from  6.0  to  10.0
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[18]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">l</span><span class="p">,</span><span class="n">lp</span> <span
+                                        class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+                                        class="n">S</span><span class="o">.</span><span class="n">links</span><span
+                                        class="p">,</span><span class="n">S</span><span class="o">.</span><span
+                                        class="n">link_presence</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">b</span><span class="p">,</span><span class="n">e</span> <span
+                                        class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span
+                                        class="n">lp</span><span class="p">[::</span><span class="mi">2</span><span
+                                        class="p">],</span><span class="n">lp</span><span class="p">[</span><span
+                                        class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+                                        class="p">]):</span> <span class="c1"># Even index are arrivals and odd index departure</span>
+        <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="o">=</span> <span
+                                        class="n">l</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link &quot;</span><span
+                                        class="p">,(</span><span class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">u</span><span class="p">],</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">v</span><span class="p">]),</span><span
+                                        class="s2">&quot; is present from &quot;</span><span class="p">,</span><span
+                                        class="n">b</span><span class="p">,</span><span
+                                        class="s2">&quot; to &quot;</span><span class="p">,</span><span
+                                        class="n">e</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+Link  (&#39;A&#39;, &#39;B&#39;)  is present from  0.0  to  4.0
+Link  (&#39;A&#39;, &#39;B&#39;)  is present from  8.0  to  9.0
+Link  (&#39;B&#39;, &#39;C&#39;)  is present from  4.0  to  5.0
+Link  (&#39;B&#39;, &#39;E&#39;)  is present from  7.0  to  7.0
+Link  (&#39;C&#39;, &#39;D&#39;)  is present from  0.0  to  1.0
+Link  (&#39;C&#39;, &#39;E&#39;)  is present from  5.0  to  5.0
+Link  (&#39;D&#39;, &#39;E&#39;)  is present from  2.0  to  4.0
+Link  (&#39;D&#39;, &#39;E&#39;)  is present from  8.0  to  10.0
+Link  (&#39;D&#39;, &#39;F&#39;)  is present from  3.0  to  4.0
+Link  (&#39;E&#39;, &#39;F&#39;)  is present from  0.0  to  4.0
+Link  (&#39;E&#39;, &#39;F&#39;)  is present from  6.0  to  10.0
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[19]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">ordered_links</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span
+                                        class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+                                        class="n">t1</span><span class="p">,</span> <span class="n">u</span><span
+                                        class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span
+                                        class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link arrival </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t0</span><span class="p">,</span><span
+                                        class="n">t1</span><span class="p">,</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">u</span><span class="p">],</span><span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">v</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="o">-</span><span
+                                        class="mi">1</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span
+                                        class="n">u</span><span class="p">,</span> <span class="n">v</span> <span
+                                        class="o">=</span> <span class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link departure </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t1</span><span class="p">,</span><span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">u</span><span class="p">],</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">v</span><span class="p">]))</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+Link arrival    : (0.0, 4.0, &#39;A&#39;, &#39;B&#39;)
+Link arrival    : (0.0, 1.0, &#39;C&#39;, &#39;D&#39;)
+Link arrival    : (0.0, 4.0, &#39;E&#39;, &#39;F&#39;)
+Link departure  : (1.0, &#39;C&#39;, &#39;D&#39;)
+Link arrival    : (2.0, 4.0, &#39;D&#39;, &#39;E&#39;)
+Link arrival    : (3.0, 4.0, &#39;D&#39;, &#39;F&#39;)
+Link arrival    : (4.0, 5.0, &#39;B&#39;, &#39;C&#39;)
+Link departure  : (4.0, &#39;A&#39;, &#39;B&#39;)
+Link departure  : (4.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (4.0, &#39;D&#39;, &#39;F&#39;)
+Link departure  : (4.0, &#39;E&#39;, &#39;F&#39;)
+Link arrival    : (5.0, 5.0, &#39;C&#39;, &#39;E&#39;)
+Link departure  : (5.0, &#39;B&#39;, &#39;C&#39;)
+Link departure  : (5.0, &#39;C&#39;, &#39;E&#39;)
+Link arrival    : (6.0, 10.0, &#39;E&#39;, &#39;F&#39;)
+Link arrival    : (7.0, 7.0, &#39;B&#39;, &#39;E&#39;)
+Link departure  : (7.0, &#39;B&#39;, &#39;E&#39;)
+Link arrival    : (8.0, 9.0, &#39;A&#39;, &#39;B&#39;)
+Link arrival    : (8.0, 10.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (9.0, &#39;A&#39;, &#39;B&#39;)
+Link departure  : (10.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (10.0, &#39;E&#39;, &#39;F&#39;)
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[20]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">ordered_events</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span
+                                        class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span
+                                        class="n">t1</span><span class="p">,</span><span class="n">u</span> <span
+                                        class="o">=</span> <span class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node arrival </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t0</span><span class="p">,</span><span
+                                        class="n">t1</span><span class="p">,</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">u</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span
+                                        class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+                                        class="n">t1</span><span class="p">,</span> <span class="n">u</span><span
+                                        class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span
+                                        class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link arrival </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t0</span><span class="p">,</span><span
+                                        class="n">t1</span><span class="p">,</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">u</span><span class="p">],</span><span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">v</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="o">-</span><span
+                                        class="mi">1</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span
+                                        class="n">u</span><span class="p">,</span> <span class="n">v</span> <span
+                                        class="o">=</span> <span class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Link departure </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t1</span><span class="p">,</span><span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">u</span><span class="p">],</span><span class="n">S</span><span
+                                        class="o">.</span><span class="n">node_to_label</span><span
+                                        class="p">[</span><span class="n">v</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span
+                                        class="p">]</span> <span class="o">==</span> <span class="o">-</span><span
+                                        class="mi">2</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span
+                                        class="n">u</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node departure </span><span
+                                        class="se">\t</span><span class="s2">:&quot;</span><span
+                                        class="p">,(</span><span class="n">t1</span><span class="p">,</span><span
+                                        class="n">S</span><span class="o">.</span><span
+                                        class="n">node_to_label</span><span class="p">[</span><span
+                                        class="n">u</span><span class="p">]))</span>
+
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+Node arrival    : (0.0, 5.0, &#39;A&#39;)
+Node arrival    : (0.0, 10.0, &#39;B&#39;)
+Node arrival    : (0.0, 1.0, &#39;C&#39;)
+Node arrival    : (0.0, 1.0, &#39;D&#39;)
+Node arrival    : (0.0, 10.0, &#39;E&#39;)
+Node arrival    : (0.0, 4.0, &#39;F&#39;)
+Link arrival    : (0.0, 4.0, &#39;A&#39;, &#39;B&#39;)
+Link arrival    : (0.0, 1.0, &#39;C&#39;, &#39;D&#39;)
+Link arrival    : (0.0, 4.0, &#39;E&#39;, &#39;F&#39;)
+Link departure  : (1.0, &#39;C&#39;, &#39;D&#39;)
+Node departure  : (1.0, &#39;C&#39;)
+Node departure  : (1.0, &#39;D&#39;)
+Node arrival    : (2.0, 4.0, &#39;D&#39;)
+Link arrival    : (2.0, 4.0, &#39;D&#39;, &#39;E&#39;)
+Link arrival    : (3.0, 4.0, &#39;D&#39;, &#39;F&#39;)
+Node arrival    : (4.0, 6.0, &#39;C&#39;)
+Link arrival    : (4.0, 5.0, &#39;B&#39;, &#39;C&#39;)
+Link departure  : (4.0, &#39;A&#39;, &#39;B&#39;)
+Link departure  : (4.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (4.0, &#39;D&#39;, &#39;F&#39;)
+Link departure  : (4.0, &#39;E&#39;, &#39;F&#39;)
+Node departure  : (4.0, &#39;D&#39;)
+Node departure  : (4.0, &#39;F&#39;)
+Link arrival    : (5.0, 5.0, &#39;C&#39;, &#39;E&#39;)
+Link departure  : (5.0, &#39;B&#39;, &#39;C&#39;)
+Link departure  : (5.0, &#39;C&#39;, &#39;E&#39;)
+Node departure  : (5.0, &#39;A&#39;)
+Node arrival    : (6.0, 10.0, &#39;F&#39;)
+Link arrival    : (6.0, 10.0, &#39;E&#39;, &#39;F&#39;)
+Node departure  : (6.0, &#39;C&#39;)
+Node arrival    : (7.0, 10.0, &#39;A&#39;)
+Link arrival    : (7.0, 7.0, &#39;B&#39;, &#39;E&#39;)
+Link departure  : (7.0, &#39;B&#39;, &#39;E&#39;)
+Node arrival    : (8.0, 10.0, &#39;D&#39;)
+Link arrival    : (8.0, 9.0, &#39;A&#39;, &#39;B&#39;)
+Link arrival    : (8.0, 10.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (9.0, &#39;A&#39;, &#39;B&#39;)
+Link departure  : (10.0, &#39;D&#39;, &#39;E&#39;)
+Link departure  : (10.0, &#39;E&#39;, &#39;F&#39;)
+Node departure  : (10.0, &#39;A&#39;)
+Node departure  : (10.0, &#39;B&#39;)
+Node departure  : (10.0, &#39;D&#39;)
+Node departure  : (10.0, &#39;E&#39;)
+Node departure  : (10.0, &#39;F&#39;)
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>In <code class="docutils literal notranslate"><span class="pre">Straph</span></code> almost
+                            all algorithms are based on these data structures.</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+                <a class='left-prev' id="prev-link" href="../tutorials.html" title="previous page">User Guide</a>
+                <a class='right-next' id="next-link" href="Drawing.html" title="next page">Visualisation</a>
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.components.weakly_connected_component &#8212; straph 1 documentation</title>
+
+    <link href="../../../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../../../"
+            src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../../../index.html">
+            <img src="../../../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <h1>Source code for straph.components.weakly_connected_component</h1>
+                <div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2017-2021 Léo Rannou - Sorbonne Université/LIP6 - Thales</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span
+                        class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="kn">import</span> <span class="nn">straph</span> <span class="k">as</span> <span class="nn">sg</span>
+
+
+<span class="c1">########################################################</span>
+<span class="c1">#           Weakly Connected Components : DFS          #</span>
+<span class="c1">########################################################</span>
+
+
+<div class="viewcode-block" id="compute_wcc_dfs"><a class="viewcode-back"
+                                                    href="../../../straph.components.html#straph.components.weakly_connected_component.compute_wcc_dfs">[docs]</a><span
+        class="k">def</span> <span class="nf">compute_wcc_dfs</span><span class="p">(</span><span
+        class="n">S</span><span class="p">,</span> <span class="n">free_memory</span><span class="o">=</span><span
+        class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Weakly Connected Components of a ``StreamGraph`` using a Depth First Search procedure.</span>
+
+<span class="sd">    :param S:  A ``StreamGraph`` object.</span>
+<span class="sd">    :param free_memory: Optional parameter to free some memore. WARNING: \</span>
+<span class="sd">    It does impact the original ``StreamGraph`` object</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">Neighborhood</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+            class="n">neighborhood_with_node_presence</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">free_memory</span><span class="p">:</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span
+            class="p">[]</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span> <span
+            class="o">=</span> <span class="p">[]</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">links</span> <span class="o">=</span> <span
+            class="p">[]</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">link_presence</span> <span
+            class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">unvisited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span
+            class="n">Neighborhood</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">unvisited</span><span class="p">)</span> <span class="o">&gt;</span> <span
+            class="mi">0</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">unvisited</span><span class="o">.</span><span
+            class="n">pop</span><span class="p">()</span>
+        <span class="n">current_component</span><span class="p">,</span> <span class="n">visited</span> <span class="o">=</span> <span
+            class="n">sg</span><span class="o">.</span><span class="n">DFS_iterative</span><span class="p">(</span><span
+            class="n">v</span><span class="p">,</span> <span class="n">Neighborhood</span><span class="p">)</span>
+        <span class="n">unvisited</span> <span class="o">-=</span> <span class="n">visited</span>
+        <span class="n">components</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">current_component</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">components</span></div>
+
+
+<span class="c1">########################################################</span>
+<span class="c1">#      Weakly Connected Components as Substreams       #</span>
+<span class="c1">########################################################</span>
+
+
+<div class="viewcode-block" id="compute_wcc_as_substreams"><a class="viewcode-back"
+                                                              href="../../../straph.components.html#straph.components.weakly_connected_component.compute_wcc_as_substreams">[docs]</a><span
+        class="k">def</span> <span class="nf">compute_wcc_as_substreams</span><span class="p">(</span><span
+        class="n">S</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span
+        class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the weakly connected components a ``StreamGraph``</span>
+<span class="sd">    as substreams (a stream graph induced by the component/cluster)</span>
+
+<span class="sd">    :param S: A ``StreamGraph`` object</span>
+<span class="sd">    :param n_jobs: Number of cores to allocate for a parallel computation.</span>
+<span class="sd">    :return: A list of ``StreamGraph`` objects, one for each WCC.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">list_WCC</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+            class="n">weakly_connected_components</span><span class="p">()</span>
+    <span class="c1"># 1. attribuer à chaque wcc ses events.</span>
+    <span class="n">list_sub_events</span> <span class="o">=</span> <span class="p">[[]</span> <span
+            class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span
+            class="n">list_WCC</span><span class="p">]</span>
+    <span class="n">seg_node_to_wcc</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span
+            class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span
+            class="n">list_WCC</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span
+            class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">c</span><span
+            class="p">:</span>
+            <span class="n">list_sub_events</span><span class="p">[</span><span class="n">i</span><span
+            class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span
+            class="mi">2</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="n">list_sub_events</span><span class="p">[</span><span class="n">i</span><span
+            class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span
+            class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">t1</span><span
+            class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="n">seg_node_to_wcc</span><span class="p">[(</span><span class="n">t0</span><span
+            class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span
+            class="p">)]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="n">node_to_current_wcc</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">S</span><span
+            class="o">.</span><span class="n">ordered_arrivals</span><span class="p">():</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span
+            class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span
+            class="n">v</span> <span class="o">=</span> <span class="n">e</span>
+            <span class="n">id_wcc</span> <span class="o">=</span> <span class="n">node_to_current_wcc</span><span
+            class="p">[</span><span class="n">u</span><span class="p">]</span>
+            <span class="n">list_sub_events</span><span class="p">[</span><span class="n">id_wcc</span><span
+            class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span
+            class="mi">1</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span
+            class="n">v</span><span class="p">))</span>
+            <span class="n">list_sub_events</span><span class="p">[</span><span class="n">id_wcc</span><span
+            class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span
+            class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">t1</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">2</span><span
+            class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span
+            class="n">e</span>
+            <span class="n">node_to_current_wcc</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">seg_node_to_wcc</span><span
+            class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">para_sg_from_events</span><span class="p">(</span><span
+            class="n">ev</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sg</span><span class="o">.</span><span class="n">stream_graph_from_events_list</span><span
+            class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+
+    <span class="n">list_substreams</span> <span class="o">=</span> <span class="n">Parallel</span><span
+            class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span
+            class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span
+            class="s1">&#39;r+&#39;</span><span class="p">)(</span>
+        <span class="n">delayed</span><span class="p">(</span><span class="n">para_sg_from_events</span><span class="p">)(</span><span
+            class="n">ev</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span
+            class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ev</span> <span
+            class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">list_sub_events</span><span
+            class="p">))</span>
+    <span class="k">return</span> <span class="n">list_substreams</span></div>
+
+
+<span class="c1">#############################################################</span>
+<span class="c1">#           Weakly Connected Components : Streaming         #</span>
+<span class="c1">#############################################################</span>
+
+<div class="viewcode-block" id="find_node"><a class="viewcode-back"
+                                              href="../../../straph.components.html#straph.components.weakly_connected_component.find_node">[docs]</a><span
+        class="k">def</span> <span class="nf">find_node</span><span class="p">(</span><span class="n">u</span><span
+        class="p">,</span> <span class="n">dict_components</span><span class="p">):</span>
+    <span class="c1"># First step : Find the node&#39;s root (component)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">u</span>
+    <span class="k">while</span> <span class="n">dict_components</span><span class="p">[</span><span
+            class="n">p</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span
+            class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">dict_components</span><span class="p">[</span><span
+            class="n">p</span><span class="p">]</span>
+    <span class="c1"># Second step : Update the childs according to the root</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">u</span>
+    <span class="k">while</span> <span class="n">dict_components</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="n">v</span><span
+            class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">dict_components</span><span
+            class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">dict_components</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">tmp</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="link_components"><a class="viewcode-back"
+                                                    href="../../../straph.components.html#straph.components.weakly_connected_component.link_components">[docs]</a><span
+        class="k">def</span> <span class="nf">link_components</span><span class="p">(</span><span
+        class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">dict_components</span><span
+        class="p">,</span> <span class="n">rank</span><span class="p">):</span>
+    <span class="c1"># Choose the &quot;biggest component&quot; to append the node</span>
+    <span class="k">if</span> <span class="n">rank</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">&gt;</span> <span class="n">rank</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]:</span>
+        <span class="n">dict_components</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dict_components</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">rank</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">==</span> <span class="n">rank</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]</span> <span class="ow">and</span> <span class="n">u</span> <span
+            class="o">!=</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">rank</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span
+            class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="compute_wcc_streaming"><a class="viewcode-back"
+                                                          href="../../../straph.components.html#straph.components.weakly_connected_component.compute_wcc_streaming">[docs]</a><span
+        class="k">def</span> <span class="nf">compute_wcc_streaming</span><span class="p">(</span><span
+        class="n">S</span><span class="p">,</span> <span class="n">reformat</span><span class="o">=</span><span
+        class="kc">True</span><span class="p">,</span> <span class="n">free_memory</span><span class="o">=</span><span
+        class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Weakly Connected Components of a ``StreamGraph`` in a streaming fashion with the Union-Find algorithm.</span>
+
+<span class="sd">    :param S:  A ``StreamGraph`` object.</span>
+<span class="sd">    :param reformat: If False, output a dictionary associating each root node to its child node (the other member \</span>
+<span class="sd">    of its wcc). If True, output WCC as a list of clusters.</span>
+<span class="sd">    :param free_memory: Optional parameter to free some memore. \</span>
+<span class="sd">    WARNING: It does impact the original ``StreamGraph`` object</span>
+<span class="sd">    :return: Depends on the &#39;reformat&#39; parameter. By default, a list of clusters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">node_to_wcc</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">node_to_segmented_node</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">ordered_arrivals</span><span
+            class="p">(</span><span class="n">free_memory</span><span class="o">=</span><span
+            class="n">free_memory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">E</span><span
+            class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">2</span><span
+            class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span
+            class="n">e</span>
+            <span class="n">rank</span><span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span
+            class="o">=</span> <span class="mi">0</span>
+            <span class="n">node_to_wcc</span><span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span
+            class="o">=</span> <span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">node_to_segmented_node</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span
+            class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span
+            class="p">)</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span
+            class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span
+            class="n">v</span> <span class="o">=</span> <span class="n">e</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span
+            class="n">node_to_segmented_node</span><span class="p">[</span><span class="n">u</span><span
+            class="p">],</span> <span class="n">node_to_segmented_node</span><span class="p">[</span><span
+            class="n">v</span><span class="p">]</span>
+
+            <span class="n">root_u</span> <span class="o">=</span> <span class="n">find_node</span><span
+            class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">node_to_wcc</span><span
+            class="p">)</span>
+            <span class="n">root_v</span> <span class="o">=</span> <span class="n">find_node</span><span
+            class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">node_to_wcc</span><span
+            class="p">)</span>
+            <span class="n">link_components</span><span class="p">(</span><span class="n">root_u</span><span
+            class="p">,</span> <span class="n">root_v</span><span class="p">,</span>
+                            <span class="n">node_to_wcc</span><span class="p">,</span>
+                            <span class="n">rank</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">reformat</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">reformat_components</span><span class="p">(</span><span class="n">dict_components</span><span
+            class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">dict_roots</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">dict_components</span><span
+            class="p">:</span>
+                <span class="k">if</span> <span class="n">dict_components</span><span class="p">[</span><span class="n">w</span><span
+            class="p">]</span> <span class="o">==</span> <span class="n">w</span><span class="p">:</span>
+                    <span class="n">dict_roots</span><span class="p">[</span><span class="n">w</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="p">[[]</span> <span
+            class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span
+            class="p">(</span><span class="n">k</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">dict_components</span><span
+            class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">w</span>
+                <span class="k">while</span> <span class="n">dict_components</span><span class="p">[</span><span
+            class="n">p</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span
+            class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">dict_components</span><span
+            class="p">[</span><span class="n">p</span><span class="p">]</span>
+                <span class="n">components</span><span class="p">[</span><span class="n">dict_roots</span><span
+            class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">components</span>
+
+        <span class="n">wcc</span> <span class="o">=</span> <span class="n">reformat_components</span><span
+            class="p">(</span><span class="n">node_to_wcc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wcc</span>
+    <span class="k">return</span> <span class="n">node_to_wcc</span></div>
+</pre>
+                </div>
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

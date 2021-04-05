@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Straph’s documentation &#8212; straph 1 documentation</title>
+
+    <link href="_static/css/theme.css" rel="stylesheet"/>
+    <link href="_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="next" title="Installation" href="installation.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="#">
+            <img src="_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h1 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#">
+                            Straph’s documentation
+                        </a>
+                    </li>
+                    <li class="toc-h1 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#stream-graph">
+                            Stream Graph
+                        </a>
+                    </li>
+                    <li class="toc-h1 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#summary">
+                            Summary
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/index.rst">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <p>sphinx-quickstart on Tue Mar 16 18:19:07 2021.
+                    You can adapt this file completely to your liking, but it should at least
+                    contain the root <cite>toctree</cite> directive.</p>
+                <div class="section" id="straph-s-documentation">
+                    <h1>Straph’s documentation<a class="headerlink" href="#straph-s-documentation"
+                                                 title="Permalink to this headline">¶</a></h1>
+                    <div class="toctree-wrapper compound">
+                    </div>
+                    <p><code class="docutils literal notranslate"><span class="pre">Straph</span></code> is an open
+                        source Python 3 package, under the licence Apache 2.0, for exploration
+                        and analysis of real and artificial stream graphs. This library provides specific
+                        data structures for representing different types of stream graphs, algorithms to compute
+                        basic properties and measures, readers and writers for various data formats as
+                        well as random generators.</p>
+                    <p><code class="docutils literal notranslate"><span class="pre">Straph</span></code> can be used to
+                        teach stream graph theory or illustrate particular concepts.
+                        Several Jupyter notebooks have been written in order to demonstrate its functionalities.
+                        Straph can be used by users or developers that are not necessarily experts in
+                        programming or in stream graph theory.</p>
+                </div>
+                <div class="section" id="stream-graph">
+                    <h1>Stream Graph<a class="headerlink" href="#stream-graph" title="Permalink to this headline">¶</a>
+                    </h1>
+                    <p>Stream graph formalism aims at extending basic graph theory concepts where time and structure are
+                        equally important.
+                        Stream graphs are particularly suited to model temporal networks with a highly internal
+                        dynamics.</p>
+                    <p>We refer to <a class="reference external" href="https://arxiv.org/abs/1710.04073">latapy_2017</a>
+                        and <a class="reference external" href="https://arxiv.org/abs/1906.04840">latapy_2019</a> for a
+                        detailed presentation of stream graph theory.</p>
+                </div>
+                <div class="section" id="summary">
+                    <h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
+                    <div class="toctree-wrapper compound">
+                        <ul>
+                            <li class="toctree-l1"><a class="reference internal"
+                                                      href="installation.html">Installation</a></li>
+                            <li class="toctree-l1"><a class="reference internal"
+                                                      href="notebooks/Getting%20Started.html">Getting Started</a></li>
+                            <li class="toctree-l1"><a class="reference internal" href="tutorials.html">User Guide</a>
+                            </li>
+                            <li class="toctree-l1"><a class="reference internal" href="api_reference.html">API
+                                Reference</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+                <a class='right-next' id="next-link" href="installation.html" title="next page">Installation</a>
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

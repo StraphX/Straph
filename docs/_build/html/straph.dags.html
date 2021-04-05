@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.dags package &#8212; straph 1 documentation</title>
+
+    <link href="_static/css/theme.css" rel="stylesheet"/>
+    <link href="_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="index.html">
+            <img src="_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#submodules">
+                            Submodules
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.dags.condensation_dag">
+                            straph.dags.condensation_dag module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.dags.dag">
+                            straph.dags.dag module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.dags.stable_dag">
+                            straph.dags.stable_dag module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.dags">
+                            Module contents
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/straph.dags.rst">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <div class="section" id="straph-dags-package">
+                    <h1>straph.dags package<a class="headerlink" href="#straph-dags-package"
+                                              title="Permalink to this headline">¶</a></h1>
+                    <div class="section" id="submodules">
+                        <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a>
+                        </h2>
+                    </div>
+                    <div class="section" id="module-straph.dags.condensation_dag">
+                        <span id="straph-dags-condensation-dag-module"></span>
+                        <h2>straph.dags.condensation_dag module<a class="headerlink"
+                                                                  href="#module-straph.dags.condensation_dag"
+                                                                  title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.dags.condensation_dag.CondensationDag">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.dags.condensation_dag.</code><code
+                                    class="sig-name descname">CondensationDag</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">id</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">times</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">c_nodes</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">c_links</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">id_comp_to_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">segmented_node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">adj_list</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/dags/condensation_dag.html#CondensationDag"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.dags.condensation_dag.CondensationDag"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference internal" href="#straph.dags.dag.Dag"
+                                             title="straph.dags.dag.Dag"><code
+                                    class="xref py py-class docutils literal notranslate"><span class="pre">straph.dags.dag.Dag</span></code></a>
+                            </p>
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.all_fastest_paths">
+                                        <code class="sig-name descname">all_fastest_paths</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">destination</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.all_fastest_paths"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.all_fastest_paths"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Compute the fastest path between ‘source’ and ‘destination’</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>destination</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.all_fastest_paths_ss">
+                                        <code class="sig-name descname">all_fastest_paths_ss</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.all_fastest_paths_ss"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.all_fastest_paths_ss"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Compute the fastest path between ‘source’ and all other nodes (in
+                                        condensation DAG)</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>source</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.cluster_to_object">
+                                        <code class="sig-name descname">cluster_to_object</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.cluster_to_object"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.cluster_to_object"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.fastest_path">
+                                        <code class="sig-name descname">fastest_path</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span class="n">destination</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.fastest_path"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.fastest_path"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Compute the fastest path between ‘source’ and ‘destination’</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>destination</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.foremost_path">
+                                        <code class="sig-name descname">foremost_path</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span class="n">destination</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.foremost_path"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.foremost_path"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin
+                                        time’.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>destination</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.get_stable_dag">
+                                        <code class="sig-name descname">get_stable_dag</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.get_stable_dag"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.get_stable_dag"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.is_reachable">
+                                        <code class="sig-name descname">is_reachable</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">target</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.is_reachable"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.is_reachable"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.latencies_ss">
+                                        <code class="sig-name descname">latencies_ss</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.latencies_ss"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.latencies_ss"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.latency">
+                                        <code class="sig-name descname">latency</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span class="n">destination</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.latency"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.latency"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.node_to_scc">
+                                        <code class="sig-name descname">node_to_scc</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">n</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.node_to_scc"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.node_to_scc"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.path_induced_substream">
+                                        <code class="sig-name descname">path_induced_substream</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>,
+                                        <em class="sig-param"><span class="n">node_to_label</span><span
+                                                class="o">=</span><span class="default_value">None</span></em>, <em
+                                            class="sig-param"><span class="n">path_bounds</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.path_induced_substream"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.path_induced_substream"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Transform a path in the condensation dag into a substream</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>path</strong> – Sequence of identifiers of <code
+                                                            class="docutils literal notranslate"><span class="pre">StronglyConnectedComponent</span></code>
+                                                        objects in the current <code
+                                                                class="docutils literal notranslate"><span class="pre">CondensationDag</span></code>
+                                                    </p></li>
+                                                    <li><p><strong>node_to_label</strong> – </p></li>
+                                                    <li><p><strong>path_bounds</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.plot_fastest_path">
+                                        <code class="sig-name descname">plot_fastest_path</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">path</span></em>, <em
+                                            class="sig-param"><span class="n">latency</span></em>, <em
+                                            class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">destination</span></em>, <em class="sig-param"><span
+                                            class="n">col</span><span class="o">=</span><span class="default_value">'#8f246b'</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.plot_fastest_path"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.plot_fastest_path"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Draw a path on the current <code class="docutils literal notranslate"><span
+                                            class="pre">CondensationDag</span></code></p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>path</strong> – </p></li>
+                                                    <li><p><strong>latency</strong> – </p></li>
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>destination</strong> – </p></li>
+                                                    <li><p><strong>col</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.plot_foremost_path">
+                                        <code class="sig-name descname">plot_foremost_path</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>,
+                                        <em class="sig-param"><span class="n">ttr</span></em>, <em
+                                            class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">destination</span></em>, <em class="sig-param"><span
+                                            class="n">col</span><span class="o">=</span><span class="default_value">'#8f246b'</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.plot_foremost_path"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.plot_foremost_path"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Draw a path on the current <code class="docutils literal notranslate"><span
+                                            class="pre">CondensationDag</span></code></p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>path</strong> – A Stream Graph</p></li>
+                                                    <li><p><strong>ttr</strong> – </p></li>
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>destination</strong> – </p></li>
+                                                    <li><p><strong>col</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.postprocess_fastest_paths">
+                                        <code class="sig-name descname">postprocess_fastest_paths</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">fastest_paths_comp</span></em>,
+                                        <em class="sig-param"><span class="n">latencies_comp</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.postprocess_fastest_paths"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.postprocess_fastest_paths"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.postprocess_latencies">
+                                        <code class="sig-name descname">postprocess_latencies</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">latencies_comp</span></em>,
+                                        <em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.postprocess_latencies"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.postprocess_latencies"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.postprocess_ttr">
+                                        <code class="sig-name descname">postprocess_ttr</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">ttr_comp</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.postprocess_ttr"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.postprocess_ttr"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.refactor_path">
+                                        <code class="sig-name descname">refactor_path</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">path_comp</span></em>, <em class="sig-param"><span class="n">path_times</span></em>,
+                                        <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                            class="n">destination</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.refactor_path"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.refactor_path"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.shortest_fastest_path_ss">
+                                        <code class="sig-name descname">shortest_fastest_path_ss</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span class="n">node_to_label</span><span
+                                            class="o">=</span><span class="default_value">None</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.shortest_fastest_path_ss"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.shortest_fastest_path_ss"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Compute Shortest Fastest Paths in a single source manner in a <code
+                                            class="docutils literal notranslate"><span
+                                            class="pre">StreamGraph</span></code>
+                                        using the current <code class="docutils literal notranslate"><span class="pre">CondensationDag</span></code>.
+                                    </p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>source</strong> – </p></li>
+                                                    <li><p><strong>node_to_label</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.temporal_node_to_scc">
+                                        <code class="sig-name descname">temporal_node_to_scc</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.temporal_node_to_scc"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.temporal_node_to_scc"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Return the <code class="docutils literal notranslate"><span class="pre">StronglyConnectedComponent</span></code>
+                                        containing the temporal source <em>node</em>.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>node</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.time_to_reach">
+                                        <code class="sig-name descname">time_to_reach</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">source</span></em>, <em class="sig-param"><span class="n">destination</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/condensation_dag.html#CondensationDag.time_to_reach"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.time_to_reach"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.condensation_dag.CondensationDag.times_to_reach_ss">
+                                        <code class="sig-name descname">times_to_reach_ss</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/condensation_dag.html#CondensationDag.times_to_reach_ss"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.condensation_dag.CondensationDag.times_to_reach_ss"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.dags.condensation_dag.compute_all_foremost_paths">
+                                <code class="sig-prename descclassname">straph.dags.condensation_dag.</code><code
+                                    class="sig-name descname">compute_all_foremost_paths</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">dict_id_wcc_to_dag</span></em>, <em class="sig-param"><span class="n">index_node_to_scc</span></em>,
+                                <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span
+                                    class="n">destination</span></em>, <em class="sig-param"><span class="n">duration_threshold</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">start_comp</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/dags/condensation_dag.html#compute_all_foremost_paths"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.dags.condensation_dag.compute_all_foremost_paths"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Compute a foremost path between ‘source’ and ‘destination” starting at ‘begin
+                                time’.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>dict_id_wcc_to_dag</strong> – </p></li>
+                                            <li><p><strong>index_node_to_scc</strong> – </p></li>
+                                            <li><p><strong>source</strong> – </p></li>
+                                            <li><p><strong>destination</strong> – </p></li>
+                                            <li><p><strong>duration_threshold</strong> – </p></li>
+                                            <li><p><strong>start_comp</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.dags.dag">
+                        <span id="straph-dags-dag-module"></span>
+                        <h2>straph.dags.dag module<a class="headerlink" href="#module-straph.dags.dag"
+                                                     title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.dags.dag.Dag">
+                                <em class="property">class </em><code
+                                    class="sig-prename descclassname">straph.dags.dag.</code><code
+                                    class="sig-name descname">Dag</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">id</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">times</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">c_nodes</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">c_links</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">id_comp_to_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">segmented_node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">adj_list</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/dags/dag.html#Dag"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.dags.dag.Dag"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.add_link">
+                                        <code class="sig-name descname">add_link</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">l</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.add_link"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.add_link"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.add_node">
+                                        <code class="sig-name descname">add_node</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">n</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.add_node"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.add_node"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.add_nodes">
+                                        <code class="sig-name descname">add_nodes</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">l</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.add_nodes"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.add_nodes"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.adjacency_list">
+                                        <code class="sig-name descname">adjacency_list</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.adjacency_list"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.adjacency_list"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.compute_links_inplace">
+                                        <code class="sig-name descname">compute_links_inplace</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.compute_links_inplace"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.compute_links_inplace"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.describe">
+                                        <code class="sig-name descname">describe</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.describe"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.describe"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Print a Short description of the current <code
+                                            class="docutils literal notranslate"><span class="pre">Dag</span></code>
+                                        object.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p>Nothing</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.plot">
+                                        <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">colors</span><span class="o">=</span><span
+                                            class="default_value">None</span></em>, <em class="sig-param"><span
+                                            class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>,
+                                        <em class="sig-param"><span class="n">node_to_label</span><span
+                                                class="o">=</span><span class="default_value">None</span></em>, <em
+                                            class="sig-param"><span class="n">fontsize</span><span
+                                            class="o">=</span><span class="default_value">26</span></em>, <em
+                                            class="sig-param"><span class="n">ax</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.plot"><span class="viewcode-link">[source]</span></a><a
+                                            class="headerlink" href="#straph.dags.dag.Dag.plot"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.plot_as_nx">
+                                        <code class="sig-name descname">plot_as_nx</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span
+                                            class="o">=</span><span class="default_value">True</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.plot_as_nx"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.plot_as_nx"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.plot_custom">
+                                        <code class="sig-name descname">plot_custom</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">label</span><span
+                                            class="o">=</span><span class="default_value">True</span></em>, <em
+                                            class="sig-param"><span class="n">arrow</span><span class="o">=</span><span
+                                            class="default_value">True</span></em>, <em class="sig-param"><span
+                                            class="n">fontsize</span><span class="o">=</span><span
+                                            class="default_value">30</span></em>, <em class="sig-param"><span class="n">path</span><span
+                                            class="o">=</span><span class="default_value">None</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.plot_custom"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.plot_custom"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.refactor">
+                                        <code class="sig-name descname">refactor</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.refactor"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.refactor"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.set_id">
+                                        <code class="sig-name descname">set_id</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">id</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.set_id"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.set_id"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.set_id_comp_to_comp">
+                                        <code class="sig-name descname">set_id_comp_to_comp</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.set_id_comp_to_comp"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.set_id_comp_to_comp"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.set_index_id_comp_to_comp">
+                                        <code class="sig-name descname">set_index_id_comp_to_comp</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.set_index_id_comp_to_comp"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.set_index_id_comp_to_comp"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.set_index_node_to_id_comp">
+                                        <code class="sig-name descname">set_index_node_to_id_comp</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/dags/dag.html#Dag.set_index_node_to_id_comp"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.set_index_node_to_id_comp"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.set_index_segmented_node_to_id_comp">
+                                        <code class="sig-name descname">set_index_segmented_node_to_id_comp</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span class="n">segmented_nodes</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.set_index_segmented_node_to_id_comp"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.set_index_segmented_node_to_id_comp"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.dag.Dag.size">
+                                        <code class="sig-name descname">size</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/dag.html#Dag.size"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.dag.Dag.size"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.dags.dag.add_arrow">
+                                <code class="sig-prename descclassname">straph.dags.dag.</code><code
+                                    class="sig-name descname">add_arrow</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">e</span></em>, <em class="sig-param"><span
+                                    class="n">ax</span></em>, <em class="sig-param"><span
+                                    class="n">direction</span><span class="o">=</span><span class="default_value">'right'</span></em>,
+                                <em class="sig-param"><span class="n">size</span><span class="o">=</span><span
+                                        class="default_value">25</span></em>, <em class="sig-param"><span class="n">color</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">alpha</span><span class="o">=</span><span
+                                    class="default_value">0.5</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal" href="_modules/straph/dags/dag.html#add_arrow"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.dags.dag.add_arrow"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Thanks to : <a class="reference external"
+                                                  href="https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib">https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot-with-matplotlib</a>
+                                add an arrow to a line.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>e</strong> – ((a_x,_y),(b_x,b_y))</p></li>
+                                            <li><p><strong>ax</strong> – matplotlib axes</p></li>
+                                            <li><p><strong>direction</strong> – ‘left’ or ‘right’</p></li>
+                                            <li><p><strong>size</strong> – size of the arrow in fontsize points</p></li>
+                                            <li><p><strong>color</strong> – color of arrow (should be coherent with line
+                                                color, or not )</p></li>
+                                            <li><p><strong>alpha</strong> – </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.dags.dag.merge_dags">
+                                <code class="sig-prename descclassname">straph.dags.dag.</code><code
+                                    class="sig-name descname">merge_dags</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">dag_list</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/dags/dag.html#merge_dags"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.dags.dag.merge_dags"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Merge every other streams into the first one, we assume there’s no connection between
+                                them
+                                and that links aren’t constructed yet</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>dag_list</strong> – A list of <code
+                                            class="docutils literal notranslate"><span class="pre">Dag</span></code>
+                                        objects</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.dags.stable_dag">
+                        <span id="straph-dags-stable-dag-module"></span>
+                        <h2>straph.dags.stable_dag module<a class="headerlink" href="#module-straph.dags.stable_dag"
+                                                            title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.dags.stable_dag.StableDag">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.dags.stable_dag.</code><code
+                                    class="sig-name descname">StableDag</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">id</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">times</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">c_nodes</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">c_links</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">id_comp_to_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">segmented_node_to_id_comp</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">adj_list</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/dags/stable_dag.html#StableDag"><span class="viewcode-link">[source]</span></a><a
+                                    class="headerlink" href="#straph.dags.stable_dag.StableDag"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Bases: <a class="reference internal" href="#straph.dags.dag.Dag"
+                                             title="straph.dags.dag.Dag"><code
+                                    class="xref py py-class docutils literal notranslate"><span class="pre">straph.dags.dag.Dag</span></code></a>
+                            </p>
+                                <dl class="py method">
+                                    <dt id="straph.dags.stable_dag.StableDag.all_cliques">
+                                        <code class="sig-name descname">all_cliques</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">n_jobs</span><span class="o">=</span><span class="default_value">- 1</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/stable_dag.html#StableDag.all_cliques"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.stable_dag.StableDag.all_cliques"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.stable_dag.StableDag.cluster_to_object">
+                                        <code class="sig-name descname">cluster_to_object</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/stable_dag.html#StableDag.cluster_to_object"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.stable_dag.StableDag.cluster_to_object"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.stable_dag.StableDag.core_number">
+                                        <code class="sig-name descname">core_number</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">n_jobs</span><span class="o">=</span><span class="default_value">- 1</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/stable_dag.html#StableDag.core_number"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.stable_dag.StableDag.core_number"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.stable_dag.StableDag.k_clique">
+                                        <code class="sig-name descname">k_clique</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">k</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span
+                                            class="o">=</span><span class="default_value">- 1</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/stable_dag.html#StableDag.k_clique"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.stable_dag.StableDag.k_clique"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.dags.stable_dag.StableDag.k_core">
+                                        <code class="sig-name descname">k_core</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span
+                                            class="n">n_jobs</span><span class="o">=</span><span class="default_value">- 1</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/dags/stable_dag.html#StableDag.k_core"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.dags.stable_dag.StableDag.k_core"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.dags">
+                        <span id="module-contents"></span>
+                        <h2>Module contents<a class="headerlink" href="#module-straph.dags"
+                                              title="Permalink to this headline">¶</a></h2>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

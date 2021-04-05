@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.parser.parser &#8212; straph 1 documentation</title>
+
+    <link href="../../../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../../../"
+            src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../../../index.html">
+            <img src="../../../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <h1>Source code for straph.parser.parser</h1>
+                <div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2017-2021 Léo Rannou - Sorbonne Université/LIP6 - Thales</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">dateutil.parser</span> <span class="k">as</span> <span
+                        class="nn">du</span>
+<span class="kn">import</span> <span class="nn">dpkt</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">sortedcollections</span> <span class="kn">import</span> <span class="n">SortedSet</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">straph</span> <span class="kn">import</span> <span class="n">stream</span> <span
+                        class="k">as</span> <span class="n">sg</span>
+
+<span class="c1"># TODO : parse PCAP (adpat pcap_to_csv and shit), see pcap_reader.</span>
+<span class="c1"># TODO : parse net, to finish (for Pajek datasets).</span>
+
+<span class="n">__nb_2_protocol__</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span
+                        class="p">:</span> <span class="s1">&#39;IPv6_HbH&#39;</span><span class="p">,</span>  <span
+                        class="c1"># IPv6 Hop by Hop</span>
+                     <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;ICMP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Internet Control Message</span>
+                     <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;IGMP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Internet Group Management</span>
+                     <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;GGP&#39;</span><span
+                        class="p">,</span>  <span class="c1">#  Gateway-to-Gateway</span>
+                     <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;IPv4&#39;</span><span
+                        class="p">,</span>
+                     <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;ST2&#39;</span><span
+                        class="p">,</span>  <span class="c1">#  Sream v2 aka &quot;IPv5&quot;</span>
+                     <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;TCP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Transmission Control</span>
+                     <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;CBT&#39;</span><span
+                        class="p">,</span>
+                     <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;EGP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Exterior Gateway Protocol</span>
+                     <span class="mi">17</span><span class="p">:</span> <span class="s1">&#39;UDP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># User Datagram</span>
+                     <span class="mi">41</span><span class="p">:</span> <span class="s1">&#39;IPv6&#39;</span><span
+                        class="p">,</span>
+                     <span class="mi">43</span><span class="p">:</span> <span
+                        class="s1">&#39;IPv6_Route&#39;</span><span class="p">,</span>  <span class="c1">#  Routing header for IPv6</span>
+                     <span class="mi">47</span><span class="p">:</span> <span class="s1">&#39;GRE&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Generic Routing encapsulation</span>
+                     <span class="mi">50</span><span class="p">:</span> <span class="s1">&#39;ESP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Encap Security Payload</span>
+                     <span class="mi">51</span><span class="p">:</span> <span class="s1">&#39;AH&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Authenfication Header</span>
+                     <span class="mi">58</span><span class="p">:</span> <span class="s1">&#39;IPv6_ICMP&#39;</span><span
+                        class="p">,</span>  <span class="c1"># IPV6 ICMP</span>
+                     <span class="mi">103</span><span class="p">:</span> <span class="s1">&#39;PIM&#39;</span><span
+                        class="p">,</span>  <span class="c1"># Protocol Independent Multicast</span>
+                     <span class="p">}</span>
+
+
+<div class="viewcode-block" id="inet_to_str"><a class="viewcode-back"
+                                                href="../../../straph.parser.html#straph.parser.parser.inet_to_str">[docs]</a><span
+        class="k">def</span> <span class="nf">inet_to_str</span><span class="p">(</span><span class="n">inet</span><span
+        class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert inet object to a string</span>
+
+<span class="sd">    :param inet: inet network address</span>
+<span class="sd">    :return: str: Printable/readable IP address</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># First try ipv4 and then ipv6</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">socket</span><span class="o">.</span><span
+            class="n">inet_ntop</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span
+            class="n">AF_INET</span><span class="p">,</span> <span class="n">inet</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">socket</span><span class="o">.</span><span
+            class="n">inet_ntop</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span
+            class="n">AF_INET6</span><span class="p">,</span> <span class="n">inet</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="datetime_to_timestamp"><a class="viewcode-back"
+                                                          href="../../../straph.parser.html#straph.parser.parser.datetime_to_timestamp">[docs]</a><span
+        class="k">def</span> <span class="nf">datetime_to_timestamp</span><span class="p">(</span><span
+        class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">du</span><span class="o">.</span><span class="n">parse</span><span
+            class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">timestamp</span><span
+            class="p">()</span></div>
+
+
+<div class="viewcode-block" id="pcap_to_csv"><a class="viewcode-back"
+                                                href="../../../straph.parser.html#straph.parser.parser.pcap_to_csv">[docs]</a><span
+        class="k">def</span> <span class="nf">pcap_to_csv</span><span class="p">(</span><span
+        class="n">file_input</span><span class="p">,</span> <span class="n">destination</span><span
+        class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="kc">None</span><span
+        class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a pcap file to a csv</span>
+
+<span class="sd">    :param file_input:</span>
+<span class="sd">    :param destination:</span>
+<span class="sd">    :param protocol:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dict_ip</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">dict_ip</span><span class="p">))</span>
+    <span class="n">dict_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">protocol</span><span class="p">:</span>
+        <span class="n">protocol</span> <span class="o">=</span> <span class="p">[</span><span
+            class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span
+            class="n">value</span> <span class="ow">in</span> <span class="n">__nb_2_protocol__</span><span
+            class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span
+            class="n">value</span> <span class="o">==</span> <span class="n">protocol</span><span
+            class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;protocol :&quot;</span><span
+            class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">destination</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">,</span> <span
+            class="nb">open</span><span class="p">(</span><span class="n">file_input</span><span
+            class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span
+            class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span
+            class="n">writer</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span
+            class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span
+            class="p">)</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span
+            class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;src&quot;</span><span
+            class="p">,</span> <span class="s2">&quot;dst&quot;</span><span class="p">,</span> <span class="s2">&quot;protocol&quot;</span><span
+            class="p">,</span> <span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="s2">&quot;src_port&quot;</span><span
+            class="p">,</span> <span class="s2">&quot;dst_port&quot;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">ts</span><span class="p">,</span> <span class="n">pkt</span> <span
+            class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">dpkt</span><span
+            class="o">.</span><span class="n">pcap</span><span class="o">.</span><span class="n">Reader</span><span
+            class="p">(</span><span class="nb">input</span><span class="p">)):</span>
+            <span class="n">eth</span> <span class="o">=</span> <span class="n">dpkt</span><span class="o">.</span><span
+            class="n">ethernet</span><span class="o">.</span><span class="n">Ethernet</span><span
+            class="p">(</span><span class="n">pkt</span><span class="p">)</span>
+            <span class="c1"># if counter == 150000000000000000000000000000:</span>
+            <span class="c1">#     print(&quot;Time end dkpt :&quot;, time.time() - start)</span>
+            <span class="c1">#     break</span>
+            <span class="k">if</span> <span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span
+            class="p">:</span>
+                <span class="n">t0</span> <span class="o">=</span> <span class="n">ts</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span
+            class="n">eth</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span
+            class="nb">bytes</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">eth</span><span class="o">.</span><span
+            class="n">data</span>
+            <span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span class="n">src</span> <span
+            class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ip_src</span> <span class="o">=</span> <span class="n">inet_to_str</span><span
+            class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">src</span><span
+            class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">ip_dst</span> <span class="o">=</span> <span class="n">inet_to_str</span><span
+            class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">dst</span><span
+            class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+            <span class="n">id_src</span> <span class="o">=</span> <span class="n">dict_ip</span><span
+            class="p">[</span><span class="n">ip_src</span><span class="p">]</span>
+            <span class="n">id_dst</span> <span class="o">=</span> <span class="n">dict_ip</span><span
+            class="p">[</span><span class="n">ip_dst</span><span class="p">]</span>
+            <span class="n">dict_label</span><span class="p">[</span><span class="n">id_src</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">ip_src</span>
+            <span class="n">dict_label</span><span class="p">[</span><span class="n">id_dst</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">ip_dst</span>
+
+            <span class="c1"># if counter % 1000000 == 0:</span>
+            <span class="c1">#     print(&quot;Counter dkpt:&quot;, counter, &quot;time dkpt:&quot;, time.time() - start)</span>
+            <span class="c1"># We ignore &#39;ICMP&#39; protocols, ICMP scan useless</span>
+            <span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span class="n">p</span> <span
+            class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">protocol</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span
+            class="n">p</span> <span class="o">!=</span> <span class="n">protocol</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span
+            class="n">eth</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span
+            class="n">dpkt</span><span class="o">.</span><span class="n">ip6</span><span class="o">.</span><span
+            class="n">IP6</span><span class="p">):</span>
+                <span class="c1"># print(&quot;IPv6 !&quot;)</span>
+                <span class="n">len_pckt</span> <span class="o">=</span> <span class="n">ip</span><span
+            class="o">.</span><span class="n">plen</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">len_pckt</span> <span class="o">=</span> <span class="n">ip</span><span
+            class="o">.</span><span class="n">len</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span
+            class="n">ip</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span
+            class="n">dpkt</span><span class="o">.</span><span class="n">tcp</span><span class="o">.</span><span
+            class="n">TCP</span><span class="p">)</span> <span class="ow">or</span> <span
+            class="nb">isinstance</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span
+            class="n">data</span><span class="p">,</span> <span class="n">dpkt</span><span class="o">.</span><span
+            class="n">udp</span><span class="o">.</span><span class="n">UDP</span><span class="p">):</span>
+                <span class="n">tcp</span> <span class="o">=</span> <span class="n">ip</span><span
+            class="o">.</span><span class="n">data</span>
+                <span class="n">src_port</span> <span class="o">=</span> <span class="n">tcp</span><span
+            class="o">.</span><span class="n">sport</span>
+                <span class="n">dst_port</span> <span class="o">=</span> <span class="n">tcp</span><span
+            class="o">.</span><span class="n">dport</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">src_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">dst_port</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># print(&quot;ip src :&quot;, ip_src, &quot; ip dst :&quot;, ip_dst, &quot; ip protocol :&quot;,</span>
+            <span class="c1">#       protocol, &quot; ip len :&quot;, len_pckt,&quot;src port :&quot;, tcp.sport, &quot;dest port :&quot;, tcp.dport)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span
+            class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">ts</span> <span
+            class="o">-</span> <span class="n">t0</span><span class="p">,</span> <span class="mi">6</span><span
+            class="p">),</span> <span class="n">id_src</span><span class="p">,</span> <span class="n">id_dst</span><span
+            class="p">,</span> <span class="n">ip</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span
+            class="n">len_pckt</span><span class="p">,</span> <span class="n">src_port</span><span
+            class="p">,</span> <span class="n">dst_port</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="parse_net"><a class="viewcode-back"
+                                              href="../../../straph.parser.html#straph.parser.parser.parse_net">[docs]</a><span
+        class="k">def</span> <span class="nf">parse_net</span><span class="p">(</span><span
+        class="n">input_file</span><span class="p">,</span> <span class="n">output_file_nodes</span><span
+        class="p">,</span> <span class="n">output_file_links</span><span class="p">,</span> <span class="n">link_duration</span><span
+        class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Stream Graph reader for dataset issued by Pajek</span>
+
+<span class="sd">    Format of interactions : .net</span>
+<span class="sd">    :param input_file:</span>
+<span class="sd">    :param output_file_nodes:</span>
+<span class="sd">    :param output_file_links:</span>
+<span class="sd">    :param link_duration:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">type_node</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">input_file</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span
+            class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span
+            class="p">()</span>
+            <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*Vertices&#39;</span><span
+            class="p">:</span>
+                <span class="n">type_node</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">==</span> <span class="s1">&#39;*Edges&#39;</span><span
+            class="p">:</span>
+                <span class="n">type_node</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">type_node</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span
+            class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span
+            class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span
+            class="n">v</span><span class="p">:</span>
+                    <span class="c1"># SELF LOOP : we ignore it</span>
+                    <span class="k">continue</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span
+            class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span><span class="o">.</span><span
+            class="n">strip</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span
+            class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">current_time</span> <span class="ow">in</span> <span
+            class="n">t</span><span class="p">:</span>
+                <span class="n">current_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span
+            class="n">current_time</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span
+            class="n">E</span> <span class="ow">and</span> <span class="n">E</span><span class="p">[</span><span
+            class="n">e</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">current_time</span><span class="p">:</span>
+                    <span class="c1"># print(&quot;Extend Link Presence&quot;)</span>
+                    <span class="n">E</span><span class="p">[</span><span class="n">e</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">E</span><span
+            class="p">[</span><span class="n">e</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">current_time</span> <span class="o">+</span> <span class="n">link_duration</span><span
+            class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">E</span><span class="p">[</span><span class="n">e</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span
+            class="n">current_time</span><span class="p">,</span> <span class="n">current_time</span> <span
+            class="o">+</span> <span class="n">link_duration</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">current_time</span><span class="p">:</span>
+                    <span class="c1"># print(&quot;Extend Node Presence&quot;)</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">current_time</span> <span class="o">+</span> <span class="n">link_duration</span><span
+            class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span
+            class="n">current_time</span><span class="p">,</span> <span class="n">current_time</span> <span
+            class="o">+</span> <span class="n">link_duration</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">current_time</span><span class="p">:</span>
+                    <span class="c1"># print(&quot;Extend Node Presence&quot;)</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">current_time</span> <span class="o">+</span> <span class="n">link_duration</span><span
+            class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span
+            class="n">current_time</span><span class="p">,</span> <span class="n">current_time</span> <span
+            class="o">+</span> <span class="n">link_duration</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">output_file_links</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span
+            class="ow">in</span> <span class="n">E</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span
+            class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span
+            class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span
+            class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">v</span><span
+            class="p">:</span>
+                <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span
+            class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">output_file_nodes</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">v</span><span
+            class="p">:</span>
+                <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span
+            class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span
+            class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span
+            class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="parse_csv"><a class="viewcode-back"
+                                              href="../../../straph.parser.html#straph.parser.parser.parse_csv">[docs]</a><span
+        class="k">def</span> <span class="nf">parse_csv</span><span class="p">(</span><span
+        class="n">input_file</span><span class="p">,</span> <span class="n">entry_format</span><span class="p">,</span> <span
+        class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reader for .csv files</span>
+
+<span class="sd">    :param input_file:</span>
+<span class="sd">    :param entry_format:</span>
+<span class="sd">    :param kwargs:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert entry format</span>
+    <span class="n">t_pos</span><span class="p">,</span> <span class="n">b_pos</span><span class="p">,</span> <span
+            class="n">e_pos</span><span class="p">,</span> <span class="n">link_duration_pos</span> <span
+            class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span
+            class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">3</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span
+            class="n">link_duration_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;link_duration_pos&#39;</span><span class="p">],</span> \
+                                                   <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;b_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b_pos</span><span class="p">,</span> <span class="n">e_pos</span><span
+            class="p">,</span> <span class="n">u_pos</span><span class="p">,</span> <span class="n">v_pos</span><span
+            class="p">)</span> <span class="o">=</span> <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;b_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;e_pos&#39;</span><span class="p">],</span> \
+                                       <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span
+            class="p">],</span> <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span
+            class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Entry format is not supported, see documentation !&quot;</span><span
+            class="p">)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">cnt_rows</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">nodes_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label_to_id</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">label_to_id</span><span class="p">))</span>
+
+    <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span class="o">=</span> <span
+            class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span
+            class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span
+            class="n">reader</span><span class="p">(</span><span class="n">input_file</span><span
+            class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span
+            class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;delimiter&#39;</span><span
+            class="p">])</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ignore_header&#39;</span><span
+            class="p">]:</span>
+            <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span
+            class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span
+            class="p">]:</span>
+            <span class="n">link_duration</span> <span class="o">=</span> <span class="n">kwargs</span><span
+            class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">not</span> <span class="ow">in</span> <span class="n">entry_format</span> <span
+            class="ow">and</span> <span class="s1">&#39;b_pos&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+            <span class="n">link_duration</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[WARNING] No link_duration provided, links durations are set to 0.&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">tqdm</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span
+            class="n">desc</span><span class="o">=</span><span class="s1">&#39;Parsing CSV&#39;</span><span
+            class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">kwargs</span><span
+            class="p">[</span><span class="s1">&#39;nrows&#39;</span><span class="p">]</span> <span
+            class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">cnt_rows</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">cnt_rows</span> <span class="o">&gt;</span> <span
+            class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nrows&#39;</span><span
+            class="p">]:</span>
+                <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nodes_to_label&#39;</span><span
+            class="p">]:</span>
+                <span class="c1"># Convert Label to int</span>
+                <span class="n">u_label</span> <span class="o">=</span> <span class="n">line</span><span
+            class="p">[</span><span class="n">u_pos</span><span class="p">]</span>
+                <span class="n">v_label</span> <span class="o">=</span> <span class="n">line</span><span
+            class="p">[</span><span class="n">v_pos</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">u_label</span> <span class="ow">in</span> <span
+            class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span
+            class="s1">&#39; &#39;</span><span class="p">}</span> <span class="ow">or</span> <span
+            class="n">v_label</span> <span class="ow">in</span> <span class="p">{</span><span
+            class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span
+            class="p">}:</span>
+                    <span class="c1"># print(&quot; Blank node line:&quot;,cnt_rows)</span>
+                    <span class="c1"># print(&quot; Content:&quot;,line)</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">u_label</span> <span class="o">==</span> <span class="n">v_label</span><span
+            class="p">:</span>
+                    <span class="c1"># SELF LOOP : we ignore it</span>
+                    <span class="k">continue</span>
+                <span class="c1"># If we haven&#39;t these label before they are assigned to len(label_to_id) = new_id</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">u_label</span><span class="p">]</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">v_label</span><span class="p">]</span>
+                <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">u_label</span>
+                <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">v_label</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="nb">int</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">u_pos</span><span
+            class="p">])</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">v_pos</span><span
+            class="p">])</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span
+            class="n">v</span><span class="p">:</span>
+                    <span class="c1"># SELF LOOP : we ignore it</span>
+                    <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;time_is_datetime&#39;</span><span
+            class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;t_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">t_pos</span><span
+            class="p">])</span>
+                <span class="k">elif</span> <span class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">b_pos</span><span
+            class="p">])</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">e_pos</span><span
+            class="p">])</span>
+                    <span class="n">link_duration</span> <span class="o">=</span> <span class="n">e</span> <span
+            class="o">-</span> <span class="n">b</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;t_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">t_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                <span class="k">elif</span> <span class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">b_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">e_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                    <span class="n">link_duration</span> <span class="o">=</span> <span class="n">e</span> <span
+            class="o">-</span> <span class="n">b</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">b</span>
+
+            <span class="k">if</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+                <span class="n">link_duration</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span
+            class="n">link_duration_pos</span><span class="p">]</span><span class="o">.</span><span
+            class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span
+            class="s1">&#39;&#39;</span><span class="p">))</span>
+
+            <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span
+            class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_t</span><span
+            class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_t</span><span class="p">,</span> <span class="n">t</span> <span
+            class="o">+</span> <span class="n">link_duration</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;is_directed&#39;</span><span
+            class="p">]:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span
+            class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">E</span><span
+            class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">E</span> <span
+            class="ow">and</span> <span class="n">E</span><span class="p">[</span><span class="n">l</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                <span class="n">E</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span
+            class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span
+            class="nb">max</span><span class="p">(</span><span class="n">E</span><span class="p">[</span><span
+            class="n">l</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span
+            class="n">t</span> <span class="o">+</span> <span class="n">link_duration</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">E</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span
+            class="o">+=</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span
+            class="n">t</span> <span class="o">+</span> <span class="n">link_duration</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;is_link_stream&#39;</span><span
+            class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t</span><span
+            class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t</span><span
+            class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">W</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[</span><span class="n">min_t</span><span class="p">,</span> <span
+            class="n">max_t</span><span class="p">]</span>
+                <span class="n">W</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[</span><span class="n">min_t</span><span class="p">,</span> <span
+            class="n">max_t</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;is_link_stream&#39;</span><span
+            class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span
+            class="p">:</span> <span class="p">[</span><span class="n">min_t</span><span class="p">,</span> <span
+            class="n">max_t</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()}</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span
+            class="s1">&#39;delta&#39;</span><span class="p">]:</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span
+            class="s1">&#39;delta&#39;</span><span class="p">]</span>
+        <span class="n">chrono</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span
+            class="n">time</span><span class="p">()</span>
+        <span class="n">W</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span
+            class="n">approximate_events</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span
+            class="n">E</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span
+            class="se">\t</span><span class="s2"> Approximate events with delta :&quot;</span><span
+            class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span
+            class="s2">&quot; in &quot;</span><span class="p">,</span> <span class="n">time</span><span
+            class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span
+            class="n">chrono</span><span class="p">)</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">StreamGraph</span><span
+            class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span
+            class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span><span class="p">],</span>
+                       <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">links</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">node_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">W</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">W</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">link_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">E</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">node_to_label</span><span class="o">=</span><span class="n">nodes_to_label</span><span
+            class="p">,</span>
+                       <span class="n">node_to_id</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span
+            class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()})</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="approximate_events"><a class="viewcode-back"
+                                                       href="../../../straph.parser.html#straph.parser.parser.approximate_events">[docs]</a><span
+        class="k">def</span> <span class="nf">approximate_events</span><span class="p">(</span><span
+        class="n">W</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">delta</span><span
+        class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Approximation method reducing the number of distinct event times while preserving connectivity properties</span>
+<span class="sd">    of the original dataset.</span>
+
+<span class="sd">    :param W:</span>
+<span class="sd">    :param E:</span>
+<span class="sd">    :param delta:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Seems strange but avoid float imprecision</span>
+    <span class="n">event_times</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">t</span> <span
+            class="k">for</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">W</span><span
+            class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span
+            class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="p">]</span> <span
+            class="o">+</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span
+            class="n">lp</span> <span class="ow">in</span> <span class="n">E</span><span class="o">.</span><span
+            class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span
+            class="ow">in</span> <span class="n">lp</span><span class="p">]))</span>
+    <span class="n">t_old</span> <span class="o">=</span> <span class="n">event_times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">discretized_event_times</span> <span class="o">=</span> <span class="n">SortedSet</span><span
+            class="p">()</span>
+    <span class="n">discretized_event_times</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">t_old</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span
+            class="n">event_times</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">-</span> <span class="n">t_old</span> <span
+            class="o">&gt;=</span> <span class="n">delta</span><span class="p">:</span>
+            <span class="n">discretized_event_times</span><span class="o">.</span><span class="n">add</span><span
+            class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">t_old</span> <span class="o">=</span> <span class="n">t</span>
+
+    <span class="n">new_W</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">np</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+        <span class="n">new_W</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span
+            class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+            class="p">]):</span>
+            <span class="k">assert</span> <span class="n">t1</span> <span class="o">-</span> <span
+            class="n">t0</span> <span class="o">&gt;=</span> <span class="n">delta</span>
+            <span class="k">if</span> <span class="n">t0</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">discretized_event_times</span><span class="p">:</span>
+                <span class="c1"># # Catch time after t0 in discretized event times:</span>
+                <span class="n">t0</span> <span class="o">=</span> <span class="n">discretized_event_times</span><span
+            class="p">[</span><span class="n">discretized_event_times</span><span class="o">.</span><span class="n">bisect</span><span
+            class="p">(</span><span class="n">t0</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">t1</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">discretized_event_times</span><span class="p">:</span>
+                <span class="c1"># #Catch time before t1 in discretize event times:</span>
+                <span class="n">t1</span> <span class="o">=</span> <span class="n">discretized_event_times</span><span
+            class="p">[</span><span class="n">discretized_event_times</span><span class="o">.</span><span class="n">bisect</span><span
+            class="p">(</span><span class="n">t1</span><span class="p">)</span> <span class="o">-</span> <span
+            class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># # new_W[n] += [t0, t1]</span>
+            <span class="c1"># a, b = delta * math.ceil(t0 / delta), delta * math.floor(t1 / delta)</span>
+            <span class="c1">#</span>
+            <span class="c1"># if math.isclose(a, t0):</span>
+            <span class="c1">#     a = t0</span>
+            <span class="c1"># if math.isclose(b, t1):</span>
+            <span class="c1">#     b = t1</span>
+            <span class="n">new_W</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span
+            class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">]</span>
+
+    <span class="n">new_E</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">lp</span> <span
+            class="ow">in</span> <span class="n">E</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+        <span class="n">new_E</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span
+            class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lp</span><span
+            class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">lp</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+            class="p">]):</span>
+            <span class="k">assert</span> <span class="n">t1</span> <span class="o">-</span> <span
+            class="n">t0</span> <span class="o">&gt;=</span> <span class="n">delta</span>
+            <span class="k">if</span> <span class="n">t0</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">discretized_event_times</span><span class="p">:</span>
+                <span class="c1"># # Catch time after t0 in discretized event times:</span>
+                <span class="n">t0</span> <span class="o">=</span> <span class="n">discretized_event_times</span><span
+            class="p">[</span><span class="n">discretized_event_times</span><span class="o">.</span><span class="n">bisect</span><span
+            class="p">(</span><span class="n">t0</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">t1</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">discretized_event_times</span><span class="p">:</span>
+                <span class="c1"># # Catch time before t1 in discretize event times:</span>
+                <span class="n">t1</span> <span class="o">=</span> <span class="n">discretized_event_times</span><span
+            class="p">[</span><span class="n">discretized_event_times</span><span class="o">.</span><span class="n">bisect</span><span
+            class="p">(</span><span class="n">t1</span><span class="p">)</span> <span class="o">-</span> <span
+            class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># new_E[l] += [t0, t1]</span>
+            <span class="c1"># a, b = delta * math.ceil(t0 / delta), delta * math.floor(t1 / delta)</span>
+            <span class="c1"># if math.isclose(a, t0):</span>
+            <span class="c1">#     a = t0</span>
+            <span class="c1"># if math.isclose(b, t1):</span>
+            <span class="c1">#     b = t1</span>
+            <span class="n">new_E</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span
+            class="o">+=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">new_W</span><span class="p">,</span> <span
+            class="n">new_E</span></div>
+
+
+<div class="viewcode-block" id="parse_json"><a class="viewcode-back"
+                                               href="../../../straph.parser.html#straph.parser.parser.parse_json">[docs]</a><span
+        class="k">def</span> <span class="nf">parse_json</span><span class="p">(</span><span class="n">input_file</span><span
+        class="p">,</span> <span class="n">entry_format</span><span class="p">,</span> <span class="o">**</span><span
+        class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Stream Graph reader for JSON dataset.</span>
+
+<span class="sd">    :param input_file:</span>
+<span class="sd">    :param entry_format:</span>
+<span class="sd">    :param kwargs:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert entry format</span>
+    <span class="n">u_pos</span><span class="p">,</span> <span class="n">v_pos</span><span class="p">,</span> <span
+            class="n">t_pos</span><span class="p">,</span> <span class="n">b_pos</span><span class="p">,</span> <span
+            class="n">e_pos</span><span class="p">,</span> <span class="n">link_duration_pos</span> <span
+            class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span
+            class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span
+            class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">3</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span
+            class="n">link_duration_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;link_duration_pos&#39;</span><span class="p">],</span> \
+                                                   <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;b_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b_pos</span><span class="p">,</span> <span class="n">e_pos</span><span
+            class="p">,</span> <span class="n">u_pos</span><span class="p">,</span> <span class="n">v_pos</span><span
+            class="p">)</span> <span class="o">=</span> <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;b_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;e_pos&#39;</span><span class="p">],</span> \
+                                       <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span
+            class="p">],</span> <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span
+            class="p">]</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">cnt_rows</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">id_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label_to_id</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">label_to_id</span><span class="p">))</span>
+    <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span class="o">=</span> <span
+            class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span
+            class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span
+            class="n">load</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">tqdm</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span
+            class="n">desc</span><span class="o">=</span><span class="s2">&quot;Parsing JSON&quot;</span><span
+            class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">kwargs</span><span
+            class="p">[</span><span class="s1">&#39;nrows&#39;</span><span class="p">]):</span>
+            <span class="n">cnt_rows</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># if cnt_rows % 100000 == 0:</span>
+            <span class="c1">#     print((cnt_rows / kwargs[&#39;nrows&#39;]) * 100, &quot;% loaded&quot;)</span>
+
+            <span class="k">if</span> <span class="n">cnt_rows</span> <span class="o">&gt;</span> <span
+            class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nrows&#39;</span><span
+            class="p">]:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;nodes_to_label&#39;</span><span
+            class="p">]:</span>
+                <span class="c1"># Convert Label to int</span>
+                <span class="n">u_label</span> <span class="o">=</span> <span class="n">line</span><span
+            class="p">[</span><span class="n">u_pos</span><span class="p">]</span>
+                <span class="n">v_label</span> <span class="o">=</span> <span class="n">line</span><span
+            class="p">[</span><span class="n">v_pos</span><span class="p">]</span>
+                <span class="c1"># If we haven&#39;t these label before they are assigned to len(label_to_id = new_id)</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">u_label</span><span class="p">]</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">v_label</span><span class="p">]</span>
+                <span class="n">id_to_label</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">u_label</span>
+                <span class="n">id_to_label</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">v_label</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="nb">int</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">u_pos</span><span
+            class="p">])</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">int</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">v_pos</span><span
+            class="p">])</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;time_is_datetime&#39;</span><span
+            class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;t_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">t_pos</span><span
+            class="p">])</span>
+                <span class="k">elif</span> <span class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">b_pos</span><span
+            class="p">])</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="n">datetime_to_timestamp</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">e_pos</span><span
+            class="p">])</span>
+                    <span class="n">link_duration</span> <span class="o">=</span> <span class="n">e</span> <span
+            class="o">-</span> <span class="n">b</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;t_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">t_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                <span class="k">elif</span> <span class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span><span class="p">:</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">b_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span class="n">e_pos</span><span
+            class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span
+            class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span
+            class="p">))</span>
+                    <span class="n">link_duration</span> <span class="o">=</span> <span class="n">e</span> <span
+            class="o">-</span> <span class="n">b</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">b</span>
+
+            <span class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span> <span
+            class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_t</span><span
+            class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="nb">max</span><span
+            class="p">(</span><span class="n">max_t</span><span class="p">,</span> <span class="n">t</span> <span
+            class="o">+</span> <span class="n">link_duration</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span
+            class="p">]:</span>
+                <span class="n">link_duration</span> <span class="o">=</span> <span class="n">kwargs</span><span
+            class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+                <span class="n">link_duration</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">line</span><span class="p">[</span><span
+            class="n">link_duration_pos</span><span class="p">]</span><span class="o">.</span><span
+            class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span
+            class="s1">&#39;&#39;</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;is_directed&#39;</span><span
+            class="p">]:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span
+            class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">E</span><span
+            class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span
+            class="p">:</span>
+                <span class="c1"># SELF LOOP : we ignore it</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">E</span> <span
+            class="ow">and</span> <span class="n">E</span><span class="p">[</span><span class="n">l</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                <span class="n">E</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span
+            class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span
+            class="nb">max</span><span class="p">(</span><span class="n">E</span><span class="p">[</span><span
+            class="n">l</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span
+            class="n">t</span> <span class="o">+</span> <span class="n">link_duration</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">E</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span
+            class="o">+=</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span
+            class="n">t</span> <span class="o">+</span> <span class="n">link_duration</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;is_link_stream&#39;</span><span
+            class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">u</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t</span><span
+            class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span
+            class="n">W</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span
+            class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">t</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">W</span><span
+            class="p">[</span><span class="n">v</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">t</span><span
+            class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span
+            class="n">link_duration</span><span class="p">]</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">StreamGraph</span><span
+            class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span
+            class="n">min_t</span><span class="p">,</span> <span class="n">max_t</span><span class="p">],</span>
+                       <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">links</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">node_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">W</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">W</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">link_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">E</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">node_to_label</span><span class="o">=</span><span
+            class="n">id_to_label</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="parse_link_stream"><a class="viewcode-back"
+                                                      href="../../../straph.parser.html#straph.parser.parser.parse_link_stream">[docs]</a><span
+        class="k">def</span> <span class="nf">parse_link_stream</span><span class="p">(</span><span
+        class="n">input_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse link stream format:</span>
+<span class="sd">    alpha t0</span>
+<span class="sd">    omega t1</span>
+<span class="sd">    b e u v</span>
+<span class="sd">    .</span>
+<span class="sd">    .</span>
+<span class="sd">    .</span>
+<span class="sd">    b e v w</span>
+
+<span class="sd">    :param input_file:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span
+            class="nb">list</span><span class="p">)</span>
+    <span class="n">cnt_rows</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">nodes_to_label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label_to_id</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span
+            class="p">(</span><span class="n">label_to_id</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">ipt</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span
+            class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span
+            class="n">ipt</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">tqdm</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span
+            class="n">total</span><span class="o">=</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">cnt_rows</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># if cnt_rows % 100000 == 0:</span>
+            <span class="c1">#     print((cnt_rows / size) * 100, &quot;% loaded&quot;)</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span
+            class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span
+            class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span
+            class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span
+            class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;omega&quot;</span><span
+            class="p">]</span>
+                <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">]</span> <span class="o">==</span> <span class="s2">&quot;alpha&quot;</span><span
+            class="p">:</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">omega</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span
+            class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span><span class="p">)</span>
+                <span class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span
+            class="n">u_label</span><span class="p">,</span> <span class="n">v_label</span> <span
+            class="o">=</span> <span class="n">l</span>
+
+                <span class="n">u</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">u_label</span><span class="p">]</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">label_to_id</span><span
+            class="p">[</span><span class="n">v_label</span><span class="p">]</span>
+                <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">u_label</span>
+                <span class="n">nodes_to_label</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">v_label</span>
+
+                <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">b</span><span class="p">)</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="nb">float</span><span
+            class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+                <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="n">E</span><span class="p">:</span>
+                    <span class="n">l</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span
+            class="n">E</span> <span class="ow">and</span> <span class="n">E</span><span class="p">[</span><span
+            class="n">l</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="n">E</span><span class="p">[</span><span class="n">l</span><span
+            class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span
+            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">E</span><span
+            class="p">[</span><span class="n">l</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">],</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">E</span><span class="p">[</span><span class="n">l</span><span
+            class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">b</span><span
+            class="p">,</span> <span class="n">e</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">u</span><span
+            class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">alpha</span><span
+            class="p">,</span> <span class="n">omega</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+                    <span class="n">W</span><span class="p">[</span><span class="n">v</span><span
+            class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">alpha</span><span
+            class="p">,</span> <span class="n">omega</span><span class="p">]</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">StreamGraph</span><span
+            class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span
+            class="n">alpha</span><span class="p">,</span> <span class="n">omega</span><span class="p">],</span>
+                       <span class="n">nodes</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">links</span><span class="o">=</span><span class="nb">list</span><span
+            class="p">(</span><span class="n">E</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()),</span>
+                       <span class="n">node_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">W</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">W</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">link_presence</span><span class="o">=</span><span class="p">[</span><span
+            class="n">E</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span
+            class="n">k</span> <span class="ow">in</span> <span class="n">E</span><span class="o">.</span><span
+            class="n">keys</span><span class="p">()],</span>
+                       <span class="n">node_to_label</span><span class="o">=</span><span class="n">nodes_to_label</span><span
+            class="p">,</span>
+                       <span class="n">node_to_id</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span
+            class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span
+            class="ow">in</span> <span class="n">W</span><span class="o">.</span><span class="n">keys</span><span
+            class="p">()})</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="parse_pcap"><a class="viewcode-back"
+                                               href="../../../straph.parser.html#straph.parser.parser.parse_pcap">[docs]</a><span
+        class="k">def</span> <span class="nf">parse_pcap</span><span class="p">(</span><span class="n">file_input</span><span
+        class="p">,</span> <span class="n">entry_format</span><span class="p">,</span> <span class="o">**</span><span
+        class="n">options</span><span class="p">):</span>
+    <span class="n">pcap_to_csv</span><span class="p">(</span><span class="n">file_input</span><span class="p">,</span> <span
+            class="s2">&quot;tmp.csv&quot;</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">parse_csv</span><span class="p">(</span><span
+            class="s2">&quot;tmp.csv&quot;</span><span class="p">,</span> <span class="n">entry_format</span><span
+            class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span
+            class="s2">&quot;tmp.csv&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="parser"><a class="viewcode-back"
+                                           href="../../../straph.parser.html#straph.parser.parser.parser">[docs]</a><span
+        class="k">def</span> <span class="nf">parser</span><span class="p">(</span><span
+        class="n">input_file</span><span class="p">,</span> <span class="n">input_format</span><span class="p">,</span> <span
+        class="n">entry_format</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span
+        class="kc">None</span><span class="p">,</span> <span class="n">simplify_presence</span><span
+        class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+        class="n">output_format</span><span class="o">=</span><span class="s1">&#39;sg&#39;</span><span
+        class="p">,</span>
+           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Straph&#39;s tunable parser. Compatible with several data formats: CSV, TSV, JSon and PCAP.</span>
+
+<span class="sd">    :param simplify_presence:</span>
+<span class="sd">    :param input_file: Input FILE (name only)</span>
+<span class="sd">    :param input_format: Format d&#39;entrée acceptés : JSON, CSV, PCAP</span>
+<span class="sd">    :param entry_format: Format of each line to be readed (t,u,v) = (line[x],line[y],line[w])</span>
+<span class="sd">    :param output_file: Output FILE (name only)</span>
+<span class="sd">    :param output_format: Format de sortie : SG,SGF,json</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">)</span> <span class="k">as</span> <span
+            class="n">ipt</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;delimiter&#39;</span><span
+            class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;is_link_stream&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;is_directed&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;nrows&#39;</span><span class="p">:</span> <span class="nb">sum</span><span
+            class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span
+            class="ow">in</span> <span class="n">ipt</span><span class="p">),</span>
+                   <span class="s1">&#39;link_duration&#39;</span><span class="p">:</span> <span class="kc">False</span><span
+            class="p">,</span>
+                   <span class="s1">&#39;order_sgf&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;ignore_header&#39;</span><span class="p">:</span> <span
+            class="kc">True</span><span class="p">,</span>
+                   <span class="s1">&#39;nodes_to_label&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;time_is_datetime&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="kc">None</span><span
+            class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span
+            class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;t_pos&#39;</span> <span class="ow">in</span> <span
+            class="n">entry_format</span> <span class="ow">or</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="p">(</span><span class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span class="n">entry_format</span> <span
+            class="ow">or</span> <span class="s1">&#39;e_pos&#39;</span> <span class="ow">in</span> <span class="n">entry_format</span><span
+            class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Invalide entry format :&#39;</span> <span
+            class="o">+</span> <span class="nb">str</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; should be of type {t_pos,u_pos,v_pos} or&#39;</span>
+                                                                        <span class="s1">&#39; {t_pos,link_duration_pos,u_pos,v_pos} or&#39;</span>
+                                                                        <span class="s1">&#39;{b_pos,e_pos,u_pos,v_pos} !&#39;</span><span
+            class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span
+            class="p">]</span> <span class="ow">and</span> <span class="p">(</span><span
+            class="s1">&#39;b_pos&#39;</span> <span class="ow">in</span> <span class="n">entry_format</span> <span
+            class="ow">or</span> <span class="s1">&#39;e_pos&#39;</span> <span class="ow">in</span> <span class="n">entry_format</span><span
+            class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;link_duration is incompatible with entry format : {b_pos,e_pos,u_pos,v_pos} !&#39;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;link_duration&#39;</span><span
+            class="p">]</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;link_duration is incompatible with entry format : {t_pos,link_duration_pos,u_pos,v_pos} !&#39;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="n">input_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span
+            class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">parse_csv</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="n">entry_format</span><span
+            class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">input_format</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span
+            class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">parse_json</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="n">entry_format</span><span
+            class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">input_format</span> <span class="o">==</span> <span class="s1">&#39;pcap&#39;</span><span
+            class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">parse_pcap</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="n">entry_format</span><span
+            class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">input_format</span> <span class="o">==</span> <span class="s1">&#39;net&#39;</span><span
+            class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;File format &#39;net&#39; not yet supported.&quot;</span><span
+            class="p">)</span>
+        <span class="c1"># S = parse_net(input_format, entry_format, **options)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Format not supported&#39;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="n">simplify_presence</span> <span class="ow">is</span> <span
+            class="kc">True</span><span class="p">:</span>
+        <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span> <span
+            class="o">=</span> <span class="p">[[</span><span class="n">np</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="p">[</span><span
+            class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span
+            class="n">np</span> <span class="ow">in</span>
+                           <span class="n">S</span><span class="o">.</span><span class="n">node_presence</span><span
+            class="p">]</span>  <span
+            class="c1"># Set nodes to be present from ther 1st intercations to their last</span>
+
+    <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="ow">not</span> <span
+            class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_format</span><span
+            class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">output_format</span> <span class="o">=</span> <span class="p">[</span><span class="n">output_format</span><span
+            class="p">]</span>
+
+        <span class="k">for</span> <span class="n">of</span> <span class="ow">in</span> <span
+            class="n">output_format</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">of</span> <span class="o">==</span> <span
+            class="s1">&#39;sg&#39;</span><span class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write_to_sg</span><span
+            class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">of</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span
+            class="p">:</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">write_to_json</span><span
+            class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">S</span></div>
+
+
+<div class="viewcode-block" id="sort_csv"><a class="viewcode-back"
+                                             href="../../../straph.parser.html#straph.parser.parser.sort_csv">[docs]</a><span
+        class="k">def</span> <span class="nf">sort_csv</span><span class="p">(</span><span
+        class="n">input_file</span><span class="p">,</span> <span class="n">entry_format</span><span class="p">,</span> <span
+        class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span
+        class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">)</span> <span class="k">as</span> <span
+            class="n">ipt</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;delimiter&#39;</span><span
+            class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;is_link_stream&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;is_directed&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;nrows&#39;</span><span class="p">:</span> <span class="nb">sum</span><span
+            class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">_</span> <span
+            class="ow">in</span> <span class="n">ipt</span><span class="p">),</span>
+                   <span class="s1">&#39;link_duration&#39;</span><span class="p">:</span> <span class="kc">False</span><span
+            class="p">,</span>
+                   <span class="s1">&#39;order_sgf&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;ignore_header&#39;</span><span class="p">:</span> <span
+            class="kc">True</span><span class="p">,</span>
+                   <span class="s1">&#39;nodes_to_label&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;time_is_datetime&#39;</span><span class="p">:</span> <span
+            class="kc">False</span><span class="p">,</span>
+                   <span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="kc">None</span><span
+            class="p">,</span>
+                   <span class="p">}</span>
+    <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span
+            class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">list_lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span
+            class="n">reader</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span
+            class="n">delimiter</span><span class="o">=</span><span class="n">options</span><span
+            class="p">[</span><span class="s1">&#39;delimiter&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;ignore_header&#39;</span><span
+            class="p">]:</span>
+            <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span
+            class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">tqdm</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span
+            class="n">desc</span><span class="o">=</span><span
+            class="s1">&#39;Reading CSV before sorting&#39;</span><span class="p">,</span> <span
+            class="n">total</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span
+            class="s1">&#39;nrows&#39;</span><span class="p">]):</span>
+            <span class="n">list_lines</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">3</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;time_is_datetime&#39;</span><span
+            class="p">]:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="n">datetime_to_timestamp</span><span class="p">(</span><span class="n">x</span><span
+            class="p">[</span><span class="n">t_pos</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span
+            class="n">t_pos</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;link_duration_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">t_pos</span><span class="p">,</span> <span
+            class="n">link_duration_pos</span><span class="p">,</span> <span class="n">u_pos</span><span
+            class="p">,</span> <span class="n">v_pos</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;t_pos&#39;</span><span class="p">],</span> <span
+            class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;link_duration_pos&#39;</span><span class="p">],</span> \
+                                                   <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;u_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;time_is_datetime&#39;</span><span
+            class="p">]:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="n">datetime_to_timestamp</span><span class="p">(</span><span class="n">x</span><span
+            class="p">[</span><span class="n">t_pos</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span
+            class="n">t_pos</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span
+            class="n">entry_format</span><span class="p">)</span> <span class="o">==</span> <span
+            class="mi">4</span> <span class="ow">and</span> <span class="s1">&#39;b_pos&#39;</span> <span
+            class="ow">in</span> <span class="n">entry_format</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b_pos</span><span class="p">,</span> <span class="n">e_pos</span><span
+            class="p">,</span> <span class="n">u_pos</span><span class="p">,</span> <span class="n">v_pos</span><span
+            class="p">)</span> <span class="o">=</span> <span class="n">entry_format</span><span class="p">[</span><span
+            class="s1">&#39;b_pos&#39;</span><span class="p">],</span> <span class="n">entry_format</span><span
+            class="p">[</span><span class="s1">&#39;e_pos&#39;</span><span class="p">],</span> \
+                                       <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;u_pos&#39;</span><span
+            class="p">],</span> <span class="n">entry_format</span><span class="p">[</span><span class="s1">&#39;v_pos&#39;</span><span
+            class="p">]</span>
+
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s1">&#39;time_is_datetime&#39;</span><span
+            class="p">]:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="n">datetime_to_timestamp</span><span class="p">(</span><span class="n">x</span><span
+            class="p">[</span><span class="n">b_pos</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">list_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span
+            class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span class="n">key</span><span
+            class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span
+            class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span
+            class="n">b_pos</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span
+            class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">input_file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output</span><span
+            class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span
+            class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span
+            class="n">writer</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span
+            class="n">delimiter</span><span class="o">=</span><span class="n">options</span><span
+            class="p">[</span><span class="s1">&#39;delimiter&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span
+            class="n">tqdm</span><span class="p">(</span><span class="n">list_lines</span><span class="p">,</span> <span
+            class="n">desc</span><span class="o">=</span><span class="s1">&#39;Writing CSV&#39;</span><span
+            class="p">):</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span
+            class="n">line</span><span class="p">)</span></div>
+</pre>
+                </div>
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

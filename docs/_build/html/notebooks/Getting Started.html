@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Getting Started &#8212; straph 1 documentation</title>
+
+    <link href="../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html"/>
+    <link rel="search" title="Search" href="../search.html"/>
+    <link rel="next" title="User Guide" href="../tutorials.html"/>
+    <link rel="prev" title="Installation" href="../installation.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../index.html">
+            <img src="../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 current active nav-item">
+                    <a class="current reference internal nav-link" href="#">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Reading-Usual-Datasets">
+                            Reading Usual Datasets
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Straph-Functionalities">
+                            Straph Functionalities
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/notebooks/Getting Started.ipynb">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+
+                <style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+                </style>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[1]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">straph</span> <span class="k">as</span> <span
+                                class="nn">sg</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[2]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span
+                                class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span
+                                class="p">]</span> <span class="o">=</span> <span class="p">(</span><span
+                                class="mi">12</span><span class="p">,</span><span class="mi">9</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <p>Straph, a python library, was developed in order to have a reliable library for manipulating,
+                    analysing and visualising stream graphs, to design algorithms and models, and to rapidly evaluate
+                    them.</p>
+                <div class="section" id="Getting-Started">
+                    <h1>Getting Started<a class="headerlink" href="#Getting-Started" title="Permalink to this headline">¶</a>
+                    </h1>
+                    <p>A stream graph is a quadruplet <img class="math"
+                                                           src="../_images/math/f55df6d60d95e9f0037cb383e660df030c917c63.png"
+                                                           alt="S = (T,V,W,E)"/> where <img class="math"
+                                                                                            src="../_images/math/e4762cec46619bf7781cae62216214f909395368.png"
+                                                                                            alt="V"/> is a finite set of
+                        nodes, <img class="math" src="../_images/math/d0caa3aa5a97d841c0f868222d3da555d5cad643.png"
+                                    alt="T \subseteq\mathbb{R}"/> a time interval , <img class="math"
+                                                                                         src="../_images/math/69e9d94b4777dfcbb3400d3244578b6c83d482a6.png"
+                                                                                         alt="W \subseteq T \times V"/>
+                        a set of temporal nodes, and <img class="math"
+                                                          src="../_images/math/8402620e7b842456758bdc3de6931fe803a72a83.png"
+                                                          alt="E \subseteq T \times V \otimes V"/> a set of links such
+                        that <img class="math" src="../_images/math/6f6d5013ac2a0bc1567794bbf577cdebd42afc9a.png"
+                                  alt="(t,uv) \in E"/> implies <img class="math"
+                                                                    src="../_images/math/e032047fb9654dae0b607ba54b39bbbec7a41bee.png"
+                                                                    alt="(t,u) \in W"/> and <img class="math"
+                                                                                                 src="../_images/math/87b26cfef0a8bc8d759b3ad15e6d0d2d03bd0a51.png"
+                                                                                                 alt="(t,v) \in W"/>.
+                    </p>
+                    <p>Let’s begin by a short example, consider three individuals <img class="math"
+                                                                                       src="../_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png"
+                                                                                       alt="A"/>, <img class="math"
+                                                                                                       src="../_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png"
+                                                                                                       alt="B"/> and
+                        <img class="math" src="../_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png" alt="C"/>
+                        (we have <img class="math" src="../_images/math/e0fca54dd1746e48d515d92ff8b0a0ca9fc35948.png"
+                                      alt="V = \{A,B,C\}"/>), we observe these entities and their interactions for a
+                        period of one hour (<img class="math"
+                                                 src="../_images/math/9fd285357429875c1a97d162e79100950275af9d.png"
+                                                 alt="T = [0,60]"/>, the unit of measurement here is the minute but note
+                        that time is modeled continuously.).</p>
+                    <p><img class="math" src="../_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png" alt="A"/>
+                        and <img class="math" src="../_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png"
+                                 alt="B"/> are active during the whole hour but <img class="math"
+                                                                                     src="../_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png"
+                                                                                     alt="C"/> is inactive between the
+                        30th and 40th minutes (we have <img class="math"
+                                                            src="../_images/math/904835a0316c9eb7be781e9a85f5785d0003bcf3.png"
+                                                            alt="W = ([0,60] \times \{A,B\}) \cup ([0,30] \times \{C\}) \cup ([30,60] \times \{C\})"/>).
+                    </p>
+                    <p>Individual <img class="math" src="../_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png"
+                                       alt="A"/> interacts continously with <img class="math"
+                                                                                 src="../_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png"
+                                                                                 alt="B"/> for 30 minutes starting at
+                        the 10th minute while <img class="math"
+                                                   src="../_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.png"
+                                                   alt="C"/> interacts instantly with <img class="math"
+                                                                                           src="../_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png"
+                                                                                           alt="B"/> at the 50th minute
+                        (we have <img class="math" src="../_images/math/178ad689c53195af6d9a8eb2a4ade399208ae67b.png"
+                                      alt="E = ([10,40] \times (A,B)) \cup (\{50\} \times (B,C))"/>).</p>
+                    <p>The following figure represents graphically such interactions:</p>
+                    <div class="nbinput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[3]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span
+                                    class="n">StreamGraph</span><span class="p">(</span><span
+                                    class="n">times</span> <span class="o">=</span> <span class="p">[</span><span
+                                    class="mi">0</span><span class="p">,</span><span class="mi">60</span><span
+                                    class="p">],</span>
+                   <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span
+                                    class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span
+                                    class="mi">2</span><span class="p">],</span>
+                   <span class="n">node_presence</span> <span class="o">=</span> <span class="p">[[</span><span
+                                    class="mi">0</span><span class="p">,</span><span class="mi">60</span><span
+                                    class="p">],</span>
+                                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span
+                                    class="mi">60</span><span class="p">],</span>
+                                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span
+                                    class="mi">30</span><span class="p">,</span><span class="mi">40</span><span
+                                    class="p">,</span><span class="mi">60</span><span class="p">]],</span>
+                   <span class="n">links</span> <span class="o">=</span> <span class="p">[(</span><span
+                                    class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span
+                                    class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)],</span>
+                   <span class="n">link_presence</span> <span class="o">=</span> <span class="p">[[</span><span
+                                    class="mi">10</span><span class="p">,</span><span class="mi">40</span><span
+                                    class="p">],</span>
+                                   <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span
+                                    class="mi">50</span><span class="p">]],</span>
+                   <span class="n">node_to_label</span> <span class="o">=</span> <span class="p">{</span><span
+                                    class="mi">0</span><span class="p">:</span><span class="s1">&#39;A&#39;</span><span
+                                    class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="s1">&#39;B&#39;</span><span
+                                    class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="s1">&#39;C&#39;</span><span
+                                    class="p">})</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                    class="n">plot</span><span class="p">()</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput nblast docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area docutils container">
+                            <img alt="../_images/notebooks_Getting_Started_6_0.png"
+                                 src="../_images/notebooks_Getting_Started_6_0.png"/>
+                        </div>
+                    </div>
+                    <div class="section" id="Reading-Usual-Datasets">
+                        <h2>Reading Usual Datasets<a class="headerlink" href="#Reading-Usual-Datasets"
+                                                     title="Permalink to this headline">¶</a></h2>
+                        <p>A dynamic network is usually represented (and stored) by a sequence of temporal links and
+                            stored in a <em>.csv</em> or a <em>.tsv</em>.</p>
+                        <p>The first step is to ensure that a <em>.csv</em> is temporally ordered. Several formats
+                            coexists, some with a timestamp denoting the existence of an interaction betweeen two
+                            entities at a given instant, some with both a beginning and an ending time for each
+                            interaction, some with an implicit duration for each interaction, …</p>
+                        <p>Therefore, parsers implemented in <code class="docutils literal notranslate"><span
+                                class="pre">Straph</span></code> are modular, they must be adjusted for each dataset.
+                        </p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[4]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;b_pos&#39;</span><span
+                                        class="p">:</span><span class="mi">0</span><span class="p">,</span><span
+                                        class="s1">&#39;e_pos&#39;</span><span class="p">:</span><span
+                                        class="mi">1</span><span class="p">,</span><span
+                                        class="s1">&#39;u_pos&#39;</span><span class="p">:</span><span
+                                        class="mi">2</span><span class="p">,</span><span
+                                        class="s1">&#39;v_pos&#39;</span><span class="p">:</span><span
+                                        class="mi">3</span><span class="p">}</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="s2">&quot;examples/example.csv&quot;</span>
+<span class="n">sg</span><span class="o">.</span><span class="n">sort_csv</span><span class="p">(</span><span class="n">input_file</span><span
+                                        class="p">,</span> <span class="n">entry_format</span><span
+                                        class="p">,</span> <span class="n">delimiter</span> <span
+                                        class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span><span
+                                        class="n">ignore_header</span> <span class="o">=</span> <span
+                                        class="kc">False</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area stderr docutils container">
+                                <div class="highlight"><pre>
+Reading CSV before sorting: 100%|███████████████████████████████████████████████████| 11/11 [00:00&lt;00:00, 11021.82it/s]
+Writing CSV: 100%|██████████████████████████████████████████████████████████████████| 11/11 [00:00&lt;00:00, 11003.42it/s]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>After sorting a dataset in a temporal fashion we can load it as stream graph object.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[5]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span
+                                        class="n">parser</span><span class="p">(</span><span class="n">input_file</span> <span
+                                        class="p">,</span> <span class="n">entry_format</span><span
+                                        class="o">=</span> <span class="n">entry_format</span><span class="p">,</span>
+                <span class="n">delimiter</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span
+                                        class="p">,</span> <span class="n">input_format</span> <span class="o">=</span> <span
+                                        class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="n">nodes_to_label</span> <span
+                                        class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+             <span class="n">ignore_header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">);</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area stderr docutils container">
+                                <div class="highlight"><pre>
+Parsing CSV: 11it [00:00, 11355.49it/s]
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>We can visualise this object with the <code class="docutils literal notranslate"><span
+                                class="pre">.plot()</span></code> function.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[6]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Getting_Started_13_0.png"
+                                     src="../_images/notebooks_Getting_Started_13_0.png"/>
+                            </div>
+                        </div>
+                        <p>The <code class="docutils literal notranslate"><span class="pre">Straph</span></code> module
+                            also as its own data format: <em>.sg</em>. This format is dedicated to stream graphs, its
+                            the fastest way to read and write with <code class="docutils literal notranslate"><span
+                                    class="pre">Straph</span></code> ; it also support nodes appearances and
+                            disappearances (can encode the presence or absence of a node over time).</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[7]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span
+                                        class="n">read_stream_graph</span><span class="p">(</span><span class="n">path_links</span> <span
+                                        class="o">=</span> <span class="s2">&quot;examples/example_links.sg&quot;</span><span
+                                        class="p">,</span>
+                    <span class="n">path_nodes</span> <span class="o">=</span> <span class="s2">&quot;examples/example_nodes.sg&quot;</span><span
+                                        class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Getting_Started_15_0.png"
+                                     src="../_images/notebooks_Getting_Started_15_0.png"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="Straph-Functionalities">
+                        <h2>Straph Functionalities<a class="headerlink" href="#Straph-Functionalities"
+                                                     title="Permalink to this headline">¶</a></h2>
+                        <p><code class="docutils literal notranslate"><span class="pre">Straph</span></code> provides
+                            many features, some are ‘global’ and describe a stream graph as a whole, some concern only
+                            nodes or links, some features return constant other time series. We refer to the API
+                            reference for an extensive description and to the other tutorials for practical examples of
+                            <code class="docutils literal notranslate"><span class="pre">Straph</span></code>’s
+                            functionalities.</p>
+                        <p>For example we can obtain the number of nodes in a stream graph, defined by <img class="math"
+                                                                                                            src="../_images/math/acd0b85a868efaff34cf3421d653bead5bd67c98.png"
+                                                                                                            alt="\frac{|W|}{T}"/>,
+                            by calling the method <code class="docutils literal notranslate"><span class="pre">.nb_nodes()</span></code>.
+                        </p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">nb_nodes</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+4.4
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <p>We can obtain the instant degree of each temporal node and graphically represent it.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[9]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">degrees</span> <span class="o">=</span> <span class="n">S</span><span
+                                        class="o">.</span><span class="n">degrees_partition</span><span
+                                        class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">(</span><span
+                                        class="n">clusters</span> <span class="o">=</span> <span
+                                        class="n">degrees</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Getting_Started_21_0.png"
+                                     src="../_images/notebooks_Getting_Started_21_0.png"/>
+                            </div>
+                        </div>
+                        <p>We can also obtain the time series corresponding to the betweenness of node <em>B</em>. In
+                            order to do so, we use the implementation of the betweenness of <code
+                                    class="docutils literal notranslate"><span class="pre">networkx</span></code>.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[10]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">prop_nx</span> <span class="o">=</span> <span class="n">S</span><span
+                                        class="o">.</span><span class="n">graph_property</span><span
+                                        class="p">(</span><span class="n">nx</span><span class="o">.</span><span
+                                        class="n">algorithms</span><span class="o">.</span><span
+                                        class="n">centrality</span><span class="o">.</span><span class="n">betweenness_centrality</span><span
+                                        class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span
+                                        class="s1">&#39;signal&#39;</span><span class="p">,</span><span class="n">datetime</span><span
+                                        class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">prop_nx</span><span class="p">[</span><span
+                                        class="mi">1</span><span class="p">]</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">(</span><span
+                                        class="n">linewidth</span> <span class="o">=</span> <span
+                                        class="mi">3</span><span class="p">,</span><span class="n">title</span> <span
+                                        class="o">=</span> <span
+                                        class="s2">&quot;Betweenness of B over time&quot;</span><span class="p">,</span>
+                    <span class="n">ylabel</span> <span class="o">=</span> <span
+                                        class="s2">&quot;Betweenness&quot;</span><span class="p">,</span><span
+                                        class="n">xlabel</span> <span class="o">=</span> <span
+                                        class="s2">&quot;t&quot;</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Getting_Started_23_0.png"
+                                     src="../_images/notebooks_Getting_Started_23_0.png"/>
+                            </div>
+                        </div>
+                        <p>Or we can observe the betweenness of each node:</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[11]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">prop_nx</span> <span class="o">=</span> <span class="n">S</span><span
+                                        class="o">.</span><span class="n">graph_property</span><span
+                                        class="p">(</span><span class="n">nx</span><span class="o">.</span><span
+                                        class="n">algorithms</span><span class="o">.</span><span
+                                        class="n">centrality</span><span class="o">.</span><span class="n">betweenness_centrality</span><span
+                                        class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span
+                                        class="s1">&#39;cluster&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot</span><span class="p">(</span><span
+                                        class="n">clusters</span> <span class="o">=</span> <span
+                                        class="n">prop_nx</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Getting_Started_25_0.png"
+                                     src="../_images/notebooks_Getting_Started_25_0.png"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+                <a class='left-prev' id="prev-link" href="../installation.html" title="previous page">Installation</a>
+                <a class='right-next' id="next-link" href="../tutorials.html" title="next page">User Guide</a>
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

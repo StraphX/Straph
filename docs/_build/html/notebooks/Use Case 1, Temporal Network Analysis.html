@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Temporal Network Analysis: High School Dataset, Interactions among Students &#8212; straph 1
+        documentation</title>
+
+    <link href="../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html"/>
+    <link rel="search" title="Search" href="../search.html"/>
+    <link rel="next" title="API Reference" href="../api_reference.html"/>
+    <link rel="prev" title="Stream Graph Generators" href="Random%20Stream%20Graphs.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../index.html">
+            <img src="../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 current active nav-item">
+                    <a class="reference internal nav-link" href="../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+                    <ul class="current nav bd-sidenav">
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Introduction.html">
+                                Introduction
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Drawing.html">
+                                Visualisation
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Readers%20and%20Writers%20%28Input-Output%29.html">
+                                Readers and Writers
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Stream%20Graph%20Theory%20Properties.html">
+                                Stream Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Induced%20Graphs%20and%20Substreams.html">
+                                Induced Graphs and Substreams
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Connected%20Components.html">
+                                Connected Components
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Graph%20Theory%20Properties.html">
+                                Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Temporal%20Paths.html">
+                                Temporal Paths in Stream Graph
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Random%20Stream%20Graphs.html">
+                                Stream Graph Generators
+                            </a>
+                        </li>
+                        <li class="toctree-l2 current active">
+                            <a class="current reference internal" href="#">
+                                Temporal Network Analysis: High School Dataset, Interactions among Students
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Visualisation">
+                            Visualisation
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#Largest-group-of-friend">
+                            Largest group of friend
+                        </a>
+                        <ul class="nav section-nav flex-column">
+                            <li class="toc-h3 nav-item toc-entry">
+                                <a class="reference internal nav-link" href="#1.-Largest-and-Longest-Clique">
+                                    1. Largest and Longest
+                                    <em>
+                                        Clique
+                                    </em>
+                                </a>
+                            </li>
+                            <li class="toc-h3 nav-item toc-entry">
+                                <a class="reference internal nav-link"
+                                   href="#2.-Largest-and-Longest-Strongly-Connected-Component">
+                                    2. Largest and Longest
+                                    <em>
+                                        Strongly Connected Component
+                                    </em>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#The-most-“popular”-student">
+                            The most “popular” student
+                        </a>
+                        <ul class="nav section-nav flex-column">
+                            <li class="toc-h3 nav-item toc-entry">
+                                <a class="reference internal nav-link" href="#1.-Degree-Approach">
+                                    1.
+                                    <em>
+                                        Degree
+                                    </em>
+                                    Approach
+                                </a>
+                            </li>
+                            <li class="toc-h3 nav-item toc-entry">
+                                <a class="reference internal nav-link" href="#2.-Katz-Centrality">
+                                    2. Katz Centrality
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/notebooks/Use Case 1, Temporal Network Analysis.ipynb">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+
+                <style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+                </style>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[82]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">straph</span> <span class="k">as</span> <span
+                                class="nn">sg</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                class="nn">plt</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[2]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span
+                                class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span
+                                class="p">]</span> <span class="o">=</span> <span class="p">(</span><span
+                                class="mi">12</span><span class="p">,</span><span class="mi">9</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="section" id="Temporal-Network-Analysis:-High-School-Dataset,-Interactions-among-Students">
+                    <h1>Temporal Network Analysis: High School Dataset, Interactions among Students<a class="headerlink"
+                                                                                                      href="#Temporal-Network-Analysis:-High-School-Dataset,-Interactions-among-Students"
+                                                                                                      title="Permalink to this headline">¶</a>
+                    </h1>
+                    <p>First, we download and parse the <a class="reference external"
+                                                           href="http://www.sociopatterns.org/datasets/high-school-contact-and-friendship-networks/">High
+                        School 2013 dataset</a>. It is the temporal network of interactions between students of 5
+                        classes during 7 days in a high school in Marseille, France in 2013. An interaction consists in
+                        a physical proximity between two students, captured by a sensor.</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[3]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span
+                                    class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+    <span class="c1"># get request</span>
+    <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span
+                                    class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span
+                                    class="n">url</span><span class="p">)</span> <span class="k">as</span> <span
+                                    class="n">response</span><span class="p">:</span>
+        <span class="c1"># uncompress file</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span
+                                    class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span
+                                    class="o">=</span><span class="n">response</span><span class="p">)</span> <span
+                                    class="k">as</span> <span class="n">uncompressed</span><span
+                                    class="p">,</span> <span class="nb">open</span><span class="p">(</span><span
+                                    class="n">file_name</span><span class="p">,</span> <span
+                                    class="s1">&#39;wb&#39;</span><span class="p">)</span> <span
+                                    class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+            <span class="n">file_content</span> <span class="o">=</span> <span class="n">uncompressed</span><span
+                                    class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">out_file</span><span class="o">.</span><span class="n">write</span><span
+                                    class="p">(</span><span class="n">file_content</span><span class="p">)</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[4]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www.sociopatterns.org/wp-content/uploads/2015/07/High-School_data_2013.csv.gz&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;high_school_2013.csv&quot;</span>
+<span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span
+                                    class="n">file_name</span><span class="p">)</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nbinput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[5]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;u_pos&quot;</span><span
+                                    class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span
+                                    class="s2">&quot;v_pos&quot;</span><span class="p">:</span> <span
+                                    class="mi">2</span><span class="p">,</span> <span
+                                    class="s2">&quot;t_pos&quot;</span><span class="p">:</span> <span
+                                    class="mi">0</span><span class="p">}</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span
+                                    class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span
+                                    class="p">,</span> <span class="s2">&quot;ignore_header&quot;</span><span class="p">:</span> <span
+                                    class="kc">False</span><span class="p">,</span> <span class="s2">&quot;nodes_to_label&quot;</span><span
+                                    class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span
+                                    class="s2">&quot;time_is_datetime&quot;</span><span class="p">:</span> <span
+                                    class="kc">False</span><span class="p">,</span>
+          <span class="s2">&quot;link_duration&quot;</span><span class="p">:</span> <span class="mi">60</span><span
+                                    class="p">}</span>
+<span class="n">sg</span><span class="o">.</span><span class="n">sort_csv</span><span class="p">(</span><span class="n">file_name</span><span
+                                    class="p">,</span> <span class="n">entry_format</span><span class="p">,</span> <span
+                                    class="o">**</span><span class="n">config</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">parser</span><span
+                                    class="p">(</span><span class="n">input_file</span><span class="o">=</span><span
+                                    class="n">file_name</span><span class="p">,</span>
+           <span class="n">input_format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span
+                                    class="p">,</span>
+           <span class="n">entry_format</span><span class="o">=</span><span class="n">entry_format</span><span
+                                    class="p">,</span>
+           <span class="n">output_file</span><span class="o">=</span><span
+                                    class="s2">&quot;high_school_2013&quot;</span><span class="p">,</span>
+           <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;sg&#39;</span><span
+                                    class="p">,</span>
+           <span class="o">**</span><span class="n">config</span><span class="p">)</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput nblast docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area stderr docutils container">
+                            <div class="highlight"><pre>
+Reading CSV before sorting: 100%|██████████████████████████████████████████| 188508/188508 [00:00&lt;00:00, 450119.87it/s]
+Writing CSV: 100%|█████████████████████████████████████████████████████████| 188508/188508 [00:00&lt;00:00, 529154.05it/s]
+Parsing CSV: 188508it [00:00, 193292.68it/s]
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Let’s print a short description of this dataset.</p>
+                    <div class="nbinput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[6]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput nblast docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area docutils container">
+                            <div class="highlight"><pre>
+Nb of Nodes :  327
+Nb of segmented nodes :  47720.0
+Nb of links :  5818
+Nb of segmented links :  46025.0
+Nb of event times :  7360
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p>There’s <img class="math" src="../_images/math/7229daf2d1cb26acf7b132aec0e335d5bcc7af46.png"
+                                    alt="327"/> students interacting <img class="math"
+                                                                          src="../_images/math/2d442d13889194250e52087a325687957136d220.png"
+                                                                          alt="46025"/> times among each other at <img
+                            class="math" src="../_images/math/4f00e658b5b770b2ecd07839e21dcee13f8f1ed1.png" alt="7360"/>
+                        distinct event times. Let’s learn more.</p>
+                    <div class="section" id="Visualisation">
+                        <h2>Visualisation<a class="headerlink" href="#Visualisation" title="Permalink to this headline">¶</a>
+                        </h2>
+                        <p>This dataset contains many interactions, an overall visualisation may not shed interesting
+                            patterns.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[7]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                        class="n">lw_nodes</span> <span class="o">=</span> <span
+                                        class="mi">1</span><span class="p">,</span> <span
+                                        class="n">lw_links</span> <span class="o">=</span> <span
+                                        class="mf">0.5</span><span class="p">,</span> <span
+                                        class="n">timestamp</span> <span class="o">=</span> <span class="kc">True</span><span
+                                        class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[7]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_12_1.png"
+                                     src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_12_1.png"/>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                        class="n">lw_nodes</span> <span class="o">=</span> <span
+                                        class="mi">1</span><span class="p">,</span> <span
+                                        class="n">lw_links</span> <span class="o">=</span> <span
+                                        class="mf">0.5</span><span class="p">,</span> <span
+                                        class="n">timestamp</span> <span class="o">=</span> <span class="kc">True</span><span
+                                        class="p">,</span> <span class="n">plot_links</span> <span
+                                        class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[8]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_13_1.png"
+                                     src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_13_1.png"/>
+                            </div>
+                        </div>
+                        <p>However, we can observe the distinct five days of recording. We can observe that nodes, which
+                            are present only if they are involved in at least an interaction, are not homogenously
+                            active during school time. There seems to be periods of intense activity in the middly of
+                            the day as well as during the during the morning. It seems coherent with breaks time.</p>
+                        <p>The node and link weight over time should confirm this observation.</p>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[9]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot_node_weight</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_15_0.png"
+                                     src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_15_0.png"/>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[10]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                        class="n">plot_link_weight</span><span class="p">()</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_16_0.png"
+                                     src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_16_0.png"/>
+                            </div>
+                        </div>
+                        <p>We can remove the interactions between students and instead, display their degree over time.
+                            We also focus on a particular day in order to improve lisibility.</p>
+                        <div class="nbinput nblast docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[11]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span
+                                        class="n">datetime</span>
+<span class="n">t0</span><span class="p">,</span><span class="n">t1</span> <span class="o">=</span> <span class="n">datetime</span><span
+                                        class="o">.</span><span class="n">fromisoformat</span><span
+                                        class="p">(</span><span class="s2">&quot;2013-12-03 07:00:00&quot;</span><span
+                                        class="p">),</span><span class="n">datetime</span><span class="o">.</span><span
+                                        class="n">fromisoformat</span><span class="p">(</span><span class="s2">&quot;2013-12-03 18:00:00&quot;</span><span
+                                        class="p">)</span>
+<span class="n">S2</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">induced_substream_by_time_window</span><span
+                                        class="p">([</span><span class="n">t0</span><span class="o">.</span><span
+                                        class="n">timestamp</span><span class="p">(),</span><span
+                                        class="n">t1</span><span class="o">.</span><span class="n">timestamp</span><span
+                                        class="p">()])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nbinput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[12]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="input_area highlight-ipython3 notranslate">
+                                <div class="highlight"><pre>
+<span></span><span class="n">S2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                        class="n">clusters</span> <span class="o">=</span> <span class="n">S</span><span
+                                        class="o">.</span><span class="n">degrees_partition</span><span
+                                        class="p">(),</span><span class="n">plot_links</span> <span
+                                        class="o">=</span> <span class="kc">False</span><span class="p">,</span><span
+                                        class="n">lw_nodes</span> <span class="o">=</span> <span
+                                        class="mi">1</span><span class="p">,</span> <span
+                                        class="n">timestamp</span> <span class="o">=</span> <span class="kc">True</span> <span
+                                        class="p">)</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput docutils container">
+                            <div class="prompt highlight-none notranslate">
+                                <div class="highlight"><pre><span></span>[12]:
+</pre>
+                                </div>
+                            </div>
+                            <div class="output_area docutils container">
+                                <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nboutput nblast docutils container">
+                            <div class="prompt empty docutils container">
+                            </div>
+                            <div class="output_area docutils container">
+                                <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_19_1.png"
+                                     src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_19_1.png"/>
+                            </div>
+                        </div>
+                        <p>We clearly observe periods on intense activy around <img class="math"
+                                                                                    src="../_images/math/f3ebee65f051b4ad053b59d88d03b08e6b1cab3a.png"
+                                                                                    alt="9"/>am for <img class="math"
+                                                                                                         src="../_images/math/d4b0d452d2c7a8434cf3308e1585ede3ede48e61.png"
+                                                                                                         alt="15"/>
+                            minutes, probably a break time, at <img class="math"
+                                                                    src="../_images/math/2ee3680488bb1f7166e08a65cef9a7e3d7020d78.png"
+                                                                    alt="11"/>am, <img class="math"
+                                                                                       src="../_images/math/d147c12ac411feac5293f9328d82ee96665a8a9d.png"
+                                                                                       alt="12"/>am and <img
+                                    class="math" src="../_images/math/ec830c85a5fbb48028fe797044da6bdfb924c2fa.png"
+                                    alt="1"/>pm, probably corresponding to the lunch period, and a last time aroud <img
+                                    class="math" src="../_images/math/3204f0580808cc1d3ded72d87384c025c9e7e272.png"
+                                    alt="3"/>pm, corresponding to the afternoon break.</p>
+                    </div>
+                    <div class="section" id="Largest-group-of-friend">
+                        <h2>Largest group of friend<a class="headerlink" href="#Largest-group-of-friend"
+                                                      title="Permalink to this headline">¶</a></h2>
+                        <p>Let us focus on the largest group of friends in this high school. We define this group as the
+                            largest group where each individual interacts with every other. We point out that we do not
+                            prioritize a period of time over another, break time and class time are considered equally.
+                            In other words, it is about finding the largest clique with the longest duration.</p>
+                        <div class="section" id="1.-Largest-and-Longest-Clique">
+                            <h3>1. Largest and Longest <em>Clique</em><a class="headerlink"
+                                                                         href="#1.-Largest-and-Longest-Clique"
+                                                                         title="Permalink to this headline">¶</a></h3>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[20]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">cliques</span> <span class="o">=</span> <span class="n">S</span><span
+                                            class="o">.</span><span class="n">all_cliques</span><span
+                                            class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Maximum clique size: &quot;</span><span
+                                            class="p">,</span> <span class="nb">max</span><span class="p">(</span><span
+                                            class="n">cliques</span><span class="o">.</span><span
+                                            class="n">keys</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cliques of size &quot;</span><span
+                                            class="p">,</span><span class="nb">max</span><span class="p">(</span><span
+                                            class="n">cliques</span><span class="p">),</span> <span class="s2">&quot;: &quot;</span><span
+                                            class="p">,</span><span class="n">cliques</span><span
+                                            class="p">[</span><span class="nb">max</span><span class="p">(</span><span
+                                            class="n">cliques</span><span class="p">)])</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+Maximum clique size:  6
+Cliques of size  6 :  [[(1386148020.0, 1386148020.0, 173), (1386148020.0, 1386148020.0, 125), (1386148020.0, 1386148020.0, 99), (1386148020.0, 1386148020.0, 169), (1386148020.0, 1386148020.0, 176), (1386148020.0, 1386148020.0, 316)], [(1386148020.0, 1386148040.0, 173), (1386148020.0, 1386148040.0, 125), (1386148020.0, 1386148040.0, 99), (1386148020.0, 1386148040.0, 169), (1386148020.0, 1386148040.0, 176), (1386148020.0, 1386148040.0, 316)], [(1386148040.0, 1386148040.0, 173), (1386148040.0, 1386148040.0, 99), (1386148040.0, 1386148040.0, 169), (1386148040.0, 1386148040.0, 316), (1386148040.0, 1386148040.0, 125), (1386148040.0, 1386148040.0, 176)]]
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[47]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">clique_max_members_and_duration</span><span
+                                            class="p">(</span><span class="n">cliques</span><span
+                                            class="p">,</span> <span class="n">clique_size</span><span
+                                            class="p">):</span>
+    <span class="n">counter_clique</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cliques</span><span
+                                            class="p">[</span><span class="n">clique_size</span><span
+                                            class="p">]:</span>
+        <span class="n">t0</span> <span class="p">,</span><span class="n">t1</span> <span class="p">,</span><span
+                                            class="n">_</span> <span class="o">=</span> <span class="n">c</span><span
+                                            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Get distinct groups in cliques</span>
+        <span class="n">members</span> <span class="o">=</span> <span class="nb">tuple</span><span
+                                            class="p">(</span><span class="nb">sorted</span><span
+                                            class="p">([</span><span class="n">n</span> <span class="k">for</span> <span
+                                            class="n">_</span><span class="p">,</span><span class="n">_</span><span
+                                            class="p">,</span><span class="n">n</span> <span class="ow">in</span> <span
+                                            class="n">c</span><span class="p">]))</span>
+        <span class="c1"># Sum total duration per group</span>
+        <span class="k">if</span> <span class="n">members</span> <span class="ow">in</span> <span class="n">counter_clique</span> <span
+                                            class="p">:</span>
+            <span class="n">counter_clique</span><span class="p">[</span><span class="n">members</span><span
+                                            class="p">]</span> <span class="o">+=</span> <span class="n">t1</span> <span
+                                            class="o">-</span><span class="n">t0</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">counter_clique</span><span class="p">[</span><span class="n">members</span><span
+                                            class="p">]</span> <span class="o">=</span> <span class="n">t1</span> <span
+                                            class="o">-</span> <span class="n">t0</span>
+    <span class="n">suspects</span><span class="p">,</span> <span class="n">duration</span> <span
+                                            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span
+                                            class="n">counter_clique</span><span class="o">.</span><span
+                                            class="n">items</span><span class="p">()</span> <span
+                                            class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span
+                                            class="k">lambda</span> <span class="n">x</span><span
+                                            class="p">:</span><span class="n">x</span><span class="p">[</span><span
+                                            class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">suspects</span><span class="p">,</span> <span
+                                            class="n">duration</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[48]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">clique_max_members_and_duration</span><span class="p">(</span><span
+                                            class="n">cliques</span><span class="p">,</span> <span
+                                            class="mi">6</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[48]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+((99, 125, 169, 173, 176, 316), 20.0)
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>The maximum clique size is <img class="math"
+                                                               src="../_images/math/ba290a7507ee9018f2b149b2746103b05b4cc4ee.png"
+                                                               alt="6"/>, there is only one <img class="math"
+                                                                                                 src="../_images/math/ba290a7507ee9018f2b149b2746103b05b4cc4ee.png"
+                                                                                                 alt="6"/>-clique and
+                                its total duration is <img class="math"
+                                                           src="../_images/math/30780dad8df9d192759f694a42acccd7bad8858e.png"
+                                                           alt="20"/> seconds. We consider its duration as too short
+                                considering the time window of the stream graph.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[49]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">clique_max_members_and_duration</span><span class="p">(</span><span
+                                            class="n">cliques</span><span class="p">,</span> <span
+                                            class="mi">5</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[49]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+((144, 165, 267, 268, 275), 140.0)
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Likewise, the longest <img class="math"
+                                                          src="../_images/math/51d4ace3c51c5a5490fc4464952d6c46d518fbc8.png"
+                                                          alt="5"/>-clique lasts only for <img class="math"
+                                                                                               src="../_images/math/b7eb4beb7e08910ab002c0e4b38d029ca6b75fdc.png"
+                                                                                               alt="140"/> seconds, also
+                                too short relatively to the time window of the dataset. We focus on <img class="math"
+                                                                                                         src="../_images/math/d6c8c868656d607bf5557bd64bb81ccdecda9203.png"
+                                                                                                         alt="4"/>-cliques.
+                            </p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[50]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">members</span><span class="p">,</span> <span class="n">duration</span> <span
+                                            class="o">=</span> <span
+                                            class="n">clique_max_members_and_duration</span><span
+                                            class="p">(</span><span class="n">cliques</span><span
+                                            class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span class="n">S</span><span class="o">.</span><span
+                                            class="n">node_to_label</span><span class="p">[</span><span
+                                            class="n">n</span><span class="p">]</span> <span class="k">for</span> <span
+                                            class="n">n</span> <span class="ow">in</span> <span class="n">members</span><span
+                                            class="p">]</span>
+<span class="n">members</span><span class="p">,</span> <span class="n">duration</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[50]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+([&#39;275&#39;, &#39;312&#39;, &#39;612&#39;, &#39;886&#39;], 3300.0)
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>We can plot this clique in order to observe interactions between its members through
+                                time.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[52]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">S3</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                            class="n">induced_substream_by_nodes</span><span class="p">(</span><span
+                                            class="n">members</span><span class="p">)</span>
+<span class="n">S3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamp</span> <span
+                                            class="o">=</span> <span class="kc">True</span><span
+                                            class="p">,</span> <span class="n">arrivals_marker</span><span
+                                            class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># The same plot but on the second day.</span>
+<span class="n">S4</span> <span class="o">=</span> <span class="n">S2</span><span class="o">.</span><span class="n">induced_substream_by_nodes</span><span
+                                            class="p">(</span><span class="n">members</span><span class="p">)</span>
+<span class="n">S4</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamp</span> <span
+                                            class="o">=</span> <span class="kc">True</span><span
+                                            class="p">,</span> <span class="n">arrivals_marker</span><span
+                                            class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[52]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_32_1.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_32_1.png"/>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_32_2.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_32_2.png"/>
+                                </div>
+                            </div>
+                            <p>Nodes <img class="math"
+                                          src="../_images/math/ac4b01e9db850af96ba6911dacd705fab3b82b67.png" alt="886"/>,
+                                <img class="math" src="../_images/math/c0e32c6a77cf79b08bdf67326c317bbc9f6d8c34.png"
+                                     alt="612"/> and <img class="math"
+                                                          src="../_images/math/f7f0abea2e0ed275cf69e459a2995588a4f790bf.png"
+                                                          alt="312"/> are probably in the same class whereas node <img
+                                        class="math" src="../_images/math/aa3df056883720aaad153a42b21683df3485f5d8.png"
+                                        alt="275"/> only shared two lunch breaks with its friends, it probably means
+                                that <img class="math"
+                                          src="../_images/math/aa3df056883720aaad153a42b21683df3485f5d8.png" alt="275"/>
+                                is in another class.</p>
+                        </div>
+                        <div class="section" id="2.-Largest-and-Longest-Strongly-Connected-Component">
+                            <h3>2. Largest and Longest <em>Strongly Connected Component</em><a class="headerlink"
+                                                                                               href="#2.-Largest-and-Longest-Strongly-Connected-Component"
+                                                                                               title="Permalink to this headline">¶</a>
+                            </h3>
+                            <p>The assumption that a group of friends is necessary a clique may be a bit too strong,
+                                given the conditions of the interactions’ recording. Nevertheless, we can suppose that
+                                this group of friends gather frequently and when it happens they are connected with each
+                                other: they are in the same strongly connected component. Let us find the groups of
+                                nodes of at least 4 members which are strongly connected for the longest period of
+                                time.</p>
+                            <div class="nbinput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[53]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">scc_max_members_and_duration</span><span
+                                            class="p">(</span><span class="n">scc</span><span class="p">,</span> <span
+                                            class="n">min_scc_size</span><span class="p">):</span>
+    <span class="n">counter_scc</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">scc</span><span
+                                            class="p">:</span>
+        <span class="n">t0</span> <span class="p">,</span><span class="n">t1</span> <span class="p">,</span><span
+                                            class="n">_</span> <span class="o">=</span> <span class="n">c</span><span
+                                            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Get distinct groups in scc</span>
+        <span class="n">members</span> <span class="o">=</span> <span class="nb">tuple</span><span
+                                            class="p">(</span><span class="nb">sorted</span><span
+                                            class="p">([</span><span class="n">n</span> <span class="k">for</span> <span
+                                            class="n">_</span><span class="p">,</span><span class="n">_</span><span
+                                            class="p">,</span><span class="n">n</span> <span class="ow">in</span> <span
+                                            class="n">c</span><span class="p">]))</span>
+        <span class="c1"># Sum total duration per group</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">members</span><span
+                                            class="p">)</span> <span class="o">&gt;=</span> <span
+                                            class="n">min_scc_size</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">members</span> <span class="ow">in</span> <span class="n">counter_scc</span> <span
+                                            class="p">:</span>
+                <span class="n">counter_scc</span><span class="p">[</span><span class="n">members</span><span class="p">]</span> <span
+                                            class="o">+=</span> <span class="n">t1</span> <span class="o">-</span><span
+                                            class="n">t0</span>
+            <span class="k">else</span> <span class="p">:</span>
+                <span class="n">counter_scc</span><span class="p">[</span><span class="n">members</span><span class="p">]</span> <span
+                                            class="o">=</span> <span class="n">t1</span> <span class="o">-</span> <span
+                                            class="n">t0</span>
+    <span class="n">suspects</span><span class="p">,</span> <span class="n">duration</span> <span
+                                            class="o">=</span> <span class="nb">max</span><span class="p">(</span><span
+                                            class="n">counter_scc</span><span class="o">.</span><span
+                                            class="n">items</span><span class="p">(),</span> <span class="n">key</span> <span
+                                            class="o">=</span> <span class="k">lambda</span> <span
+                                            class="n">x</span><span class="p">:</span><span class="n">x</span><span
+                                            class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">suspects</span><span class="p">,</span> <span
+                                            class="n">duration</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[54]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">scc</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                            class="n">strongly_connected_components</span><span class="p">(</span><span
+                                            class="nb">format</span> <span class="o">=</span> <span class="s2">&quot;cluster&quot;</span><span
+                                            class="p">)</span>
+<span class="n">members</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=</span> <span
+                                            class="n">scc_max_members_and_duration</span><span class="p">(</span><span
+                                            class="n">scc</span><span class="p">,</span> <span class="mi">4</span><span
+                                            class="p">)</span>
+<span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span class="n">S</span><span class="o">.</span><span
+                                            class="n">node_to_label</span><span class="p">[</span><span
+                                            class="n">n</span><span class="p">]</span> <span class="k">for</span> <span
+                                            class="n">n</span> <span class="ow">in</span> <span class="n">members</span><span
+                                            class="p">]</span>
+<span class="n">members</span><span class="p">,</span> <span class="n">duration</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[54]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+([&#39;3&#39;, &#39;884&#39;, &#39;339&#39;, &#39;147&#39;], 9620.0)
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>We have found a component of size <img class="math"
+                                                                      src="../_images/math/d6c8c868656d607bf5557bd64bb81ccdecda9203.png"
+                                                                      alt="4"/> in which members interact together for a
+                                total of <img class="math"
+                                              src="../_images/math/a3c17dea2efd976cf9e4854f2b9a11937b938530.png"
+                                              alt="9620"/> seconds. Which is higher than the result of the
+                                <em>clique</em> approach. Let’s plot interactions between these students.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[116]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">S3</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                            class="n">induced_substream_by_nodes</span><span class="p">(</span><span
+                                            class="n">members</span><span class="p">)</span>
+<span class="n">S3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamp</span> <span
+                                            class="o">=</span> <span class="kc">True</span><span
+                                            class="p">,</span> <span class="n">arrivals_marker</span><span
+                                            class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># The same plot but on the second day.</span>
+<span class="n">S4</span> <span class="o">=</span> <span class="n">S2</span><span class="o">.</span><span class="n">induced_substream_by_nodes</span><span
+                                            class="p">(</span><span class="n">members</span><span class="p">)</span>
+<span class="n">S4</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timestamp</span> <span
+                                            class="o">=</span> <span class="kc">True</span><span
+                                            class="p">,</span> <span class="n">arrivals_marker</span><span
+                                            class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[116]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_39_1.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_39_1.png"/>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_39_2.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_39_2.png"/>
+                                </div>
+                            </div>
+                            <p>It’s not easy to see if each student has interacted with the others individualy, let’s
+                                plot the aggregated graph.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[57]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">_</span> <span class="o">=</span> <span class="n">S3</span><span class="o">.</span><span
+                                            class="n">plot_aggregated_graph</span><span class="p">()</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_41_0.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_41_0.png"/>
+                                </div>
+                            </div>
+                            <p>All links exists between theses students, there’s a clique in the aggregated graph.</p>
+                            <p>We have shown that with the help of <code class="docutils literal notranslate"><span
+                                    class="pre">Straph</span></code> it is possible to bring a (partial) answer to this
+                                complex question with only a dozen lines of code. Other approaches based on Straph
+                                functionalities, such as k-cores, could have been used to address this problem. Another
+                                solution consists in finding the longest and densest substream. However this problem has
+                                a huge complexity and no known algorithm exists to solve it.</p>
+                        </div>
+                    </div>
+                    <div class="section" id="The-most-“popular”-student">
+                        <h2>The most “popular” student<a class="headerlink" href="#The-most-“popular”-student"
+                                                         title="Permalink to this headline">¶</a></h2>
+                        <p>Another common task is finding the “central” nodes of the dataset, and analyse their
+                            behaviour relatively to the other.</p>
+                        <div class="section" id="1.-Degree-Approach">
+                            <h3>1. <em>Degree</em> Approach<a class="headerlink" href="#1.-Degree-Approach"
+                                                              title="Permalink to this headline">¶</a></h3>
+                            <p>We start by observing the degree distribution of nodes in the dataset. We recall that a
+                                node’s degree in stream graph theory is defined by:</p>
+                            <div class="math">
+                                <p><img src="../_images/math/8730cc53515d9637bb3e0c40f4d5988a00aba234.png"
+                                        alt="d(v) = \frac{|N(v)|}{|T|} = \sum_{u \in V} \frac{|T_{uv}|}{|T|}"/></p>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[58]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">degrees</span> <span class="o">=</span> <span class="n">S</span><span
+                                            class="o">.</span><span class="n">degrees</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">hist_plot</span><span
+                                            class="p">(</span><span class="nb">list</span><span class="p">(</span><span
+                                            class="n">degrees</span><span class="o">.</span><span
+                                            class="n">values</span><span class="p">()),</span> <span
+                                            class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Nodes Degree&quot;</span><span
+                                            class="p">,</span> <span class="n">bins</span> <span
+                                            class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_48_0.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_48_0.png"/>
+                                </div>
+                            </div>
+                            <p>There’s only a few nodes with a high degree, let’s select them.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[62]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span
+                                            class="n">n</span> <span class="k">for</span> <span class="n">n</span><span
+                                            class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span
+                                            class="n">degrees</span><span class="o">.</span><span class="n">items</span><span
+                                            class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span
+                                            class="o">&gt;</span> <span class="mf">0.3</span><span class="p">]</span>
+<span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span class="n">S</span><span class="o">.</span><span
+                                            class="n">node_to_label</span><span class="p">[</span><span
+                                            class="n">n</span><span class="p">]</span> <span class="k">for</span> <span
+                                            class="n">n</span> <span class="ow">in</span> <span class="n">members</span><span
+                                            class="p">]</span>
+<span class="n">members</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[62]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+[&#39;255&#39;, &#39;1359&#39;, &#39;122&#39;, &#39;3&#39;, &#39;884&#39;]
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>We can verify whether these nodes are the same that have the most number of distinct
+                                neighbors. Which is their degree in the aggregated graph.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[66]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">nb_neighbors</span> <span class="o">=</span> <span class="n">S</span><span
+                                            class="o">.</span><span class="n">nb_neighbors</span><span
+                                            class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">hist_plot</span><span
+                                            class="p">(</span><span class="nb">list</span><span class="p">(</span><span
+                                            class="n">nb_neighbors</span><span class="o">.</span><span
+                                            class="n">values</span><span class="p">()),</span> <span
+                                            class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Distinct Number of Neighbors&quot;</span><span
+                                            class="p">,</span> <span class="n">bins</span> <span
+                                            class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_52_0.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_52_0.png"/>
+                                </div>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[69]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">members2</span> <span class="o">=</span> <span class="p">[</span><span
+                                            class="n">n</span> <span class="k">for</span> <span class="n">n</span><span
+                                            class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span
+                                            class="n">nb_neighbors</span><span class="o">.</span><span
+                                            class="n">items</span><span class="p">()</span> <span
+                                            class="k">if</span> <span class="n">v</span> <span
+                                            class="o">&gt;</span> <span class="mi">60</span><span class="p">]</span>
+<span class="n">members2</span> <span class="o">=</span> <span class="p">[</span><span class="n">S</span><span
+                                            class="o">.</span><span class="n">node_to_label</span><span
+                                            class="p">[</span><span class="n">n</span><span class="p">]</span> <span
+                                            class="k">for</span> <span class="n">n</span> <span
+                                            class="ow">in</span> <span class="n">members2</span><span class="p">]</span>
+<span class="n">members2</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[69]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+[&#39;9&#39;,
+ &#39;45&#39;,
+ &#39;275&#39;,
+ &#39;176&#39;,
+ &#39;1359&#39;,
+ &#39;376&#39;,
+ &#39;1518&#39;,
+ &#39;1332&#39;,
+ &#39;605&#39;,
+ &#39;106&#39;,
+ &#39;272&#39;,
+ &#39;674&#39;,
+ &#39;232&#39;]
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[70]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="nb">set</span><span class="p">(</span><span class="n">members</span><span
+                                            class="p">)</span> <span class="o">&amp;</span> <span
+                                            class="nb">set</span><span class="p">(</span><span class="n">members2</span><span
+                                            class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[70]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+{&#39;1359&#39;}
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>There’s only one node that appears in both category, let’s plot its instant degree over
+                                time and compare it to the mean of the instant degree of the other nodes.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[144]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">d_t</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                            class="n">degree_over_time</span><span class="p">()</span>
+<span class="n">label_to_node</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span
+                                            class="p">:</span><span class="n">k</span> <span class="k">for</span> <span
+                                            class="n">k</span><span class="p">,</span><span class="n">v</span> <span
+                                            class="ow">in</span> <span class="n">S</span><span class="o">.</span><span
+                                            class="n">node_to_label</span><span class="o">.</span><span
+                                            class="n">items</span><span class="p">()}</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">label_to_node</span><span class="p">[</span><span
+                                            class="s1">&#39;1359&#39;</span><span class="p">]</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <div class="highlight"><pre>
+len index : 21706  len event times : 21706
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[145]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span
+                                            class="n">DataFrame</span><span class="o">.</span><span
+                                            class="n">from_dict</span><span class="p">(</span><span class="n">d_t</span><span
+                                            class="p">,</span> <span class="n">orient</span> <span
+                                            class="o">=</span> <span class="s1">&#39;index&#39;</span><span
+                                            class="p">)</span>
+<span class="n">mean_d_t</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span
+                                            class="n">mean</span><span class="p">(</span><span
+                                            class="n">axis</span> <span class="o">=</span> <span
+                                            class="mi">0</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[152]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">_</span> <span class="o">=</span> <span class="n">d_t</span><span class="p">[</span><span
+                                            class="n">target</span><span class="p">]</span><span class="o">.</span><span
+                                            class="n">plot</span><span class="p">(</span><span
+                                            class="n">alpha</span> <span class="o">=</span> <span
+                                            class="mf">0.8</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">mean_d_t</span><span class="o">.</span><span
+                                            class="n">plot</span><span class="p">(</span><span
+                                            class="n">alpha</span> <span class="o">=</span> <span
+                                            class="mf">0.8</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_58_0.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_58_0.png"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="2.-Katz-Centrality">
+                            <h3>2. Katz Centrality<a class="headerlink" href="#2.-Katz-Centrality"
+                                                     title="Permalink to this headline">¶</a></h3>
+                            <p>The Katz centrality of a node is a measure of centrality in a network. It used to measure
+                                the relative degree of influence of an actor (or node) within a social network.</p>
+                            <div class="nbinput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[148]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">networkx.algorithms</span> <span
+                                            class="kn">import</span> <span class="n">katz_centrality</span>
+<span class="n">katz</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">graph_property</span><span
+                                            class="p">(</span><span class="n">katz_centrality</span><span
+                                            class="p">,</span> <span class="nb">format</span> <span
+                                            class="o">=</span> <span class="s2">&quot;signal&quot;</span><span
+                                            class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span
+                                            class="o">.</span><span class="n">from_dict</span><span
+                                            class="p">(</span><span class="n">katz</span><span class="p">,</span><span
+                                            class="n">orient</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span><span
+                                            class="p">)</span>
+<span class="n">new_target</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span
+                                            class="n">sum</span><span class="p">(</span><span
+                                            class="n">axis</span> <span class="o">=</span> <span
+                                            class="mi">1</span><span class="p">,</span> <span
+                                            class="n">skipna</span> <span class="o">=</span> <span
+                                            class="kc">True</span><span class="p">)</span><span class="o">.</span><span
+                                            class="n">argmax</span><span class="p">()</span>
+<span class="n">mean_katz_t</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span
+                                            class="n">mean</span><span class="p">(</span><span
+                                            class="n">axis</span> <span class="o">=</span> <span
+                                            class="mi">0</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Let’s plot the new target’s katz centrality over time versus the mean value of katz
+                                centrality of the other nodes over time.</p>
+                            <div class="nbinput docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[155]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="n">_</span> <span class="o">=</span> <span class="n">katz</span><span class="p">[</span><span
+                                            class="n">new_target</span><span class="p">]</span><span
+                                            class="o">.</span><span class="n">plot</span><span class="p">(</span><span
+                                            class="n">alpha</span> <span class="o">=</span> <span
+                                            class="mi">1</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">mean_katz_t</span><span class="o">.</span><span
+                                            class="n">plot</span><span class="p">(</span><span
+                                            class="n">alpha</span> <span class="o">=</span> <span
+                                            class="mf">0.8</span><span class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nboutput nblast docutils container">
+                                <div class="prompt empty docutils container">
+                                </div>
+                                <div class="output_area docutils container">
+                                    <img alt="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_63_0.png"
+                                         src="../_images/notebooks_Use_Case_1,_Temporal_Network_Analysis_63_0.png"/>
+                                </div>
+                            </div>
+                            <p>In this use case we have quickly shown how <code
+                                    class="docutils literal notranslate"><span class="pre">Straph</span></code> can be
+                                used for the description and modelisation of real world data.</p>
+                            <div class="nbinput nblast docutils container">
+                                <div class="prompt highlight-none notranslate">
+                                    <div class="highlight"><pre><span></span>[ ]:
+</pre>
+                                    </div>
+                                </div>
+                                <div class="input_area highlight-ipython3 notranslate">
+                                    <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;high_school_2013.csv&quot;</span><span
+                                            class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+                <a class='left-prev' id="prev-link" href="Random%20Stream%20Graphs.html" title="previous page">Stream
+                    Graph Generators</a>
+                <a class='right-next' id="next-link" href="../api_reference.html" title="next page">API Reference</a>
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

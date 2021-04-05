@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.EulerTourForest package &#8212; straph 1 documentation</title>
+
+    <link href="_static/css/theme.css" rel="stylesheet"/>
+    <link href="_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="index.html">
+            <img src="_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#submodules">
+                            Submodules
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.etf.ChainedTreap">
+                            straph.etf.ChainedTreap module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.etf.EulerTourForest">
+                            straph.etf.EulerTourForest module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.etf.EulerTourTree">
+                            straph.etf.EulerTourTree module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.etf">
+                            Module contents
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/straph.etf.rst">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <div class="section" id="straph-eulertourforest-package">
+                    <h1>straph.EulerTourForest package<a class="headerlink" href="#straph-eulertourforest-package"
+                                                         title="Permalink to this headline">¶</a></h1>
+                    <div class="section" id="submodules">
+                        <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a>
+                        </h2>
+                    </div>
+                    <div class="section" id="module-straph.etf.ChainedTreap">
+                        <span id="straph-etf-chainedtreap-module"></span>
+                        <h2>straph.etf.ChainedTreap module<a class="headerlink" href="#module-straph.etf.ChainedTreap"
+                                                             title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.etf.ChainedTreap.CTreapNode">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.etf.ChainedTreap.</code><code
+                                    class="sig-name descname">CTreapNode</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">data</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">parent</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">pred</span><span class="o">=</span><span class="default_value">None</span></em>,
+                                <em class="sig-param"><span class="n">suc</span><span class="o">=</span><span
+                                        class="default_value">None</span></em>, <em class="sig-param"><span class="n">size</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">left</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">right</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/ChainedTreap.html#CTreapNode"><span class="viewcode-link">[source]</span></a><a
+                                    class="headerlink" href="#straph.etf.ChainedTreap.CTreapNode"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <p>A node of a Treap (priority is determined at random and used to balance the
+                                    Treap)</p>
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.clear">
+                                        <code class="sig-name descname">clear</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/ChainedTreap.html#CTreapNode.clear"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.ChainedTreap.CTreapNode.clear"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.find_root">
+                                        <code class="sig-name descname">find_root</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/ChainedTreap.html#CTreapNode.find_root"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.ChainedTreap.CTreapNode.find_root"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Find the root of the current node.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.left_rotation">
+                                        <code class="sig-name descname">left_rotation</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/ChainedTreap.html#CTreapNode.left_rotation"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.ChainedTreap.CTreapNode.left_rotation"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Perform a left rotation on the Treap with the current TreapNode as the root
+                                        <a class="reference external"
+                                           href="https://en.wikipedia.org/wiki/Tree_rotation">https://en.wikipedia.org/wiki/Tree_rotation</a>
+                                        Note : This doesn’t change the cyclic order, successor and predecessor unchanged
+                                    </p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p>New root (aka the right child)</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.right_rotation">
+                                        <code class="sig-name descname">right_rotation</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/ChainedTreap.html#CTreapNode.right_rotation"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.ChainedTreap.CTreapNode.right_rotation"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Perform a right rotation on the Treap with the current TreapNode as the root
+                                        <a class="reference external"
+                                           href="https://en.wikipedia.org/wiki/Tree_rotation">https://en.wikipedia.org/wiki/Tree_rotation</a>
+                                        Note : This doesn’t change the cyclic order, successor and predecessor unchanged
+                                    </p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p>New root ( aka the left child)</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.tree_number">
+                                        <em class="property">property </em><code
+                                            class="sig-name descname">tree_number</code><a class="headerlink"
+                                                                                           href="#straph.etf.ChainedTreap.CTreapNode.tree_number"
+                                                                                           title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.ChainedTreap.CTreapNode.update_size">
+                                        <code class="sig-name descname">update_size</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/ChainedTreap.html#CTreapNode.update_size"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.ChainedTreap.CTreapNode.update_size"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Used to keep the size</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.etf.EulerTourForest">
+                        <span id="straph-etf-eulertourforest-module"></span>
+                        <h2>straph.etf.EulerTourForest module<a class="headerlink"
+                                                                href="#module-straph.etf.EulerTourForest"
+                                                                title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.etf.EulerTourForest.ETFCollections">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">ETFCollections</code><a class="reference internal"
+                                                                                      href="_modules/straph/etf/EulerTourForest.html#ETFCollections"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.ETFCollections"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <p>Collection of Spanning Euler Forest (1 for each level of the algorithm)</p>
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.ETFCollections.insert">
+                                        <code class="sig-name descname">insert</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">e</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#ETFCollections.insert"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.ETFCollections.insert"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Insert and edge in the Forest at the level 0</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>e</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.ETFCollections.remove">
+                                        <code class="sig-name descname">remove</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">e</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#ETFCollections.remove"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.ETFCollections.remove"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>REMOVE AN EDGE in the current forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>e</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.ETFCollections.replace">
+                                        <code class="sig-name descname">replace</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">e</span></em>, <em class="sig-param"><span class="n">level</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#ETFCollections.replace"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.ETFCollections.replace"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>REPLACE A TREE EDGE</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>e</strong> – edge</p></li>
+                                                    <li><p><strong>level</strong> – level of the edge to replace in the
+                                                        forest</p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.ETFCollections.search">
+                                        <code class="sig-name descname">search</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">e</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#ETFCollections.search"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.ETFCollections.search"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="py class">
+                            <dt id="straph.etf.EulerTourForest.EulerTourForest">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">EulerTourForest</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">trees</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">tree_edge_2_node</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">non_tree_edges_al</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/etf/EulerTourForest.html#EulerTourForest"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.EulerTourForest"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <p>Custom Data Structure Consisting in a Forest of Euler Tour Trees
+                                    In the same manner as a Spanning Forest if composed of Spanning Trees</p>
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.add_edge_to_tree">
+                                        <code class="sig-name descname">add_edge_to_tree</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">E</span></em>, <em class="sig-param"><span
+                                            class="n">present_node</span></em>, <em class="sig-param"><span class="n">node_to_add</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.add_edge_to_tree"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.add_edge_to_tree"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>We assume that <em>present_node</em> is in E and we just add
+                                        <em>node_to_add</em>.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>E</strong> – </p></li>
+                                                    <li><p><strong>present_node</strong> – </p></li>
+                                                    <li><p><strong>node_to_add</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.check_edge_endpoints">
+                                        <code class="sig-name descname">check_edge_endpoints</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">e</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.check_edge_endpoints"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.check_edge_endpoints"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Check if one of the endpoints is present in the forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>e</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.check_edge_presence">
+                                        <code class="sig-name descname">check_edge_presence</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">e</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.check_edge_presence"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.check_edge_presence"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Check if the edge is in the current spanning forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>e</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.insert_edge">
+                                        <code class="sig-name descname">insert_edge</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">l</span></em>, <em class="sig-param"><span
+                                            class="n">SCC</span><span class="o">=</span><span
+                                            class="default_value">None</span></em>, <em class="sig-param"><span
+                                            class="n">format</span><span class="o">=</span><span class="default_value">'cluster'</span></em>,
+                                        <em class="sig-param"><span class="n">exception</span><span
+                                                class="o">=</span><span class="default_value">False</span></em>, <em
+                                            class="sig-param"><span class="n">streaming_output</span><span
+                                            class="o">=</span><span class="default_value">None</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.insert_edge"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.insert_edge"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Insert an edge in the Euler Tour Forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>l</strong> – </p></li>
+                                                    <li><p><strong>SCC</strong> – </p></li>
+                                                    <li><p><strong>format</strong> – </p></li>
+                                                    <li><p><strong>exception</strong> – </p></li>
+                                                    <li><p><strong>streaming_output</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.is_tree_edge">
+                                        <code class="sig-name descname">is_tree_edge</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">e</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.is_tree_edge"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.is_tree_edge"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Return True if <em>e</em> is a tree edge, False otherwise</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>e</strong> – an edge</p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.link_euler_tour_trees">
+                                        <code class="sig-name descname">link_euler_tour_trees</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">E1</span></em>, <em class="sig-param"><span
+                                            class="n">E2</span></em>, <em class="sig-param"><span
+                                            class="n">e</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.link_euler_tour_trees"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.link_euler_tour_trees"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Merge two euler tour tree</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>E1</strong> – An euler tour tree</p></li>
+                                                    <li><p><strong>E2</strong> – An euler tour tree</p></li>
+                                                    <li><p><strong>e</strong> – An edge</p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.plot">
+                                        <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">title</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.plot"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.plot"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Plot the Euler Tour Trees in the Euler Tour Forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>title</strong> – An optional title</p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.remove_edge">
+                                        <code class="sig-name descname">remove_edge</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">l</span></em>, <em class="sig-param"><span
+                                            class="n">SCC</span><span class="o">=</span><span
+                                            class="default_value">None</span></em>, <em class="sig-param"><span
+                                            class="n">format</span><span class="o">=</span><span class="default_value">'cluster'</span></em>,
+                                        <em class="sig-param"><span class="n">exception</span><span
+                                                class="o">=</span><span class="default_value">False</span></em>, <em
+                                            class="sig-param"><span class="n">streaming_output</span><span
+                                            class="o">=</span><span class="default_value">None</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.remove_edge"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.remove_edge"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Remove an edge from the Euler Tour Forest</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>l</strong> – </p></li>
+                                                    <li><p><strong>SCC</strong> – </p></li>
+                                                    <li><p><strong>format</strong> – </p></li>
+                                                    <li><p><strong>exception</strong> – </p></li>
+                                                    <li><p><strong>streaming_output</strong> – </p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.replace_edge">
+                                        <code class="sig-name descname">replace_edge</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">E1</span></em>, <em class="sig-param"><span
+                                            class="n">E2</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.replace_edge"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.replace_edge"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Find is there is a non tree edge linking E1 and E2</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd">
+                                                <ul class="simple">
+                                                    <li><p><strong>E1</strong> – An euler tour tree</p></li>
+                                                    <li><p><strong>E2</strong> – An euler tour tree</p></li>
+                                                </ul>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p>a replacement edge if found, false otherwise</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourForest.EulerTourForest.replacement_edge">
+                                        <code class="sig-name descname">replacement_edge</code><span
+                                            class="sig-paren">(</span><em class="sig-param"><span
+                                            class="n">E1</span></em>, <em class="sig-param"><span
+                                            class="n">E2</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourForest.html#EulerTourForest.replacement_edge"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourForest.EulerTourForest.replacement_edge"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourForest.add_to_scc">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">add_to_scc</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span
+                                    class="n">SCC</span></em>, <em class="sig-param"><span class="n">format</span><span
+                                    class="o">=</span><span class="default_value">'streaming'</span></em>, <em
+                                    class="sig-param"><span class="n">exception</span><span class="o">=</span><span
+                                    class="default_value">False</span></em>, <em class="sig-param"><span class="n">streaming_output</span><span
+                                    class="o">=</span><span class="default_value">None</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/etf/EulerTourForest.html#add_to_scc"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.add_to_scc"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Add the current tree <em>T</em> (aka a connected component) to <em>SCC</em></p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>format</strong> – </p></li>
+                                            <li><p><strong>exception</strong> – </p></li>
+                                            <li><p><strong>streaming_output</strong> – </p></li>
+                                            <li><p><strong>T</strong> – An Euler Tour Tree</p></li>
+                                            <li><p><strong>SCC</strong> – list of Strongly Connected Components</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Updated SCC</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourForest.construct_euler_tour_forest">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">construct_euler_tour_forest</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">edge_list</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/etf/EulerTourForest.html#construct_euler_tour_forest"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.construct_euler_tour_forest"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Construct an Euler Tour Forest from an edge list (the initial graph may be
+                                disconnected).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>edge_list</strong> – </p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourForest.spanning_forest_from_edge_list">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">spanning_forest_from_edge_list</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">edge_list</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourForest.html#spanning_forest_from_edge_list"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.spanning_forest_from_edge_list"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Construct a spanning forest from an edge list (graph may be disconnected)</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>edge_list</strong> – [(u1,u2),(u0,u2),….]</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Spanning Forest, which is a list of tuple : [(tree edge,
+                                        non tree edge),…]</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourForest.strongly_connected_components_ETF">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourForest.</code><code
+                                    class="sig-name descname">strongly_connected_components_ETF</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">S</span></em>, <em
+                                    class="sig-param"><span class="n">isolated_nodes</span><span class="o">=</span><span
+                                    class="default_value">True</span></em>, <em class="sig-param"><span
+                                    class="n">format</span><span class="o">=</span><span
+                                    class="default_value">'cluster'</span></em>, <em class="sig-param"><span class="n">streaming_output</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">free_memory</span><span class="o">=</span><span
+                                    class="default_value">False</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourForest.html#strongly_connected_components_ETF"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourForest.strongly_connected_components_ETF"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.etf.EulerTourTree">
+                        <span id="straph-etf-eulertourtree-module"></span>
+                        <h2>straph.etf.EulerTourTree module<a class="headerlink" href="#module-straph.etf.EulerTourTree"
+                                                              title="Permalink to this headline">¶</a></h2>
+                        <dl class="py class">
+                            <dt id="straph.etf.EulerTourTree.EulerTourTree">
+                                <em class="property">class </em><code class="sig-prename descclassname">straph.etf.EulerTourTree.</code><code
+                                    class="sig-name descname">EulerTourTree</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">root</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">first</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">last</span><span class="o">=</span><span class="default_value">None</span></em>,
+                                <em class="sig-param"><span class="n">weight</span><span class="o">=</span><span
+                                        class="default_value">None</span></em>, <em class="sig-param"><span class="n">begin_time</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">end_time</span><span class="o">=</span><span
+                                    class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourTree.html#EulerTourTree"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourTree.EulerTourTree"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Bases: <a class="reference external"
+                                             href="https://docs.python.org/3/library/functions.html#object"
+                                             title="(in Python v3.9)"><code
+                                    class="xref py py-class docutils literal notranslate"><span
+                                    class="pre">object</span></code></a></p>
+                                <p><a class="reference external"
+                                      href="https://en.wikipedia.org/wiki/Euler_tour_technique">https://en.wikipedia.org/wiki/Euler_tour_technique</a>
+                                </p>
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.balance_down">
+                                        <code class="sig-name descname">balance_down</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.balance_down"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.balance_down"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Balance the Treap to respect the Heap invariant, from root to leaves (full
+                                        browsing)</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.check_heap_invariant">
+                                        <code class="sig-name descname">check_heap_invariant</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.check_heap_invariant"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.check_heap_invariant"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Check the heap invariant of the Treap</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p>True if invariant respected, False otherwise</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.cut">
+                                        <code class="sig-name descname">cut</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">nodes</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.cut"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.cut"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Remove and edge from the Euler Tour Tree.
+                                        [first,…,node_0,after_node_0,….,node_1,after_node_1,…,last]
+                                        -&gt;
+                                        [first,…,before_node_0,node_0] [after_node_0,…,node_1,last]
+                                        -&gt;
+                                        [first,…,before_node_0] [after_node_0,…,before_node_1] [after_node_1,…,last]
+                                        -&gt;
+                                        [first,…,before_node_0,after_node_1,…,last] [after_node_0,before_node_1]</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>nodes</strong> – </p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.find_first">
+                                        <code class="sig-name descname">find_first</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.find_first"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.find_first"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.find_last">
+                                        <code class="sig-name descname">find_last</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.find_last"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.find_last"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.get_data_in_priority_order">
+                                        <code class="sig-name descname">get_data_in_priority_order</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.get_data_in_priority_order"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.get_data_in_priority_order"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.get_euler_tour">
+                                        <code class="sig-name descname">get_euler_tour</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.get_euler_tour"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.get_euler_tour"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Return the induced euler tour representation of the Tree</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.get_internal_structure">
+                                        <code class="sig-name descname">get_internal_structure</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.get_internal_structure"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.get_internal_structure"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.insert">
+                                        <code class="sig-name descname">insert</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">where</span><span class="o">=</span><span
+                                            class="default_value">None</span></em>, <em class="sig-param"><span
+                                            class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>,
+                                        <em class="sig-param"><span class="n">inlast</span><span class="o">=</span><span
+                                                class="default_value">False</span></em>, <em class="sig-param"><span
+                                            class="n">priority</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.insert"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.insert"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.plot">
+                                        <code class="sig-name descname">plot</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">title</span><span class="o">=</span><span
+                                            class="default_value">None</span></em><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.plot"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.plot"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.releaf">
+                                        <code class="sig-name descname">releaf</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">where</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.releaf"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.releaf"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.remove">
+                                        <code class="sig-name descname">remove</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">node</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.remove"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.remove"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Remove the node</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>node</strong> – Node to remove</p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="py method">
+                                    <dt id="straph.etf.EulerTourTree.EulerTourTree.split">
+                                        <code class="sig-name descname">split</code><span class="sig-paren">(</span><em
+                                            class="sig-param"><span class="n">where</span></em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/straph/etf/EulerTourTree.html#EulerTourTree.split"><span
+                                            class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                        href="#straph.etf.EulerTourTree.EulerTourTree.split"
+                                                                                        title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Split the Euler Tour Tree according to the split in its Euler Tour.
+                                        [first,…,where,after_where,…,last]
+                                        -&gt;
+                                        [first,…,where] [after_where,…last]
+                                        Note : The left subtree contains at least the node <em>where</em> whereas the
+                                        right subtree can be empty.</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>where</strong> – The split is effectuated
+                                                just after <em>where</em></p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p>Left subtree and Right subtree</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourTree.construct_euler_tour_tree">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourTree.</code><code
+                                    class="sig-name descname">construct_euler_tour_tree</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">edge_list</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourTree.html#construct_euler_tour_tree"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourTree.construct_euler_tour_tree"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Construct an Euler Tour Tree from an edge list</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>edge_list</strong> – An edge list</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>An euler tour tree</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourTree.euler_tour_from_edge_list">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourTree.</code><code
+                                    class="sig-name descname">euler_tour_from_edge_list</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">edge_list</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourTree.html#euler_tour_from_edge_list"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourTree.euler_tour_from_edge_list"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Compute the euler tour of a graph ( with edges, including self loops, instead of
+                                nodes).
+                                <a class="reference external" href="https://en.wikipedia.org/wiki/Euler_tour_technique">https://en.wikipedia.org/wiki/Euler_tour_technique</a>
+                            </p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>edge_list</strong> – An edge list.</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>A list containing the euler tour.</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourTree.find_root">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourTree.</code><code
+                                    class="sig-name descname">find_root</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">node</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourTree.html#find_root"><span class="viewcode-link">[source]</span></a><a
+                                    class="headerlink" href="#straph.etf.EulerTourTree.find_root"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Find the root of the current node.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>node</strong> – </p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.etf.EulerTourTree.union_treap">
+                                <code class="sig-prename descclassname">straph.etf.EulerTourTree.</code><code
+                                    class="sig-name descname">union_treap</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">T1</span></em>, <em class="sig-param"><span
+                                    class="n">T2</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/etf/EulerTourTree.html#union_treap"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.etf.EulerTourTree.union_treap"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.etf">
+                        <span id="module-contents"></span>
+                        <h2>Module contents<a class="headerlink" href="#module-straph.etf"
+                                              title="Permalink to this headline">¶</a></h2>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

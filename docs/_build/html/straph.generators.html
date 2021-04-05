@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.generators package &#8212; straph 1 documentation</title>
+
+    <link href="_static/css/theme.css" rel="stylesheet"/>
+    <link href="_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="index.html">
+            <img src="_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> On this page
+            </div>
+
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#submodules">
+                            Submodules
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.generators.barabasi_albert">
+                            straph.generators.barabasi_albert module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.generators.erdos_renyi">
+                            straph.generators.erdos_renyi module
+                        </a>
+                    </li>
+                    <li class="toc-h2 nav-item toc-entry">
+                        <a class="reference internal nav-link" href="#module-straph.generators">
+                            Module contents
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/straph.generators.rst">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <div class="section" id="straph-generators-package">
+                    <h1>straph.generators package<a class="headerlink" href="#straph-generators-package"
+                                                    title="Permalink to this headline">¶</a></h1>
+                    <div class="section" id="submodules">
+                        <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a>
+                        </h2>
+                    </div>
+                    <div class="section" id="module-straph.generators.barabasi_albert">
+                        <span id="straph-generators-barabasi-albert-module"></span>
+                        <h2>straph.generators.barabasi_albert module<a class="headerlink"
+                                                                       href="#module-straph.generators.barabasi_albert"
+                                                                       title="Permalink to this headline">¶</a></h2>
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.barabasi_albert">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">barabasi_albert</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">t_window</span></em>, <em class="sig-param"><span
+                                    class="n">nb_node</span></em>, <em class="sig-param"><span class="n">occurrence_law_node</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_param_node</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">presence_law_node</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_node</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">occurrence_law_link</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_param_link</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">presence_law_link</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_link</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_nb_node</span><span
+                                    class="o">=</span><span class="default_value">1</span></em>, <em
+                                    class="sig-param"><span class="n">m_link</span><span class="o">=</span><span
+                                    class="default_value">1</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/barabasi_albert.html#barabasi_albert"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.barabasi_albert"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Stream Graph generator following a Barabasi-Albert like behavior. The stream graph
+                                begins with <em>initial_nb_node</em>
+                                all connected, then <em>nb_node</em>-<em>initial_nb_node</em> are added they are
+                                connected with <em>m_link</em> existing node
+                                with probability p = degree_of_node/sum_of_degrees.
+                                Each node occurs following <em>occurrence_law_node(occurrence_param_node)</em>, each
+                                segmented node has a presence
+                                which length follows <em>presence_law_node(presence_param_node)</em>, each link occurs
+                                following <em>occurrence_law_link(
+                                    occurrence_param_link)</em> and each segmented link has a presence which length
+                                follows
+                                <em>presence_law_link(presence_param_link)</em>.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>t_window</strong> – Time windows of the Stream Graph</p></li>
+                                            <li><p><strong>nb_node</strong> – Desired Number of nodes in the stream
+                                                graphs</p></li>
+                                            <li><p><strong>occurrence_law_node</strong> – Random variable for node
+                                                occurrence (numpy function or ‘poisson’</p></li>
+                                            <li><p><strong>occurrence_param_node</strong> – Parameter of the node
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_node</strong> – Random variable for node
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_node</strong> – Parameter of the node presence
+                                                law</p></li>
+                                            <li><p><strong>occurrence_law_link</strong> – Random variable for link
+                                                occurrence (numpy function or ‘poisson’)</p></li>
+                                            <li><p><strong>occurrence_param_link</strong> – Parameter of the link
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_link</strong> – Random variable for link
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_link</strong> – Parameter of the link presence
+                                                law</p></li>
+                                            <li><p><strong>initial_nb_node</strong> – Parameter of the Barabasi-Albert
+                                                model : Number of connected nodes initial present (m0)</p></li>
+                                            <li><p><strong>m_link</strong> – Parameter of the Barabasi-Albert model :
+                                                the number of edge when we (preferentially) attach it.</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.generate_link_presence">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">generate_link_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">m_link</span></em>,
+                                <em class="sig-param"><span class="n">initial_nb_nodes</span></em>, <em
+                                    class="sig-param"><span class="n">nb_node</span></em>, <em class="sig-param"><span
+                                    class="n">node_presence</span></em>, <em class="sig-param"><span class="n">occurrence_law_link</span></em>,
+                                <em class="sig-param"><span class="n">occurrence_param_link</span></em>, <em
+                                    class="sig-param"><span class="n">presence_law_link</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_link</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/barabasi_albert.html#generate_link_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.generate_link_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate links presence and occurrence.
+                                .. rubric:: References</p>
+                                <p>A. L. Barabási and R. Albert “Emergence of scaling in
+                                    random networks”, Science 286, pp 509-512, 1999.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>m_link</strong> – Parameter of the Barabasi-Albert model :
+                                                the number of edge when we (preferentially) attach it.</p></li>
+                                            <li><p><strong>initial_nb_nodes</strong> – Parameter of the Barabasi-Albert
+                                                model : Number of connected nodes initial present (m0)</p></li>
+                                            <li><p><strong>nb_node</strong> – Number of Nodes</p></li>
+                                            <li><p><strong>node_presence</strong> – Node presence</p></li>
+                                            <li><p><strong>occurrence_law_link</strong> – Random variable for link
+                                                occurrence (numpy function or ‘poisson’)</p></li>
+                                            <li><p><strong>occurrence_param_link</strong> – Parameter of the link
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_link</strong> – Random variable for link
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_link</strong> – Parameter of the link presence
+                                                law</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.generate_node_presence">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">generate_node_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">t_window</span></em>,
+                                <em class="sig-param"><span class="n">nb_node</span></em>, <em class="sig-param"><span
+                                    class="n">occurrence_law_node</span></em>, <em class="sig-param"><span class="n">occurrence_param_node</span></em>,
+                                <em class="sig-param"><span class="n">presence_law_node</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_node</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/barabasi_albert.html#generate_node_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.generate_node_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate nodes presence and occurrence.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>t_window</strong> – Time windows of the Stream Graph</p></li>
+                                            <li><p><strong>nb_node</strong> – Number of Nodes</p></li>
+                                            <li><p><strong>occurrence_law_node</strong> – Random variable for node
+                                                occurrence (numpy function or ‘poisson’</p></li>
+                                            <li><p><strong>occurrence_param_node</strong> – Parameter of the node
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_node</strong> – Random variable for node
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_node</strong> – Parameter of the node presence
+                                                law</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.get_intersection">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">get_intersection</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span
+                                    class="n">v</span></em>, <em class="sig-param"><span class="n">node_presence</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/barabasi_albert.html#get_intersection"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.get_intersection"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Get the intersection between the presence of u and v.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>u</strong> – First Node</p></li>
+                                            <li><p><strong>v</strong> – Second Node</p></li>
+                                            <li><p><strong>node_presence</strong> – Node presence</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Interection</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.random_link_presence">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">random_link_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">intersec</span></em>,
+                                <em class="sig-param"><span class="n">rep</span></em>, <em class="sig-param"><span
+                                    class="n">dur</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/barabasi_albert.html#random_link_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.random_link_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate the occurrence and the presence of a link given
+                                occurrence_law(occurrence_param)
+                                and presence_law(presence_param).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>intersec</strong> – Intersection between the prense of
+                                                extremities (realisable interval for link))</p></li>
+                                            <li><p><strong>rep</strong> – Number of segmented links</p></li>
+                                            <li><p><strong>dur</strong> – Length of each interval corresponding to a
+                                                segmented link</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>link presence</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.barabasi_albert.random_node_presence">
+                                <code class="sig-prename descclassname">straph.generators.barabasi_albert.</code><code
+                                    class="sig-name descname">random_node_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">t_windows</span></em>, <em class="sig-param"><span
+                                    class="n">rep</span></em>, <em class="sig-param"><span class="n">plac</span></em>,
+                                <em class="sig-param"><span class="n">dur</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/barabasi_albert.html#random_node_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.barabasi_albert.random_node_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate the occurrence and the presence of a node given
+                                occurrence_law(occurrence_param)
+                                and presence_law(presence_param).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>t_windows</strong> – Time window of the Stream Graph</p></li>
+                                            <li><p><strong>rep</strong> – Number of segmented nodes</p></li>
+                                            <li><p><strong>plac</strong> – Emplacement of each segmented node (sorted
+                                                array)</p></li>
+                                            <li><p><strong>dur</strong> – Length of each interval corresponding to a
+                                                segmented node</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>node presence</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.generators.erdos_renyi">
+                        <span id="straph-generators-erdos-renyi-module"></span>
+                        <h2>straph.generators.erdos_renyi module<a class="headerlink"
+                                                                   href="#module-straph.generators.erdos_renyi"
+                                                                   title="Permalink to this headline">¶</a></h2>
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.erdos_renyi">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">erdos_renyi</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">t_window</span></em>, <em class="sig-param"><span
+                                    class="n">nb_node</span></em>, <em class="sig-param"><span class="n">occurrence_law_node</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_param_node</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">presence_law_node</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_node</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">occurrence_law_link</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_param_link</span><span
+                                    class="o">=</span><span class="default_value">None</span></em>, <em
+                                    class="sig-param"><span class="n">presence_law_link</span><span
+                                    class="o">=</span><span class="default_value">'poisson'</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_link</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span
+                                    class="n">p_link</span><span class="o">=</span><span
+                                    class="default_value">None</span></em>, <em class="sig-param"><span class="n">directed</span><span
+                                    class="o">=</span><span class="default_value">False</span></em>, <em
+                                    class="sig-param"><span class="n">weights_law</span><span class="o">=</span><span
+                                    class="default_value">False</span></em>, <em class="sig-param"><span class="n">weights_law_param</span><span
+                                    class="o">=</span><span class="default_value">False</span></em>, <em
+                                    class="sig-param"><span class="n">trips_law</span><span class="o">=</span><span
+                                    class="default_value">False</span></em>, <em class="sig-param"><span class="n">trips_law_param</span><span
+                                    class="o">=</span><span class="default_value">False</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#erdos_renyi"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.erdos_renyi"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Stream Graph generator following an Erdos-Renyi like behavior. Each link is sampled
+                                with probability <em>p_link</em>,
+                                each node occurs following <em>occurrence_law_node(occurrence_param_node)</em>, each
+                                segmented node has a presence
+                                which length follows <em>presence_law_node(presence_param_node)</em>, each link occurs
+                                following <em>occurrence_law_link(
+                                    occurrence_param_link)</em> and each segmented link has a presence which length
+                                follows
+                                <em>presence_law_link(presence_param_link)</em>.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>trips_law_param</strong> – </p></li>
+                                            <li><p><strong>trips_law</strong> – </p></li>
+                                            <li><p><strong>weights_law_param</strong> – </p></li>
+                                            <li><p><strong>weights_law</strong> – </p></li>
+                                            <li><p><strong>t_window</strong> – Time windows of the Stream Graph</p></li>
+                                            <li><p><strong>nb_node</strong> – Desired Number of nodes in the stream
+                                                graphs</p></li>
+                                            <li><p><strong>occurrence_law_node</strong> – Random variable for node
+                                                occurrence (numpy function or ‘poisson’</p></li>
+                                            <li><p><strong>occurrence_param_node</strong> – Parameter of the node
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_node</strong> – Random variable for node
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_node</strong> – Parameter of the node presence
+                                                law</p></li>
+                                            <li><p><strong>occurrence_law_link</strong> – Random variable for link
+                                                occurrence (numpy function or ‘poisson’)</p></li>
+                                            <li><p><strong>occurrence_param_link</strong> – Parameter of the link
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_link</strong> – Random variable for link
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_link</strong> – Parameter of the link presence
+                                                law</p></li>
+                                            <li><p><strong>p_link</strong> – Probability of the existence of a link
+                                                between two random nodes (0&lt;=p_link&lt;1), Erdos Renyi parameter.</p>
+                                            </li>
+                                            <li><p><strong>directed</strong> – True for a random directed Stream Graph,
+                                                False for an undirected Stream Graphs</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_2core_example">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_2core_example</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">nb_nodes</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#generate_2core_example"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_2core_example"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_kcore_example">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_kcore_example</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">nb_nodes</span></em>,
+                                <em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#generate_kcore_example"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_kcore_example"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_link_presence">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_link_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">nb_node</span></em>,
+                                <em class="sig-param"><span class="n">node_presence</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_law_link</span></em>, <em
+                                    class="sig-param"><span class="n">occurrence_param_link</span></em>, <em
+                                    class="sig-param"><span class="n">p_link</span></em>, <em class="sig-param"><span
+                                    class="n">presence_law_link</span></em>, <em class="sig-param"><span class="n">presence_param_link</span></em>,
+                                <em class="sig-param"><span class="n">directed</span><span class="o">=</span><span
+                                        class="default_value">False</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#generate_link_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_link_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate links presence and occurrence.
+                                .. rubric:: References</p>
+                                <p>P. Erdős and A. Rényi, On Random Graphs, Publ. Math. 6, 290 (1959).
+                                    E. N. Gilbert, Random Graphs, Ann. Math. Stat., 30, 1141 (1959).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>nb_node</strong> – Number of Nodes</p></li>
+                                            <li><p><strong>node_presence</strong> – Node presence</p></li>
+                                            <li><p><strong>occurrence_law_link</strong> – Random variable for link
+                                                occurrence (numpy function or ‘poisson’)</p></li>
+                                            <li><p><strong>occurrence_param_link</strong> – Parameter of the link
+                                                occurrence law</p></li>
+                                            <li><p><strong>p_link</strong> – Probability of the existence of a link
+                                                between two random nodes (0&lt;=p_link&lt;1), Erdos Renyi parameter</p>
+                                            </li>
+                                            <li><p><strong>presence_law_link</strong> – Random variable for link
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_link</strong> – Parameter of the link presence
+                                                law</p></li>
+                                            <li><p><strong>directed</strong> – True for a random directed Stream Graph,
+                                                False for an undirected Stream Graphs</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_node_presence">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_node_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">t_window</span></em>,
+                                <em class="sig-param"><span class="n">nb_node</span></em>, <em class="sig-param"><span
+                                    class="n">occurrence_law_node</span></em>, <em class="sig-param"><span class="n">occurrence_param_node</span></em>,
+                                <em class="sig-param"><span class="n">presence_law_node</span></em>, <em
+                                    class="sig-param"><span class="n">presence_param_node</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#generate_node_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_node_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate nodes presence and occurrence.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>t_window</strong> – Time windows of the Stream Graph</p></li>
+                                            <li><p><strong>nb_node</strong> – Number of Nodes</p></li>
+                                            <li><p><strong>occurrence_law_node</strong> – Random variable for node
+                                                occurrence (numpy function or ‘poisson’</p></li>
+                                            <li><p><strong>occurrence_param_node</strong> – Parameter of the node
+                                                occurrence law</p></li>
+                                            <li><p><strong>presence_law_node</strong> – Random variable for node
+                                                presence (numpy function or ‘poisson’ or ‘uniform’)</p></li>
+                                            <li><p><strong>presence_param_node</strong> – Parameter of the node presence
+                                                law</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_trips">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_trips</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">links</span></em>, <em class="sig-param"><span
+                                    class="n">link_presence</span></em>, <em class="sig-param"><span class="n">node_presence</span></em>,
+                                <em class="sig-param"><span class="n">trips_law</span></em>, <em class="sig-param"><span
+                                    class="n">trips_law_param</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#generate_trips"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_trips"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.generate_weights">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">generate_weights</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">link_presence</span></em>, <em
+                                    class="sig-param"><span class="n">weights_law</span></em>, <em
+                                    class="sig-param"><span class="n">weights_law_param</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#generate_weights"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.generate_weights"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd></dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.get_intersection">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">get_intersection</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span
+                                    class="n">v</span></em>, <em class="sig-param"><span class="n">node_presence</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#get_intersection"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.get_intersection"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Get the intersection between the presence of u and v.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>u</strong> – First Node</p></li>
+                                            <li><p><strong>v</strong> – Second Node</p></li>
+                                            <li><p><strong>node_presence</strong> – Node presence</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Interection</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.get_node_presence_from_link">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">get_node_presence_from_link</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">node_presence</span></em>, <em
+                                    class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span
+                                    class="n">b</span></em>, <em class="sig-param"><span class="n">e</span></em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/straph/generators/erdos_renyi.html#get_node_presence_from_link"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.get_node_presence_from_link"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Return the maximal temporal node corresponding to (b,e,n)</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>node_presence</strong> – </p></li>
+                                            <li><p><strong>n</strong> – node</p></li>
+                                            <li><p><strong>b</strong> – beginning of the interval (time)</p></li>
+                                            <li><p><strong>e</strong> – ending of the interval (time)</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>Maximal temporal node presence corresponding to (b,e,n) :
+                                        (t0,t1)</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.random_link">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">random_link</code><span class="sig-paren">(</span><em
+                                    class="sig-param"><span class="n">p_link</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#random_link"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.random_link"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate a random link with probability p_link.</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>p_link</strong> – probability (0&lt;= p_link &lt;1).
+                                    </p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>True if the link exists False otherwise</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.random_link_presence">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">random_link_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span class="n">intersec</span></em>,
+                                <em class="sig-param"><span class="n">rep</span></em>, <em class="sig-param"><span
+                                    class="n">dur</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#random_link_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.random_link_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate the occurrence and the presence of a link given
+                                occurrence_law(occurrence_param)
+                                and presence_law(presence_param).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>intersec</strong> – Intersection between the prense of
+                                                extremities (realisable interval for link))</p></li>
+                                            <li><p><strong>rep</strong> – Number of segmented links</p></li>
+                                            <li><p><strong>dur</strong> – Length of each interval corresponding to a
+                                                segmented link</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>link presence</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="py function">
+                            <dt id="straph.generators.erdos_renyi.random_node_presence">
+                                <code class="sig-prename descclassname">straph.generators.erdos_renyi.</code><code
+                                    class="sig-name descname">random_node_presence</code><span
+                                    class="sig-paren">(</span><em class="sig-param"><span
+                                    class="n">t_windows</span></em>, <em class="sig-param"><span
+                                    class="n">rep</span></em>, <em class="sig-param"><span class="n">plac</span></em>,
+                                <em class="sig-param"><span class="n">dur</span></em><span class="sig-paren">)</span><a
+                                    class="reference internal"
+                                    href="_modules/straph/generators/erdos_renyi.html#random_node_presence"><span
+                                    class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                href="#straph.generators.erdos_renyi.random_node_presence"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generate the occurrence and the presence of a node given
+                                occurrence_law(occurrence_param)
+                                and presence_law(presence_param).</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>t_windows</strong> – Time window of the Stream Graph</p></li>
+                                            <li><p><strong>rep</strong> – Number of segmented nodes</p></li>
+                                            <li><p><strong>plac</strong> – Emplacement of each segmented node (sorted
+                                                array)</p></li>
+                                            <li><p><strong>dur</strong> – Length of each interval corresponding to a
+                                                segmented node</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>node presence</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-straph.generators">
+                        <span id="module-contents"></span>
+                        <h2>Module contents<a class="headerlink" href="#module-straph.generators"
+                                              title="Permalink to this headline">¶</a></h2>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

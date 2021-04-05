@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Readers and Writers &#8212; straph 1 documentation</title>
+
+    <link href="../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html"/>
+    <link rel="search" title="Search" href="../search.html"/>
+    <link rel="next" title="Stream Graph Theory Properties" href="Stream%20Graph%20Theory%20Properties.html"/>
+    <link rel="prev" title="Visualisation" href="Drawing.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../index.html">
+            <img src="../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 current active nav-item">
+                    <a class="reference internal nav-link" href="../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+                    <ul class="current nav bd-sidenav">
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Introduction.html">
+                                Introduction
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Drawing.html">
+                                Visualisation
+                            </a>
+                        </li>
+                        <li class="toctree-l2 current active">
+                            <a class="current reference internal" href="#">
+                                Readers and Writers
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Stream%20Graph%20Theory%20Properties.html">
+                                Stream Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Induced%20Graphs%20and%20Substreams.html">
+                                Induced Graphs and Substreams
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Connected%20Components.html">
+                                Connected Components
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Graph%20Theory%20Properties.html">
+                                Graph Theory Properties
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Temporal%20Paths.html">
+                                Temporal Paths in Stream Graph
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Random%20Stream%20Graphs.html">
+                                Stream Graph Generators
+                            </a>
+                        </li>
+                        <li class="toctree-l2">
+                            <a class="reference internal" href="Use%20Case%201%2C%20Temporal%20Network%20Analysis.html">
+                                Temporal Network Analysis: High School Dataset, Interactions among Students
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+            <div class="tocsection editthispage">
+                <a href="https://github.com/StraphX/Straph/edit/master/docs/notebooks/Readers and Writers (Input-Output).ipynb">
+                    <i class="fas fa-pencil-alt"></i> Edit this page
+                </a>
+            </div>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+
+                <style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+                </style>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[1]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">straph</span> <span class="k">as</span> <span
+                                class="nn">sg</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span
+                                class="nn">plt</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="nbinput nblast docutils container">
+                    <div class="prompt highlight-none notranslate">
+                        <div class="highlight"><pre><span></span>[2]:
+</pre>
+                        </div>
+                    </div>
+                    <div class="input_area highlight-ipython3 notranslate">
+                        <div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span
+                                class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span
+                                class="p">]</span> <span class="o">=</span> <span class="p">(</span><span
+                                class="mi">12</span><span class="p">,</span><span class="mi">9</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                </div>
+                <p>In this section we will see how to read different formats of temporal graphs in order to exploit them
+                    with <code class="docutils literal notranslate"><span class="pre">Straph</span></code>.</p>
+                <div class="section" id="Readers-and-Writers">
+                    <h1>Readers and Writers<a class="headerlink" href="#Readers-and-Writers"
+                                              title="Permalink to this headline">¶</a></h1>
+                    <p># 1. Readers</p>
+                    <p>First, we show how to load different formats of ‘.csv’ as most of temporal graphs are stored as
+                        triplets <img class="math" src="../_images/math/4b14c73b02e424a2d6239061593e41ebddab9448.png"
+                                      alt="(t,u,v)"/>, denoting an interactions between nodes <img class="math"
+                                                                                                   src="../_images/math/9b444cf6329a14140aee8ff5a06ff30772cc1c2f.png"
+                                                                                                   alt="u"/> and <img
+                                class="math" src="../_images/math/02d98909b5d6acd6a7ff927d4d42790bdd407d58.png"
+                                alt="v"/> at instant <img class="math"
+                                                          src="../_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png"
+                                                          alt="t"/>, or quadruplets <img class="math"
+                                                                                         src="../_images/math/b27499dee4e4b8d0538190fc5edb8da09bc58246.png"
+                                                                                         alt="(b,e,u,v)"/> or <img
+                                class="math" src="../_images/math/d6bb391f408bd6c8117a2ddd62f2eec9f03d967e.png"
+                                alt="(t,\delta,u,v)"/>, where <img class="math"
+                                                                   src="../_images/math/68c7c8c65602677ab56cf7fd88002023f0edc575.png"
+                                                                   alt="b"/> or <img class="math"
+                                                                                     src="../_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png"
+                                                                                     alt="t"/> are the beginning of an
+                        interaction, where <img class="math"
+                                                src="../_images/math/60f4822f02b44d931c5d0595da71dcf34e270437.png"
+                                                alt="e"/> is the ending, and where <img class="math"
+                                                                                        src="../_images/math/652b9d8b65c10aed0fdcdbde47396c879ed5bd33.png"
+                                                                                        alt="\delta"/> is the duration
+                        of the interaction.</p>
+                    <p>## 1.1 ‘.csv’ format</p>
+                    <p>We must specify what we call the <code class="docutils literal notranslate"><span class="pre">entry_format</span></code>,
+                        i.e whether the format is <img class="math"
+                                                       src="../_images/math/4b14c73b02e424a2d6239061593e41ebddab9448.png"
+                                                       alt="(t,u,v)"/>, <img class="math"
+                                                                             src="../_images/math/b27499dee4e4b8d0538190fc5edb8da09bc58246.png"
+                                                                             alt="(b,e,u,v)"/> or <img class="math"
+                                                                                                       src="../_images/math/d6bb391f408bd6c8117a2ddd62f2eec9f03d967e.png"
+                                                                                                       alt="(t,\delta,u,v)"/>
+                        and which column of the .csv contains which value. For example if the first column contains the
+                        date of the interaction between the entity of the second column and the entity of the third
+                        colum:</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[3]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;t_pos&#39;</span><span
+                                    class="p">:</span> <span class="mi">0</span><span class="p">,</span><span
+                                    class="s1">&#39;u_pos&#39;</span><span class="p">:</span><span
+                                    class="mi">1</span><span class="p">,</span><span
+                                    class="s1">&#39;v_pos&#39;</span><span class="p">:</span><span
+                                    class="mi">2</span><span class="p">}</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p>If the first column contains the first node, the second column the second node, the third column
+                        the beginnning of the interaction and the fourth the ending of the interaction:</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[4]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;u_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;v_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;b_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;e_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">3</span><span class="p">}</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p>If the raw data contains the duration of the interaction and its beginning instead of its
+                        beginning and ending we can specify it:</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[5]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;u_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;v_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;t_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;link_duration_pos&#39;</span><span
+                                    class="p">:</span><span class="mi">3</span><span class="p">}</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <p>The parser also takes a configuration input with some optionnal parameters: - <code
+                            class="docutils literal notranslate"><span class="pre">delimiter</span></code> (as in
+                        csv.reader default is ‘,’) - <code class="docutils literal notranslate"><span class="pre">ignore_header</span></code>
+                        (set to ‘True’ to skip the first line) - <code class="docutils literal notranslate"><span
+                                class="pre">nodes_to_label</span></code> (set to ‘True’ to keep node’s labels cf :
+                        introduction.ipynb) - <code class="docutils literal notranslate"><span class="pre">time_is_datetime</span></code>
+                        (set to ‘True’ if times log are timestamps) - <code class="docutils literal notranslate"><span
+                                class="pre">is_link_stream</span></code> (if ‘True’ we consider that nodes are always
+                        present) - <code class="docutils literal notranslate"><span class="pre">nrows</span></code> (the
+                        number of rows to be read) - <code class="docutils literal notranslate"><span
+                                class="pre">delta</span></code> (Force links to begin/end in the
+                        window <img class="math" src="../_images/math/762e14f79b16f5b5161a0e88bd8dce4320ff8905.png"
+                                    alt="[t-\delta/2;t+\delta/2]"/>)</p>
+                    <div class="nbinput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[6]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">path_csv</span> <span class="o">=</span> <span
+                                    class="s2">&quot;examples/example.csv&quot;</span>
+<span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span
+                                    class="s1">&#39;b_pos&#39;</span><span class="p">:</span> <span
+                                    class="mi">0</span><span class="p">,</span> <span
+                                    class="s1">&#39;e_pos&#39;</span><span class="p">:</span> <span
+                                    class="mi">1</span><span class="p">,</span><span
+                                    class="s1">&#39;u_pos&#39;</span><span class="p">:</span> <span
+                                    class="mi">2</span><span class="p">,</span> <span
+                                    class="s1">&#39;v_pos&#39;</span><span class="p">:</span> <span
+                                    class="mi">3</span><span class="p">}</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">parser</span><span
+                                    class="p">(</span><span class="n">input_file</span><span class="o">=</span><span
+                                    class="n">path_csv</span><span class="p">,</span>
+                  <span class="n">input_format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span
+                                    class="p">,</span>
+                  <span class="n">entry_format</span> <span class="o">=</span> <span class="n">entry_format</span><span
+                                    class="p">,</span>
+                  <span class="n">is_link_stream</span> <span class="o">=</span> <span class="kc">True</span><span
+                                    class="p">,</span>
+                  <span class="n">nodes_to_label</span> <span class="o">=</span> <span class="kc">True</span><span
+                                    class="p">,</span>
+                  <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span>
+                 <span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span
+                                    class="n">plot</span><span class="p">()</span>
+
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area stderr docutils container">
+                            <div class="highlight"><pre>
+Parsing CSV: 100%|██████████████████████████████████████████████████████████████████| 10/10 [00:00&lt;00:00, 10007.88it/s]
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput nblast docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area docutils container">
+                            <img alt="../_images/notebooks_Readers_and_Writers_(Input-Output)_14_1.png"
+                                 src="../_images/notebooks_Readers_and_Writers_(Input-Output)_14_1.png"/>
+                        </div>
+                    </div>
+                    <p>If we want to set the default duration of an interaction:</p>
+                    <div class="nbinput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[8]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">path_csv</span> <span class="o">=</span> <span
+                                    class="s2">&quot;examples/example.csv&quot;</span>
+<span class="n">entry_format</span> <span class="o">=</span> <span class="p">{</span><span
+                                    class="s1">&#39;t_pos&#39;</span><span class="p">:</span> <span class="mi">0</span> <span
+                                    class="p">,</span><span class="s1">&#39;u_pos&#39;</span><span
+                                    class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span
+                                    class="s1">&#39;v_pos&#39;</span><span class="p">:</span> <span
+                                    class="mi">3</span><span class="p">}</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">parser</span><span
+                                    class="p">(</span><span class="n">input_file</span><span class="o">=</span><span
+                                    class="n">path_csv</span><span class="p">,</span>
+                  <span class="n">input_format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span
+                                    class="p">,</span>
+                  <span class="n">entry_format</span> <span class="o">=</span> <span class="n">entry_format</span><span
+                                    class="p">,</span>
+                  <span class="n">link_duration</span> <span class="o">=</span> <span class="mi">5</span><span
+                                    class="p">,</span>
+                  <span class="n">nodes_to_label</span> <span class="o">=</span> <span class="kc">True</span><span
+                                    class="p">,</span>
+                  <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span><span
+                                    class="p">)</span>
+<span class="n">S</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area stderr docutils container">
+                            <div class="highlight"><pre>
+Parsing CSV: 100%|███████████████████████████████████████████████████████████████████| 10/10 [00:00&lt;00:00, 9875.92it/s]
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[8]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="output_area docutils container">
+                            <div class="highlight"><pre>
+&lt;AxesSubplot:xlabel=&#39;t&#39;, ylabel=&#39;Nodes&#39;&gt;
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nboutput nblast docutils container">
+                        <div class="prompt empty docutils container">
+                        </div>
+                        <div class="output_area docutils container">
+                            <img alt="../_images/notebooks_Readers_and_Writers_(Input-Output)_16_2.png"
+                                 src="../_images/notebooks_Readers_and_Writers_(Input-Output)_16_2.png"/>
+                        </div>
+                    </div>
+                    <p># 2. Writers</p>
+                    <p>## 2.1 ‘.sg’ format</p>
+                    <div class="nbinput nblast docutils container">
+                        <div class="prompt highlight-none notranslate">
+                            <div class="highlight"><pre><span></span>[ ]:
+</pre>
+                            </div>
+                        </div>
+                        <div class="input_area highlight-ipython3 notranslate">
+                            <div class="highlight"><pre>
+<span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">S</span><span class="o">.</span><span class="n">write_to_sg</span><span class="p">(</span><span
+                                    class="n">out_put_file</span><span class="p">)</span>
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+                <a class='left-prev' id="prev-link" href="Drawing.html" title="previous page">Visualisation</a>
+                <a class='right-next' id="next-link" href="Stream%20Graph%20Theory%20Properties.html" title="next page">Stream
+                    Graph Theory Properties</a>
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

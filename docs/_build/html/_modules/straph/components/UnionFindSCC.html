@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>straph.components.UnionFindSCC &#8212; straph 1 documentation</title>
+
+    <link href="../../../_static/css/theme.css" rel="stylesheet"/>
+    <link href="../../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet"/>
+
+
+    <link rel="stylesheet"
+          href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css"/>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css"/>
+
+    <link rel="preload" as="script" href="../../../_static/js/index.1e043a052b0af929e4d8.js">
+
+    <script id="documentation_options" data-url_root="../../../"
+            src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="docsearch:language" content="en"/>
+</head>
+<body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+<nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+    <div class="container-xl">
+
+
+        <a class="navbar-brand" href="../../../index.html">
+            <img src="../../../_static/logo_straph.svg" class="logo" alt="logo">
+        </a>
+
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+            <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../installation.html">
+                        Installation
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../notebooks/Getting%20Started.html">
+                        Getting Started
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../tutorials.html">
+                        User Guide
+                    </a>
+                </li>
+
+                <li class="toctree-l1 nav-item">
+                    <a class="reference internal nav-link" href="../../../api_reference.html">
+                        API Reference
+                    </a>
+                </li>
+
+
+            </ul>
+
+            <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/StraphX/Straph" rel="noopener" target="_blank"
+                       title="GitHub">
+                        <span><i class="fab fa-github-square"></i></span>
+                        <label class="sr-only">GitHub</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-xl">
+    <div class="row">
+
+
+        <!-- Only show if we have sidebars configured, else just a small margin  -->
+        <div class="col-12 col-md-3 bd-sidebar">
+            <form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+                <i class="icon fas fa-search"></i>
+                <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..."
+                       aria-label="Search the docs ..." autocomplete="off">
+            </form>
+            <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+                <div class="bd-toc-item active">
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="d-none d-xl-block col-xl-2 bd-toc">
+
+
+            <nav id="bd-toc-nav">
+
+            </nav>
+
+
+        </div>
+
+
+        <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+
+            <div>
+
+                <h1>Source code for straph.components.UnionFindSCC</h1>
+                <div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span
+                        class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">sortedcontainers</span> <span class="kn">import</span> <span class="n">SortedSet</span>
+
+
+<div class="viewcode-block" id="get_pred_and_suc"><a class="viewcode-back"
+                                                     href="../../../straph.components.html#straph.components.UnionFindSCC.get_pred_and_suc">[docs]</a><span
+        class="k">def</span> <span class="nf">get_pred_and_suc</span><span class="p">(</span><span
+        class="n">value</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the predecessor and the successor of the value as well as the predecessor of the predecessor of the value</span>
+<span class="sd">    in the array times.</span>
+
+<span class="sd">    :param value: float</span>
+<span class="sd">    :param times: SortedSet</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span
+            class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span
+            class="p">]</span>
+    <span class="n">id_before</span> <span class="o">=</span> <span class="n">times</span><span class="o">.</span><span
+            class="n">bisect_left</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">times</span><span
+            class="p">[</span><span class="n">id_before</span><span class="p">]:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">suc</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span
+            class="n">id_before</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">id_before</span> <span class="o">-</span> <span
+            class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pred_pred</span> <span class="o">=</span> <span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pred_pred</span> <span class="o">=</span> <span class="n">times</span><span
+            class="p">[</span><span class="n">id_before</span> <span class="o">-</span> <span class="mi">1</span><span
+            class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span
+            class="n">id_before</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">suc</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span
+            class="n">id_before</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">id_before</span> <span class="o">-</span> <span
+            class="mi">2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pred_pred</span> <span class="o">=</span> <span class="n">times</span><span
+            class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pred_pred</span> <span class="o">=</span> <span class="n">times</span><span
+            class="p">[</span><span class="n">id_before</span> <span class="o">-</span> <span class="mi">2</span><span
+            class="p">]</span>
+    <span class="k">return</span> <span class="n">pred_pred</span><span class="p">,</span> <span
+            class="n">pred</span><span class="p">,</span> <span class="n">suc</span></div>
+
+
+<span class="c1"># proof of correctness by induction on the size of E (sum of durations of links in it)</span>
+<div class="viewcode-block" id="dynamic_connectivity"><a class="viewcode-back"
+                                                         href="../../../straph.components.html#straph.components.UnionFindSCC.dynamic_connectivity">[docs]</a><span
+        class="k">def</span> <span class="nf">dynamic_connectivity</span><span class="p">(</span><span
+        class="n">E</span><span class="p">,</span> <span class="n">SCC</span><span class="p">,</span> <span class="n">times</span><span
+        class="p">):</span>
+    <span class="n">X_s</span><span class="p">,</span> <span class="n">b_s</span><span class="p">,</span> <span
+            class="n">e_s</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span
+            class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">E</span><span
+            class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">e</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span
+            class="o">=</span> <span class="n">E</span><span class="o">.</span><span class="n">pop</span><span
+            class="p">()</span>
+        <span class="c1"># assert u in times</span>
+        <span class="c1"># assert v in times</span>
+        <span class="p">(</span><span class="n">tu_pred</span><span class="p">,</span> <span class="n">tu</span><span
+            class="p">,</span> <span class="n">tu_suc</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">get_pred_and_suc</span><span class="p">(</span><span class="n">b</span><span
+            class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">u</span><span
+            class="p">])</span>  <span class="c1"># Get predecessors and successor&#39;s times of u</span>
+        <span class="p">(</span><span class="n">Cu</span><span class="p">,</span> <span class="n">bu</span><span
+            class="p">,</span> <span class="n">eu</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">SCC</span><span class="p">[(</span><span class="n">tu</span><span class="p">,</span> <span
+            class="n">u</span><span class="p">)]</span>  <span class="c1"># Get the current comp of u (Cu contains nodes of u&#39;s comp)</span>
+        <span class="p">(</span><span class="n">tv_pred</span><span class="p">,</span> <span class="n">tv</span><span
+            class="p">,</span> <span class="n">tv_suc</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">get_pred_and_suc</span><span class="p">(</span><span class="n">b</span><span
+            class="p">,</span> <span class="n">times</span><span class="p">[</span><span class="n">v</span><span
+            class="p">])</span>  <span class="c1"># Get predecessors and successor&#39;s times of v</span>
+        <span class="p">(</span><span class="n">Cv</span><span class="p">,</span> <span class="n">bv</span><span
+            class="p">,</span> <span class="n">ev</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">SCC</span><span class="p">[(</span><span class="n">tv</span><span class="p">,</span> <span
+            class="n">v</span><span class="p">)]</span>  <span class="c1"># Get the current comp of v (Cv contains nodes of v&#39;s comp)</span>
+
+        <span class="k">if</span> <span class="n">SCC</span><span class="p">[(</span><span class="n">tu</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">)]</span> <span class="o">==</span> <span
+            class="n">SCC</span><span class="p">[(</span><span class="n">tv</span><span class="p">,</span> <span
+            class="n">v</span><span class="p">)]:</span>
+            <span class="c1"># u and v are in the same component at time b</span>
+            <span class="c1"># Manage link addition after end of component</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="o">&gt;</span> <span class="n">tu_suc</span><span
+            class="p">:</span>
+                <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span
+            class="n">tu_suc</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span
+            class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">tu</span> <span class="o">&lt;</span> <span class="n">b</span> <span
+            class="ow">or</span> <span class="n">tv</span> <span class="o">&lt;</span> <span class="n">b</span><span
+            class="p">:</span>
+            <span class="c1"># SPLIT their beginning</span>
+            <span class="c1"># Different components beginning before the link</span>
+            <span class="c1"># assert Cu != Cv</span>
+            <span class="k">if</span> <span class="n">tu</span> <span class="o">&lt;</span> <span
+            class="n">b</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cu</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">tu</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cu</span><span class="p">,</span> <span class="n">tu</span><span class="p">,</span> <span
+            class="n">b</span><span class="p">)</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">b</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cu</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span
+            class="n">tu_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tv</span> <span class="o">&lt;</span> <span
+            class="n">b</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cv</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">tv</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cv</span><span class="p">,</span> <span class="n">tv</span><span class="p">,</span> <span
+            class="n">b</span><span class="p">)</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">b</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cv</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span
+            class="n">tv_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+            <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span
+            class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">e</span> <span class="o">&lt;</span> <span
+            class="n">tu_suc</span> <span class="ow">or</span> <span class="n">e</span> <span
+            class="o">&lt;</span> <span class="n">tv_suc</span><span class="p">:</span>
+            <span class="c1"># SPLIT their end</span>
+            <span class="c1"># Different components with same beginning and the link ends before them</span>
+            <span class="c1"># assert Cu != Cv</span>
+            <span class="c1"># assert tu == b</span>
+            <span class="c1"># assert tv == b</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="o">&lt;</span> <span class="n">tu_suc</span><span
+            class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cu</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">tu</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cu</span><span class="p">,</span> <span class="n">tu</span><span class="p">,</span> <span
+            class="n">e</span><span class="p">)</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cu</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span
+            class="n">tu_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="o">&lt;</span> <span class="n">tv_suc</span><span
+            class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cv</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">tv</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cv</span><span class="p">,</span> <span class="n">tv</span><span class="p">,</span> <span
+            class="n">e</span><span class="p">)</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">e</span><span class="p">,</span> <span
+            class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span
+            class="n">Cv</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span
+            class="n">tv_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span
+            class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">u</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># MERGE COMPONENTS</span>
+            <span class="c1"># different components with same beginning and the link ends after them</span>
+            <span class="c1"># assert Cu != Cv</span>
+            <span class="c1"># assert tu == b</span>
+            <span class="c1"># assert tv == b</span>
+            <span class="c1"># assert e &gt;= tu_suc</span>
+            <span class="c1"># assert e &gt;= tv_suc</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">Cu</span><span class="o">.</span><span
+            class="n">union</span><span class="p">(</span><span class="n">Cv</span><span class="p">)</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span
+            class="n">tu_suc</span><span class="p">,</span> <span class="n">tv_suc</span><span class="p">)</span>
+
+            <span class="c1"># Is the new component the same as the next one?</span>
+            <span class="k">if</span> <span class="n">new</span> <span class="o">&lt;</span> <span class="nb">min</span><span
+            class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span
+            class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span
+            class="c1"># U and V cannot be in the next SCC if they aren&#39;t present</span>
+                <span class="k">if</span> <span class="n">new</span> <span class="o">==</span> <span
+            class="n">tu_suc</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">X_s</span><span class="p">,</span> <span
+            class="n">b_s</span><span class="p">,</span> <span class="n">e_s</span><span class="p">)</span> <span
+            class="o">=</span> <span class="n">SCC</span><span class="p">[(</span><span class="n">tu_suc</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">new</span> <span class="o">==</span> <span
+            class="n">tv_suc</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">X_s</span><span class="p">,</span> <span
+            class="n">b_s</span><span class="p">,</span> <span class="n">e_s</span><span class="p">)</span> <span
+            class="o">=</span> <span class="n">SCC</span><span class="p">[(</span><span class="n">tv_suc</span><span
+            class="p">,</span> <span class="n">v</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">X</span> <span class="o">==</span> <span
+            class="n">X_s</span><span class="p">:</span>
+                    <span class="c1"># yes: move the component end</span>
+                    <span class="c1"># assert (tv_suc == tu_suc)</span>
+                    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span
+            class="n">X</span><span class="p">:</span>
+                        <span class="n">SCC</span><span class="o">.</span><span class="n">pop</span><span
+            class="p">((</span><span class="n">b_s</span><span class="p">,</span> <span class="n">n</span><span
+            class="p">))</span>
+                        <span class="n">times</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span
+            class="n">b_s</span><span class="p">)</span>
+                    <span class="n">new</span> <span class="o">=</span> <span class="n">e_s</span>
+
+            <span class="c1"># Is the new component the same as the previous one?</span>
+            <span class="k">if</span> <span class="n">tu_pred</span> <span class="o">&lt;</span> <span
+            class="n">tu</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">X_p</span><span class="p">,</span> <span
+            class="n">b_p</span><span class="p">,</span> <span class="n">e_p</span><span class="p">)</span> <span
+            class="o">=</span> <span class="n">SCC</span><span class="p">[(</span><span class="n">tu_pred</span><span
+            class="p">,</span> <span class="n">u</span><span class="p">)]</span>
+                <span class="c1"># assert b_p == tu_pred</span>
+                <span class="c1"># assert e_p == tu</span>
+                <span class="k">if</span> <span class="n">X</span> <span class="o">==</span> <span
+            class="n">X_p</span><span class="p">:</span>
+                    <span class="c1"># yes: move the component beginning</span>
+                    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span
+            class="n">X</span><span class="p">:</span>
+                        <span class="c1"># print(&quot;b :&quot;,b,&quot;n :&quot;,n)</span>
+                        <span class="n">SCC</span><span class="o">.</span><span class="n">pop</span><span
+            class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+                        <span class="n">times</span><span class="p">[</span><span class="n">n</span><span
+            class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span
+            class="n">b</span><span class="p">)</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">b_p</span>
+
+            <span class="c1"># create the new component</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">X</span><span
+            class="p">:</span>
+                <span class="n">SCC</span><span class="p">[(</span><span class="n">b</span><span
+            class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span
+            class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">b</span><span
+            class="p">,</span> <span class="n">new</span><span class="p">)</span>
+
+            <span class="c1"># add the end of the components if the link ends before them</span>
+            <span class="k">if</span> <span class="n">tu_suc</span> <span class="o">&gt;</span> <span
+            class="n">new</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cu</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">new</span><span
+            class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span
+            class="p">(</span><span class="n">Cu</span><span class="p">,</span> <span class="n">new</span><span
+            class="p">,</span> <span class="n">tu_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span><span
+            class="p">)</span>
+            <span class="k">if</span> <span class="n">tv_suc</span> <span class="o">&gt;</span> <span
+            class="n">new</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Cv</span><span
+            class="p">:</span>
+                    <span class="n">SCC</span><span class="p">[(</span><span class="n">new</span><span
+            class="p">,</span> <span class="n">n</span><span class="p">)]</span> <span class="o">=</span> <span
+            class="p">(</span><span class="n">Cv</span><span class="p">,</span> <span class="n">new</span><span
+            class="p">,</span> <span class="n">tv_suc</span><span class="p">)</span>
+                    <span class="n">times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span
+            class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new</span><span
+            class="p">)</span>
+            <span class="c1"># continue with the rest of the link</span>
+            <span class="k">if</span> <span class="n">e</span> <span class="o">&gt;</span> <span
+            class="n">new</span><span class="p">:</span>
+                <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span
+            class="n">new</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span
+            class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">SCC</span></div>
+
+
+<div class="viewcode-block" id="strongly_connected_components_UF"><a class="viewcode-back"
+                                                                     href="../../../straph.components.html#straph.components.UnionFindSCC.strongly_connected_components_UF">[docs]</a><span
+        class="k">def</span> <span class="nf">strongly_connected_components_UF</span><span class="p">(</span><span
+        class="n">S</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span
+        class="s2">&quot;cluster&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Strongly Connected Components of a ``StreamGraph`` with SCC-UF Algorithm.</span>
+
+<span class="sd">    :param S: A ``StreamGraph`` object</span>
+<span class="sd">    :param format: The format of the output, only &#39;cluster&#39; is currently available.</span>
+<span class="sd">    :return: A list of clusters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialisation SCC and times</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">defaultdict</span><span
+            class="p">(</span><span class="n">SortedSet</span><span class="p">)</span>
+    <span class="n">SCC</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">np</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">S</span><span
+            class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">S</span><span
+            class="o">.</span><span class="n">node_presence</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span
+            class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span
+            class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span
+            class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span
+            class="p">]):</span>
+            <span class="n">new_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">t0</span><span
+            class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">n</span><span
+            class="p">)</span>
+            <span class="n">SCC</span><span class="p">[(</span><span class="n">t0</span><span class="p">,</span> <span
+            class="n">new_n</span><span class="p">)]</span> <span class="o">=</span> <span class="p">({</span><span
+            class="n">new_n</span><span class="p">},</span> <span class="n">t0</span><span class="p">,</span> <span
+            class="n">t1</span><span class="p">)</span>
+            <span class="n">times</span><span class="p">[</span><span class="n">new_n</span><span
+            class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t0</span><span
+            class="p">)</span>
+            <span class="n">times</span><span class="p">[</span><span class="n">new_n</span><span
+            class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t1</span><span
+            class="p">)</span>
+    <span class="c1"># Initialisation links</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">augmented_ordered_links</span><span
+            class="p">()</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">L</span><span
+            class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span
+            class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span
+            class="mi">1</span><span class="p">:]</span>
+            <span class="c1"># assert u in times</span>
+            <span class="c1"># assert v in times</span>
+            <span class="n">E</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span
+            class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+    <span class="c1"># Initialisation with (minimum,maximum) event time for each node presence.</span>
+    <span class="n">SCC</span> <span class="o">=</span> <span class="n">dynamic_connectivity</span><span
+            class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">SCC</span><span
+            class="p">,</span> <span class="n">times</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;cluster&quot;</span><span
+            class="p">:</span>
+        <span class="n">SCC</span> <span class="o">=</span> <span class="n">postprocess_SCC</span><span
+            class="p">(</span><span class="n">SCC</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SCC</span></div>
+
+
+<div class="viewcode-block" id="postprocess_SCC"><a class="viewcode-back"
+                                                    href="../../../straph.components.html#straph.components.UnionFindSCC.postprocess_SCC">[docs]</a><span
+        class="k">def</span> <span class="nf">postprocess_SCC</span><span class="p">(</span><span
+        class="n">SCC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Postprocess *SCC* into clusters.</span>
+
+<span class="sd">    :param SCC: List of SCC returned by SCC-UF Algorithm</span>
+<span class="sd">    :return: A list of clusters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span
+            class="ow">in</span> <span class="n">SCC</span><span class="o">.</span><span class="n">items</span><span
+            class="p">():</span>
+        <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">b</span><span
+            class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="o">=</span> <span
+            class="n">v</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># if (tuple(X),b,e) not in seen:</span>
+        <span class="c1">#     seen.add((tuple(X),b,e))</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">X</span><span
+            class="p">:</span>
+            <span class="c1"># if len(X) &gt;1 or b!=e:</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span
+            class="n">b</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span
+            class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">c</span><span class="p">:</span>
+            <span class="n">scc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span
+            class="n">c</span><span class="p">)</span>
+        <span class="n">SCC</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span
+            class="o">=</span> <span class="kc">None</span>  <span class="c1"># Free Memory</span>
+    <span class="k">return</span> <span class="n">scc</span></div>
+</pre>
+                </div>
+
+            </div>
+
+
+            <div class='prev-next-bottom'>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+</div>
+
+
+<script src="../../../_static/js/index.1e043a052b0af929e4d8.js"></script>
+
+
+<footer class="footer mt-5 mt-md-0">
+    <div class="container">
+        <p>
+            &copy; Copyright 2017-2021, Léo Rannou.<br/>
+            Last updated on Apr 05, 2021.<br/>
+            Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+        </p>
+    </div>
+</footer>
+</body>
+</html>
