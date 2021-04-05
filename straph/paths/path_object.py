@@ -1,20 +1,17 @@
 import matplotlib.pyplot as plt
 
-from straph import stream as sg
 
-plt.rcParams["figure.figsize"] = (15, 10)
-
-
-class path:
+class Path:
     def __init__(self,
                  times=None,
                  links=None,
                  ):
-        '''
-        A basic constructor for a path object
+        """
+        A basic constructor for a ``Path`` object
+
         :param times : A list of times corresponding to the links (first time = beginning ; last time = ending)
         :param links : A list of links composing the path. (first node = source ; last node = destination)
-                '''
+        """
         self.times = times
         self.links = links
 
@@ -29,19 +26,28 @@ class path:
         return self.times[-1] - self.times[0]
 
     def plot(self, S, color="#18036f",
-             markersize=10, dag=False):
-        '''
-        Draw a path on the Stream Graph S
-        :param S: A Stream Graph
+             markersize=10, dag=False, fig=None):
+        """
+        Draw a path on the ``StreamGraph`` object *S*
+
+        :param S:
+        :param color:
+        :param markersize:
+        :param dag:
+        :param fig:
         :return:
-        '''
+        """
+        if fig is None:
+            fig, ax = plt.subplots()
+        else:
+            ax = plt.gca()
 
         if dag:
-
             dag = S.condensation_dag()
-            dag.plot(node_to_label=S.node_to_label)
+            dag.plot(node_to_label=S.node_to_label, ax=ax)
         else:
-            S.plot()
+            S.plot(ax=ax)
+
         # Plot Source
         id_source = S.nodes.index(self.links[0][0])
         plt.plot([self.times[0]], [id_source], color=color,
@@ -58,7 +64,7 @@ class path:
             id2 = S.nodes.index(l[1])
             idmax = max(id1, id2)
             idmin = min(id1, id2)
-            plt.vlines(t, ymin=idmin, ymax=idmax, linewidth=4, alpha=0.8, color=color)
+            plt.vlines(t, ymin=idmin, ymax=idmax, linewidth=6, alpha=0.8, color=color)
             if i != self.length() - 1:
                 plt.hlines(id2, xmin=t, xmax=self.times[i + 1],
                            linewidth=4, alpha=0.8, color=color)
@@ -66,7 +72,7 @@ class path:
                 if t != self.times[i + 1]:
                     plt.plot([t], [id2], color=color,
                              marker='>', alpha=0.8, markersize=markersize)
-            if i != 0 and (t,id1) != (self.times[0],id_source) != (self.times[-1],id_destination):
+            if i != 0 and (t, id1) != (self.times[0], id_source) != (self.times[-1], id_destination):
                 # Plot marker
                 if id1 == idmin:
                     plt.plot([t], [id1], color=color,
@@ -75,6 +81,7 @@ class path:
                     plt.plot([t], [id1], color=color,
                              marker='v', alpha=0.8, markersize=markersize)
         plt.tight_layout()
+        return fig
 
     def check_coherence(self, S):
         for i in range(self.length()):

@@ -1,137 +1,0 @@
-
-tpython:S117ø"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(®˜òé
-epython:S117÷"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºÀ·­
-hpython:S1542÷"ORename function "SFP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ºÀ·­
-epython:S117ï"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(ŒÉÎ†
-spython:S1542ï"ZRename function "SFP_W_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ŒÉÎ†
-upython:S107"QFunction "L_Algorithm" has 10 parameters, which is greater than the 7 authorized.(¶Œºùÿÿÿÿ8¨¡«†Ë.
->python:S125»"Remove this commented out code.(ÆÔœ¦8¨¡«†Ë.
-Cpython:S125¸"Remove this commented out code.(Æ´åúÿÿÿÿ8¨¡«†Ë.
->python:S125…"Remove this commented out code.(ÆÔœ¦8¨¡«†Ë.
->python:S125‘"Remove this commented out code.(›»¥Ú8¨¡«†Ë.
-Cpython:S125Û"Remove this commented out code.(¨ûÿÂıÿÿÿÿ8¨¡«†Ë.
->python:S125ã"Remove this commented out code.(ûƒÕÈ8¨¡«†Ë.
->python:S125ñ"Remove this commented out code.(áÖÖ¢8¨¡«†Ë.
->python:S125ù"Remove this commented out code.(ûƒÕÈ8¨¡«†Ë.
-Cpython:S125±"Remove this commented out code.(¾Ø®óşÿÿÿÿ8¨¡«†Ë.
-zpython:S3776"URefactor this function to reduce its Cognitive Complexity from 115 to the 15 allowed.(¶Œºùÿÿÿÿ8¨¡«†Ë.
-tpython:S3776¨"TRefactor this function to reduce its Cognitive Complexity from 67 to the 15 allowed.(ˆ®‡—8¨¡«†Ë.
-tpython:S3776˜"TRefactor this function to reduce its Cognitive Complexity from 29 to the 15 allowed.(ò‘ü…8¨¡«†Ë.
-ypython:S3776Ì"TRefactor this function to reduce its Cognitive Complexity from 72 to the 15 allowed.(ø¦†şÿÿÿÿ8¨¡«†Ë.
-Kpython:S1481"'Remove the unused local variable "fig".(ëİÚøÿÿÿÿ8¨¡«†Ë.
-Mpython:S1481·"-Remove the unused local variable "cnt_event".(˜ƒÆ8¨¡«†Ë.
-kpython:S117"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢¥öü8¨¡«†Ë.
-kpython:S1175"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Åã˜8¨¡«†Ë.
-ppython:S117D"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(¥¢î¹ûÿÿÿÿ8¨¡«†Ë.
-jpython:S117T"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Îşk8¨¡«†Ë.
-tpython:S117T"WRename this parameter "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(Îşk8¨¡«†Ë.
-kpython:S117}"MRename this parameter "F" to match the regular expression ^[_a-z][a-z0-9_]*$.(½éš8¨¡«†Ë.
-upython:S117}"WRename this parameter "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(½éš8¨¡«†Ë.
-qpython:S117"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶Œºùÿÿÿÿ8¨¡«†Ë.
-lpython:S117—"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(§Èù–8¨¡«†Ë.
-lpython:S117¨"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ®‡—8¨¡«†Ë.
-lpython:S117¨"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ˆ®‡—8¨¡«†Ë.
-lpython:S117ş"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ø‘­æ8¨¡«†Ë.
-lpython:S117‹"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ª‡ø8¨¡«†Ë.
-kpython:S117"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(Œ¥”I8¨¡«†Ë.
-kpython:S117"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(Œ¥”I8¨¡«†Ë.
-lpython:S117¦"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ç¶—Š8¨¡«†Ë.
-qpython:S117¶"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÇªóûÿÿÿÿ8¨¡«†Ë.
-qpython:S117¶"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÄÇªóûÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ó"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(²ûš‰ûÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ú"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ôéşÍüÿÿÿÿ8¨¡«†Ë.
-€python:S117á"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(·ğ˜úÿÿÿÿÿ8¨¡«†Ë.
-qpython:S117î"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ò®‘Üşÿÿÿÿ8¨¡«†Ë.
-lpython:S117ô"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿú‘ù8¨¡«†Ë.
-lpython:S117÷"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ğ‘¢¶8¨¡«†Ë.
-lpython:S117÷"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ğ‘¢¶8¨¡«†Ë.
-qpython:S117’"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ëãØ´ûÿÿÿÿ8¨¡«†Ë.
-lpython:S117ª"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(úĞš«8¨¡«†Ë.
-lpython:S117ª"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(úĞš«8¨¡«†Ë.
-lpython:S117½"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(ë£³Í8¨¡«†Ë.
-qpython:S117Å"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(šùªÿÿÿÿÿ8¨¡«†Ë.
-€python:S117Æ"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(·÷æÉûÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ó"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(§‘Ã»ıÿÿÿÿ8¨¡«†Ë.
-lpython:S117Ù"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÜÂŒ¥8¨¡«†Ë.
-lpython:S117İ"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.( Ş›Š8¨¡«†Ë.
-lpython:S117İ"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.( Ş›Š8¨¡«†Ë.
-lpython:S117"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÇàË8¨¡«†Ë.
-kpython:S117‹"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Š‹Ó(8¨¡«†Ë.
-kpython:S117‹"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(Š‹Ó(8¨¡«†Ë.
-lpython:S117"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(µÏÉÊ8¨¡«†Ë.
-kpython:S117¥"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(•Œ›08¨¡«†Ë.
-{python:S117¦"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(™Ïù8¨¡«†Ë.
-qpython:S117³"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ñéû³ıÿÿÿÿ8¨¡«†Ë.
-lpython:S117¾"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(İàîî8¨¡«†Ë.
-lpython:S117Á"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(°ÈÅ‡8¨¡«†Ë.
-lpython:S117Á"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(°ÈÅ‡8¨¡«†Ë.
-qpython:S117á"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÃŸˆµøÿÿÿÿ8¨¡«†Ë.
-lpython:S117ì"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(šúû±8¨¡«†Ë.
-lpython:S117ì"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(šúû±8¨¡«†Ë.
-qpython:S117€"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(™ßµÛùÿÿÿÿ8¨¡«†Ë.
-qpython:S117ˆ"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(†…òóûÿÿÿÿ8¨¡«†Ë.
-{python:S117‰"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(İŸÆÁ8¨¡«†Ë.
-lpython:S117˜"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(ıŠê§8¨¡«†Ë.
-qpython:S117¤"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(šúÌÿÿÿÿÿ8¨¡«†Ë.
-qpython:S117§"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶¾õûÿÿÿÿ8¨¡«†Ë.
-qpython:S117§"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(¶¾õûÿÿÿÿ8¨¡«†Ë.
-lpython:S117Í"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ì¹”×8¨¡«†Ë.
-lpython:S117Ö"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(çå®â8¨¡«†Ë.
-lpython:S117Ö"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(çå®â8¨¡«†Ë.
-qpython:S117é"MRename this parameter "W" to match the regular expression ^[_a-z][a-z0-9_]*$.(ûŒèÍüÿÿÿÿ8¨¡«†Ë.
-qpython:S117ğ"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(­±ËÈùÿÿÿÿ8¨¡«†Ë.
-€python:S117ñ"\Rename this local variable "L_functions" to match the regular expression ^[_a-z][a-z0-9_]*$.(ºÕÁğøÿÿÿÿ8¨¡«†Ë.
-lpython:S117ş"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(šÄŒé8¨¡«†Ë.
-qpython:S117"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(±œ™ùÿÿÿÿ8¨¡«†Ë.
-lpython:S117˜"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ò‘ü…8¨¡«†Ë.
-lpython:S117˜"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ò‘ü…8¨¡«†Ë.
-qpython:S117Ì"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¦†şÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ì"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ø¦†şÿÿÿÿ8¨¡«†Ë.
-qpython:S117Í"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ì«ù¼ıÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ø"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(íÀ™§ùÿÿÿÿ8¨¡«†Ë.
-qpython:S117Ø"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(íÀ™§ùÿÿÿÿ8¨¡«†Ë.
-Tpython:S1066Ğ"/Merge this if statement with the enclosing one.(š»Œêıÿÿÿÿ8¨¡«†Ë.
-rpython:S1542T"TRename function "F_Algorithm" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Îşk8¨¡«†Ë.
-ppython:S1542}"QRename function "F_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(½éš8¨¡«†Ë.
-ypython:S1542"TRename function "L_Algorithm" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¶Œºùÿÿÿÿ8¨¡«†Ë.
-{python:S1542ş"[Rename function "FoP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Ø‘­æ8¨¡«†Ë.
-‚python:S1542‹"bRename function "FoP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ª‡ø8¨¡«†Ë.
-rpython:S1542"SRename function "FoP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Œ¥”I8¨¡«†Ë.
-xpython:S1542¦"XRename function "FoP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Ç¶—Š8¨¡«†Ë.
-qpython:S1542¶"LRename function "FoP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÄÇªóûÿÿÿÿ8¨¡«†Ë.
-€python:S1542Ó"[Rename function "FoP_postprocess_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(²ûš‰ûÿÿÿÿ8¨¡«†Ë.
-tpython:S1542Ú"ORename function "FoP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ôéşÍüÿÿÿÿ8¨¡«†Ë.
-python:S1542î"\Rename function "SFoP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ò®‘Üşÿÿÿÿ8¨¡«†Ë.
-ƒpython:S1542ô"cRename function "SFoP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÿú‘ù8¨¡«†Ë.
-tpython:S1542÷"TRename function "SFoP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ğ‘¢¶8¨¡«†Ë.
-~python:S1542’"YRename function "SFoP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ëãØ´ûÿÿÿÿ8¨¡«†Ë.
-mpython:S1542ª"MRename function "SFoP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(úĞš«8¨¡«†Ë.
-{python:S1542½"[Rename function "SFoP_W_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ë£³Í8¨¡«†Ë.
-upython:S1542Å"PRename function "SFoP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(šùªÿÿÿÿÿ8¨¡«†Ë.
-python:S1542Ó"ZRename function "SP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(§‘Ã»ıÿÿÿÿ8¨¡«†Ë.
-python:S1542Ù"aRename function "SP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÜÂŒ¥8¨¡«†Ë.
-rpython:S1542İ"RRename function "SP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.( Ş›Š8¨¡«†Ë.
-wpython:S1542"WRename function "SP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÇàË8¨¡«†Ë.
-jpython:S1542‹"KRename function "SP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Š‹Ó(8¨¡«†Ë.
-ypython:S1542"YRename function "SP_W_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(µÏÉÊ8¨¡«†Ë.
-mpython:S1542¥"NRename function "SP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(•Œ›08¨¡«†Ë.
-€python:S1542³"[Rename function "FSP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Ñéû³ıÿÿÿÿ8¨¡«†Ë.
-‚python:S1542¾"bRename function "FSP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(İàîî8¨¡«†Ë.
-spython:S1542Á"SRename function "FSP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(°ÈÅ‡8¨¡«†Ë.
-}python:S1542á"XRename function "FSP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÃŸˆµøÿÿÿÿ8¨¡«†Ë.
-lpython:S1542ì"LRename function "FSP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(šúû±8©¡«†Ë.
-python:S1542€"ZRename function "FSP_W_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(™ßµÛùÿÿÿÿ8©¡«†Ë.
-tpython:S1542ˆ"ORename function "FSP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(†…òóûÿÿÿÿ8©¡«†Ë.
-zpython:S1542˜"ZRename function "FP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ıŠê§8©¡«†Ë.
-†python:S1542¤"aRename function "FP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(šúÌÿÿÿÿÿ8©¡«†Ë.
-wpython:S1542§"RRename function "FP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¶¾õûÿÿÿÿ8©¡«†Ë.
-wpython:S1542Í"WRename function "FP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Ì¹”×8©¡«†Ë.
-kpython:S1542Ö"KRename function "FP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(çå®â8©¡«†Ë.
-~python:S1542é"YRename function "FP_W_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ûŒèÍüÿÿÿÿ8©¡«†Ë.
-spython:S1542ğ"NRename function "FP_pw" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(­±ËÈùÿÿÿÿ8©¡«†Ë.
-{python:S1542ş"[Rename function "SFP_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(šÄŒé8©¡«†Ë.
-‡python:S1542"bRename function "SFP_source_initialisation" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(±œ™ùÿÿÿÿ8©¡«†Ë.
-spython:S1542˜"SRename function "SFP_update" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ò‘ü…8©¡«†Ë.
-|python:S1542Ì"WRename function "SFP_update_old" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ø¦†şÿÿÿÿ8©¡«†Ë.
-}python:S1542Í"XRename function "SFP_postprocess" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ì«ù¼ıÿÿÿÿ8©¡«†Ë.
-qpython:S1542Ø"LRename function "SFP" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(íÀ™§ùÿÿÿÿ8©¡«†Ë.

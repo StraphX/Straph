@@ -1,29 +1,0 @@
-
-opython:S107–"PFunction "update_scc" has 10 parameters, which is greater than the 7 authorized.(ψΓπ8ηχ†Λ.
-|python:S117ΐ"XRename this local variable "final_C" to match the regular expression ^[_a-z][a-z0-9_]*$.(…ΏΑωÿÿÿÿ8ηχ†Λ.
-~python:S107Ρ"_Function "process_batch_link_arrival" has 8 parameters, which is greater than the 7 authorized.(ω³Τώ8ηχ†Λ.
-tpython:S3776ι"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(ΤήρΔ8ηχ†Λ.
-Cpython:S125Μ"Remove this commented out code.(μγΡχψÿÿÿÿ8ηχ†Λ.
-xpython:S107Ό"TFunction "process_arrival" has 9 parameters, which is greater than the 7 authorized.(’•—Οψÿÿÿÿ8ηχ†Λ.
-Cpython:S125‡"Remove this commented out code.(ώΰήψÿÿÿÿ8ηχ†Λ.
-Cpython:S125"Remove this commented out code.(ϋÿÿÿÿ8ηχ†Λ.
-ypython:S3776ƒ"TRefactor this function to reduce its Cognitive Complexity from 37 to the 15 allowed.(…ΚΔΓψÿÿÿÿ8ηχ†Λ.
-zpython:S117Μ"VRename this local variable "new_C" to match the regular expression ^[_a-z][a-z0-9_]*$.(³–Β€ϋÿÿÿÿ8ηχ†Λ.
-lpython:S117«"MRename this parameter "R" to match the regular expression ^[_a-z][a-z0-9_]*$.(ηΖζ8ηχ†Λ.
-rpython:S107ξ"NFunction "merge_scc" has 8 parameters, which is greater than the 7 authorized.(‰¶έθϊÿÿÿÿ8ηχ†Λ.
-…python:S107ƒ"aFunction "process_batch_link_departure" has 8 parameters, which is greater than the 7 authorized.(…ΚΔΓψÿÿÿÿ8ηχ†Λ.
-xpython:S3776"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(Χή­ψÿÿÿÿ8ηχ†Λ.
-}python:S1542«"]Rename function "algo_kcliques_KCList" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ηΖζ8ηχ†Λ.
-Cpython:S125ω"Remove this commented out code.(γΪ³›ώÿÿÿÿ8ηχ†Λ.
-lpython:S117«"MRename this parameter "C" to match the regular expression ^[_a-z][a-z0-9_]*$.(ηΖζ8ηχ†Λ.
-tpython:S3776«"TRefactor this function to reduce its Cognitive Complexity from 46 to the 15 allowed.(ηΖζ8ηχ†Λ.
->python:S125Θ"Remove this commented out code.(²Γρά8ηχ†Λ.
-Tpython:S1066Ώ"/Merge this if statement with the enclosing one.(ΠΣµÿÿÿÿÿ8ηχ†Λ.
-=python:S125°"Remove this commented out code.(ζI8ηχ†Λ.
-Cpython:S125"Remove this commented out code.(γΪ³›ώÿÿÿÿ8ηχ†Λ.
-ypython:S3776π"TRefactor this function to reduce its Cognitive Complexity from 32 to the 15 allowed.(¦ΆΆώÿÿÿÿ8ηχ†Λ.
-qpython:S117π"MRename this parameter "S" to match the regular expression ^[_a-z][a-z0-9_]*$.(¦ΆΆώÿÿÿÿ8ηχ†Λ.
-Tpython:S1066Κ"/Merge this if statement with the enclosing one.(ΠΣµÿÿÿÿÿ8ηχ†Λ.
-~python:S101‡"_Rename class "stable_connected_component" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(κ­ξΒ8ηχ†Λ.
-Cpython:S125δ"Remove this commented out code.(γΪ³›ώÿÿÿÿ8ηχ†Λ.
-Cpython:S125β"Remove this commented out code.(μγΡχψÿÿÿÿ8ηχ†Λ.

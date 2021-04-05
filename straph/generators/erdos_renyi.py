@@ -1,10 +1,8 @@
-import time, random, warnings
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import random
+import warnings
 
 from straph import stream as sg
-from straph.utils import profile_shit
 
 
 def random_link(p_link):
@@ -24,7 +22,6 @@ def random_node_presence(t_windows, rep, plac, dur):
     Generate the occurrence and the presence of a node given occurrence_law(occurrence_param)
     and presence_law(presence_param).
 
-
     :param t_windows: Time window of the Stream Graph
     :param rep: Number of segmented nodes
     :param plac: Emplacement of each segmented node (sorted array)
@@ -37,7 +34,7 @@ def random_node_presence(t_windows, rep, plac, dur):
         acc = t_windows[1]
         n_presence = [plac[0], acc]
         return n_presence
-    n_presence = [plac[0], acc]  #  Initialisation, [t0,t0+d0]
+    n_presence = [plac[0], acc]  # Initialisation, [t0,t0+d0]
     for i in range(1, rep):
         acc = plac[i] + dur[i]
         if acc > t_windows[1]:
@@ -66,7 +63,7 @@ def random_link_presence(intersec, rep, dur):
     :return: link presence
     """
     plac = []
-    id_intersec = {}  #  Pour retenir l'intervalle d'intersection ou se situe le lien (#BlackMagic)
+    id_intersec = {}  # Pour retenir l'intervalle d'intersection ou se situe le lien (#BlackMagic)
     id_plac = np.random.randint(len(intersec) // 2, size=rep)  # On choisit aléatoirement un temps commun aux 2 noeuds
     for i in id_plac:
         i = 2 * i
@@ -137,8 +134,12 @@ def erdos_renyi(t_window,
     each node occurs following *occurrence_law_node(occurrence_param_node)*, each segmented node has a presence
     which length follows *presence_law_node(presence_param_node)*, each link occurs following *occurrence_law_link(
     occurrence_param_link)* and each segmented link has a presence which length follows
-     *presence_law_link(presence_param_link)*.
+    *presence_law_link(presence_param_link)*.
 
+    :param trips_law_param:
+    :param trips_law:
+    :param weights_law_param:
+    :param weights_law:
     :param t_window: Time windows of the Stream Graph
     :param nb_node: Desired Number of nodes in the stream graphs
     :param occurrence_law_node: Random variable for node occurrence (numpy function or 'poisson'
@@ -178,10 +179,7 @@ def erdos_renyi(t_window,
                                                   occurrence_law_link,
                                                   occurrence_param_link, p_link,
                                                   presence_law_link, presence_param_link,
-                                                  directed, weights_law,
-                                                  weights_law_param,
-                                                  trips_law,
-                                                  trips_law_param, )
+                                                  directed, )
     weights = None
     if weights_law:
         weights = generate_weights(link_presence, weights_law, weights_law_param)
@@ -190,21 +188,23 @@ def erdos_renyi(t_window,
     if type(trips_law) == str:
         trips = generate_trips(links, link_presence, node_presence, trips_law, trips_law_param)
 
-    S = sg.stream_graph(times=t_window,
-                        nodes=nodes,
-                        node_presence=node_presence,
-                        links=links,
-                        link_presence=link_presence,
-                        node_to_label={n: str(n) for n in nodes},
-                        weights=weights,
-                        trips=trips,
-                        )
+    S = sg.StreamGraph(times=t_window,
+                       nodes=nodes,
+                       node_presence=node_presence,
+                       links=links,
+                       link_presence=link_presence,
+                       node_to_label={n: str(n) for n in nodes},
+                       weights=weights,
+                       trips=trips,
+                       )
     return S
 
 
 def get_node_presence_from_link(node_presence, n, b, e):
     """
     Return the maximal temporal node corresponding to (b,e,n)
+
+    :param node_presence:
     :param n: node
     :param b: beginning of the interval (time)
     :param e: ending of the interval (time)
@@ -212,7 +212,7 @@ def get_node_presence_from_link(node_presence, n, b, e):
     """
     for t0, t1 in zip(node_presence[n][::2], node_presence[n][1::2]):
         if t0 <= b and e <= t1:
-            return (t0, t1)
+            return t0, t1
     return None
 
 
@@ -225,7 +225,7 @@ def generate_trips(links, link_presence, node_presence, trips_law, trips_law_par
     else:
         raise ValueError("The random distribution " + str(trips_law) + " is not supported for traversal times."
                                                                        " Try a numpy function directly.")
-    #  We need to assert that the node are present during the trip+duration of the link !!!
+    # We need to assert that the node are present during the trip+duration of the link !!!
     trips_list = []
     i = 0
     for l, lp in zip(links, link_presence):
@@ -247,9 +247,9 @@ def generate_weights(link_presence, weights_law, weights_law_param):
     occurences = sum([len(lp) // 2 for lp in link_presence])
     if type(weights_law) == str:
         if weights_law == 'uniform':
-            weights = list(np.maximum(np.random.uniform(0, 2 * weights_law_param, occurences),np.ones(occurences)))
+            weights = list(np.maximum(np.random.uniform(0, 2 * weights_law_param, occurences), np.ones(occurences)))
         elif weights_law == 'poisson':
-            weights = list(np.maximum(np.random.poisson(weights_law_param, occurences),np.ones(occurences)))
+            weights = list(np.maximum(np.random.poisson(weights_law_param, occurences), np.ones(occurences)))
         else:
             raise ValueError("The random distribution " + str(weights_law) + " is not supported for weights."
                                                                              " Try a numpy function directly.")
@@ -266,12 +266,13 @@ def generate_weights(link_presence, weights_law, weights_law_param):
 def generate_link_presence(nb_node, node_presence, occurrence_law_link,
                            occurrence_param_link, p_link, presence_law_link, presence_param_link,
                            directed=False,
-                           weights_law=False,
-                           weights_law_param=False,
-                           trips_law=False,
-                           trips_law_param=False, ):
-    '''
+                           ):
+    """
     Generate links presence and occurrence.
+    References
+    ----------
+    P. Erdős and A. Rényi, On Random Graphs, Publ. Math. 6, 290 (1959).
+    E. N. Gilbert, Random Graphs, Ann. Math. Stat., 30, 1141 (1959).
 
     :param nb_node: Number of Nodes
     :param node_presence: Node presence
@@ -282,12 +283,7 @@ def generate_link_presence(nb_node, node_presence, occurrence_law_link,
     :param presence_param_link: Parameter of the link presence law
     :param directed: True for a random directed Stream Graph, False for an undirected Stream Graphs
     :return:
-
-    References
-    ----------
-    .. [1] P. Erdős and A. Rényi, On Random Graphs, Publ. Math. 6, 290 (1959).
-    .. [2] E. N. Gilbert, Random Graphs, Ann. Math. Stat., 30, 1141 (1959).
-    '''
+    """
 
     links = []
     link_presence = []
@@ -339,7 +335,7 @@ def generate_link_presence(nb_node, node_presence, occurrence_law_link,
                                                                                      " Try a numpy function directly.")
     else:
         occurrences = occurrence_law_link(occurrence_param_link, nb_edge)
-    #  For each interval of presence we sample a random duration.
+    # For each interval of presence we sample a random duration.
     if type(presence_law_link) == str:
         if presence_law_link == 'uniform':
             durations = list(np.random.uniform(0, 2 * presence_param_link, int(sum(occurrences))))
@@ -349,8 +345,7 @@ def generate_link_presence(nb_node, node_presence, occurrence_law_link,
             raise ValueError("The random distribution " + str(presence_law_link) + " is not supported."
                                                                                    " Try a numpy function directly.")
     else:
-        durations = list(presence_law_link(presence_param_link, sum(int(occurrences))))
-
+        durations = list(presence_law_link(presence_param_link, int(sum(occurrences))))
 
     cnt = 0
     for i, (u, v) in enumerate(edges):
@@ -365,10 +360,9 @@ def generate_link_presence(nb_node, node_presence, occurrence_law_link,
     return links, link_presence
 
 
-
 def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_param_node,
                            presence_law_node, presence_param_node):
-    '''
+    """
     Generate nodes presence and occurrence.
 
     :param t_window: Time windows of the Stream Graph
@@ -378,12 +372,12 @@ def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_pa
     :param presence_law_node: Random variable for node presence (numpy function or 'poisson' or 'uniform')
     :param presence_param_node: Parameter of the node presence law
     :return:
-    '''
+    """
 
     # Nodes initialisation
     nodes = list(range(nb_node))
     # Node presence initialisation
-    node_presence = [[] for n in nodes]
+    node_presence = [[] for _ in nodes]
     # Random sampling for the node's occurrence.
     if type(occurrence_law_node) == str:
         if occurrence_law_node == 'poisson':
@@ -393,7 +387,7 @@ def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_pa
                                                                                      " Try a numpy function directly.")
     else:
         occurrences = np.maximum(occurrence_law_node(occurrence_param_node, nb_node), np.ones(nb_node))
-    #  For each interval of presence we sample a random duration.
+    # For each interval of presence we sample a random duration.
     if type(presence_law_node) == str:
         if presence_law_node == 'uniform':
             durations = np.random.uniform(0, 2 * presence_param_node, int(sum(occurrences)))
@@ -405,7 +399,7 @@ def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_pa
     else:
         durations = presence_law_node(presence_param_node, int(sum(occurrences)))
     # Placement aléatoire des intervalles sur la fenêtre de temps, fusion des intervalles si nécessaire
-    # X ~ (Uniform(T0,T1))
+    # X ~(Uniform(T0,T1))
     emplacements = np.random.uniform(t_window[0], t_window[1], int(sum(occurrences)))
     cnt = 0
     for n in nodes:
@@ -420,7 +414,7 @@ def generate_node_presence(t_window, nb_node, occurrence_law_node, occurrence_pa
 
 def generate_kcore_example(nb_nodes, k):
     nodes = [i for i in range(nb_nodes)]
-    node_presence = [[0, nb_nodes] for i in range(1, nb_nodes + 1)]
+    node_presence = [[0, nb_nodes] for _ in range(1, nb_nodes + 1)]
     links = [(i, i + 1) for i in range(nb_nodes - 1)]
     link_presence = [[0, i] for i in range(1, len(links) + 1)]
     d = 1 / nb_nodes
@@ -428,34 +422,31 @@ def generate_kcore_example(nb_nodes, k):
         for c in range(2, k + 1):
             links += [(i, i + c)
                       if i + c < nb_nodes
-                      else (i, (i + c) % (nb_nodes))
+                      else (i, (i + c) % nb_nodes)
                       for i in range(nb_nodes - 1)]
             for i in range(nb_nodes - 1):
                 link_presence.append([d / nb_nodes, d])
                 d += 1 / nb_nodes
 
     T = [0, nb_nodes]
-    S = sg.stream_graph(times=T,
-                        nodes=nodes,
-                        node_presence=node_presence,
-                        links=links,
-                        link_presence=link_presence)
-    print("Nodes :", len(nodes), " n_prez :", len(node_presence))
-    print("Links :", len(links), " l_prez :", len(link_presence))
+    S = sg.StreamGraph(times=T,
+                       nodes=nodes,
+                       node_presence=node_presence,
+                       links=links,
+                       link_presence=link_presence)
     return S
 
 
 def generate_2core_example(nb_nodes):
     nodes = [i for i in range(nb_nodes)]
-    node_presence = [[0, nb_nodes] for i in range(1, nb_nodes + 1)]
-    print("Presence :", node_presence)
+    node_presence = [[0, nb_nodes] for _ in range(1, nb_nodes + 1)]
     links = []
     link_presence = []
     k = 2
     d = 1
     links += [(i, i + k)
               if i + k < nb_nodes
-              else (i, (i + k) % (nb_nodes))
+              else (i, (i + k) % nb_nodes)
               for i in range(nb_nodes)]
     for i in range(nb_nodes):
         link_presence.append([0, d])
@@ -464,11 +455,9 @@ def generate_2core_example(nb_nodes):
     #     print("link :",l," : ",lp)
 
     T = [0, nb_nodes]
-    S = sg.stream_graph(times=T,
-                        nodes=nodes,
-                        node_presence=node_presence,
-                        links=links,
-                        link_presence=link_presence)
-    print("Nodes :", len(nodes), " n_prez :", len(node_presence))
-    print("Links :", len(links), " l_prez :", len(link_presence))
+    S = sg.StreamGraph(times=T,
+                       nodes=nodes,
+                       node_presence=node_presence,
+                       links=links,
+                       link_presence=link_presence)
     return S

@@ -1,16 +1,33 @@
-import csv, json
-import dpkt, socket
-import time
-import dateutil.parser as du
-import msgpack
-import math
+# Copyright (C) 2017-2021 Léo Rannou - Sorbonne Université/LIP6 - Thales
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+import csv
+import dateutil.parser as du
+import dpkt
+import json
+import math
+import os
+import socket
+import time
 from collections import defaultdict
 from sortedcollections import SortedSet
+from tqdm import tqdm
 
 from straph import stream as sg
 
-import matplotlib.pyplot as plt
+# TODO : parse PCAP (adpat pcap_to_csv and shit), see pcap_reader.
+# TODO : parse net, to finish (for Pajek datasets).
 
 __nb_2_protocol__ = {0: 'IPv6_HbH',  # IPv6 Hop by Hop
                      1: 'ICMP',  # Internet Control Message
@@ -33,12 +50,11 @@ __nb_2_protocol__ = {0: 'IPv6_HbH',  # IPv6 Hop by Hop
 
 
 def inet_to_str(inet):
-    """Convert inet object to a string
+    """
+    Convert inet object to a string
 
-        Args:
-            inet (inet struct): inet network address
-        Returns:
-            str: Printable/readable IP address
+    :param inet: inet network address
+    :return: str: Printable/readable IP address
     """
     # First try ipv4 and then ipv6
     try:
@@ -51,40 +67,38 @@ def datetime_to_timestamp(s):
     return du.parse(s).timestamp()
 
 
-def pcap_to_csv(file_input, destination,
-                path_dict, protocol=None):
+def pcap_to_csv(file_input, destination, protocol=None):
     """
     Transform a pcap file to a csv
+
     :param file_input:
     :param destination:
-    :param path_dict:
     :param protocol:
     :return:
     """
     counter = 0
     dict_ip = defaultdict(lambda: len(dict_ip))
     dict_label = {}
-    start = time.time()
     if protocol:
         protocol = [key for key, value in __nb_2_protocol__.items() if value == protocol][0]
     print("protocol :", protocol)
     with open(destination, 'w') as output, open(file_input, 'rb') as input:
         writer = csv.writer(output, delimiter=';')
         writer.writerow(["time", "src", "dst", "protocol", "len", "src_port", "dst_port"])
-        for ts, pkt in dpkt.pcap.Reader(input):
+        for ts, pkt in tqdm(dpkt.pcap.Reader(input)):
             eth = dpkt.ethernet.Ethernet(pkt)
-            if counter == 150000000000000000000000000000:
-                print("Time end dkpt :", time.time() - start)
-                break
+            # if counter == 150000000000000000000000000000:
+            #     print("Time end dkpt :", time.time() - start)
+            #     break
             if counter == 0:
                 t0 = ts
             counter += 1
             if isinstance(eth.data, bytes):
                 continue
             ip = eth.data
-            try:
+            if ip.src is not None:
                 ip_src = inet_to_str(ip.src).encode()
-            except:
+            else:
                 continue
             ip_dst = inet_to_str(ip.dst).encode()
 
@@ -93,8 +107,8 @@ def pcap_to_csv(file_input, destination,
             dict_label[id_src] = ip_src
             dict_label[id_dst] = ip_dst
 
-            if counter % 1000000 == 0:
-                print("Counter dkpt:", counter, "time dkpt:", time.time() - start)
+            # if counter % 1000000 == 0:
+            #     print("Counter dkpt:", counter, "time dkpt:", time.time() - start)
             # We ignore 'ICMP' protocols, ICMP scan useless
             if ip.p == 1:
                 continue
@@ -116,177 +130,17 @@ def pcap_to_csv(file_input, destination,
             # print("ip src :", ip_src, " ip dst :", ip_dst, " ip protocol :",
             #       protocol, " ip len :", len_pckt,"src port :", tcp.sport, "dest port :", tcp.dport)
             writer.writerow([round(ts - t0, 6), id_src, id_dst, ip.p, len_pckt, src_port, dst_port])
-    with open(path_dict + "_dict_ip_2_nodes_label.mspk", 'wb') as output:
-        msgpack.dump(dict_ip, output)
-    with open(path_dict + "_dict_node_label_2_ip.mspk", 'wb') as output:
-        msgpack.dump(dict_label, output)
-
-
-def pcap_to_sgf(file_input, destination, time_bins,
-                path_dict, protocol=None, threshold_collect=5000000, with_dict=True):
-    """
-    Transform a pcap file to a Stream Graph File
-    :return:
-    """
-    cnt = 0
-    dict_ip = defaultdict(lambda: len(dict_ip))
-    dict_label = {}
-    links_to_add = []
-    dict_link_to_presence = {}
-    packer = msgpack.Packer()
-    start = time.time()
-    if protocol:
-        protocol = [key for key, value in __nb_2_protocol__.items() if value == protocol][0]
-    print("protocol :", protocol)
-    with open(destination + '_links.sgf', 'wb') as output, open(file_input, 'rb') as input:
-        for ts, pkt in dpkt.pcap.Reader(input):
-            eth = dpkt.ethernet.Ethernet(pkt)
-            if cnt == 150000000000000000000000000000:
-                print("Time end dkpt :", time.time() - start)
-                break
-            if cnt == 0:
-                t0 = ts
-            if isinstance(eth.data, bytes):
-                continue
-            ip = eth.data
-            try:
-                ip_src = inet_to_str(ip.src).encode()
-            except:
-                continue
-            ip_dst = inet_to_str(ip.dst).encode()
-            if with_dict:
-                id_src = dict_ip[ip_src]
-                id_dst = dict_ip[ip_dst]
-                dict_label[id_src] = ip_src
-                dict_label[id_dst] = ip_dst
-            # We ignore 'ICMP' protocols, ICMP scan useless
-            if ip.p == 1:
-                continue
-            if protocol:
-                if ip.p != protocol:
-                    continue
-            cnt += 1
-            current_time = round(ts - t0, 6)
-            if cnt == threshold_collect:  # Every time we depass 'threshold_collect' we collect the links
-                print("Counter dkpt:", cnt, "time dkpt:", time.time() - start)
-                cnt = 0
-                to_del = []
-                for l, (t0, t1) in dict_link_to_presence.items():
-                    if t1 < current_time - time_bins:
-                        links_to_add.append((l, t0, t1))
-                        to_del.append(l)
-                for l in to_del:
-                    del dict_link_to_presence[l]
-
-            l = (id_src, id_dst)
-            if l in dict_link_to_presence:
-                if dict_link_to_presence[l][1] < current_time - time_bins:
-                    # Previous Interaction, ended
-                    # Store terminated link
-                    links_to_add.append((l, dict_link_to_presence[l][0], dict_link_to_presence[l][1]))
-                    dict_link_to_presence[l] = [current_time, current_time + time_bins]
-                else:
-                    # Extend previous interaction
-                    dict_link_to_presence[l][1] = current_time + time_bins
-            else:
-                dict_link_to_presence[l] = [current_time, current_time + time_bins]
-        for l, (t0, t1) in dict_link_to_presence.items():
-            links_to_add.append((l, t0, t1))
-        del dict_link_to_presence
-        write_links_to_sgf(output, packer, links_to_add)
-
-    if with_dict:
-        with open(path_dict + "_dict_ip_2_nodes_label.mspk", 'wb') as output:
-            msgpack.dump(dict_ip, output)
-        with open(path_dict + "_dict_node_label_2_ip.mspk", 'wb') as output:
-            msgpack.dump(dict_label, output)
-
-
-def write_links_to_sgf(destination, packer, links):
-    links = list(links)
-    links = sorted(links, key=lambda x: x[0])
-    with open(destination, 'wb') as output_file:
-        for l in links:
-            if l[0] > l[1]:
-                raise AssertionError("T0 > T1")
-            output_file.write(packer.pack(l))
-
-
-def csv_to_sgf(file_input, destination,
-               time_bins, threshold_collect=5000000, directed_links=False):
-    """
-    Transform a csv file into a Stream Graph File (Links only).
-    Streaming File ordered by time of arrival
-    :param file_input:
-    :param destination:
-    :param time_bins:
-    :param threshold_collect:
-    :param directed_links:
-    :return:
-    """
-    links_to_add = set()
-    link_2_presence_time = {}
-    ignore_header = True
-    cnt = 0
-    t_begin = time.time()
-    with open(file_input, 'r') as input:
-        reader = csv.reader(input, delimiter=';')
-        for line in reader:
-            if ignore_header:
-                ignore_header = False
-                continue
-            cnt += 1
-            if cnt % threshold_collect == 0:
-                print(threshold_collect, " lines browsed !")
-            current_time = float(line[0])
-            l = (int(line[1]), int(line[2]))
-            if not directed_links:
-                if (l[1], l[0]) in link_2_presence_time:  # We consider undirected links
-                    l = (l[1], l[0])
-            if l in link_2_presence_time:
-                if link_2_presence_time[l][1] < current_time:
-                    links_to_add.add((link_2_presence_time[l][0], link_2_presence_time[l][1], l[0], l[1],))
-                    link_2_presence_time[l] = [current_time, current_time + time_bins]
-                else:
-                    # Extend previous interaction
-                    link_2_presence_time[l][1] = max(current_time + time_bins, link_2_presence_time[l][1])
-            else:
-                link_2_presence_time[l] = [current_time, current_time + time_bins]
-    # LAST PASS :
-    for l, (t0, t1) in link_2_presence_time.items():
-        links_to_add.add((t0, t1, l[0], l[1]))
-    del link_2_presence_time
-    packer = msgpack.Packer(use_bin_type=True, )
-    write_links_to_sgf(destination, packer, links_to_add)
-    print("Nb lines :", cnt)
-    print("Time extraction :", time.time() - t_begin)
-    return
-
-
-def order_sgf(path_input, path_output):
-    packer = msgpack.Packer(use_bin_type=True)
-    links = []
-    with open(path_input, 'rb') as input, open(path_output, 'wb') as output:
-        unpacker = msgpack.Unpacker(input, use_list=False)
-        for i in unpacker:
-            t0, t1, u, v = i
-            links.append((1, t0, t1, u, v))  # code each link, 1 for a beginning, -1 for an ending
-            links.append((-1, t1, u, v))
-        links = sorted(links, key=lambda x: (x[1], -x[0]))
-        for l in links:
-            output.write(packer.pack(l))
-    return
 
 
 def parse_net(input_file, output_file_nodes, output_file_links, link_duration=1):
     """
     A Stream Graph reader for dataset issued by Pajek
+
     Format of interactions : .net
     :param input_file:
     :param output_file_nodes:
     :param output_file_links:
     :param link_duration:
-    :param delimiter:
     :return:
     """
     E = defaultdict(list)
@@ -301,9 +155,9 @@ def parse_net(input_file, output_file_nodes, output_file_links, link_duration=1)
             if l[0] == '*Edges':
                 type_node = False
                 continue
-            if type_node == True:
+            if type_node:
                 continue
-            if type_node == False:
+            else:
                 u, v = int(l[0]), int(l[1])
                 e = (u, v)
                 if u == v:
@@ -343,72 +197,7 @@ def parse_net(input_file, output_file_nodes, output_file_links, link_duration=1)
             for t in v:
                 output_file.write(str(t) + " ")
             output_file.write("\n")
-
-
-
-def BurningBush(input_file, output_file_nodes, output_file_links, delimiter=';', null_duration_allowed=True,
-                nrows=False):
-    """
-    A Stream Graph reader for burningBUSH:
-    :param input_file:
-    :param output_file_nodes:
-    :param output_file_links:
-    :param link_duration:
-    :param delimiter:
-    :return:
-    """
-    E = defaultdict(list)
-    W = defaultdict(list)
-    cnt_row = 0
-    with open(input_file, 'r') as input_file:
-        reader = csv.reader(input_file, delimiter=delimiter)
-        next(reader, None)  # skip header :)
-        for line in reader:
-            l = (line[7], line[3])
-            current_time = du.parser.parse(line[16]).timestamp()
-            link_duration = float(line[9])
-            if null_duration_allowed is False and link_duration == 0:
-                continue
-            if nrows and cnt_row >= nrows:
-                break
-            cnt_row += 1
-
-            if (l[1], l[0]) in E:
-                l = (l[1], l[0])
-            u, v = l
-            if u == v:
-                # SELF LOOP : we ignore it
-                continue
-            if l in E and E[l][-1] >= current_time - link_duration:
-                # print("Extend Link Presence")
-                E[l][-1] = max(E[l][-1], current_time)
-            else:
-                E[l] += [current_time - link_duration, current_time]
-
-            if u in W and W[u][-1] >= current_time - link_duration:
-                # print("Extend Node Presence")
-                W[u][-1] = max(W[u][-1], current_time)
-            else:
-                W[u] += [current_time - link_duration, current_time]
-
-            if v in W and W[v][-1] >= current_time - link_duration:
-                # print("Extend Node Presence")
-                W[v][-1] = max(W[v][-1], current_time)
-            else:
-                W[v] += [current_time - link_duration, current_time]
-    with open(output_file_links, 'w') as output_file:
-        for k, v in E.items():
-            output_file.write(str(k[0]) + " " + str(k[1]) + " ")
-            for t in v:
-                output_file.write(str(t) + " ")
-            output_file.write("\n")
-    with open(output_file_nodes, 'w') as output_file:
-        for k, v in W.items():
-            output_file.write(str(k) + " ")
-            for t in v:
-                output_file.write(str(t) + " ")
-            output_file.write("\n")
-
+    return None
 
 
 def parse_csv(input_file, entry_format, **kwargs):
@@ -420,8 +209,8 @@ def parse_csv(input_file, entry_format, **kwargs):
     :param kwargs:
     :return:
     """
-
     # Convert entry format
+    t_pos, b_pos, e_pos, link_duration_pos = None, None, None, None
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
     elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
@@ -444,27 +233,32 @@ def parse_csv(input_file, entry_format, **kwargs):
     with open(input_file, 'r') as input_file:
 
         reader = csv.reader(input_file, delimiter=kwargs['delimiter'])
+
         if kwargs['ignore_header']:
             next(reader, None)
 
         if kwargs['link_duration']:
             link_duration = kwargs['link_duration']
-        elif 'link_duration_pos' not in entry_format:
+
+        elif 'link_duration_pos' not in entry_format and 'b_pos' not in entry_format:
             link_duration = 0
             print("[WARNING] No link_duration provided, links durations are set to 0.")
 
-        for line in reader:
+        for line in tqdm(reader, desc='Parsing CSV', total=kwargs['nrows'] - 1):
             cnt_rows += 1
-            if cnt_rows % 1000000 == 0:
-                print((cnt_rows / kwargs['size']) * 100, "% loaded")
 
-            if kwargs['nrows'] and cnt_rows > kwargs['nrows']:
+            if cnt_rows > kwargs['nrows']:
                 break
 
             if kwargs['nodes_to_label']:
                 # Convert Label to int
                 u_label = line[u_pos]
                 v_label = line[v_pos]
+                if u_label in {'', ' '} or v_label in {'', ' '}:
+                    # print(" Blank node line:",cnt_rows)
+                    # print(" Content:",line)
+                    continue
+
                 if u_label == v_label:
                     # SELF LOOP : we ignore it
                     continue
@@ -533,25 +327,36 @@ def parse_csv(input_file, entry_format, **kwargs):
 
     if kwargs['delta']:
         delta = kwargs['delta']
-        print("Approximate events with delta = ", delta)
+        chrono = time.time()
         W, E = approximate_events(W, E, delta)
+        print("\t Approximate events with delta :", delta, " in ", time.time() - chrono)
 
-    S = sg.stream_graph(times=[min_t, max_t],
-                        nodes=list(W.keys()),
-                        links=list(E.keys()),
-                        node_presence=[W[k] for k in W.keys()],
-                        link_presence=[E[k] for k in E.keys()],
-                        node_to_label=nodes_to_label,
-                        node_to_id={i: i for i in W.keys()})
+    S = sg.StreamGraph(times=[min_t, max_t],
+                       nodes=list(W.keys()),
+                       links=list(E.keys()),
+                       node_presence=[W[k] for k in W.keys()],
+                       link_presence=[E[k] for k in E.keys()],
+                       node_to_label=nodes_to_label,
+                       node_to_id={i: i for i in W.keys()})
     return S
 
 
 def approximate_events(W, E, delta):
+    """
+    Approximation method reducing the number of distinct event times while preserving connectivity properties
+    of the original dataset.
+
+    :param W:
+    :param E:
+    :param delta:
+    :return:
+    """
+    # Seems strange but avoid float imprecision
     event_times = sorted(set([t for np in W.values() for t in np] + [t for lp in E.values() for t in lp]))
     t_old = event_times[0]
     discretized_event_times = SortedSet()
     discretized_event_times.add(t_old)
-    for t in event_times[1:]:
+    for t in event_times:
         if t - t_old >= delta:
             discretized_event_times.add(t)
             t_old = t
@@ -560,44 +365,56 @@ def approximate_events(W, E, delta):
     for n, np in W.items():
         new_W[n] = []
         for t0, t1 in zip(np[::2], np[1::2]):
-            #  assert t1-t0 >= delta
+            assert t1 - t0 >= delta
             if t0 not in discretized_event_times:
-                # Catch time after t0 in discretized event times:
+                # # Catch time after t0 in discretized event times:
                 t0 = discretized_event_times[discretized_event_times.bisect(t0)]
             if t1 not in discretized_event_times:
-                # Catch time before t1 in discretize event times:
-                t1 = discretized_event_times[discretized_event_times.bisect(t1)-1]
+                # #Catch time before t1 in discretize event times:
+                t1 = discretized_event_times[discretized_event_times.bisect(t1) - 1]
 
-            new_W[n] += [t0,t1]
+            # # new_W[n] += [t0, t1]
+            # a, b = delta * math.ceil(t0 / delta), delta * math.floor(t1 / delta)
+            #
+            # if math.isclose(a, t0):
+            #     a = t0
+            # if math.isclose(b, t1):
+            #     b = t1
+            new_W[n] += [t0, t1]
 
     new_E = {}
     for l, lp in E.items():
         new_E[l] = []
         for t0, t1 in zip(lp[::2], lp[1::2]):
-            # assert t1-t0 >= delta
+            assert t1 - t0 >= delta
             if t0 not in discretized_event_times:
-                # Catch time after t0 in discretized event times:
+                # # Catch time after t0 in discretized event times:
                 t0 = discretized_event_times[discretized_event_times.bisect(t0)]
             if t1 not in discretized_event_times:
-                # Catch time before t1 in discretize event times:
-                t1 = discretized_event_times[discretized_event_times.bisect(t1)-1]
+                # # Catch time before t1 in discretize event times:
+                t1 = discretized_event_times[discretized_event_times.bisect(t1) - 1]
 
-            new_E[l] += [t0,t1]
+            # new_E[l] += [t0, t1]
+            # a, b = delta * math.ceil(t0 / delta), delta * math.floor(t1 / delta)
+            # if math.isclose(a, t0):
+            #     a = t0
+            # if math.isclose(b, t1):
+            #     b = t1
+            new_E[l] += [t0, t1]
     return new_W, new_E
 
 
 def parse_json(input_file, entry_format, **kwargs):
     """
-    A Stream Graph reader for JSON dataset:
-    [u,v,t]
+    A Stream Graph reader for JSON dataset.
 
     :param input_file:
     :param entry_format:
     :param kwargs:
     :return:
     """
-
     # Convert entry format
+    u_pos, v_pos, t_pos, b_pos, e_pos, link_duration_pos = None, None, None, None, None, None
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
     elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
@@ -615,13 +432,13 @@ def parse_json(input_file, entry_format, **kwargs):
 
     with open(input_file, 'r') as input_file:
         reader = json.load(input_file)
-        for line in reader:
+        for line in tqdm(reader, desc="Parsing JSON", total=kwargs['nrows']):
             cnt_rows += 1
 
-            if cnt_rows % 100000 == 0:
-                print((cnt_rows / kwargs['size']) * 100, "% loaded")
+            # if cnt_rows % 100000 == 0:
+            #     print((cnt_rows / kwargs['nrows']) * 100, "% loaded")
 
-            if kwargs['nrows'] and cnt_rows > kwargs['nrows']:
+            if cnt_rows > kwargs['nrows']:
                 break
             if kwargs['nodes_to_label']:
                 # Convert Label to int
@@ -686,12 +503,12 @@ def parse_json(input_file, entry_format, **kwargs):
                 else:
                     W[v] += [t, t + link_duration]
 
-    S = sg.stream_graph(times=[min_t, max_t],
-                        nodes=list(W.keys()),
-                        links=list(E.keys()),
-                        node_presence=[W[k] for k in W.keys()],
-                        link_presence=[E[k] for k in E.keys()],
-                        node_to_label=id_to_label)
+    S = sg.StreamGraph(times=[min_t, max_t],
+                       nodes=list(W.keys()),
+                       links=list(E.keys()),
+                       node_presence=[W[k] for k in W.keys()],
+                       link_presence=[E[k] for k in E.keys()],
+                       node_to_label=id_to_label)
     return S
 
 
@@ -705,6 +522,7 @@ def parse_link_stream(input_file):
     .
     .
     b e v w
+
     :param input_file:
     :return:
     """
@@ -718,10 +536,10 @@ def parse_link_stream(input_file):
         size = sum(1 for _ in ipt)
 
     with open(input_file, 'r') as input_file:
-        for line in input_file:
+        for line in tqdm(input_file, total=size):
             cnt_rows += 1
-            if cnt_rows % 100000 == 0:
-                print((cnt_rows / size) * 100, "% loaded")
+            # if cnt_rows % 100000 == 0:
+            #     print((cnt_rows / size) * 100, "% loaded")
             l = line.strip().split()
             if len(l) == 2:
                 assert l[0] in ["alpha", "omega"]
@@ -753,50 +571,48 @@ def parse_link_stream(input_file):
                 if v not in W:
                     W[v] = [alpha, omega]
 
-    S = sg.stream_graph(times=[alpha, omega],
-                        nodes=list(W.keys()),
-                        links=list(E.keys()),
-                        node_presence=[W[k] for k in W.keys()],
-                        link_presence=[E[k] for k in E.keys()],
-                        node_to_label=nodes_to_label,
-                        node_to_id={i: i for i in W.keys()})
+    S = sg.StreamGraph(times=[alpha, omega],
+                       nodes=list(W.keys()),
+                       links=list(E.keys()),
+                       node_presence=[W[k] for k in W.keys()],
+                       link_presence=[E[k] for k in E.keys()],
+                       node_to_label=nodes_to_label,
+                       node_to_id={i: i for i in W.keys()})
     return S
 
 
-def parse_pcap(input_file, entry_format, **kwargs):
-    return
+def parse_pcap(file_input, entry_format, **options):
+    pcap_to_csv(file_input, "tmp.csv")
+    S = parse_csv("tmp.csv", entry_format, **options)
+    os.remove("tmp.csv")
+    return S
 
 
-def parser(input_file, input_format, entry_format, output_file=None, output_format='sg', **kwargs):
+def parser(input_file, input_format, entry_format, output_file=None, simplify_presence=False, output_format='sg',
+           **kwargs):
     """
-    TODO : Weighted nodes, weighted links (then modify 'entry_format').
+    Straph's tunable parser. Compatible with several data formats: CSV, TSV, JSon and PCAP.
+
+    :param simplify_presence:
     :param input_file: Input FILE (name only)
     :param input_format: Format d'entrée acceptés : JSON, CSV, PCAP
     :param entry_format: Format of each line to be readed (t,u,v) = (line[x],line[y],line[w])
     :param output_file: Output FILE (name only)
     :param output_format: Format de sortie : SG,SGF,json
-    :param is_link_stream: If 'True' nodes are always present
-    :param is_directed: IF 'False' we checked if the inverse link is already present and avoid any duplicate.
-    :param ndoes_to_label: If 'True' : creation of 'nodes_to_label' attribute
-    :param delimiter: Delimiter in CSV format
-    :param nrows: Number of line to read
-    :param link_duration: Duration of link, if not specified
-    :param order_sgf: If 'True' return an ordered SGF in increasing order
-    :param delta: Force links that begin/end in the same window *[t-delta/2,t+delta/2]* to begin/end at *t*
     :return:
     """
     with open(input_file) as ipt:
         options = {'delimiter': ',',
                    'is_link_stream': False,
                    'is_directed': False,
-                   'nrows': None,
+                   'nrows': sum(1 for _ in ipt),
                    'link_duration': False,
                    'order_sgf': False,
                    'ignore_header': True,
                    'nodes_to_label': False,
                    'time_is_datetime': False,
                    'delta': None,
-                   'size': (kwargs['nrows'] if 'nrows' in kwargs else sum(1 for _ in ipt))}
+                   }
     options.update(kwargs)
     if ('t_pos' in entry_format or 'link_duration_pos' in entry_format) and \
             ('b_pos' in entry_format or 'e_pos' in entry_format):
@@ -816,9 +632,14 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
     elif input_format == 'pcap':
         S = parse_pcap(input_file, entry_format, **options)
     elif input_format == 'net':
-        S = parse_net(input_format, entry_format, **options)
+        raise ValueError("File format 'net' not yet supported.")
+        # S = parse_net(input_format, entry_format, **options)
     else:
         raise TypeError('Format not supported')
+
+    if simplify_presence is True:
+        S.node_presence = [[np[0], np[-1]] for np in
+                           S.node_presence]  # Set nodes to be present from ther 1st intercations to their last
 
     if output_file is not None:
         if isinstance(output_format, str):
@@ -827,35 +648,59 @@ def parser(input_file, input_format, entry_format, output_file=None, output_form
         for of in output_format:
             if of == 'sg':
                 S.write_to_sg(output_file)
-            elif of == 'sgf':
-                S.write_to_sgf(output_file)
             elif of == 'json':
                 S.write_to_json(output_file)
 
     return S
 
 
-def sort_csv(input_file, entry_format, **kwargs):
+def sort_csv(input_file, entry_format, output=None, **kwargs):
+    with open(input_file) as ipt:
+        options = {'delimiter': ',',
+                   'is_link_stream': False,
+                   'is_directed': False,
+                   'nrows': sum(1 for _ in ipt),
+                   'link_duration': False,
+                   'order_sgf': False,
+                   'ignore_header': True,
+                   'nodes_to_label': False,
+                   'time_is_datetime': False,
+                   'delta': None,
+                   }
+    options.update(kwargs)
+
     list_lines = []
     with open(input_file, 'r') as input:
-        reader = csv.reader(input, delimiter=kwargs['delimiter'])
-        if kwargs['ignore_header']:
+        reader = csv.reader(input, delimiter=options['delimiter'])
+        if options['ignore_header']:
             next(reader, None)
-        for line in reader:
+        for line in tqdm(reader, desc='Reading CSV before sorting', total=options['nrows']):
             list_lines.append(line)
 
     if len(entry_format) == 3:
         (t_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
+        if options['time_is_datetime']:
+            list_lines = sorted(list_lines, key=lambda x: datetime_to_timestamp(x[t_pos]))
+        else:
+            list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
     elif len(entry_format) == 4 and 'link_duration_pos' in entry_format:
         (t_pos, link_duration_pos, u_pos, v_pos) = entry_format['t_pos'], entry_format['link_duration_pos'], \
                                                    entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
+        if options['time_is_datetime']:
+            list_lines = sorted(list_lines, key=lambda x: datetime_to_timestamp(x[t_pos]))
+        else:
+            list_lines = sorted(list_lines, key=lambda x: float(x[t_pos]))
     elif len(entry_format) == 4 and 'b_pos' in entry_format:
         (b_pos, e_pos, u_pos, v_pos) = entry_format['b_pos'], entry_format['e_pos'], \
                                        entry_format['u_pos'], entry_format['v_pos']
-        list_lines = sorted(list_lines, key=lambda x: float(x[b_pos]))
-    with open(input_file, 'w') as output:
-        writer = csv.writer(output, delimiter=kwargs['delimiter'])
-        for line in list_lines:
+
+        if options['time_is_datetime']:
+            list_lines = sorted(list_lines, key=lambda x: datetime_to_timestamp(x[b_pos]))
+        else:
+            list_lines = sorted(list_lines, key=lambda x: float(x[b_pos]))
+    if output is None:
+        output = input_file
+    with open(output, 'w', newline='') as output:
+        writer = csv.writer(output, delimiter=options['delimiter'])
+        for line in tqdm(list_lines, desc='Writing CSV'):
             writer.writerow(line)

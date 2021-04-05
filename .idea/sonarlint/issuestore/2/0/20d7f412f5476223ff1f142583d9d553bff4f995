@@ -1,62 +1,0 @@
-
-Apython:S1110§
-"!Remove those useless parentheses.(€„ÿ8í¶†Ë.
-opython:S107•"KMethod "__init__" has 9 parameters, which is greater than the 7 authorized.(ÄÁšÃşÿÿÿÿ8í¶†Ë.
-python:S107‹"]Method "compute_all_foremost_paths" has 8 parameters, which is greater than the 7 authorized.(ÓˆîÚÿÿÿÿÿ8í¶†Ë.
-Cpython:S125ş"Remove this commented out code.(¹¥”ÿÿÿÿÿ8í¶†Ë.
->python:S125˜"Remove this commented out code.(ôƒ¤8í¶†Ë.
->python:S125¦"Remove this commented out code.(ôƒ¤8í¶†Ë.
-Cpython:S125Á"Remove this commented out code.(÷¦¤¡üÿÿÿÿ8í¶†Ë.
-Cpython:S125Ø"Remove this commented out code.(ñØÔ­ÿÿÿÿÿ8í¶†Ë.
->python:S125ª"Remove this commented out code.(ˆëı—8í¶†Ë.
->python:S125²"Remove this commented out code.(áÖÖ¢8í¶†Ë.
-Cpython:S125´"Remove this commented out code.(åÒëûşÿÿÿÿ8í¶†Ë.
-Cpython:S125É"Remove this commented out code.(²¦±ïüÿÿÿÿ8í¶†Ë.
->python:S125Ï"Remove this commented out code.(ÆÔœ¦8í¶†Ë.
->python:S125Š
-"Remove this commented out code.(ª•âˆ8í¶†Ë.
->python:S125¨
-"Remove this commented out code.(÷Œ¯Ğ8í¶†Ë.
->python:S125±
-"Remove this commented out code.(ç©Ï8í¶†Ë.
->python:S125¸
-"Remove this commented out code.(€Ã—8í¶†Ë.
->python:S125š"Remove this commented out code.(Æ—áç8í¶†Ë.
->python:S125¤"Remove this commented out code.(·•Ÿâ8í¶†Ë.
-=python:S125§"Remove this commented out code.(æÑÆd8í¶†Ë.
-Cpython:S125ª"Remove this commented out code.(ìå˜­ÿÿÿÿÿ8í¶†Ë.
-Cpython:S125­"Remove this commented out code.(ÇòÉÌÿÿÿÿÿ8í¶†Ë.
-Cpython:S125°"Remove this commented out code.(Š³Œíüÿÿÿÿ8í¶†Ë.
-Cpython:S125³"Remove this commented out code.(ºÉ³üÿÿÿÿ8í¶†Ë.
-Cpython:S125¶"Remove this commented out code.(­ÿÂ†ùÿÿÿÿ8í¶†Ë.
-Cpython:S125¹"Remove this commented out code.(”Éâœıÿÿÿÿ8í¶†Ë.
->python:S125¼"Remove this commented out code.(‘Üä²8í¶†Ë.
-Cpython:S125Ä"Remove this commented out code.(™†Ïéüÿÿÿÿ8í¶†Ë.
->python:S125Ê"Remove this commented out code.(ãÿå¢8í¶†Ë.
-Cpython:S125ğ"Remove this commented out code.(â ¦»ÿÿÿÿÿ8í¶†Ë.
-Cpython:S125ú"Remove this commented out code.(¤îÁøşÿÿÿÿ8í¶†Ë.
->python:S125…"Remove this commented out code.(åÃ´¡8í¶†Ë.
-Cpython:S125‰"Remove this commented out code.(…Ñò¾ÿÿÿÿÿ8í¶†Ë.
-ypython:S3776¥"TRefactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.(ÎšÛ¼ûÿÿÿÿ8í¶†Ë.
-ypython:S3776È"TRefactor this function to reduce its Cognitive Complexity from 71 to the 15 allowed.(ŸÍ”üÿÿÿÿ8í¶†Ë.
-ypython:S3776ˆ"TRefactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.(ò÷¼æúÿÿÿÿ8í¶†Ë.
-tpython:S3776Æ"TRefactor this function to reduce its Cognitive Complexity from 40 to the 15 allowed.(î¶«8í¶†Ë.
-ypython:S3776´"TRefactor this function to reduce its Cognitive Complexity from 20 to the 15 allowed.(î™‰Ûşÿÿÿÿ8í¶†Ë.
-ypython:S3776à"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(ÅÆÆ­úÿÿÿÿ8í¶†Ë.
-ypython:S3776ó"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(öİã•şÿÿÿÿ8í¶†Ë.
-tpython:S3776£"TRefactor this function to reduce its Cognitive Complexity from 30 to the 15 allowed.(ÿ„Ç“8í¶†Ë.
-ypython:S3776×"TRefactor this function to reduce its Cognitive Complexity from 28 to the 15 allowed.(Í×¿Éùÿÿÿÿ8í¶†Ë.
-ypython:S3776‹"TRefactor this function to reduce its Cognitive Complexity from 48 to the 15 allowed.(ÓˆîÚÿÿÿÿÿ8í¶†Ë.
-tpython:S3776é"TRefactor this function to reduce its Cognitive Complexity from 29 to the 15 allowed.(éı½ó8í¶†Ë.
-tpython:S3776›	"TRefactor this function to reduce its Cognitive Complexity from 28 to the 15 allowed.(„­ïı8í¶†Ë.
-tpython:S3776ñ	"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÍÔÈš8í¶†Ë.
-tpython:S3776Ó"TRefactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.(ªÙŠƒ8í¶†Ë.
-ypython:S3776Ï"TRefactor this function to reduce its Cognitive Complexity from 66 to the 15 allowed.(æ¦ı„üÿÿÿÿ8í¶†Ë.
-tpython:S3776¢"TRefactor this function to reduce its Cognitive Complexity from 65 to the 15 allowed.(ˆ•ƒ§8í¶†Ë.
-spython:S101”"URename class "condensation_dag" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(²…Å8í¶†Ë.
-Lpython:S1481”"'Remove the unused local variable "fig".(ëİÚøÿÿÿÿ8í¶†Ë.
-Kpython:S1481¹"+Remove the unused local variable "visited".(ÿ”¶»8í¶†Ë.
-vpython:S117œ"WRename this local variable "G_glob" to match the regular expression ^[_a-z][a-z0-9_]*$.(ı‡êë8í¶†Ë.
-{python:S117¾"WRename this local variable "E_path" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ä›¾íøÿÿÿÿ8í¶†Ë.
-zpython:S117·"[Rename this local variable "stable_DAG" to match the regular expression ^[_a-z][a-z0-9_]*$.(—Ú²8í¶†Ë.
-Opython:S1066€"/Merge this if statement with the enclosing one.(ˆ¬ûÓ8í¶†Ë.

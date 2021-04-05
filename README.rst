@@ -18,7 +18,7 @@ Install the latest version of Straph::
 Examples
 --------
 
-Notebook *TUTO* inside Notebooks/ .
+See the jupyter Notebooks in docs/notebooks or directly in the documentation.
 
 License
 -------
@@ -26,7 +26,7 @@ License
 The source code of this program is realeased under the Apache License (see LICENSE.txt).
 We ask you to cite us if you use this code in your project.::
 
-    Copyright (C) 2017-2020 Sorbonne Université/LIP6 - Thalès
+    Copyright (C) 2017-2021 Sorbonne Université/LIP6 - Thalès
     Léo Rannou <leo.rannou@gmail.com>
 
 Contributing

@@ -24,7 +24,7 @@ from datetime import date
 sys.path.insert(0, os.path.abspath('../'))
 
 # Environment variable to know if the docs are being built on rtd.
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+# on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- General configuration ------------------------------------------------
 
@@ -44,7 +44,9 @@ extensions = ['sphinx.ext.autosummary',
               'sphinx.ext.imgmath',
               'sphinx.ext.ifconfig',
               'sphinx.ext.viewcode',
-              'sphinx.ext.githubpages']
+              'sphinx.ext.githubpages',
+              'sphinx.ext.napoleon',
+              'nbsphinx']
 
 # Generate autosummary pages
 autosummary_generate = True
@@ -66,8 +68,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'straph'
-copyright = '2017-{}, Eol Ournan'.format(date.today().year)
-author = 'Eol Ournan'
+copyright = '2017-{}, Léo Rannou'.format(date.today().year)
+author = 'Léo Rannou'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -104,17 +106,31 @@ todo_include_todos = True
 
 # html_theme = 'alabaster'
 
-if not on_rtd:
-    import sphinx_rtd_theme
-
-    html_theme = "pandas_sphinx_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# if not on_rtd:
+html_theme = "pydata_sphinx_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_context = {
+    "github_user": "StraphX",
+    "github_repo": "Straph",
+    "github_version": "master",
+    "doc_path": "docs",
+}
+
+html_theme_options = {
+    "body_max_width": '90%',
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/StraphX/Straph",
+            "icon": "fab fa-github-square",
+        },
+    ],
+    "use_edit_page_button": True,
+}
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -124,6 +140,8 @@ html_last_updated_fmt = '%b %d, %Y'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+html_logo = "_static/logo_straph.svg"
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -168,7 +186,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Straph.tex', 'Straph Documentation',
-     'Eol Ournan', 'manual'),
+     'Léo Rannou', 'manual'),
 ]
 
 # -- Options for manual page output ---------------------------------------

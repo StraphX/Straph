@@ -1,15 +1,0 @@
-
-upython:S117‘"XRename this local variable "T_right" to match the regular expression ^[_a-z][a-z0-9_]*$.(ΏΡγώÿÿÿÿ
-opython:S117"WRename this local variable "T_left" to match the regular expression ^[_a-z][a-z0-9_]*$.(Εόδτ
-<python:S125λ"Remove this commented out code.(φϊΫϋÿÿÿÿ
-Epython:S1481­"'Remove the unused local variable "cnt".(θ°«Ζώÿÿÿÿ
-fpython:S117•"NRename this parameter "T2" to match the regular expression ^[_a-z][a-z0-9_]*$.(Λ¬Τ„
-ipython:S117w"MRename this parameter "E" to match the regular expression ^[_a-z][a-z0-9_]*$.(έ›Πεωÿÿÿÿ
-fpython:S117σ"NRename this parameter "T2" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ώ»·μ
-fpython:S117•"NRename this parameter "T1" to match the regular expression ^[_a-z][a-z0-9_]*$.(Λ¬Τ„
-qpython:S3776w"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(έ›Πεωÿÿÿÿ
-ipython:S117l"MRename this parameter "L" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ν­Ξπύÿÿÿÿ
-Epython:S1481©"'Remove the unused local variable "cnt".(έοω¨ώÿÿÿÿ
-ipython:S117w"MRename this parameter "N" to match the regular expression ^[_a-z][a-z0-9_]*$.(έ›Πεωÿÿÿÿ
-fpython:S117σ"NRename this parameter "T1" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ώ»·μ
-<python:S125Ε"Remove this commented out code.(¤Ψ²¬ψÿÿÿÿ
