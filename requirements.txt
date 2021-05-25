@@ -4,4 +4,5 @@ scipy>=1.1.0
 networkx>=2.2
 pandas>=0.24
 joblib>=0.13
+dpkt>=1.9.6
 # python-louvain
