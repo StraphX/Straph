@@ -33,7 +33,7 @@ from collections import Counter, defaultdict
 from joblib import Parallel, delayed
 from matplotlib import animation
 from matplotlib import cm
-from sortedcollections import SortedSet
+from sortedcontainers import SortedSet
 
 from straph import components as cmp
 from straph import etf
