@@ -4,7 +4,7 @@ import networkx as nx
 import numpy as np
 from collections import defaultdict
 from heapq import *
-from sortedcollections import SortedSet
+from sortedcontainers import SortedSet
 
 
 # TODO: - Add detailed paths + plots : !!!!!!! (lot of work)
