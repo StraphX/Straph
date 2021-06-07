@@ -21,7 +21,7 @@ import os
 import socket
 import time
 from collections import defaultdict
-from sortedcollections import SortedSet
+from sortedcontainers import SortedSet
 from tqdm import tqdm
 
 from straph import stream as sg
