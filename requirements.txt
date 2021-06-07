@@ -5,4 +5,5 @@ networkx>=2.2
 pandas>=0.24
 joblib>=0.13
 dpkt>=1.9.6
+sortedcontainers >= 2.4.0
 # python-louvain
