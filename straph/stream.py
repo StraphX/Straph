@@ -23,6 +23,7 @@ import math
 import matplotlib.dates as md
 import matplotlib.patches as mpatch
 import matplotlib.pyplot as plt
+import matplotlib.font_manager
 import networkx as nx
 import numpy
 import pandas as pd
