@@ -12,7 +12,7 @@ name = "straph"
 
 # Let users know if they're missing any of our hard dependencies
 # From panda's github
-hard_dependencies = ("numpy", "matplotlib", "dateutil", "networkx", "pandas")
+hard_dependencies = ("numpy", "matplotlib", "dateutil", "networkx", "pandas","dpkt","sortedcollections")
 missing_dependencies = []
 
 for dependency in hard_dependencies:
@@ -25,4 +25,5 @@ if missing_dependencies:
     raise ImportError(
         "Unable to import required dependencies:\n" + "\n".join(missing_dependencies)
     )
+    
 del hard_dependencies, dependency, missing_dependencies
